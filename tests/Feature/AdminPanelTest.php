@@ -183,4 +183,14 @@ class AdminPanelTest extends TestCase
         $response2->assertSee('Khách Hàng VF 5');
         $response2->assertDontSee('Khách Hàng VF 3');
     }
+
+    public function test_admin_can_view_products_index(): void
+    {
+        $admin = DB::table('users')->where('email', 'admin@vinfast-autohaiphong.com.vn')->first();
+
+        $response = $this->actingAs(User::find($admin->id))->get('/admin/products');
+        $response->assertStatus(200);
+        $response->assertSee('Quản Lý Danh Sách Dòng Xe');
+        $response->assertSee('VinFast VF 3');
+    }
 }

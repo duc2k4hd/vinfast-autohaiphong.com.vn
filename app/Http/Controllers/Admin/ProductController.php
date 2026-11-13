@@ -27,7 +27,7 @@ class ProductController extends Controller
                 'products.regular_price',
                 'products.sale_price',
                 'products.status',
-                'products.is_featured',
+                'products.featured',
                 'product_categories.name as category_name',
                 'media.path as thumbnail_path',
             ])

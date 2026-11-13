@@ -17,7 +17,9 @@
   - **Loại Bỏ Emoji & Nâng Cấp Thao Tác Nhanh:** Thay thế toàn bộ emoji bằng biểu tượng SVG đơn sắc (icon thùng rác, icon mắt xem trước, icon tiền mặt, icon lưu trữ, icon điện thoại). Bổ sung nút Copy nhanh URL ảnh trong Thư viện Media với phản hồi "✓ Đã chép".
   - **Cảnh Báo Thay Đổi Chưa Lưu (Unsaved Changes Warning):** Tự động phát hiện thay đổi và cảnh báo người dùng khi vô tình đóng hoặc chuyển tab mà chưa bấm Lưu trong form xe, bài viết và cài đặt hệ thống.
 - **Kiểm Thử, Định Dạng & Biên Dịch:**
-  - Test Suite: **42/42 tests PASS 100% (192 assertions, ~1.1s)** bao gồm bổ sung test xác thực Media Picker cho xe và bộ lọc Leads đa chiều.
+  - Khắc phục lỗi `Unknown column 'products.is_featured'` trong `ProductController@index`: cập nhật thành `products.featured` khớp 100% database schema migration.
+  - Bổ sung test kiểm thử `test_admin_can_view_products_index` vào `AdminPanelTest.php`.
+  - Test Suite: **43/43 tests PASS 100% (195 assertions, ~1.2s)** bao gồm trang danh sách xe Admin, Media Picker, và bộ lọc Leads đa chiều.
   - Quét Cú Pháp Blade (`test_scan.php`): **`DONE SCAN` (0 mismatch)**.
   - Khắc phục thuộc tính `leads.message` khớp 100% database schema.
   - View Cache (`php artisan view:cache`): **Biên dịch thành công 100% không cảnh báo**.
