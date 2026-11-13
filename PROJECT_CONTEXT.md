@@ -90,7 +90,18 @@ Toàn bộ assets tĩnh đã được tổ chức và gom vào đúng thư mục
 - `images/posts/`: Ảnh minh họa các bài viết tin tức.
 - `fonts/`: Đầy đủ 12 tệp font Open Sans woff/woff2 phục vụ tải cục bộ siêu tốc.
 
-### 4.6. Kiểm Thử & Định Dạng Mã Nguồn
+### 4.6. Tài Liệu Khảo Sát & Kiến Trúc Dự Án (`docs/audit/`)
+Đã hoàn thiện đầy đủ 100% bộ 8 tài liệu phân tích hệ thống tham chiếu theo Mục 1.5 của Master Prompt:
+1. `REFERENCE_URL_INVENTORY.md` (Kiểm kê toàn bộ URL).
+2. `REFERENCE_PAGE_MATRIX.md` (Ma trận các trang).
+3. `REFERENCE_COMPONENTS.md` (Bảng thành phần giao diện).
+4. `REFERENCE_INTERACTIONS.md` (Hành vi tương tác UI/UX).
+5. `REFERENCE_DESIGN_TOKENS.md` (Hệ thống biến CSS màu sắc, typography, spacing).
+6. `REFERENCE_RESPONSIVE.md` (Ma trận kích thước màn hình 360px - 1920px).
+7. `REFERENCE_DATA_AUDIT.md` (Kiểm kê 15 mẫu xe, cấu trúc bảng specs Key-Value).
+8. `REFERENCE_UNVERIFIED.md` (Ghi nhận các điểm khảo sát).
+
+### 4.7. Kiểm Thử & Định Dạng Mã Nguồn
 - 28 Feature Tests: **100% Passed (119 assertions)** bao gồm toàn bộ luồng Client, Checkout tiền mặt, Admin Panel, Post & Media, SEO, Social Meta Cards, Sitemap XML, Robots.txt an toàn và Phân trang chuẩn SEO `/o-to-vinfast/page/2`.
 - Laravel Pint: Đã định dạng chuẩn phong cách Laravel.
 - Vite Assets: Đã build hoàn tất sẵn sàng cho production.
