@@ -27,6 +27,14 @@
   - Xây dựng `SeoService` (`generateUniqueSlug`, `generateExcerpt`, `countWords`, `calculateReadingTime`, `evaluateSeoScore`).
   - Xây dựng `SeoController` cung cấp API endpoint `POST /admin/seo/analyze` chấm điểm SEO thời gian thực.
   - Xây dựng Blade component `admin.components.seo-analyzer` hiển thị thanh tiến trình, điểm số từ 0 - 100 và danh sách gợi ý cải thiện trong form viết bài.
+  - Tích hợp có hệ thống các Schema JSON-LD:
+    - AutoDealer Schema toàn trang (`AutoDealer`).
+    - WebSite Schema kèm `SearchAction` cho Sitelinks Box trên Trang Chủ.
+    - ItemList Schema cho Trang Danh Mục Xe Ô Tô (`/o-to-vinfast`).
+    - Car Schema cho từng Trang Chi Tiết Dòng Xe (`/xe/{slug}`).
+    - NewsArticle Schema & BreadcrumbList Schema cho Trang Chi Tiết Bài Viết (`/chuyen-muc/tin-tuc/{slug}`).
+  - Tự động sinh Mục Lục Bài Viết (Table of Contents - TOC) mượt mà với tính năng ẩn/hiện và cuộn êm (smooth scroll) theo chuẩn báo chí xe.
+  - Thêm liên kết HTML Sitemap vào Footer toàn trang.
 - **Kiểm thử & Định dạng:**
   - Test suite hoàn chỉnh: **39/39 tests PASS 100% (177 assertions)**.
   - Quét cú pháp Blade: **`DONE SCAN` (0 lỗi)**.

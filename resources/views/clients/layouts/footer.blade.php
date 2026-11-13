@@ -50,6 +50,7 @@
                     <li class="vinfast-autohaiphong_footer_item"><a href="{{ url('/chinh-sach-bao-mat') }}">Chính sách bảo mật thông tin</a></li>
                     <li class="vinfast-autohaiphong_footer_item"><a href="{{ url('/dieu-khoan-su-dung') }}">Điều khoản sử dụng</a></li>
                     <li class="vinfast-autohaiphong_footer_item"><a href="{{ url('/pin-va-tram-sac') }}">Hệ thống trạm sạc toàn quốc</a></li>
+                    <li class="vinfast-autohaiphong_footer_item"><a href="{{ url('/so-do-trang-web') }}">Sơ đồ website (HTML Sitemap)</a></li>
                 </ul>
             </div>
 

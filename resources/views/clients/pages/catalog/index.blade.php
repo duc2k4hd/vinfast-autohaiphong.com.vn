@@ -4,6 +4,47 @@
 @section('meta_description', 'Khám phá toàn bộ các dòng xe ô tô điện VinFast chính hãng tại Hải Phòng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9, Minio, EC Van... Báo giá lăn bánh ưu đãi.')
 @section('canonical', url('/o-to-vinfast'))
 
+@push('schema')
+{{-- ItemList Schema cho trang danh mục ô tô VinFast --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'ItemList',
+    'itemListElement' => $cars->map(function ($car, $index) {
+        return [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'name' => $car->name,
+            'url' => url('/xe/' . $car->slug),
+            'image' => $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
+        ];
+    })->values()->all(),
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+
+{{-- BreadcrumbList Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Trang chủ',
+            'item' => route('client.home')
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Ô Tô VinFast',
+            'item' => url('/o-to-vinfast')
+        ]
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+
 @section('content')
 {{-- Breadcrumb --}}
 <div class="vinfast-autohaiphong_catalog_breadcrumb_wrapper" style="background-color: var(--client-color-surface); border-bottom: 1px solid var(--client-color-border); padding: 12px 0;">

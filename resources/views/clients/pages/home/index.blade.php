@@ -4,6 +4,23 @@
 @section('meta_description', 'Đại lý VinFast Hải Phòng phân phối chính hãng các dòng xe ô tô điện: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9... Giá tốt nhất, hỗ trợ trả góp 80%, lái thử tận nơi.')
 @section('canonical', route('client.home'))
 
+@push('schema')
+{{-- WebSite Schema với tiềm năng SearchAction cho Google Sitelinks --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'WebSite',
+    'name' => 'VinFast Hải Phòng',
+    'url' => url('/'),
+    'potentialAction' => [
+        '@type' => 'SearchAction',
+        'target' => url('/o-to-vinfast?search={search_term_string}'),
+        'query-input' => 'required name=search_term_string'
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+
 @section('content')
 {{-- 1. Hero Banner - Banners Ảnh Thật --}}
 <section class="vinfast-autohaiphong_home_hero">
