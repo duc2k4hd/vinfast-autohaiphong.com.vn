@@ -5,39 +5,37 @@
 @section('canonical', route('client.home'))
 
 @section('content')
-{{-- 1. Hero Banner --}}
+{{-- 1. Hero Banner - Tối Giản, Nền Sáng --}}
 <section class="vinfast-autohaiphong_home_hero">
     <div class="vinfast-autohaiphong_layout_container">
         <div class="vinfast-autohaiphong_home_hero_content">
-            <span style="background-color: var(--client-color-primary); color: #ffffff; padding: 4px 12px; border-radius: 4px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 16px; display: inline-block;">
-                Ưu Đãi Đặc Quyền Tháng Này
-            </span>
+            <span class="vinfast-autohaiphong_home_hero_tag">Đại Lý Ủy Quyền VinFast Hải Phòng</span>
             <h1 class="vinfast-autohaiphong_home_hero_title">
-                TIÊN PHONG KỶ NGUYÊN DI CHUYỂN XANH CÙNG VINFAST
+                BẢNG GIÁ VÀ ƯU ĐÃI Ô TÔ ĐIỆN VINFAST MỚI NHẤT
             </h1>
             <p class="vinfast-autohaiphong_home_hero_desc">
-                Trải nghiệm những mẫu ô tô điện đẳng cấp hàng đầu thế giới với công nghệ thông minh, chi phí vận hành siêu tiết kiệm và chính sách bảo hành lên đến 10 năm tại Hải Phòng.
+                Cung cấp đầy đủ các dòng xe điện thông minh chính hãng với chi phí vận hành siêu tiết kiệm, hỗ trợ trả góp lên đến 80% giá trị xe và chính sách bảo hành chính hãng lên đến 10 năm.
             </p>
             <div class="vinfast-autohaiphong_home_hero_actions">
-                <button type="button" onclick="openQuoteModal(null, 'Tất cả các dòng xe')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_accent" style="padding: 14px 28px; font-size: 0.95rem;">
-                    Nhận Báo Giá Lăn Bánh
+                <button type="button" onclick="openQuoteModal(null, 'Tất cả các dòng xe')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
+                    Báo Giá Lăn Bánh
                 </button>
-                <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0988302882') }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline" style="border-color: #ffffff; color: #ffffff; padding: 14px 28px; font-size: 0.95rem;">
-                    Hotline: {{ $siteSettings['site_phone'] ?? '0988 302 882' }}
+                <a href="tel:0988302882" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline">
+                    Hotline: 0988 302 882
                 </a>
             </div>
         </div>
     </div>
 </section>
 
-{{-- 2. Section Bảng Giá & Danh Mục Các Dòng Xe Ô Tô VinFast --}}
+{{-- 2. Box Trưng Bày Sản Phẩm (Max-width 1200px) --}}
 <section class="vinfast-autohaiphong_home_section">
     <div class="vinfast-autohaiphong_layout_container">
         <div class="vinfast-autohaiphong_home_section_header">
-            <span class="vinfast-autohaiphong_home_section_tag">Dòng Xe Ô Tô Điện</span>
-            <h2 class="vinfast-autohaiphong_home_section_title">DANH MỤC XE VINFAST CHÍNH HÃNG</h2>
+            <span class="vinfast-autohaiphong_home_section_tag">Sản Phẩm Chính Hãng</span>
+            <h2 class="vinfast-autohaiphong_home_section_title">CÁC DÒNG XE Ô TÔ VINFAST</h2>
             <p class="vinfast-autohaiphong_home_section_desc">
-                Bảng giá niêm yết và thông số các dòng xe ô tô điện VinFast mới nhất tại đại lý ủy quyền Hải Phòng.
+                Bảng giá niêm yết các dòng xe ô tô điện VinFast phân phối chính hãng tại khu vực Hải Phòng.
             </p>
         </div>
 
@@ -59,11 +57,11 @@
                             <a href="{{ url('/xe/' . $car->slug) }}">{{ $car->name }}</a>
                         </h3>
 
-                        {{-- Giá --}}
+                        {{-- Giá bán --}}
                         <div class="vinfast-autohaiphong_home_car_price_box">
-                            <span class="vinfast-autohaiphong_home_car_price_label">Giá từ: </span>
+                            <span class="vinfast-autohaiphong_home_car_price_label">Giá từ:</span>
                             @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
-                                <span class="vinfast-autohaiphong_home_car_price" style="font-size: 1.15rem; color: var(--client-color-primary);">Liên hệ báo giá</span>
+                                <span class="vinfast-autohaiphong_home_car_price" style="font-size: 1.1rem;">Liên hệ báo giá</span>
                             @else
                                 <span class="vinfast-autohaiphong_home_car_price">
                                     {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
@@ -71,27 +69,26 @@
                             @endif
                         </div>
 
-                        {{-- Thông số tóm tắt --}}
+                        {{-- Thông số ngắn gọn --}}
                         <div class="vinfast-autohaiphong_home_car_specs">
                             <div>⚡ 100% Thuần Điện</div>
-                            <div>🛡️ Bảo hành 7-10 năm</div>
-                            <div>🔋 Thuê / Mua Pin</div>
+                            <div>🛡️ Bảo hành 7–10 năm</div>
+                            <div>🔋 Linh hoạt Pin</div>
                             <div>🚀 Trả góp tới 80%</div>
                         </div>
 
                         {{-- Actions --}}
                         <div class="vinfast-autohaiphong_home_car_actions">
-                            <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_accent">
+                            <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
                                 Báo Giá Lăn Bánh
                             </button>
-                            <a href="{{ url('/xe/' . $car->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline">
-                                Xem Chi Tiết
+                            <a href="{{ url('/xe/' . $car->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_neutral">
+                                Chi Tiết
                             </a>
                         </div>
                     </div>
                 </div>
             @empty
-                {{-- Fallback danh sách 6 mẫu xe phổ biến nếu database chưa nạp dữ liệu đầy đủ --}}
                 @php
                     $fallbackCars = [
                         ['name' => 'VinFast VF 3', 'slug' => 'vinfast-vf-3', 'price' => '285.000.000', 'img' => 'https://vinfast-haiphong.com/wp-content/uploads/2025/03/VinFast-VF3-mau-xanh-quan-doi-600x400-1.webp'],
@@ -112,21 +109,21 @@
                                 <a href="{{ url('/xe/' . $item['slug']) }}">{{ $item['name'] }}</a>
                             </h3>
                             <div class="vinfast-autohaiphong_home_car_price_box">
-                                <span class="vinfast-autohaiphong_home_car_price_label">Giá từ: </span>
+                                <span class="vinfast-autohaiphong_home_car_price_label">Giá từ:</span>
                                 <span class="vinfast-autohaiphong_home_car_price">{{ $item['price'] }} VNĐ</span>
                             </div>
                             <div class="vinfast-autohaiphong_home_car_specs">
                                 <div>⚡ 100% Thuần Điện</div>
-                                <div>🛡️ Bảo hành 7-10 năm</div>
-                                <div>🔋 Thuê / Mua Pin</div>
+                                <div>🛡️ Bảo hành 7–10 năm</div>
+                                <div>🔋 Linh hoạt Pin</div>
                                 <div>🚀 Trả góp tới 80%</div>
                             </div>
                             <div class="vinfast-autohaiphong_home_car_actions">
-                                <button type="button" onclick="openQuoteModal(null, '{{ $item['name'] }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_accent">
+                                <button type="button" onclick="openQuoteModal(null, '{{ $item['name'] }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
                                     Báo Giá Lăn Bánh
                                 </button>
-                                <a href="{{ url('/xe/' . $item['slug']) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline">
-                                    Xem Chi Tiết
+                                <a href="{{ url('/xe/' . $item['slug']) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_neutral">
+                                    Chi Tiết
                                 </a>
                             </div>
                         </div>
@@ -137,24 +134,24 @@
     </div>
 </section>
 
-{{-- 3. Section Dịch Vụ Pin & Trạm Sạc Toàn Quốc --}}
+{{-- 3. Section Pin & Trạm Sạc (Nền Sáng Nhẹ #f8fafc) --}}
 <section class="vinfast-autohaiphong_home_section vinfast-autohaiphong_home_section_surface">
     <div class="vinfast-autohaiphong_layout_container">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; align-items: center;">
             <div>
-                <span class="vinfast-autohaiphong_home_section_tag">Hạ Tầng Xanh Đột Phá</span>
-                <h2 class="vinfast-autohaiphong_home_section_title" style="text-align: left;">MẠNG LƯỚI TRẠM SẠC PHỦ KHẮP 63 TỈNH THÀNH</h2>
-                <p style="margin-bottom: 20px; color: var(--client-color-muted); line-height: 1.7;">
-                    VinFast quy hoạch hệ thống trạm sạc xe điện với hơn 150.000 cổng sạc trên toàn quốc, phân bố tại các trạm dừng chân cao tốc, trung tâm thương mại, khu chung cư và tòa nhà văn phòng, giúp khách hàng hoàn toàn yên tâm trên mọi hành trình dài.
+                <span class="vinfast-autohaiphong_home_section_tag">Hạ Tầng Xanh Tiên Phong</span>
+                <h2 class="vinfast-autohaiphong_home_section_title" style="text-align: left;">HỆ THỐNG TRẠM SẠC TRÊN TOÀN QUỐC</h2>
+                <p style="margin-bottom: 20px; color: var(--client-color-muted); line-height: 1.6; font-size: 0.95rem;">
+                    Quy hoạch hơn 150.000 cổng sạc trên khắp 63 tỉnh thành, kết nối các tuyến cao tốc, trung tâm thương mại và khu dân cư, đảm bảo việc sạc pin xe điện trở nên tiện lợi và an tâm mọi lúc mọi nơi.
                 </p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px;">
-                    <div style="background: #ffffff; padding: 16px; border-radius: 8px; border: 1px solid var(--client-color-border);">
-                        <strong style="color: var(--client-color-primary); font-size: 1.4rem; display: block;">150.000+</strong>
-                        <span style="font-size: 0.85rem; color: var(--client-color-muted);">Cổng sạc toàn quốc</span>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;">
+                    <div style="background: #ffffff; padding: 14px 16px; border-radius: 6px; border: 1px solid var(--client-color-border);">
+                        <strong style="color: var(--client-color-primary); font-size: 1.35rem; display: block;">150.000+</strong>
+                        <span style="font-size: 0.825rem; color: var(--client-color-muted);">Cổng sạc toàn quốc</span>
                     </div>
-                    <div style="background: #ffffff; padding: 16px; border-radius: 8px; border: 1px solid var(--client-color-border);">
-                        <strong style="color: var(--client-color-success); font-size: 1.4rem; display: block;">10-25 phút</strong>
-                        <span style="font-size: 0.85rem; color: var(--client-color-muted);">Sạc nhanh 10% - 70%</span>
+                    <div style="background: #ffffff; padding: 14px 16px; border-radius: 6px; border: 1px solid var(--client-color-border);">
+                        <strong style="color: var(--client-color-primary); font-size: 1.35rem; display: block;">10–25 phút</strong>
+                        <span style="font-size: 0.825rem; color: var(--client-color-muted);">Sạc nhanh 10% – 70%</span>
                     </div>
                 </div>
                 <a href="{{ url('/pin-va-tram-sac') }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
@@ -162,7 +159,7 @@
                 </a>
             </div>
             <div>
-                <img src="https://vinfast-haiphong.com/wp-content/uploads/2025/03/hd-ps-b.jpg" alt="Trạm sạc VinFast Hải Phòng" style="border-radius: 12px; box-shadow: var(--client-shadow-lg);" loading="lazy">
+                <img src="https://vinfast-haiphong.com/wp-content/uploads/2025/03/hd-ps-b.jpg" alt="Trạm sạc VinFast Hải Phòng" style="border-radius: 8px; border: 1px solid var(--client-color-border); width: 100%;" loading="lazy">
             </div>
         </div>
     </div>
@@ -172,53 +169,52 @@
 <section class="vinfast-autohaiphong_home_section">
     <div class="vinfast-autohaiphong_layout_container">
         <div class="vinfast-autohaiphong_home_section_header">
-            <span class="vinfast-autohaiphong_home_section_tag">Tin Tức & Sự Kiện</span>
-            <h2 class="vinfast-autohaiphong_home_section_title">TIN TỨC VINFAST HẢI PHÒNG</h2>
+            <span class="vinfast-autohaiphong_home_section_tag">Tin Tức Đại Lý</span>
+            <h2 class="vinfast-autohaiphong_home_section_title">TIN TỨC & SỰ KIỆN</h2>
             <p class="vinfast-autohaiphong_home_section_desc">
-                Cập nhật các chương trình ưu đãi, sự kiện lái thử và chính sách phát triển mới nhất.
+                Cập nhật chính sách giá, ưu đãi lãi suất và hoạt động lái thử tại Hải Phòng.
             </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
             @forelse($latestPosts as $post)
                 <article style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="position: relative; padding-top: 56.25%; background: #f1f5f9;">
+                    <div style="position: relative; padding-top: 56.25%; background: #f8fafc; border-bottom: 1px solid var(--client-color-border);">
                         <img src="{{ $post->featured_image_path ? asset('storage/' . $post->featured_image_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/10/banner-vf-wild.webp' }}" 
                              alt="{{ $post->featured_image_alt ?? $post->title }}" 
                              style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" 
                              loading="lazy">
                     </div>
-                    <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
-                        <span style="font-size: 0.8rem; color: var(--client-color-muted); margin-bottom: 8px;">
-                            📅 {{ $post->published_at ? date('d/m/Y', strtotime($post->published_at)) : date('d/m/Y') }}
+                    <div style="padding: 18px 20px; flex-grow: 1; display: flex; flex-direction: column;">
+                        <span style="font-size: 0.8rem; color: var(--client-color-muted); margin-bottom: 6px;">
+                            {{ $post->published_at ? date('d/m/Y', strtotime($post->published_at)) : date('d/m/Y') }}
                         </span>
-                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4;">
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; color: var(--client-color-heading);">
                             <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}">{{ $post->title }}</a>
                         </h3>
-                        <p style="font-size: 0.9rem; color: var(--client-color-muted); margin-bottom: 16px; line-height: 1.5;">
-                            {{ Str::limit($post->excerpt ?? '', 100) }}
+                        <p style="font-size: 0.875rem; color: var(--client-color-muted); margin-bottom: 14px; line-height: 1.5;">
+                            {{ Str::limit($post->excerpt ?? '', 95) }}
                         </p>
-                        <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}" style="margin-top: auto; color: var(--client-color-primary); font-weight: 600; font-size: 0.9rem;">
-                            Đọc bài viết →
+                        <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}" style="margin-top: auto; color: var(--client-color-primary); font-weight: 600; font-size: 0.875rem;">
+                            Xem chi tiết →
                         </a>
                     </div>
                 </article>
             @empty
-                {{-- Fallback 3 bài viết mẫu từ nguồn --}}
                 <article style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="position: relative; padding-top: 56.25%; background: #f1f5f9;">
+                    <div style="position: relative; padding-top: 56.25%; background: #f8fafc; border-bottom: 1px solid var(--client-color-border);">
                         <img src="https://vinfast-haiphong.com/wp-content/uploads/2026/10/banner-vf-wild.webp" alt="VinFast ra mắt VF 8 thế hệ mới" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" loading="lazy">
                     </div>
-                    <div style="padding: 20px; flex-grow: 1; display: flex; flex-direction: column;">
-                        <span style="font-size: 0.8rem; color: var(--client-color-muted); margin-bottom: 8px;">📅 2026-11-10</span>
-                        <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4;">
+                    <div style="padding: 18px 20px; flex-grow: 1; display: flex; flex-direction: column;">
+                        <span style="font-size: 0.8rem; color: var(--client-color-muted); margin-bottom: 6px;">2026-11-10</span>
+                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; color: var(--client-color-heading);">
                             <a href="{{ url('/chuyen-muc/tin-tuc') }}">VinFast ra mắt VF 8 thế hệ mới: Nâng cấp trải nghiệm toàn diện cho người dùng</a>
                         </h3>
-                        <p style="font-size: 0.9rem; color: var(--client-color-muted); margin-bottom: 16px; line-height: 1.5;">
+                        <p style="font-size: 0.875rem; color: var(--client-color-muted); margin-bottom: 14px; line-height: 1.5;">
                             VinFast chính thức giới thiệu mẫu SUV điện VF 8 All New với loạt cải tiến vượt trội về thiết kế và công nghệ thông minh.
                         </p>
-                        <a href="{{ url('/chuyen-muc/tin-tuc') }}" style="margin-top: auto; color: var(--client-color-primary); font-weight: 600; font-size: 0.9rem;">
-                            Đọc bài viết →
+                        <a href="{{ url('/chuyen-muc/tin-tuc') }}" style="margin-top: auto; color: var(--client-color-primary); font-weight: 600; font-size: 0.875rem;">
+                            Xem chi tiết →
                         </a>
                     </div>
                 </article>
@@ -227,4 +223,3 @@
     </div>
 </section>
 @endsection
-

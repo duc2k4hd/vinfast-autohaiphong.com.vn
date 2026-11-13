@@ -1,26 +1,23 @@
 # Nhật Ký Các Phiên Làm Việc (Session Log) — VinFast Hải Phòng
 
-## Phiên làm việc: 2026-11-13 10:55
+## Phiên làm việc: 2026-11-13 11:00
 
 ### 1. Đã hoàn thành:
-- **Cập nhật quy tắc Git tuyệt đối vào Context:**
-  - AI tuyệt đối không chạy bất kỳ lệnh `git` nào (không add, commit, push hay status).
-  - AI chỉ soạn thảo câu lệnh và nội dung commit mẫu bằng tiếng Việt có dấu để người dùng tự thực thi.
-- **Cập nhật toàn diện thông tin liên hệ chuẩn xác VinFast Minh Đạo:**
-  - Bán hàng: `0988 302 882`
-  - Dịch vụ – phụ tùng: `0915 286 506`
-  - CSKH Kinh doanh: `0915 286 503`
-  - CSKH Dịch vụ: `0843 714 333`
-  - Giờ làm việc: Thứ 2 – Thứ 7: Dịch vụ 7h50–17h00, Kinh doanh 7h30–18h00 | Chủ nhật: Kinh doanh 7h00–18h00, Dịch vụ nghỉ.
-  - Facebook: `https://www.facebook.com/VinFastMinhDao`
-- **Đồng bộ Cơ sở dữ liệu & Giao diện:**
-  - Cập nhật seeder [InitialSettingsSeeder.php](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/database/seeders/InitialSettingsSeeder.php) và chạy nạp vào DB thật.
-  - Xóa cache settings.
-  - Cập nhật Header, Footer (khối thông tin liên hệ 4 bộ phận, giờ làm việc, link fanpage) và Floating Action buttons.
-  - Cập nhật Feature Test [tests/Feature/HomeTest.php](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/tests/Feature/HomeTest.php) -> **100% PASS**.
+- **Chuẩn hóa thiết kế giao diện theo yêu cầu mới:**
+  - Tông màu chủ đạo: Xanh VinFast `#1464f4` duy nhất cho toàn bộ các nút bấm và thương hiệu.
+  - Phong cách: Tối giản, gọn gàng, sử dụng nền trắng (`#ffffff`) và xám sáng (`#f8fafc`), loại bỏ hoàn toàn các mảng màu đen hầm hố và hiệu ứng lòe loẹt "AI generic".
+  - Giới hạn độ rộng: Căn chỉnh chuẩn `max-width: 1200px` cho toàn bộ container và khối trưng bày sản phẩm xe.
+- **Tối ưu các thành phần:**
+  - `variables.css`: `--client-container-width: 1200px`, `--client-color-primary: #1464f4`.
+  - `app.css`: Tinh chỉnh card xe viền mỏng phẳng, nút bấm `#1464f4` đồng nhất, giá tiền xanh `#1464f4` nổi bật, footer nền sáng thanh lịch.
+  - Blade templates: Cập nhật `header.blade.php`, `footer.blade.php`, `home/index.blade.php`, `quote-modal.blade.php`.
+- **Assets & Kiểm thử:**
+  - Chạy `npm run build` thành công trong 339ms.
+  - Feature test `HomeTest` -> **100% PASS (2 tests, 9 assertions)**.
+  - Pint code format -> **100% PASSED**.
+- **Quy tắc Git:** Tuân thủ tuyệt đối quy tắc không chạy bất kỳ lệnh `git` nào, chỉ gửi nội dung commit mẫu ở cuối báo cáo.
 
 ### 2. Công việc tiếp theo:
-- Xây dựng trang danh mục sản phẩm `/o-to-vinfast/`.
-- Xây dựng trang chi tiết từng dòng xe `/xe/{slug}/`.
-- Xây dựng giỏ hàng và màn hình thanh toán tiền mặt duy nhất (`/gio-hang/`, `/thanh-toan/`).
-- Xây dựng hệ thống quản trị Admin (`/admin/dashboard`, `/admin/products`).
+- Xây dựng trang danh mục xe `/o-to-vinfast/` với bộ lọc, sắp xếp, phân trang và tiền tố `vinfast-autohaiphong_catalog_...`.
+- Xây dựng trang chi tiết từng dòng xe `/xe/{slug}/` (gallery, thông số kỹ thuật, chọn phiên bản/màu xe).
+- Xây dựng giỏ hàng và đặt xe thanh toán tiền mặt duy nhất.

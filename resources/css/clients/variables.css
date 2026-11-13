@@ -2,42 +2,36 @@
     /* 1. Typography */
     --client-font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
-    /* 2. Brand Colors */
+    /* 2. Brand Colors - Xanh #1464f4 chủ đạo */
     --client-color-primary: #1464f4;
-    --client-color-primary-hover: #0c4ec5;
+    --client-color-primary-hover: #0d52ce;
     --client-color-primary-light: #eff6ff;
-    --client-color-secondary: #2196f3;
-    --client-color-accent: #dd3333;
-    --client-color-accent-hover: #c31d1d;
-    --client-color-success: #36a834;
 
-    /* 3. Neutral & Layout Colors */
-    --client-color-text: #32373c;
-    --client-color-heading: #1e293b;
-    --client-color-muted: #64748b;
-    --client-color-border: #e2e8f0;
-    --client-color-background: #ffffff;
-    --client-color-surface: #f8fafc;
+    /* 3. Hệ màu sáng, sạch sẽ, không màu mè */
+    --client-color-heading: #0f172a;       /* Chữ tiêu đề than chì đậm */
+    --client-color-text: #334155;          /* Chữ nội dung rõ ràng, dễ đọc */
+    --client-color-muted: #64748b;         /* Chữ phụ, chú thích */
+    --client-color-border: #e2e8f0;        /* Viền mảnh tinh tế */
+    --client-color-background: #ffffff;    /* Nền trắng chủ đạo */
+    --client-color-surface: #f8fafc;       /* Nền xám cực nhẹ phân tách section */
     --client-color-surface-hover: #f1f5f9;
 
-    /* 4. Layout Dimensions */
-    --client-container-width: 1240px;
-    --client-header-height: 80px;
-    --client-header-mobile-height: 64px;
+    /* 4. Kích thước bố cục - Chuẩn 1200px */
+    --client-container-width: 1200px;
+    --client-header-height: 76px;
+    --client-header-mobile-height: 60px;
 
-    /* 5. Border Radius */
+    /* 5. Bo góc nhẹ nhàng, hiện đại */
     --client-radius-xs: 4px;
     --client-radius-sm: 6px;
     --client-radius-md: 8px;
-    --client-radius-lg: 12px;
-    --client-radius-xl: 16px;
+    --client-radius-lg: 10px;
     --client-radius-full: 9999px;
 
-    /* 6. Box Shadows */
+    /* 6. Bóng đổ phẳng tối giản, không lòe loẹt */
     --client-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --client-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-    --client-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-    --client-shadow-hover: 0 14px 20px -4px rgba(20, 100, 244, 0.15);
+    --client-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --client-shadow-hover: 0 8px 16px -2px rgba(20, 100, 244, 0.12);
 
     /* 7. Spacing */
     --client-space-1: 4px;
