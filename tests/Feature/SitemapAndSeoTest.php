@@ -38,6 +38,8 @@ class SitemapAndSeoTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('"@type": "AutoDealer"', false);
         $response->assertSee('Số 1 Bạch Đằng', false);
+        $response->assertSee('<meta property="og:locale" content="vi_VN">', false);
+        $response->assertSee('<meta name="twitter:card" content="summary_large_image">', false);
     }
 
     public function test_car_detail_page_contains_vehicle_json_ld_schema(): void
@@ -50,4 +52,3 @@ class SitemapAndSeoTest extends TestCase
         $response->assertSee('"priceCurrency": "VND"', false);
     }
 }
-

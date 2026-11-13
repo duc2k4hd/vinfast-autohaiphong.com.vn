@@ -69,7 +69,18 @@
 
 ---
 
-## Phiên làm việc: Hỗ trợ URL phân trang chuẩn SEO /o-to-vinfast/page/2 (13/11/2026)
+## Phiên làm việc: Tối ưu SEO Thẻ Meta Social & Open Graph / Twitter Cards (13/11/2026)
+
+### 1. Công việc đã thực hiện
+- **Tối ưu hóa SEO Thẻ Meta Chia Sẻ Mạng Xã Hội:**
+  - Bổ sung đầy đủ thẻ Twitter Card (`twitter:card=summary_large_image`, `twitter:title`, `twitter:description`, `twitter:image`) tại [clients/layouts/app.blade.php](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/clients/layouts/app.blade.php).
+  - Chuẩn hóa đường dẫn ảnh chia sẻ mặc định `og:image` và `twitter:image` trỏ về tài sản thực tế [vinfast-banner-54gf5.png](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/public/storage/clients/assets/images/banners/vinfast-banner-54gf5.png).
+- **Mở rộng Test Suite:**
+  - Bổ sung xác thực thẻ Meta Social vào `SitemapAndSeoTest.php`.
+  - Chạy `php artisan test --compact`: **27/27 tests PASS 100% (115 assertions, 1.8s)**.
+  - Chạy `vendor/bin/pint --dirty --format agent`: 100% PSR-12 sạch sẽ.
+- **Quy tắc Git:**
+  - Tuyệt đối không chạy bất kỳ lệnh Git nào. Soạn sẵn nội dung commit có dấu ở cuối báo cáo.
 
 ### 1. Công việc đã thực hiện
 - **Hỗ trợ định dạng URL phân trang SEO từ website tham chiếu:**

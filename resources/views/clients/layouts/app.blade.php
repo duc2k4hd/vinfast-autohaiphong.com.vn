@@ -18,7 +18,13 @@
     <meta property="og:description" content="@yield('og_description', $siteSettings['seo_description'] ?? '')">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:site_name" content="{{ $siteSettings['site_name'] ?? 'VinFast Hải Phòng' }}">
-    <meta property="og:image" content="@yield('og_image', asset('images/og-vinfast-haiphong.webp'))">
+    <meta property="og:image" content="@yield('og_image', asset('storage/clients/assets/images/banners/vinfast-banner-54gf5.png'))">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('og_title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng')">
+    <meta name="twitter:description" content="@yield('og_description', $siteSettings['seo_description'] ?? '')">
+    <meta name="twitter:image" content="@yield('og_image', asset('storage/clients/assets/images/banners/vinfast-banner-54gf5.png'))">
 
     {{-- Open Sans Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
