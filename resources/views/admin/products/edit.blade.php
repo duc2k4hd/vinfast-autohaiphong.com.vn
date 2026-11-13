@@ -69,17 +69,19 @@
             </p>
 
             <div id="specs-container">
-                @forelse($specifications as $spec)
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;" class="spec-row">
-                        <input type="text" name="specs_labels[]" value="{{ $spec->label }}" placeholder="Tên thông số (Key)" 
-                               style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-                        <input type="text" name="specs_values[]" value="{{ $spec->value }}" placeholder="Giá trị (Value)" 
-                               style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-                        <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa dòng">
-                            &times;
-                        </button>
-                    </div>
-                @empty
+                @if($specifications->isNotEmpty())
+                    @foreach($specifications as $spec)
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;" class="spec-row">
+                            <input type="text" name="specs_labels[]" value="{{ $spec->label }}" placeholder="Tên thông số (Key)" 
+                                   style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                            <input type="text" name="specs_values[]" value="{{ $spec->value }}" placeholder="Giá trị (Value)" 
+                                   style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa dòng">
+                                &times;
+                            </button>
+                        </div>
+                    @endforeach
+                @else
                     <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;" class="spec-row">
                         <input type="text" name="specs_labels[]" value="Số chỗ ngồi" placeholder="Tên thông số (Key)" 
                                style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
@@ -89,7 +91,7 @@
                             &times;
                         </button>
                     </div>
-                @endforelse
+                @endif
             </div>
         </div>
     </div>

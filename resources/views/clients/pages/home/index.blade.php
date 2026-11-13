@@ -69,55 +69,57 @@
         </div>
 
         <div class="vinfast-autohaiphong_home_grid">
-            @forelse($cars as $car)
-                <div class="vinfast-autohaiphong_home_car_card">
-                    {{-- Thumbnail --}}
-                    <div class="vinfast-autohaiphong_home_car_thumb">
-                        <img src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
-                             alt="{{ $car->thumbnail_alt ?? $car->name }}" 
-                             loading="lazy" 
-                             width="600" 
-                             height="338">
+            @if($cars->isNotEmpty())
+                @foreach($cars as $car)
+                    <div class="vinfast-autohaiphong_home_car_card">
+                        {{-- Thumbnail --}}
+                        <div class="vinfast-autohaiphong_home_car_thumb">
+                            <img src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
+                                 alt="{{ $car->thumbnail_alt ?? $car->name }}" 
+                                 loading="lazy" 
+                                 width="600" 
+                                 height="338">
+                        </div>
+
+                        {{-- Body --}}
+                        <div class="vinfast-autohaiphong_home_car_body">
+                            <h3 class="vinfast-autohaiphong_home_car_name">
+                                <a href="{{ url('/xe/' . $car->slug) }}">{{ $car->name }}</a>
+                            </h3>
+
+                            {{-- Giá bán --}}
+                            <div class="vinfast-autohaiphong_home_car_price_box">
+                                <span class="vinfast-autohaiphong_home_car_price_label">Giá từ:</span>
+                                @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
+                                    <span class="vinfast-autohaiphong_home_car_price" style="font-size: 1.1rem;">Liên hệ báo giá</span>
+                                @else
+                                    <span class="vinfast-autohaiphong_home_car_price">
+                                        {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Thông số ngắn gọn --}}
+                            <div class="vinfast-autohaiphong_home_car_specs">
+                                <div>⚡ 100% Thuần Điện</div>
+                                <div>🛡️ Bảo hành 7–10 năm</div>
+                                <div>🔋 Linh hoạt Pin</div>
+                                <div>🚀 Trả góp tới 80%</div>
+                            </div>
+
+                            {{-- Actions --}}
+                            <div class="vinfast-autohaiphong_home_car_actions">
+                                <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
+                                    Báo Giá Lăn Bánh
+                                </button>
+                                <a href="{{ url('/xe/' . $car->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_neutral">
+                                    Chi Tiết
+                                </a>
+                            </div>
+                        </div>
                     </div>
-
-                    {{-- Body --}}
-                    <div class="vinfast-autohaiphong_home_car_body">
-                        <h3 class="vinfast-autohaiphong_home_car_name">
-                            <a href="{{ url('/xe/' . $car->slug) }}">{{ $car->name }}</a>
-                        </h3>
-
-                        {{-- Giá bán --}}
-                        <div class="vinfast-autohaiphong_home_car_price_box">
-                            <span class="vinfast-autohaiphong_home_car_price_label">Giá từ:</span>
-                            @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
-                                <span class="vinfast-autohaiphong_home_car_price" style="font-size: 1.1rem;">Liên hệ báo giá</span>
-                            @else
-                                <span class="vinfast-autohaiphong_home_car_price">
-                                    {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
-                                </span>
-                            @endif
-                        </div>
-
-                        {{-- Thông số ngắn gọn --}}
-                        <div class="vinfast-autohaiphong_home_car_specs">
-                            <div>⚡ 100% Thuần Điện</div>
-                            <div>🛡️ Bảo hành 7–10 năm</div>
-                            <div>🔋 Linh hoạt Pin</div>
-                            <div>🚀 Trả góp tới 80%</div>
-                        </div>
-
-                        {{-- Actions --}}
-                        <div class="vinfast-autohaiphong_home_car_actions">
-                            <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
-                                Báo Giá Lăn Bánh
-                            </button>
-                            <a href="{{ url('/xe/' . $car->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_neutral">
-                                Chi Tiết
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @empty
+                @endforeach
+            @else
                 @php
                     $fallbackCars = [
                         ['name' => 'VinFast VF 3', 'slug' => 'vinfast-vf-3', 'price' => '285.000.000', 'img' => 'https://vinfast-haiphong.com/wp-content/uploads/2025/03/VinFast-VF3-mau-xanh-quan-doi-600x400-1.webp'],
@@ -158,7 +160,7 @@
                         </div>
                     </div>
                 @endforeach
-            @endforelse
+            @endif
         </div>
     </div>
 </section>
@@ -206,30 +208,32 @@
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
-            @forelse($latestPosts as $post)
-                <article style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
-                    <div style="position: relative; padding-top: 56.25%; background: #f8fafc; border-bottom: 1px solid var(--client-color-border);">
-                        <img src="{{ $post->featured_image_path ? asset('storage/' . $post->featured_image_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/10/banner-vf-wild.webp' }}" 
-                             alt="{{ $post->featured_image_alt ?? $post->title }}" 
-                             style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" 
-                             loading="lazy">
-                    </div>
-                    <div style="padding: 18px 20px; flex-grow: 1; display: flex; flex-direction: column;">
-                        <span style="font-size: 0.8rem; color: var(--client-color-muted); margin-bottom: 6px;">
-                            {{ $post->published_at ? date('d/m/Y', strtotime($post->published_at)) : date('d/m/Y') }}
-                        </span>
-                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; color: var(--client-color-heading);">
-                            <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}">{{ $post->title }}</a>
-                        </h3>
-                        <p style="font-size: 0.875rem; color: var(--client-color-muted); margin-bottom: 14px; line-height: 1.5;">
-                            {{ Str::limit($post->excerpt ?? '', 95) }}
-                        </p>
-                        <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}" style="margin-top: auto; color: var(--client-color-primary); font-weight: 600; font-size: 0.875rem;">
-                            Xem chi tiết →
-                        </a>
-                    </div>
-                </article>
-            @empty
+            @if($latestPosts->isNotEmpty())
+                @foreach($latestPosts as $post)
+                    <article style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
+                        <div style="position: relative; padding-top: 56.25%; background: #f8fafc; border-bottom: 1px solid var(--client-color-border);">
+                            <img src="{{ $post->featured_image_path ? asset('storage/' . $post->featured_image_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/10/banner-vf-wild.webp' }}" 
+                                 alt="{{ $post->featured_image_alt ?? $post->title }}" 
+                                 style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" 
+                                 loading="lazy">
+                        </div>
+                        <div style="padding: 18px 20px; flex-grow: 1; display: flex; flex-direction: column;">
+                            <span style="font-size: 0.8rem; color: var(--client-color-muted); margin-bottom: 6px;">
+                                {{ $post->published_at ? date('d/m/Y', strtotime($post->published_at)) : date('d/m/Y') }}
+                            </span>
+                            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; color: var(--client-color-heading);">
+                                <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}">{{ $post->title }}</a>
+                            </h3>
+                            <p style="font-size: 0.875rem; color: var(--client-color-muted); margin-bottom: 14px; line-height: 1.5;">
+                                {{ Str::limit($post->excerpt ?? '', 95) }}
+                            </p>
+                            <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}" style="margin-top: auto; color: var(--client-color-primary); font-weight: 600; font-size: 0.875rem;">
+                                Xem chi tiết →
+                            </a>
+                        </div>
+                    </article>
+                @endforeach
+            @else
                 <article style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column;">
                     <div style="position: relative; padding-top: 56.25%; background: #f8fafc; border-bottom: 1px solid var(--client-color-border);">
                         <img src="https://vinfast-haiphong.com/wp-content/uploads/2026/10/banner-vf-wild.webp" alt="VinFast ra mắt VF 8 thế hệ mới" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;" loading="lazy">
@@ -247,7 +251,7 @@
                         </a>
                     </div>
                 </article>
-            @endforelse
+            @endif
         </div>
     </div>
 </section>

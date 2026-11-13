@@ -64,62 +64,64 @@
 
         {{-- Lưới sản phẩm (Grid Max-width 1200px) --}}
         <div class="vinfast-autohaiphong_home_grid">
-            @forelse($cars as $car)
-                <div class="vinfast-autohaiphong_home_car_card">
-                    {{-- Thumbnail --}}
-                    <div class="vinfast-autohaiphong_home_car_thumb">
-                        <img src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
-                             alt="{{ $car->thumbnail_alt ?? $car->name }}" 
-                             loading="lazy" 
-                             width="600" 
-                             height="338">
-                    </div>
-
-                    {{-- Body --}}
-                    <div class="vinfast-autohaiphong_home_car_body">
-                        <span style="font-size: 0.75rem; color: var(--client-color-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
-                            {{ $car->category_name ?? 'Ô tô điện' }}
-                        </span>
-                        <h2 class="vinfast-autohaiphong_home_car_name" style="font-size: 1.25rem;">
-                            <a href="{{ url('/xe/' . $car->slug) }}">{{ $car->name }}</a>
-                        </h2>
-
-                        {{-- Giá --}}
-                        <div class="vinfast-autohaiphong_home_car_price_box">
-                            <span class="vinfast-autohaiphong_home_car_price_label">Giá từ:</span>
-                            @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
-                                <span class="vinfast-autohaiphong_home_car_price" style="font-size: 1.1rem;">Liên hệ báo giá</span>
-                            @else
-                                <span class="vinfast-autohaiphong_home_car_price">
-                                    {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
-                                </span>
-                            @endif
+            @if($cars->isNotEmpty())
+                @foreach($cars as $car)
+                    <div class="vinfast-autohaiphong_home_car_card">
+                        {{-- Thumbnail --}}
+                        <div class="vinfast-autohaiphong_home_car_thumb">
+                            <img src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
+                                 alt="{{ $car->thumbnail_alt ?? $car->name }}" 
+                                 loading="lazy" 
+                                 width="600" 
+                                 height="338">
                         </div>
 
-                        {{-- Mô tả ngắn --}}
-                        <p style="font-size: 0.85rem; color: var(--client-color-muted); line-height: 1.5; margin-bottom: 14px;">
-                            {{ Str::limit($car->short_description ?? 'Mẫu xe ô tô điện thông minh hàng đầu của VinFast.', 85) }}
-                        </p>
+                        {{-- Body --}}
+                        <div class="vinfast-autohaiphong_home_car_body">
+                            <span style="font-size: 0.75rem; color: var(--client-color-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+                                {{ $car->category_name ?? 'Ô tô điện' }}
+                            </span>
+                            <h2 class="vinfast-autohaiphong_home_car_name" style="font-size: 1.25rem;">
+                                <a href="{{ url('/xe/' . $car->slug) }}">{{ $car->name }}</a>
+                            </h2>
 
-                        {{-- Actions --}}
-                        <div class="vinfast-autohaiphong_home_car_actions">
-                            <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
-                                Báo Giá Lăn Bánh
-                            </button>
-                            <a href="{{ url('/xe/' . $car->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_neutral">
-                                Chi Tiết
-                            </a>
+                            {{-- Giá --}}
+                            <div class="vinfast-autohaiphong_home_car_price_box">
+                                <span class="vinfast-autohaiphong_home_car_price_label">Giá từ:</span>
+                                @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
+                                    <span class="vinfast-autohaiphong_home_car_price" style="font-size: 1.1rem;">Liên hệ báo giá</span>
+                                @else
+                                    <span class="vinfast-autohaiphong_home_car_price">
+                                        {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Mô tả ngắn --}}
+                            <p style="font-size: 0.85rem; color: var(--client-color-muted); line-height: 1.5; margin-bottom: 14px;">
+                                {{ Str::limit($car->short_description ?? 'Mẫu xe ô tô điện thông minh hàng đầu của VinFast.', 85) }}
+                            </p>
+
+                            {{-- Actions --}}
+                            <div class="vinfast-autohaiphong_home_car_actions">
+                                <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
+                                    Báo Giá Lăn Bánh
+                                </button>
+                                <a href="{{ url('/xe/' . $car->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_neutral">
+                                    Chi Tiết
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @empty
+                @endforeach
+            @else
                 <div style="grid-column: 1 / -1; text-align: center; padding: 60px 0;">
                     <p style="font-size: 1.1rem; color: var(--client-color-muted);">Không tìm thấy dòng xe nào phù hợp với bộ lọc hiện tại.</p>
                     <a href="{{ route('client.catalog.index') }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary" style="margin-top: 12px;">
                         Xem Toàn Bộ Các Dòng Xe
                     </a>
                 </div>
-            @endforelse
+            @endif
         </div>
 
         {{-- Phân trang (Pagination) --}}
