@@ -34,6 +34,7 @@ Route::name('client.')->group(function () {
 
     // 2. Danh mục các dòng xe ô tô VinFast
     Route::get('/o-to-vinfast', [CatalogController::class, 'index'])->name('catalog.index');
+    Route::get('/o-to-vinfast/page/{page}', [CatalogController::class, 'index'])->whereNumber('page')->name('catalog.page');
 
     // 3. Chi tiết dòng xe ô tô VinFast
     Route::get('/xe/{slug}', [ProductController::class, 'show'])->name('products.show');
@@ -55,6 +56,7 @@ Route::name('client.')->group(function () {
 
     // 7. Tin tức & Hoạt động
     Route::get('/chuyen-muc/tin-tuc', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/chuyen-muc/tin-tuc/page/{page}', [PostController::class, 'index'])->whereNumber('page')->name('posts.page');
     Route::get('/chuyen-muc/tin-tuc/{slug}', [PostController::class, 'show'])->name('posts.show');
 
     // 8. Liên hệ

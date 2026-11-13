@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
@@ -11,8 +12,12 @@ class PostController extends Controller
     /**
      * Danh sách tin tức, bài viết.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+        if ($request->route('page')) {
+            $request->merge(['page' => (int) $request->route('page')]);
+        }
+
         $posts = DB::table('posts')
             ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
             ->where('posts.status', 'published')

@@ -66,4 +66,15 @@ class CatalogAndProductTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    /**
+     * Kiểm tra truy cập trang phân trang catalog /o-to-vinfast/page/2 thành công.
+     */
+    public function test_catalog_pagination_url_displays_successfully(): void
+    {
+        $response = $this->get('/o-to-vinfast/page/2');
+
+        $response->assertStatus(200);
+        $response->assertSee('CÁC DÒNG XE Ô TÔ VINFAST');
+    }
 }

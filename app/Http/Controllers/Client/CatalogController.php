@@ -18,6 +18,10 @@ class CatalogController extends Controller
      */
     public function index(Request $request): View
     {
+        if ($request->route('page')) {
+            $request->merge(['page' => (int) $request->route('page')]);
+        }
+
         $filters = [
             'category' => $request->query('category'),
             'sort' => $request->query('sort', 'default'),

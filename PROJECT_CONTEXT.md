@@ -91,6 +91,6 @@ Toàn bộ assets tĩnh đã được tổ chức và gom vào đúng thư mục
 - `fonts/`: Đầy đủ 12 tệp font Open Sans woff/woff2 phục vụ tải cục bộ siêu tốc.
 
 ### 4.6. Kiểm Thử & Định Dạng Mã Nguồn
-- 26 Feature Tests: **100% Passed (111 assertions)** bao gồm toàn bộ luồng Client, Checkout tiền mặt, Admin Panel, Post & Media, SEO và Sitemap.
+- 27 Feature Tests: **100% Passed (113 assertions)** bao gồm toàn bộ luồng Client, Checkout tiền mặt, Admin Panel, Post & Media, SEO, Sitemap và Phân trang chuẩn SEO `/o-to-vinfast/page/2`.
 - Laravel Pint: Đã định dạng chuẩn phong cách Laravel.
 - Vite Assets: Đã build hoàn tất sẵn sàng cho production.
