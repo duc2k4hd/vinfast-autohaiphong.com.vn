@@ -1,6 +1,10 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Thư Viện Media Tập Trung')
+@section('breadcrumb')
+    <a href="{{ route('admin.dashboard') }}" style="color: var(--admin-muted);">Tổng quan</a> &rsaquo; 
+    <span>Thư viện media</span>
+@endsection
 @section('header_title', 'QUẢN LÝ THƯ VIỆN MEDIA & HÌNH ẢNH')
 
 @section('content')

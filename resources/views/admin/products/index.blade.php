@@ -1,6 +1,10 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Quản Lý Danh Sách Dòng Xe')
+@section('breadcrumb')
+    <a href="{{ route('admin.dashboard') }}" style="color: var(--admin-muted);">Tổng quan</a> &rsaquo; 
+    <span>Dòng xe</span>
+@endsection
 @section('header_title', 'DANH SÁCH 15 DÒNG XE Ô TÔ VINFAST')
 
 @section('content')
@@ -51,8 +55,8 @@
                         <a href="{{ route('admin.products.edit', $prod->id) }}" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 6px 12px; font-size: 0.8rem;">
                             Sửa Xe & Specs Key-Value
                         </a>
-                        <a href="{{ url('/xe/' . $prod->slug) }}" target="_blank" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 6px 10px; font-size: 0.8rem;" title="Xem thực tế">
-                            👁️
+                        <a href="{{ url('/xe/' . $prod->slug) }}" target="_blank" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 6px 10px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Xem thực tế ngoài website">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                         </a>
                     </td>
                 </tr>

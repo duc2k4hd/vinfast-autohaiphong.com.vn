@@ -10,10 +10,11 @@
   - Kết quả Database Seeding: **15 xe ô tô điện, 117 thông số Key-Value, 20 biến thể pin/phiên bản, 3 banner trang chủ, 3 bài viết tin tức, 15 thiết lập hệ thống**.
 - **Nâng Cấp Giao Diện Admin Chuẩn evondevKit & Enterprise:**
   - **Sidebar Phân Nhóm Chuyên Nghiệp:** Phân cấp rõ ràng 4 phân hệ (TỔNG QUAN, BÁN HÀNG, SẢN PHẨM & NỘI DUNG, HỆ THỐNG) theo đặc tả `ADMIN_V2.md`.
-  - **Topbar Breadcrumb Linh Hoạt:** Bổ sung breadcrumb navigation chuẩn hóa cho mọi trang con trong Admin (`admin.products.edit`, `admin.posts.create`, `admin.posts.edit`, `admin.orders.show`).
+  - **Topbar Breadcrumb Linh Hoạt:** Bổ sung breadcrumb navigation chuẩn hóa cho mọi trang con trong Admin (`admin.products.index`, `admin.products.edit`, `admin.posts.create`, `admin.posts.edit`, `admin.orders.index`, `admin.orders.show`, `admin.leads.index`, `admin.media.index`, `admin.settings.index`).
+  - **Bộ Lọc Leads Nâng Cao & Thao Tác Trực Tiếp:** Bổ sung bộ lọc kết hợp Dòng xe quan tâm và Trạng thái xử lý trong Quản lý Leads; nút gọi điện thoại nhanh `tel:...` có biểu tượng SVG.
   - **Modal Xác Nhận Hành Động (Confirm Dialog Component):** Xây dựng `resources/views/admin/components/confirm-dialog.blade.php` thay thế hoàn toàn `confirm(...)` native của trình duyệt. Tự động lắng nghe `data-confirm` trên toàn hệ thống với giao diện phẳng, viền xám tinh tế chuẩn Linear/Stripe.
-  - **Loại Bỏ Emoji & Nâng Cấp Thao Tác Nhanh:** Thay thế toàn bộ emoji bằng biểu tượng SVG đơn sắc (icon thùng rác, icon mắt xem trước, icon tiền mặt, icon lưu trữ). Bổ sung nút Copy nhanh URL ảnh trong Thư viện Media với phản hồi "✓ Đã chép".
-  - **Cảnh Báo Thay Đổi Chưa Lưu (Unsaved Changes Warning):** Tự động phát hiện thay đổi và cảnh báo người dùng khi vô tình đóng hoặc chuyển tab mà chưa bấm Lưu trong form xe và bài viết.
+  - **Loại Bỏ Emoji & Nâng Cấp Thao Tác Nhanh:** Thay thế toàn bộ emoji bằng biểu tượng SVG đơn sắc (icon thùng rác, icon mắt xem trước, icon tiền mặt, icon lưu trữ, icon điện thoại). Bổ sung nút Copy nhanh URL ảnh trong Thư viện Media với phản hồi "✓ Đã chép".
+  - **Cảnh Báo Thay Đổi Chưa Lưu (Unsaved Changes Warning):** Tự động phát hiện thay đổi và cảnh báo người dùng khi vô tình đóng hoặc chuyển tab mà chưa bấm Lưu trong form xe, bài viết và cài đặt hệ thống.
 - **Kiểm Thử, Định Dạng & Biên Dịch:**
   - Test Suite: **40/40 tests PASS 100% (183 assertions, 1.3s)**.
   - Quét Cú Pháp Blade (`test_scan.php`): **`DONE SCAN` (0 mismatch)**.

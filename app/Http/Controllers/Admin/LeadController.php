@@ -16,6 +16,7 @@ class LeadController extends Controller
     public function index(Request $request): View
     {
         $status = $request->query('status');
+        $productId = $request->query('product_id');
 
         $query = DB::table('leads')
             ->leftJoin('products', 'leads.product_id', '=', 'products.id')
@@ -28,11 +29,18 @@ class LeadController extends Controller
             $query->where('leads.status', $status);
         }
 
-        $leads = $query->orderBy('leads.created_at', 'desc')->paginate(20);
+        if ($productId) {
+            $query->where('leads.product_id', (int) $productId);
+        }
+
+        $leads = $query->orderBy('leads.created_at', 'desc')->paginate(20)->withQueryString();
+        $products = DB::table('products')->select(['id', 'name'])->orderBy('sort_order', 'asc')->get();
 
         return view('admin.leads.index', [
             'leads' => $leads,
             'currentStatus' => $status,
+            'currentProductId' => $productId,
+            'products' => $products,
         ]);
     }
 

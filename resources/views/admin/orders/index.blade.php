@@ -1,6 +1,10 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Quản Lý Đơn Đặt Cọc Tiền Mặt')
+@section('breadcrumb')
+    <a href="{{ route('admin.dashboard') }}" style="color: var(--admin-muted);">Tổng quan</a> &rsaquo; 
+    <span>Đơn đặt cọc tiền mặt</span>
+@endsection
 @section('header_title', 'DANH SÁCH ĐƠN HÀNG THANH TOÁN TIỀN MẶT')
 
 @section('content')
@@ -58,8 +62,9 @@
                             {{ number_format($order->total, 0, ',', '.') }} đ
                         </td>
                         <td>
-                            <span class="vinfast-autohaiphong_admin_badge" style="background: #eff6ff; color: #1e40af;">
-                                💵 Tiền mặt
+                            <span class="vinfast-autohaiphong_admin_badge" style="background: #eff6ff; color: #1e40af; display: inline-flex; align-items: center; gap: 4px;">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                                Tiền mặt
                             </span>
                         </td>
                         <td>
