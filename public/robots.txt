@@ -1,2 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /dat-hang-thanh-cong/
+
+Sitemap: https://vinfast-autohaiphong.com.vn/sitemap.xml

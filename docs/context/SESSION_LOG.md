@@ -69,7 +69,19 @@
 
 ---
 
-## Phiên làm việc: Tối ưu SEO Thẻ Meta Social & Open Graph / Twitter Cards (13/11/2026)
+## Phiên làm việc: Bảo mật thu thập dữ liệu & Cấu hình Robots.txt chuẩn SEO (13/11/2026)
+
+### 1. Công việc đã thực hiện
+- **Cấu hình Robots.txt bảo vệ thông tin khách hàng và hệ thống:**
+  - Cập nhật [public/robots.txt](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/public/robots.txt) với chỉ thị `Disallow: /admin/` nhằm ngăn chặn bọ tìm kiếm thu thập thông tin khu vực quản trị, và `Disallow: /dat-hang-thanh-cong/` nhằm bảo vệ mã đơn cọc và thông tin khách hàng.
+  - Khai báo chỉ thị `Sitemap: https://vinfast-autohaiphong.com.vn/sitemap.xml` giúp công cụ tìm kiếm tự động thu thập sitemap mới nhất.
+  - Bổ sung Route phục vụ `/robots.txt` động trong [routes/web.php](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/routes/web.php#L75-L79) đảm bảo luôn trả về `Content-Type: text/plain` trên mọi môi trường máy chủ.
+- **Mở rộng Test Suite:**
+  - Viết test `test_robots_txt_contains_security_and_sitemap_rules` tại [SitemapAndSeoTest.php](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/tests/Feature/SitemapAndSeoTest.php).
+  - Chạy `php artisan test --compact`: **28/28 tests PASS 100% (119 assertions, 1.56s)**.
+  - Chạy `vendor/bin/pint --dirty --format agent`: 100% PSR-12 sạch sẽ.
+- **Quy tắc Git:**
+  - Tuyệt đối không chạy lệnh Git, gửi commit mẫu có dấu ở cuối báo cáo.
 
 ### 1. Công việc đã thực hiện
 - **Tối ưu hóa SEO Thẻ Meta Chia Sẻ Mạng Xã Hội:**

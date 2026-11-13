@@ -51,4 +51,14 @@ class SitemapAndSeoTest extends TestCase
         $response->assertSee('"brand"', false);
         $response->assertSee('"priceCurrency": "VND"', false);
     }
+
+    public function test_robots_txt_contains_security_and_sitemap_rules(): void
+    {
+        $response = $this->get('/robots.txt');
+
+        $response->assertStatus(200);
+        $response->assertSee('Disallow: /admin/');
+        $response->assertSee('Disallow: /dat-hang-thanh-cong/');
+        $response->assertSee('Sitemap:');
+    }
 }

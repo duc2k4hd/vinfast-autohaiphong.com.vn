@@ -71,8 +71,11 @@ Route::name('client.')->group(function () {
     Route::get('/chinh-sach-bao-hanh', [PageController::class, 'warrantyPolicy'])->name('pages.warranty_policy');
     Route::get('/dieu-khoan-su-dung', [PageController::class, 'terms'])->name('pages.terms');
 
-    // 10. Sitemap XML động
+    // 10. Sitemap XML động & Robots.txt
     Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+    Route::get('/robots.txt', function () {
+        return response(file_get_contents(public_path('robots.txt')), 200, ['Content-Type' => 'text/plain']);
+    })->name('robots');
 });
 
 /*
