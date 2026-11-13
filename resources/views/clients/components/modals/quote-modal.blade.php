@@ -11,7 +11,7 @@
         </div>
 
         {{-- Form Body --}}
-        <form action="{{ route('client.leads.store') }}" method="POST" class="vinfast-autohaiphong_modal_form" style="padding: 20px;">
+        <form action="{{ route('client.leads.store') }}" method="POST" class="vinfast-autohaiphong_modal_form" style="padding: 20px;" onsubmit="const btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Đang gửi yêu cầu...';">
             @csrf
             <input type="hidden" name="type" value="quote">
             <input type="hidden" name="product_id" id="vf-quote-car-id" value="">

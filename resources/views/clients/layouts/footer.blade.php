@@ -58,7 +58,7 @@
             <div>
                 <h3 class="vinfast-autohaiphong_footer_title">Đăng Ký Tư Vấn</h3>
                 <p style="font-size: 0.9rem; margin-bottom: 14px;">Để lại số điện thoại để chuyên viên tư vấn gửi bảng giá lăn bánh và chương trình khuyến mãi mới nhất.</p>
-                <form action="{{ route('client.leads.store') }}" method="POST" style="display: flex; flex-direction: column; gap: 8px;">
+                <form action="{{ route('client.leads.store') }}" method="POST" style="display: flex; flex-direction: column; gap: 8px;" onsubmit="const btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Đang gửi...';">
                     @csrf
                     <input type="hidden" name="type" value="consultation">
                     <input type="text" name="name" required placeholder="Họ và tên của bạn" style="padding: 10px 14px; border-radius: 4px; border: 1px solid #334155; background: #0f172a; color: #ffffff; font-size: 0.9rem;">

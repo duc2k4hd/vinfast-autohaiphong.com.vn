@@ -76,7 +76,7 @@
                             <span style="font-weight: 600;">{{ $lead->product_name ?? 'Tư vấn chung' }}</span>
                         </td>
                         <td style="font-size: 0.85rem; color: #475569; max-width: 250px;">
-                            {{ $lead->note ?: 'Khách gửi yêu cầu báo giá' }}
+                            {{ $lead->message ?? 'Khách gửi yêu cầu báo giá' }}
                         </td>
                         <td>
                             @if($lead->status === 'new')

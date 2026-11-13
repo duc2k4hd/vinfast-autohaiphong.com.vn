@@ -10,7 +10,7 @@
             XÁC NHẬN ĐẶT CỌC XE VINFAST (THANH TOÁN TIỀN MẶT)
         </h1>
 
-        <form action="{{ route('client.checkout.store') }}" method="POST">
+        <form action="{{ route('client.checkout.store') }}" method="POST" onsubmit="const btn = this.querySelector('button[type=submit]'); btn.disabled = true; btn.textContent = 'Đang xử lý đặt cọc...';">
             @csrf
             <input type="hidden" name="idempotency_key" value="{{ $idempotencyKey }}">
 
