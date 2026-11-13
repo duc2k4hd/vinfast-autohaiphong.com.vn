@@ -2,30 +2,23 @@
 
 ## Tổng quan
 Website VinFast Hải Phòng được xây dựng bằng Laravel 13, tái tạo độ trung thực cao nhất từ https://vinfast-haiphong.com/
-Hệ thống bao gồm đầy đủ Client (khách hàng) và Admin (quản trị), cơ sở dữ liệu thật, quản lý media tập trung và phương thức thanh toán tiền mặt duy nhất.
+Đơn vị vận hành: VinFast Minh Đạo Hải Phòng (Đại lý ủy quyền chính thức của VinFast Việt Nam).
 
-## Trạng thái hiện tại
-- Giai đoạn: Đang hoàn thiện Client UI & Admin Nền tảng
-- Khởi tạo: 2026-11-13
-- Trạng thái DB: 14 migrations đã thực thi hoàn chỉnh (34 bảng)
+## Thông tin liên hệ chính thức (Official Contact Info)
+- **Hotline Bán hàng:** `0988 302 882`
+- **Dịch vụ – Phụ tùng:** `0915 286 506`
+- **CSKH Kinh doanh:** `0915 286 503`
+- **CSKH Dịch vụ:** `0843 714 333`
+- **Giờ làm việc:**
+  - Thứ 2 – Thứ 7: Dịch vụ (7h50 – 17h00) | Kinh doanh (7h30 – 18h00)
+  - Chủ nhật: Dịch vụ & phụ tùng nghỉ | Kinh doanh (7h00 – 18h00)
+- **Fanpage Facebook:** `https://www.facebook.com/VinFastMinhDao`
+- **Địa chỉ showroom:** Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng
 
-## Công nghệ
-- Backend: Laravel 13.42.0
-- PHP: 8.4.4
-- Database: MySQL 8.0+
-- Template: Blade
-- Build: Vite
-- Font: Open Sans duy nhất toàn hệ thống
-
-## Kiến trúc
-- Client: `app/Http/Controllers/Client/`, `resources/views/clients/`, `resources/css/clients/`, `resources/js/clients/`
-- Admin: `app/Http/Controllers/Admin/`, `resources/views/admin/`, `resources/css/admin/`, `resources/js/admin/`
-- Shared: `app/Services/Shared/` (`SettingsService`, `MediaService`), `app/Models/`
-
-## Routes
-- `routes/web.php`: Client routes (tiền tố route name `client.`)
-- `routes/admin.php`: Admin routes (tiền tố route name `admin.`, middleware `web`, `auth:admin`)
-- `routes/api.php`: API routes
+## QUY TẮC GIT BẮT BUỘC (CRITICAL GIT RULES)
+- **AI TUYỆT ĐỐI KHÔNG ĐƯỢC CHẠY BẤT KỲ LỆNH GIT NÀO** (không `git init`, `git add`, `git commit`, `git push`, `git checkout`...).
+- Mọi thao tác git đều do NGƯỜI DÙNG tự tay thực hiện.
+- AI chỉ có trách nhiệm chuẩn bị và hiển thị nội dung commit mẫu bằng tiếng Việt có dấu rõ ràng ở cuối mỗi báo cáo.
 
 ## QUY TẮC BẮT BUỘC ĐẶT TÊN CLASS HTML & CSS (PROJECT CONVENTION)
 Mọi class HTML trong Blade template và file CSS bắt buộc phải có tiền tố phân loại phạm vi:
@@ -44,38 +37,23 @@ Mọi class HTML trong Blade template và file CSS bắt buộc phải có tiề
    - `vinfast-autohaiphong_admin_lead_`
    - `vinfast-autohaiphong_admin_settings_`
 
-## Tình trạng hoàn thành
-### Giai đoạn 0 — Audit
-- [x] URL inventory (`docs/audit/REFERENCE_URL_INVENTORY.md`)
-- [x] Page matrix (`docs/audit/REFERENCE_PAGE_MATRIX.md`)
-- [x] Design tokens (`docs/audit/REFERENCE_DESIGN_TOKENS.md`)
-- [x] Data audit (`docs/audit/REFERENCE_DATA_AUDIT.md`)
-- [x] Unverified items (`docs/audit/REFERENCE_UNVERIFIED.md`)
+## Trạng thái hiện tại
+- Giai đoạn: Hoàn thiện Client UI & Admin Nền tảng
+- Khởi tạo: 2026-11-13
+- Trạng thái DB: 14 migrations đã thực thi hoàn chỉnh (34 bảng)
 
-### Giai đoạn 1 — Foundation
-- [x] Git init + local commits
-- [x] Cài đặt Laravel Boost (AGENTS.md)
-- [x] Cấu trúc thư mục Client/Admin/Shared
-- [x] .env đồng bộ (vi_VN, APP_NAME, APP_URL)
-- [x] Vite config (Open Sans, client/admin inputs)
+## Công nghệ
+- Backend: Laravel 13.42.0
+- PHP: 8.4.4
+- Database: MySQL 8.0+
+- Template: Blade
+- Build: Vite
+- Font: Open Sans duy nhất toàn hệ thống
 
-### Giai đoạn 2 — Database Design & Migrations
-- [x] Bảng `settings` & `InitialSettingsSeeder`
-- [x] Bảng `roles`, `role_user`, `audit_logs`
-- [x] Bảng `media_folders`, `media`, `media_usages`
-- [x] Bảng `product_categories`, `products`, `product_variants`, `product_specifications`
-- [x] Bảng `posts`, `post_categories`, `tags`
-- [x] Bảng `pages`, `banners`, `menus`, `menu_items`
-- [x] Bảng `carts`, `cart_items`, `orders`, `order_items`, `payment_records`
-- [x] Bảng `leads`, `consent_records`, `contact_messages`
-- [x] Bảng `seo_redirects`, `import_batches`, `import_items`
-- [x] Tài liệu `docs/database/ERD.md`, `SCHEMA.md`, `INDEXES.md`
-
-### Giai đoạn 3 — Shared Services
-- [x] `SettingsService` (Request-level memoization + cache invalidation)
-- [x] `AppServiceProvider` View Composer chia sẻ `$siteSettings` tới `clients.*`
-- [x] `MediaService` (Upload tập trung, checksum SHA256 chống trùng, quản lý quan hệ đa hình)
-- [x] Symlink `php artisan storage:link`
+## Kiến trúc
+- Client: `app/Http/Controllers/Client/`, `resources/views/clients/`, `resources/css/clients/`, `resources/js/clients/`
+- Admin: `app/Http/Controllers/Admin/`, `resources/views/admin/`, `resources/css/admin/`, `resources/js/admin/`
+- Shared: `app/Services/Shared/` (`SettingsService`, `MediaService`), `app/Models/`
 
 ## Quyết định nghiệp vụ cốt lõi
 1. **Thanh toán:** Duy nhất tiền mặt (`cash` only). Không có cổng thanh toán online.
@@ -83,7 +61,3 @@ Mọi class HTML trong Blade template và file CSS bắt buộc phải có tiề
 3. **SSR:** Blade Server-Side Rendering tối ưu SEO và tốc độ tải đầu trang.
 4. **Hiệu năng:** Tối ưu hóa câu truy vấn trước, cache sau. Không để N+1.
 5. **Class CSS/HTML:** Luôn có tiền tố `vinfast-autohaiphong_` hoặc `vinfast-autohaiphong_admin_`.
-
-## Git Rules
-- KHÔNG tự động push lên remote.
-- Commit bằng tiếng Việt có dấu.

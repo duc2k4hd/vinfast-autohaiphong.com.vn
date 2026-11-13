@@ -2,12 +2,20 @@
 <div class="vinfast-autohaiphong_header_topbar">
     <div class="vinfast-autohaiphong_layout_container vinfast-autohaiphong_header_topbar_inner">
         <div class="vinfast-autohaiphong_header_topbar_contact">
-            <span>📍 {{ $siteSettings['site_address'] ?? 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng' }}</span>
-            <span>🕒 {{ $siteSettings['site_hours'] ?? '08:00 - 18:00 (Thứ 2 - Chủ Nhật)' }}</span>
+            <span>📍 {{ $siteSettings['site_address'] ?? 'Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng, Hải Phòng' }}</span>
+            <span>🕒 {{ $siteSettings['site_hours'] ?? 'T2–T7: Dịch vụ 7h50–17h00, KD 7h30–18h00 | CN: KD 7h00–18h00' }}</span>
         </div>
-        <div>
-            <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0966597282') }}" class="vinfast-autohaiphong_header_topbar_link">
-                <span>📞 Hotline: <strong>{{ $siteSettings['site_phone'] ?? '0966.597.282' }}</strong></span>
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0988302882') }}" class="vinfast-autohaiphong_header_topbar_link">
+                <span>📞 Bán hàng: <strong>{{ $siteSettings['site_phone'] ?? '0988 302 882' }}</strong></span>
+            </a>
+            <span style="opacity: 0.4;">|</span>
+            <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone_service'] ?? '0915286506') }}" class="vinfast-autohaiphong_header_topbar_link">
+                <span>🔧 Dịch vụ: <strong>{{ $siteSettings['site_phone_service'] ?? '0915 286 506' }}</strong></span>
+            </a>
+            <span style="opacity: 0.4;">|</span>
+            <a href="{{ $siteSettings['site_facebook'] ?? 'https://www.facebook.com/VinFastMinhDao' }}" target="_blank" rel="noopener noreferrer" class="vinfast-autohaiphong_header_topbar_link" title="Fanpage Facebook chính thức">
+                <span>Facebook</span>
             </a>
         </div>
     </div>

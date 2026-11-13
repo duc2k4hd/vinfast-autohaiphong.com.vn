@@ -1,21 +1,30 @@
 <footer class="vinfast-autohaiphong_footer_main">
     <div class="vinfast-autohaiphong_layout_container">
         <div class="vinfast-autohaiphong_footer_grid">
-            {{-- Cột 1: Thông tin đại lý --}}
+            {{-- Cột 1: Thông tin đại lý & Hotline liên hệ --}}
             <div>
                 <h3 class="vinfast-autohaiphong_footer_title">{{ $siteSettings['site_name'] ?? 'VinFast Hải Phòng' }}</h3>
-                <p style="margin-bottom: 12px; font-size: 0.95rem; line-height: 1.6;">
-                    {{ $siteSettings['company_name'] ?? 'Đại lý ủy quyền chính thức của VinFast Việt Nam tại Hải Phòng.' }}
+                <p style="margin-bottom: 14px; font-size: 0.95rem; line-height: 1.6;">
+                    {{ $siteSettings['company_name'] ?? 'VinFast Minh Đạo Hải Phòng — Đại lý ủy quyền chính thức của VinFast Việt Nam.' }}
                 </p>
                 <p style="margin-bottom: 8px; font-size: 0.9rem;">
-                    📍 <strong>Địa chỉ:</strong> {{ $siteSettings['site_address'] ?? 'Số 1 Bạch Đằng, P. Thượng Lý, Q. Hồng Bàng, TP. Hải Phòng' }}
+                    📍 <strong>Showroom:</strong> {{ $siteSettings['site_address'] ?? 'Số 1 Bạch Đằng, P. Thượng Lý, Q. Hồng Bàng, TP. Hải Phòng' }}
                 </p>
-                <p style="margin-bottom: 8px; font-size: 0.9rem;">
-                    📞 <strong>Hotline 24/7:</strong> <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0966597282') }}" style="color: #ffffff; font-weight: 700;">{{ $siteSettings['site_phone'] ?? '0966.597.282' }}</a>
-                </p>
-                <p style="font-size: 0.9rem;">
-                    ✉️ <strong>Email:</strong> {{ $siteSettings['site_email'] ?? 'kinhdoanh@vinfast-haiphong.com' }}
-                </p>
+                <div style="background: rgba(255,255,255,0.05); padding: 12px 14px; border-radius: 6px; margin: 12px 0; font-size: 0.88rem; line-height: 1.6; border-left: 3px solid var(--client-color-primary);">
+                    <div>📞 <strong>Bán hàng:</strong> <a href="tel:0988302882" style="color: #ffffff; font-weight: 700;">0988 302 882</a></div>
+                    <div>🔧 <strong>Dịch vụ – phụ tùng:</strong> <a href="tel:0915286506" style="color: #ffffff; font-weight: 700;">0915 286 506</a></div>
+                    <div>💼 <strong>CSKH Kinh doanh:</strong> <a href="tel:0915286503" style="color: #ffffff; font-weight: 700;">0915 286 503</a></div>
+                    <div>🛠️ <strong>CSKH Dịch vụ:</strong> <a href="tel:0843714333" style="color: #ffffff; font-weight: 700;">0843 714 333</a></div>
+                </div>
+                <div style="font-size: 0.85rem; line-height: 1.5; color: #cbd5e1;">
+                    <p>🕒 <strong>Thứ 2 – Thứ 7:</strong> Dịch vụ 7h50–17h00 | Kinh doanh 7h30–18h00</p>
+                    <p>🕒 <strong>Chủ nhật:</strong> Dịch vụ nghỉ | Kinh doanh 7h00–18h00</p>
+                </div>
+                <div style="margin-top: 12px;">
+                    🌐 <a href="{{ $siteSettings['site_facebook'] ?? 'https://www.facebook.com/VinFastMinhDao' }}" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; font-weight: 600; text-decoration: underline;">
+                        Facebook: VinFast Minh Đạo
+                    </a>
+                </div>
             </div>
 
             {{-- Cột 2: Các dòng xe ô tô --}}
@@ -64,7 +73,7 @@
                 © {{ date('Y') }} {{ $siteSettings['site_name'] ?? 'VinFast Hải Phòng' }}. Tất cả các quyền được bảo lưu.
             </div>
             <div>
-                Phương thức thanh toán: <strong>Tiền mặt tại Showroom</strong> | Mã số đại lý: <strong>3S-HP01</strong>
+                Phương thức thanh toán: <strong>Tiền mặt tại Showroom</strong> | Đại lý ủy quyền: <strong>VinFast Minh Đạo</strong>
             </div>
         </div>
     </div>
@@ -72,12 +81,12 @@
 
 {{-- Floating Phone & Zalo Button --}}
 <div class="vinfast-autohaiphong_floating_wrapper">
-    <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0966597282') }}" class="vinfast-autohaiphong_floating_btn vinfast-autohaiphong_floating_phone" title="Gọi hotline ngay" aria-label="Gọi hotline">
+    <a href="tel:0988302882" class="vinfast-autohaiphong_floating_btn vinfast-autohaiphong_floating_phone" title="Gọi Bán hàng: 0988 302 882" aria-label="Gọi hotline">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
         </svg>
     </a>
-    <a href="{{ $siteSettings['site_zalo'] ?? 'https://zalo.me/0966597282' }}" target="_blank" rel="noopener noreferrer" class="vinfast-autohaiphong_floating_btn vinfast-autohaiphong_floating_zalo" title="Chat qua Zalo" aria-label="Chat qua Zalo">
+    <a href="https://zalo.me/0988302882" target="_blank" rel="noopener noreferrer" class="vinfast-autohaiphong_floating_btn vinfast-autohaiphong_floating_zalo" title="Chat qua Zalo: 0988 302 882" aria-label="Chat qua Zalo">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.5 5.43 3.84 7.02l-.99 3.55c-.1.37.26.69.6.53l4.08-1.95C10.23 20.67 11.1 20.8 12 20.8c5.52 0 10-4.03 10-9s-4.48-9-10-9z"/>
         </svg>

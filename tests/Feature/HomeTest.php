@@ -31,7 +31,7 @@ class HomeTest extends TestCase
         $response->assertSee('VinFast VF 3');
         $response->assertSee('VinFast VF 5 Plus');
         $response->assertSee('VinFast VF 8 All New');
-        $response->assertSee('0966.597.282');
+        $response->assertSee('0988 302 882');
     }
 
     /**

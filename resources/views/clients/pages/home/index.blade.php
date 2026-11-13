@@ -22,8 +22,8 @@
                 <button type="button" onclick="openQuoteModal(null, 'Tất cả các dòng xe')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_accent" style="padding: 14px 28px; font-size: 0.95rem;">
                     Nhận Báo Giá Lăn Bánh
                 </button>
-                <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0966597282') }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline" style="border-color: #ffffff; color: #ffffff; padding: 14px 28px; font-size: 0.95rem;">
-                    Hotline: {{ $siteSettings['site_phone'] ?? '0966.597.282' }}
+                <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0988302882') }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline" style="border-color: #ffffff; color: #ffffff; padding: 14px 28px; font-size: 0.95rem;">
+                    Hotline: {{ $siteSettings['site_phone'] ?? '0988 302 882' }}
                 </a>
             </div>
         </div>
@@ -227,3 +227,4 @@
     </div>
 </section>
 @endsection
+
