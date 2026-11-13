@@ -9,14 +9,15 @@
 <section class="vinfast-autohaiphong_home_hero">
     <div style="position: relative; width: 100%; overflow: hidden;">
         <div id="vf-banner-slider" style="display: flex; transition: transform 0.5s ease; width: 100%;">
-            {{-- Slide 1 --}}
+            {{-- Slide 1 (LCP Priority) --}}
             <div style="min-width: 100%; position: relative;">
                 <a href="{{ url('/xe/vinfast-vf-wild') }}">
                     <img src="{{ asset('storage/clients/assets/images/banners/banner-vf-wild-94utr45.webp') }}" 
                          alt="VinFast VF Wild" 
                          class="vinfast-autohaiphong_home_hero_img"
                          width="1920" 
-                         height="520">
+                         height="520"
+                         fetchpriority="high">
                 </a>
             </div>
             {{-- Slide 2 --}}
@@ -26,7 +27,8 @@
                          alt="Vì Tương Lai Xanh" 
                          class="vinfast-autohaiphong_home_hero_img"
                          width="1920" 
-                         height="520">
+                         height="520"
+                         loading="lazy">
                 </a>
             </div>
             {{-- Slide 3 --}}
@@ -36,7 +38,8 @@
                          alt="VinFast Hải Phòng Showroom" 
                          class="vinfast-autohaiphong_home_hero_img"
                          width="1920" 
-                         height="520">
+                         height="520"
+                         loading="lazy">
                 </a>
             </div>
         </div>

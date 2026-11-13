@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'tinymce' => [
+        'key' => env('APP_TINYMCE_KEY'),
+    ],
+
 ];

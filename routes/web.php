@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MediaController as AdminMediaController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\SeoController as AdminSeoController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\CatalogController;
@@ -71,8 +72,9 @@ Route::name('client.')->group(function () {
     Route::get('/chinh-sach-bao-hanh', [PageController::class, 'warrantyPolicy'])->name('pages.warranty_policy');
     Route::get('/dieu-khoan-su-dung', [PageController::class, 'terms'])->name('pages.terms');
 
-    // 10. Sitemap XML động & Robots.txt
+    // 10. Sitemap XML động, HTML Sitemap & Robots.txt
     Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+    Route::get('/so-do-trang-web', [SitemapController::class, 'html'])->name('sitemap.html');
     Route::get('/robots.txt', function () {
         return response(file_get_contents(public_path('robots.txt')), 200, ['Content-Type' => 'text/plain']);
     })->name('robots');
@@ -127,5 +129,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Quản lý Cài đặt
         Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');
         Route::put('/settings', [AdminSettingController::class, 'update'])->name('settings.update');
+
+        // Công cụ SEO thời gian thực
+        Route::post('/seo/analyze', [AdminSeoController::class, 'analyze'])->name('seo.analyze');
     });
 });

@@ -30,11 +30,14 @@
                           style="width: 100%; padding: 10px 14px; border: 1px solid var(--admin-border); border-radius: 6px;">{{ old('excerpt') }}</textarea>
             </div>
 
-            <div style="margin-bottom: 24px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 6px;">Nội Dung Chi Tiết (HTML) <span style="color: #ef4444;">*</span></label>
-                <textarea name="content_html" rows="12" required placeholder="Nhập nội dung bài viết với các thẻ HTML..."
-                          style="width: 100%; padding: 10px 14px; border: 1px solid var(--admin-border); border-radius: 6px; font-family: monospace; font-size: 0.9rem;">{{ old('content_html') }}</textarea>
-            </div>
+            @include('admin.components.editor', [
+                'name' => 'content_html',
+                'id' => 'content_html',
+                'value' => old('content_html'),
+                'label' => 'Nội Dung Chi Tiết Bài Viết (TinyMCE Soạn Thảo)',
+                'folder' => 'posts',
+                'height' => 450,
+            ])
         </div>
 
         {{-- Cột Phải: Xuất bản, Ảnh đại diện & SEO --}}
@@ -65,22 +68,11 @@
                 </button>
             </div>
 
-            {{-- Thẻ SEO --}}
-            <div class="vinfast-autohaiphong_admin_card">
-                <div class="vinfast-autohaiphong_admin_card_title">THẺ SEO (TÙY CHỌN)</div>
-
-                <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">Meta Title</label>
-                    <input type="text" name="meta_title" value="{{ old('meta_title') }}" placeholder="Để trống nếu lấy theo tiêu đề"
-                           style="width: 100%; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-                </div>
-
-                <div>
-                    <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">Meta Description</label>
-                    <textarea name="meta_description" rows="3" placeholder="Tự động trích xuất nếu để trống..."
-                              style="width: 100%; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">{{ old('meta_description') }}</textarea>
-                </div>
-            </div>
+            {{-- Thẻ SEO Tối Ưu Hóa Chuẩn evondevKit & Nobi Fashion --}}
+            @include('admin.components.seo-analyzer', [
+                'metaTitle' => old('meta_title'),
+                'metaDescription' => old('meta_description'),
+            ])
         </div>
     </div>
 </form>

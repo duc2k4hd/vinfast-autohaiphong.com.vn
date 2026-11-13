@@ -44,54 +44,115 @@
                           style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">{{ old('short_description', $product->short_description) }}</textarea>
             </div>
 
-            <div style="margin-bottom: 24px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 6px;">Nội Dung Mô Tả Chi Tiết (HTML)</label>
-                <textarea name="description_html" rows="8" 
-                          style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-family: monospace; font-size: 0.85rem;">{{ old('description_html', $product->description_html) }}</textarea>
-            </div>
+            @include('admin.components.editor', [
+                'name' => 'description_html',
+                'id' => 'description_html',
+                'value' => $product->description_html,
+                'label' => 'Nội Dung Mô Tả Chi Tiết (TinyMCE Soạn Thảo)',
+                'folder' => 'products',
+                'height' => 380,
+            ])
 
             <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px;">
                 Lưu Toàn Bộ Cập Nhật &rarr;
             </button>
         </div>
 
-        {{-- Bảng Thông Số Kỹ Thuật Key-Value --}}
-        <div class="vinfast-autohaiphong_admin_card">
-            <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
-                <span>THÔNG SỐ KỸ THUẬT KEY - VALUE</span>
-                <button type="button" onclick="addNewSpecRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
-                    + Thêm Dòng Thông Số
-                </button>
+        {{-- Cột Phải: Biến Thể Xe & Bảng Thông Số Key-Value --}}
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+            {{-- Quản lý Biến Thể / Phiên Bản Xe --}}
+            <div class="vinfast-autohaiphong_admin_card">
+                <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>PHIÊN BẢN & BIẾN THỂ XE (VARIANTS)</span>
+                    <button type="button" onclick="addNewVariantRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
+                        + Thêm Phiên Bản
+                    </button>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
+                    Thiết lập các phiên bản (Thuê pin, Kèm pin, Eco, Plus) để người dùng chọn trực tiếp tại trang chi tiết xe, tự động cập nhật giá.
+                </p>
+
+                <div id="variants-container">
+                    @if($variants->isNotEmpty())
+                        @foreach($variants as $variant)
+                            <div class="variant-row" style="background: var(--admin-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--admin-border); margin-bottom: 12px;">
+                                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 8px;">
+                                    <div>
+                                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Tên Phiên Bản</label>
+                                        <input type="text" name="variant_names[]" value="{{ $variant->name }}" placeholder="VD: Thuê Pin, Kèm Pin, Eco..." 
+                                               style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Mã SKU</label>
+                                        <input type="text" name="variant_skus[]" value="{{ $variant->sku }}" placeholder="VD: VF3-BAT" 
+                                               style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    </div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end;">
+                                    <div>
+                                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Giá Niêm Yết (đ)</label>
+                                        <input type="number" name="variant_regular_prices[]" value="{{ $variant->regular_price }}" placeholder="240000000" 
+                                               style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Giá Khuyến Mãi (đ)</label>
+                                        <input type="number" name="variant_sale_prices[]" value="{{ $variant->sale_price }}" placeholder="240000000" 
+                                               style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Màu Sắc</label>
+                                        <input type="text" name="variant_color_names[]" value="{{ $variant->color_name }}" placeholder="VD: Vàng nóc trắng" 
+                                               style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    </div>
+                                    <button type="button" onclick="this.closest('.variant-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 6px;" title="Xóa phiên bản">
+                                        &times;
+                                    </button>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
             </div>
 
-            <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
-                Các cặp <strong>Key (Tên thông số)</strong> và <strong>Value (Giá trị)</strong> giúp hệ thống trích xuất cực nhanh, hiển thị dạng bảng mượt mà ngay ở đầu trang chi tiết xe.
-            </p>
+            {{-- Bảng Thông Số Kỹ Thuật Key-Value --}}
+            <div class="vinfast-autohaiphong_admin_card">
+                <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>THÔNG SỐ KỸ THUẬT KEY - VALUE</span>
+                    <button type="button" onclick="addNewSpecRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
+                        + Thêm Dòng Thông Số
+                    </button>
+                </div>
 
-            <div id="specs-container">
-                @if($specifications->isNotEmpty())
-                    @foreach($specifications as $spec)
+                <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
+                    Các cặp <strong>Key (Tên thông số)</strong> và <strong>Value (Giá trị)</strong> giúp hệ thống trích xuất cực nhanh, hiển thị dạng bảng mượt mà ngay ở đầu trang chi tiết xe.
+                </p>
+
+                <div id="specs-container">
+                    @if($specifications->isNotEmpty())
+                        @foreach($specifications as $spec)
+                            <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;" class="spec-row">
+                                <input type="text" name="specs_labels[]" value="{{ $spec->label }}" placeholder="Tên thông số (Key)" 
+                                       style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                <input type="text" name="specs_values[]" value="{{ $spec->value }}" placeholder="Giá trị (Value)" 
+                                       style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa dòng">
+                                    &times;
+                                </button>
+                            </div>
+                        @endforeach
+                    @else
                         <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;" class="spec-row">
-                            <input type="text" name="specs_labels[]" value="{{ $spec->label }}" placeholder="Tên thông số (Key)" 
+                            <input type="text" name="specs_labels[]" value="Số chỗ ngồi" placeholder="Tên thông số (Key)" 
                                    style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-                            <input type="text" name="specs_values[]" value="{{ $spec->value }}" placeholder="Giá trị (Value)" 
+                            <input type="text" name="specs_values[]" value="5 chỗ" placeholder="Giá trị (Value)" 
                                    style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-                            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa dòng">
+                            <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;">
                                 &times;
                             </button>
                         </div>
-                    @endforeach
-                @else
-                    <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;" class="spec-row">
-                        <input type="text" name="specs_labels[]" value="Số chỗ ngồi" placeholder="Tên thông số (Key)" 
-                               style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-                        <input type="text" name="specs_values[]" value="5 chỗ" placeholder="Giá trị (Value)" 
-                               style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-                        <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;">
-                            &times;
-                        </button>
-                    </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -107,6 +168,48 @@ function addNewSpecRow() {
         <input type="text" name="specs_labels[]" placeholder="Tên thông số (Key)" style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
         <input type="text" name="specs_values[]" placeholder="Giá trị (Value)" style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
         <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;">&times;</button>
+    `;
+    container.appendChild(div);
+}
+
+function addNewVariantRow() {
+    const container = document.getElementById('variants-container');
+    const div = document.createElement('div');
+    div.className = 'variant-row';
+    div.style.cssText = 'background: var(--admin-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--admin-border); margin-bottom: 12px;';
+    div.innerHTML = `
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 8px;">
+            <div>
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Tên Phiên Bản</label>
+                <input type="text" name="variant_names[]" placeholder="VD: Thuê Pin, Kèm Pin, Eco..." 
+                       style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            </div>
+            <div>
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Mã SKU</label>
+                <input type="text" name="variant_skus[]" placeholder="VD: VF3-BAT" 
+                       style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end;">
+            <div>
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Giá Niêm Yết (đ)</label>
+                <input type="number" name="variant_regular_prices[]" placeholder="240000000" 
+                       style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            </div>
+            <div>
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Giá Khuyến Mãi (đ)</label>
+                <input type="number" name="variant_sale_prices[]" placeholder="240000000" 
+                       style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            </div>
+            <div>
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Màu Sắc</label>
+                <input type="text" name="variant_color_names[]" placeholder="VD: Vàng nóc trắng" 
+                       style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            </div>
+            <button type="button" onclick="this.closest('.variant-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 6px;" title="Xóa phiên bản">
+                &times;
+            </button>
+        </div>
     `;
     container.appendChild(div);
 }

@@ -78,11 +78,14 @@
 
                 {{-- Hộp giá niêm yết --}}
                 <div style="background: #ffffff; padding: 18px 20px; border-radius: 6px; border: 1px solid var(--client-color-border); margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-                    <div style="font-size: 0.85rem; color: var(--client-color-muted); margin-bottom: 4px;">Giá niêm yết chính hãng:</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <span style="font-size: 0.85rem; color: var(--client-color-muted);">Giá niêm yết chính hãng:</span>
+                        <span id="vf-selected-variant-label" style="font-size: 0.8rem; font-weight: 600; color: var(--client-color-primary); background: #eff6ff; padding: 2px 8px; border-radius: 4px; display: none;"></span>
+                    </div>
                     @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
-                        <div style="font-size: 1.65rem; font-weight: 800; color: var(--client-color-primary);">Liên hệ nhận giá ưu đãi</div>
+                        <div id="vf-car-price-display" style="font-size: 1.65rem; font-weight: 800; color: var(--client-color-primary);">Liên hệ nhận giá ưu đãi</div>
                     @else
-                        <div style="font-size: 1.85rem; font-weight: 800; color: var(--client-color-primary);">
+                        <div id="vf-car-price-display" style="font-size: 1.85rem; font-weight: 800; color: var(--client-color-primary);">
                             {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
                         </div>
                     @endif
@@ -96,18 +99,25 @@
                     {{ $car->short_description ?? 'Mẫu xe ô tô điện thông minh hàng đầu của VinFast với động cơ mạnh mẽ, trang bị công nghệ an toàn hiện đại và nội thất tiện nghi vượt trội.' }}
                 </p>
 
-                {{-- Danh sách phiên bản (nếu có) --}}
+                {{-- Danh sách phiên bản tương tác động --}}
                 @if($variants->isNotEmpty())
                     <div style="margin-bottom: 24px;">
                         <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; color: var(--client-color-heading);">
-                            Chọn Phiên Bản:
+                            Chọn Phiên Bản & Mức Giá:
                         </label>
-                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <div id="vf-variant-buttons-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
                             @foreach($variants as $idx => $variant)
+                                @php
+                                    $vPrice = $variant->sale_price ?: $variant->regular_price;
+                                @endphp
                                 <button type="button" 
-                                        class="vinfast-autohaiphong_btn {{ $idx === 0 ? 'vinfast-autohaiphong_btn_primary' : 'vinfast-autohaiphong_btn_neutral' }}" 
-                                        style="font-size: 0.85rem; padding: 8px 14px;">
-                                    {{ $variant->name }} - {{ number_format($variant->sale_price ?: $variant->regular_price, 0, ',', '.') }} đ
+                                        class="vinfast-autohaiphong_btn vf-variant-btn {{ $idx === 0 ? 'vinfast-autohaiphong_btn_primary' : 'vinfast-autohaiphong_btn_outline' }}" 
+                                        data-price="{{ $vPrice }}"
+                                        data-name="{{ $variant->name }}"
+                                        data-sku="{{ $variant->sku }}"
+                                        onclick="selectCarVariant(this)"
+                                        style="font-size: 0.85rem; padding: 8px 14px; cursor: pointer;">
+                                    {{ $variant->name }} - {{ number_format($vPrice, 0, ',', '.') }} đ
                                 </button>
                             @endforeach
                         </div>
@@ -260,4 +270,32 @@
         @endif
     </div>
 </div>
+
+<script>
+function selectCarVariant(btn) {
+    if (!btn) return;
+    const price = btn.getAttribute('data-price');
+    const name = btn.getAttribute('data-name');
+    const display = document.getElementById('vf-car-price-display');
+    const variantLabel = document.getElementById('vf-selected-variant-label');
+
+    if (price && display) {
+        const formatted = new Intl.NumberFormat('vi-VN').format(price);
+        display.textContent = formatted + ' VNĐ';
+    }
+
+    if (variantLabel && name) {
+        variantLabel.textContent = name;
+        variantLabel.style.display = 'inline-block';
+    }
+
+    document.querySelectorAll('.vf-variant-btn').forEach(function(el) {
+        el.classList.remove('vinfast-autohaiphong_btn_primary');
+        el.classList.add('vinfast-autohaiphong_btn_outline');
+    });
+
+    btn.classList.remove('vinfast-autohaiphong_btn_outline');
+    btn.classList.add('vinfast-autohaiphong_btn_primary');
+}
+</script>
 @endsection

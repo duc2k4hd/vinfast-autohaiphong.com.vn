@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Shared\HtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -78,6 +79,11 @@ class ProductController extends Controller
             'description_html' => ['nullable', 'string'],
             'specs_labels' => ['nullable', 'array'],
             'specs_values' => ['nullable', 'array'],
+            'variant_names' => ['nullable', 'array'],
+            'variant_skus' => ['nullable', 'array'],
+            'variant_regular_prices' => ['nullable', 'array'],
+            'variant_sale_prices' => ['nullable', 'array'],
+            'variant_color_names' => ['nullable', 'array'],
         ]);
 
         $now = now();
@@ -89,7 +95,7 @@ class ProductController extends Controller
                 'regular_price' => $request->input('regular_price'),
                 'sale_price' => $request->input('sale_price'),
                 'short_description' => $request->input('short_description'),
-                'description_html' => $request->input('description_html'),
+                'description_html' => HtmlSanitizer::clean($request->input('description_html')),
                 'updated_at' => $now,
             ]);
 
@@ -117,9 +123,39 @@ class ProductController extends Controller
                     }
                 }
             }
+
+            // Cập nhật danh sách biến thể / phiên bản xe
+            if ($request->has('variant_names')) {
+                DB::table('product_variants')->where('product_id', $id)->delete();
+
+                $names = $request->input('variant_names', []);
+                $skus = $request->input('variant_skus', []);
+                $regularPrices = $request->input('variant_regular_prices', []);
+                $salePrices = $request->input('variant_sale_prices', []);
+                $colorNames = $request->input('variant_color_names', []);
+
+                $varSort = 1;
+                foreach ($names as $idx => $vName) {
+                    if (! empty(trim($vName))) {
+                        DB::table('product_variants')->insert([
+                            'product_id' => $id,
+                            'name' => trim($vName),
+                            'sku' => ! empty($skus[$idx]) ? trim($skus[$idx]) : null,
+                            'regular_price' => ! empty($regularPrices[$idx]) ? (int) $regularPrices[$idx] : null,
+                            'sale_price' => ! empty($salePrices[$idx]) ? (int) $salePrices[$idx] : null,
+                            'color_name' => ! empty($colorNames[$idx]) ? trim($colorNames[$idx]) : null,
+                            'is_available' => true,
+                            'is_active' => true,
+                            'sort_order' => $varSort++,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+                }
+            }
         });
 
         return redirect()->route('admin.products.edit', $id)
-            ->with('success', 'Đã lưu cập nhật thông tin xe và thông số kỹ thuật Key-Value thành công!');
+            ->with('success', 'Đã lưu cập nhật thông tin xe, biến thể phiên bản và thông số kỹ thuật thành công!');
     }
 }

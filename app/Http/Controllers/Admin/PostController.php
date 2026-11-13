@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Shared\HtmlSanitizer;
+use App\Services\Shared\SeoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -65,25 +66,23 @@ class PostController extends Controller
         ]);
 
         $now = now();
-        $slug = Str::slug($validated['title']);
-
-        // Đảm bảo tính duy nhất của slug
-        $count = DB::table('posts')->where('slug', 'like', "{$slug}%")->count();
-        if ($count > 0) {
-            $slug .= '-'.($count + 1);
-        }
+        $slug = SeoService::generateUniqueSlug($validated['title'], 'posts');
+        $cleanContent = HtmlSanitizer::clean($validated['content_html']);
+        $excerpt = ! empty($validated['excerpt'])
+            ? $validated['excerpt']
+            : SeoService::generateExcerpt($cleanContent, 160);
 
         DB::table('posts')->insert([
             'title' => $validated['title'],
             'slug' => $slug,
-            'excerpt' => $validated['excerpt'],
-            'content_html' => $validated['content_html'],
+            'excerpt' => $excerpt,
+            'content_html' => $cleanContent,
             'featured_media_id' => $validated['featured_media_id'] ?? null,
             'status' => $validated['status'],
             'author_id' => Auth::id(),
             'published_at' => $validated['status'] === 'published' ? $now : null,
             'meta_title' => $validated['meta_title'] ?? $validated['title'],
-            'meta_description' => $validated['meta_description'] ?? Str::limit(strip_tags($validated['content_html']), 160),
+            'meta_description' => $validated['meta_description'] ?? $excerpt,
             'created_at' => $now,
             'updated_at' => $now,
         ]);
@@ -136,15 +135,20 @@ class PostController extends Controller
             $publishedAt = $now;
         }
 
+        $cleanContent = HtmlSanitizer::clean($validated['content_html']);
+        $excerpt = ! empty($validated['excerpt'])
+            ? $validated['excerpt']
+            : SeoService::generateExcerpt($cleanContent, 160);
+
         DB::table('posts')->where('id', $id)->update([
             'title' => $validated['title'],
-            'excerpt' => $validated['excerpt'],
-            'content_html' => $validated['content_html'],
+            'excerpt' => $excerpt,
+            'content_html' => $cleanContent,
             'featured_media_id' => $validated['featured_media_id'] ?? null,
             'status' => $validated['status'],
             'published_at' => $publishedAt,
             'meta_title' => $validated['meta_title'] ?? $validated['title'],
-            'meta_description' => $validated['meta_description'] ?? Str::limit(strip_tags($validated['content_html']), 160),
+            'meta_description' => $validated['meta_description'] ?? $excerpt,
             'updated_at' => $now,
         ]);
 

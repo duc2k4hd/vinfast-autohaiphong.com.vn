@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\Shared\MediaService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,13 +40,13 @@ class MediaController extends Controller
     }
 
     /**
-     * Tải lên tệp media mới.
+     * Tải lên tệp media mới (Hỗ trợ cả Web Form và TinyMCE Image Upload API).
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): RedirectResponse|JsonResponse
     {
         $request->validate([
             'file' => ['required', 'file', 'mimes:webp,png,jpg,jpeg,svg', 'max:5120'], // tối đa 5MB
-            'folder' => ['required', 'in:products,banners,business,posts'],
+            'folder' => ['nullable', 'in:products,banners,business,posts'],
             'alt_text' => ['nullable', 'string', 'max:255'],
         ], [
             'file.required' => 'Vui lòng chọn một tệp ảnh để tải lên.',
@@ -54,7 +55,7 @@ class MediaController extends Controller
         ]);
 
         $uploadedFile = $request->file('file');
-        $folder = $request->input('folder');
+        $folder = $request->input('folder', 'posts');
         $altText = $request->input('alt_text') ?: $uploadedFile->getClientOriginalName();
 
         $destinationFolder = public_path("storage/clients/assets/images/{$folder}");
@@ -71,7 +72,7 @@ class MediaController extends Controller
         $checksum = File::exists($fullPath) ? hash_file('sha256', $fullPath) : null;
 
         $now = now();
-        DB::table('media')->insert([
+        $insertedId = DB::table('media')->insertGetId([
             'uuid' => (string) Str::uuid(),
             'folder_id' => null,
             'disk' => 'public',
@@ -86,6 +87,14 @@ class MediaController extends Controller
             'created_at' => $now,
             'updated_at' => $now,
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'location' => asset('storage/'.$relPath),
+                'media_id' => $insertedId,
+                'path' => $relPath,
+            ]);
+        }
 
         return redirect()->route('admin.media.index', ['folder' => $folder])
             ->with('success', 'Đã tải lên tệp ảnh mới và lưu trữ tập trung thành công!');

@@ -1,5 +1,43 @@
 # Nhật Ký Các Phiên Làm Việc (Session Log) — VinFast Hải Phòng
 
+## Phiên làm việc: Nâng Cấp Toàn Diện Master Prompt V2 (13/11/2026)
+
+### 1. Đã hoàn thành (100% Quality Gates):
+- **GATE 0 — Baseline & Khảo Sát Hệ Thống:**
+  - Hoàn tất 14 tài liệu đặc tả và nâng cấp trong `docs/upgrade-v2/` và 10 tài liệu phân tích SEO trong `docs/upgrade-v2/seo/`.
+  - Tích hợp và kích hoạt `evondevKit` (`.agents/skills/evondevKit/skills/ui-ux`).
+  - Khảo sát mã nguồn thực tế `E:\Project\Laravel\nobifashion.vn` để trích xuất tinh hoa SEO.
+- **GATE 1 & 2 — Nâng Cấp Admin UI/UX Chuẩn evondevKit:**
+  - Tối giản, nền sáng trung tính, loại bỏ hoàn toàn cảm giác AI generic, loại bỏ emoji sáo mòn ở Sidebar và thay bằng SVG đơn sắc chuẩn Stripe/Linear.
+- **GATE 3 — Quản Lý Biến Thể Xe (Product Variants):**
+  - Xây dựng các Eloquent Model: `ProductVariant`, `ProductSpecification`, `ProductSpecificationGroup`.
+  - Nạp 20 biến thể xe chuẩn thị trường qua Seeder an toàn `InitialProductVariantsSeeder` (VF 3, VF 5 Plus, VF 6, VF 7, VF 8, VF 9, VF e34 - Thuê pin / Kèm pin).
+  - Nâng cấp giao diện Admin `admin/products/edit.blade.php` cho phép thêm, sửa, xóa biến thể xe trực quan.
+  - Cập nhật `ProductController@update` lưu đồng bộ thông tin xe, biến thể và thông số kỹ thuật.
+- **GATE 4 — Tích Hợp TinyMCE & HtmlSanitizer:**
+  - Cấu hình TinyMCE Cloud v7 (`config/services.php` và `.env`).
+  - Xây dựng `HtmlSanitizer` lọc mã độc XSS, giữ nguyên thẻ định dạng ngữ nghĩa chuẩn.
+  - Xây dựng Blade component `admin.components.editor` tích hợp bộ đếm từ và ước tính thời gian đọc.
+  - Tích hợp TinyMCE vào Sản phẩm và Bài viết Tin tức.
+- **GATE 5 — Nâng Cấp Client UI & Hiệu Năng:**
+  - Tích hợp Bộ chọn biến thể (Variant Selector) tương tác động trên trang chi tiết xe `show.blade.php`: Tự động cập nhật mức giá ngay lập tức theo biến thể được chọn không cần reload trang.
+  - Tối ưu Largest Contentful Paint (LCP) trên Hero Banner trang chủ: Gỡ bỏ `loading="lazy"`, thêm `fetchpriority="high"` ở slide đầu tiên.
+  - Xây dựng HTML Sitemap thân thiện người dùng và bot tìm kiếm tại `GET /so-do-trang-web`.
+- **GATE 6 — Hệ Thống SEO Toàn Diện (Học hỏi từ Nobi Fashion):**
+  - Xây dựng `SeoService` (`generateUniqueSlug`, `generateExcerpt`, `countWords`, `calculateReadingTime`, `evaluateSeoScore`).
+  - Xây dựng `SeoController` cung cấp API endpoint `POST /admin/seo/analyze` chấm điểm SEO thời gian thực.
+  - Xây dựng Blade component `admin.components.seo-analyzer` hiển thị thanh tiến trình, điểm số từ 0 - 100 và danh sách gợi ý cải thiện trong form viết bài.
+- **Kiểm thử & Định dạng:**
+  - Test suite hoàn chỉnh: **39/39 tests PASS 100% (177 assertions)**.
+  - Quét cú pháp Blade: **`DONE SCAN` (0 lỗi)**.
+  - Định dạng mã nguồn: **100% PSR-12 sạch sẽ qua Laravel Pint**.
+  - Frontend assets: **Vite build thành công trong 182ms**.
+
+### 2. Quy tắc Git:
+- **Tuyệt đối không chạy bất kỳ lệnh `git` nào**. Soạn sẵn commit mẫu tiếng Việt có dấu ở phản hồi cho người dùng tự chạy.
+
+---
+
 ## Phiên làm việc: 2026-11-13 11:05
 
 ### 1. Đã hoàn thành:
@@ -69,7 +107,30 @@
 
 ---
 
-## Phiên làm việc: Khởi động Master Prompt V2 & Hoàn tất toàn diện GATE 0 (13/11/2026)
+## Phiên làm việc: Hoàn thành GATE 4 (Tích hợp TinyMCE & Bộ Lọc HTML Sanitizer) (13/11/2026)
+
+### 1. Công việc đã thực hiện
+- **Cấu hình TinyMCE an toàn:**
+  - Khai báo API key trong `config/services.php`: `'tinymce' => ['key' => env('APP_TINYMCE_KEY')]`.
+  - Tuyệt đối không hardcode API key vào Blade template, chỉ đọc qua `config('services.tinymce.key')`.
+- **Xây dựng Component Soạn Thảo TinyMCE Tái Sử Dụng:**
+  - Tạo `resources/views/admin/components/editor.blade.php`: Toolbar tinh giản chuẩn SEO (H2, H3, H4, table, list, link, image, preview, fullscreen), tích hợp tính năng đếm từ (word count) và ước tính thời gian đọc (read time).
+  - Tích hợp TinyMCE vào trang chỉnh sửa xe (`admin/products/edit.blade.php`), tạo bài viết mới (`admin/posts/create.blade.php`), và chỉnh sửa bài viết (`admin/posts/edit.blade.php`).
+- **Nâng cấp Endpoint Upload Ảnh Media cho TinyMCE:**
+  - Nâng cấp `Admin\MediaController@store` hỗ trợ phản hồi JSON `{ location, media_id, path }` khi TinyMCE tải ảnh AJAX, lưu trữ tập trung vào `public/storage/clients/assets/images/{folder}` và ghi nhận vào bảng `media`.
+- **Xây dựng Bộ Lọc Mã Nguồn HTML (`HtmlSanitizer`):**
+  - Tạo `App\Services\Shared\HtmlSanitizer` tự động loại bỏ thẻ độc hại (`<script>`, `<iframe>`, `<object>`, `<embed>`, `<form>`), các thuộc tính event handler (`onload`, `onclick`, `onerror`) và giao thức `javascript:`.
+  - Tích hợp vào `ProductController@update`, `PostController@store`, `PostController@update`.
+- **Nâng cấp Layout Admin theo Tiêu Chuẩn `evondevKit`:**
+  - Thêm `<meta name="csrf-token">`, `@stack('styles')`, `@stack('scripts')` trong `admin/layouts/app.blade.php`.
+  - Thay thế toàn bộ emoji ở Sidebar bằng hệ thống Icon SVG đơn sắc chuẩn doanh nghiệp (Stripe/Linear style).
+- **Mở rộng Test Suite:**
+  - Viết 4 bài test mới trong `tests/Feature/AdminTinyMceAndSanitizerTest.php`.
+  - Chạy `php artisan test --compact`: **32/32 tests PASS 100% (137 assertions)**.
+  - Chạy `php test_scan.php`: **`DONE SCAN` (0 mismatch)**.
+  - Chạy `vendor/bin/pint --dirty --format agent`: 100% PSR-12 sạch sẽ.
+- **Quy tắc Git:**
+  - Tuân thủ tuyệt đối quy tắc KHÔNG chạy lệnh Git, gửi commit mẫu có dấu ở cuối báo cáo.
 
 ### 1. Công việc đã thực hiện
 - **Tiếp quản và thiết lập lộ trình nâng cấp hệ thống V2:**
