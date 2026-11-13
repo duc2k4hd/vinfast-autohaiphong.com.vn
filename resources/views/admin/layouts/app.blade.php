@@ -39,6 +39,9 @@
         .vinfast-autohaiphong_admin_card { background: #ffffff; border: 1px solid var(--admin-border); border-radius: 8px; padding: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.03); margin-bottom: 24px; }
         .vinfast-autohaiphong_admin_card_title { font-size: 1.1rem; font-weight: 700; color: var(--admin-heading); margin-bottom: 16px; border-bottom: 1px solid var(--admin-border); padding-bottom: 10px; }
         
+        .vinfast-autohaiphong_admin_product_thumb { width: 96px; aspect-ratio: 16 / 9; height: auto; object-fit: contain; border: 1px solid var(--admin-border); border-radius: 4px; background: #fff; display: block; }
+        .vinfast-autohaiphong_admin_product_preview { width: min(100%, 320px); aspect-ratio: 16 / 9; height: auto; border-radius: 6px; border: 1px solid var(--admin-border); overflow: hidden; background: #f8fafc; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .vinfast-autohaiphong_admin_product_preview_image { width: 100%; height: 100%; object-fit: contain; }
         .vinfast-autohaiphong_admin_table { width: 100%; border-collapse: collapse; text-align: left; }
         .vinfast-autohaiphong_admin_table th { background: #f8fafc; padding: 12px 16px; font-weight: 600; font-size: 0.78rem; color: var(--admin-muted); border-bottom: 1px solid var(--admin-border); text-transform: uppercase; letter-spacing: 0.5px; }
         .vinfast-autohaiphong_admin_table td { padding: 14px 16px; border-bottom: 1px solid var(--admin-border); font-size: 0.88rem; vertical-align: middle; }

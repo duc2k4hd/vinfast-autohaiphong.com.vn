@@ -42,6 +42,29 @@ class ProductService
     }
 
     /**
+     * Lấy thư viện ảnh gallery được gắn cho sản phẩm.
+     *
+     * @return Collection<int, object>
+     */
+    public function getGalleryImages(int $productId): Collection
+    {
+        return DB::table('media_usages')
+            ->join('media', 'media_usages.media_id', '=', 'media.id')
+            ->where('media_usages.usable_type', 'product')
+            ->where('media_usages.usable_id', $productId)
+            ->where('media_usages.role', 'gallery')
+            ->where('media.status', 'active')
+            ->select([
+                'media.path',
+                'media.alt_text',
+                'media_usages.sort_order',
+            ])
+            ->orderBy('media_usages.sort_order')
+            ->orderBy('media_usages.id')
+            ->get();
+    }
+
+    /**
      * Lấy danh sách các phiên bản (variants) của xe.
      */
     public function getVariants(int $productId): Collection

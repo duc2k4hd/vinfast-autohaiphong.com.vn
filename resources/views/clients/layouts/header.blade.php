@@ -61,27 +61,34 @@
                     </a>
                 </li>
 
-                {{-- 2. Ô Tô VinFast ˅ (Dropdown Xe) --}}
-                <li class="vinfast-autohaiphong_header_nav_item vinfast-autohaiphong_header_nav_item_has_sub">
-                    <a href="{{ url('/o-to-vinfast') }}" class="vinfast-autohaiphong_header_nav_link {{ request()->is('o-to-vinfast*') || request()->is('xe*') ? 'active' : '' }}">
-                        Ô Tô VinFast <span class="vinfast-autohaiphong_header_nav_arrow">˅</span>
-                    </a>
-                    <div class="vinfast-autohaiphong_header_dropdown">
-                        <div class="vinfast-autohaiphong_header_dropdown_title">DANH MỤC XE VINFAST</div>
-                        <div class="vinfast-autohaiphong_header_dropdown_grid">
-                            <a href="{{ url('/xe/vinfast-vf-3') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF 3</a>
-                            <a href="{{ url('/xe/vinfast-vf-5') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF 5 Plus</a>
-                            <a href="{{ url('/xe/vinfast-vf-6') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF 6</a>
-                            <a href="{{ url('/xe/vinfast-vf-7') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF 7</a>
-                            <a href="{{ url('/xe/vinfast-vf-8') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF 8</a>
-                            <a href="{{ url('/xe/vinfast-vf-9') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF 9</a>
-                            <a href="{{ url('/xe/vinfast-vf8-all-new') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF 8 All New</a>
-                            <a href="{{ url('/xe/vinfast-vf-wild') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast VF Wild</a>
-                            <a href="{{ url('/xe/vinfast-minio-green') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast Minio Green</a>
-                            <a href="{{ url('/xe/vinfast-ec-van') }}" class="vinfast-autohaiphong_header_dropdown_item">VinFast EC Van</a>
-                            <a href="{{ url('/o-to-vinfast') }}" class="vinfast-autohaiphong_header_dropdown_item vinfast-autohaiphong_header_dropdown_item_all">
-                                Xem tất cả 15 mẫu xe &rarr;
-                            </a>
+                {{-- Danh sách xe --}}
+                <li class="vinfast-autohaiphong_header_nav_item vinfast-autohaiphong_header_nav_item_has_sub" data-vf-cars-menu>
+                    <button type="button" class="vinfast-autohaiphong_header_nav_link vinfast-autohaiphong_header_cars_toggle {{ request()->is('o-to-vinfast*') || request()->is('xe*') ? 'active' : '' }}" data-vf-cars-toggle aria-expanded="false" aria-controls="vf-cars-dropdown">
+                        Ô Tô VinFast <svg class="vinfast-autohaiphong_header_nav_arrow" width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div id="vf-cars-dropdown" class="vinfast-autohaiphong_header_dropdown" hidden>
+                        <div class="vinfast-autohaiphong_header_dropdown_inner">
+                            <div class="vinfast-autohaiphong_header_dropdown_heading">
+                                <span>Khám phá các dòng xe VinFast</span>
+                                <a href="{{ route('client.catalog.index') }}">Xem tất cả xe <span aria-hidden="true">→</span></a>
+                            </div>
+                            <div class="vinfast-autohaiphong_header_dropdown_grid">
+                                @foreach($menuCars as $menuCar)
+                                    <a href="{{ route('client.products.show', $menuCar->slug) }}" class="vinfast-autohaiphong_header_dropdown_item">
+                                        <span class="vinfast-autohaiphong_header_dropdown_image">
+                                            @if($menuCar->thumbnail_path)
+                                                <img src="{{ asset('storage/' . $menuCar->thumbnail_path) }}" alt="" loading="lazy" width="220" height="120">
+                                            @else
+                                                <span class="vinfast-autohaiphong_header_dropdown_placeholder">VinFast</span>
+                                            @endif
+                                        </span>
+                                        <span class="vinfast-autohaiphong_header_dropdown_name">{{ $menuCar->name }}</span>
+                                        @if($menuCar->category_name)
+                                            <span class="vinfast-autohaiphong_header_dropdown_badge">{{ $menuCar->category_name }}</span>
+                                        @endif
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </li>

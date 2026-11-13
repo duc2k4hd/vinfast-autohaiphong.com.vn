@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Database\Seeders\InitialCarsSeeder;
 use Database\Seeders\InitialSettingsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class HomeTest extends TestCase
@@ -58,5 +59,25 @@ class HomeTest extends TestCase
         $this->assertDatabaseHas('consent_records', [
             'type' => 'data_processing',
         ]);
+    }
+
+    public function test_vehicle_menu_shows_only_available_cars_with_images(): void
+    {
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update(['status' => 'draft']);
+        DB::table('products')->where('slug', 'vinfast-vf-6')->update(['published_at' => now()->addDay()]);
+        DB::table('products')->where('slug', 'vinfast-vf-7')->update(['deleted_at' => now()]);
+
+        $response = $this->get(route('client.home'));
+
+        $response->assertOk();
+        $response->assertSee('data-vf-cars-toggle', false);
+        $response->assertSee('clients/assets/images/products/vinfast-vf-5.webp');
+        $html = $response->getContent();
+        $menu = substr($html, strpos($html, 'id="vf-cars-dropdown"'));
+        $menu = substr($menu, 0, strpos($menu, '</li>'));
+        $this->assertStringContainsString('/xe/vinfast-vf-5', $menu);
+        $this->assertStringNotContainsString('/xe/vinfast-vf-3', $menu);
+        $this->assertStringNotContainsString('/xe/vinfast-vf-6', $menu);
+        $this->assertStringNotContainsString('/xe/vinfast-vf-7', $menu);
     }
 }

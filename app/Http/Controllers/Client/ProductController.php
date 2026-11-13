@@ -23,12 +23,22 @@ class ProductController extends Controller
             abort(404, 'Dòng xe bạn đang tìm kiếm không tồn tại hoặc đã ngừng kinh doanh.');
         }
 
+        $galleryImages = $this->productService->getGalleryImages($car->id);
+
+        if ($galleryImages->isEmpty() && $car->thumbnail_path) {
+            $galleryImages = collect([(object) [
+                'path' => $car->thumbnail_path,
+                'alt_text' => $car->thumbnail_alt ?: $car->name,
+            ]]);
+        }
+
         $variants = $this->productService->getVariants($car->id);
         $specifications = $this->productService->getSpecifications($car->id);
         $relatedCars = $this->productService->getRelatedCars($car->category_id, $car->id, 3);
 
         return view('clients.pages.products.show', [
             'car' => $car,
+            'galleryImages' => $galleryImages,
             'variants' => $variants,
             'specifications' => $specifications,
             'relatedCars' => $relatedCars,

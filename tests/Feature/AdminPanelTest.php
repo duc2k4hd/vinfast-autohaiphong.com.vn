@@ -193,4 +193,23 @@ class AdminPanelTest extends TestCase
         $response->assertSee('Quản Lý Danh Sách Dòng Xe');
         $response->assertSee('VinFast VF 3');
     }
+
+    public function test_admin_can_view_and_update_settings(): void
+    {
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+        DB::table('settings')->where('key', 'site_name')->update(['value' => 'Tên đại lý hiện tại']);
+
+        $this->actingAs($admin)->get(route('admin.settings.index'))
+            ->assertOk()->assertSee('Tên đại lý hiện tại');
+
+        $this->actingAs($admin)->put(route('admin.settings.update'), [
+            '_method' => 'PUT',
+            'site_name' => 'Tên đại lý mới',
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('settings', ['key' => 'site_name', 'value' => 'Tên đại lý mới']);
+        $this->assertDatabaseMissing('settings', ['key' => '_method']);
+        $this->actingAs($admin)->get(route('admin.settings.index'))
+            ->assertOk()->assertSee('Tên đại lý mới');
+    }
 }

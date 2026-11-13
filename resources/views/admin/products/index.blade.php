@@ -30,9 +30,9 @@
                 <tr>
                     <td>{{ $prod->id }}</td>
                     <td>
-                        <img src="{{ $prod->thumbnail_path ? asset('storage/' . $prod->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
+                        <img src="{{ $prod->thumbnail_path ? asset('storage/' . $prod->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}" 
                              alt="{{ $prod->name }}" 
-                             style="width: 60px; height: 38px; object-fit: cover; border-radius: 4px; border: 1px solid var(--admin-border);">
+                             class="vinfast-autohaiphong_admin_product_thumb">
                     </td>
                     <td>
                         <div style="font-weight: 700; color: var(--admin-heading);">{{ $prod->name }}</div>

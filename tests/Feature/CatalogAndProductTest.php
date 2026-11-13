@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Database\Seeders\InitialCarsSeeder;
 use Database\Seeders\InitialSettingsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class CatalogAndProductTest extends TestCase
@@ -55,6 +57,54 @@ class CatalogAndProductTest extends TestCase
         $response->assertSee('285.000.000 VNĐ');
         $response->assertSee('YÊU CẦU BÁO GIÁ LĂN BÁNH');
         $response->assertSee('BẢNG THÔNG SỐ KỸ THUẬT XE VINFAST VF 3');
+    }
+
+    public function test_product_detail_gallery_displays_attached_images_and_navigation(): void
+    {
+        $product = DB::table('products')->where('slug', 'vinfast-vf-3')->firstOrFail();
+        $primaryImageId = DB::table('products')->where('id', $product->id)->value('thumbnail_media_id');
+        $additionalImageId = DB::table('media')->insertGetId([
+            'uuid' => (string) Str::uuid(),
+            'disk' => 'public',
+            'path' => 'clients/assets/images/products/vinfast-vf-5.webp',
+            'filename' => 'gallery-vf5.webp',
+            'original_filename' => 'gallery-vf5.webp',
+            'extension' => 'webp',
+            'mime_type' => 'image/webp',
+            'file_size' => 1200,
+            'alt_text' => 'Góc nội thất xe',
+            'status' => 'active',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        DB::table('media_usages')->insert([
+            [
+                'media_id' => $primaryImageId,
+                'usable_type' => 'product',
+                'usable_id' => $product->id,
+                'role' => 'gallery',
+                'sort_order' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'media_id' => $additionalImageId,
+                'usable_type' => 'product',
+                'usable_id' => $product->id,
+                'role' => 'gallery',
+                'sort_order' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        $response = $this->get('/xe/vinfast-vf-3');
+
+        $response->assertOk();
+        $response->assertSee('data-vf-product-gallery', false);
+        $response->assertSee('data-vf-gallery-next', false);
+        $response->assertSee('data-vf-gallery-thumbnail="1"', false);
+        $response->assertSee('clients/assets/images/products/vinfast-vf-5.webp');
     }
 
     /**

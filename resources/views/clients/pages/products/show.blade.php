@@ -42,81 +42,103 @@
     </div>
 </div>
 
-<div class="vinfast-autohaiphong_product_section" style="padding: 36px 0 60px 0;">
+<div class="vinfast-autohaiphong_product_section">
     <div class="vinfast-autohaiphong_layout_container">
         {{-- Khối thông tin xe chính (Gallery & Giá) --}}
-        <div style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; margin-bottom: 40px; align-items: start;">
-            {{-- Cột Trái: Gallery Ảnh --}}
-            <div>
-                {{-- Ảnh lớn --}}
-                <div style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; overflow: hidden; position: relative; padding-top: 60%; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-                    <img id="vf-main-car-img" 
-                         src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
-                         alt="{{ $car->thumbnail_alt ?? $car->name }}" 
-                         style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
-                </div>
-
-                {{-- Thumbnails phụ --}}
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
-                    <div onclick="document.getElementById('vf-main-car-img').src=this.querySelector('img').src" 
-                         style="cursor: pointer; border: 2px solid var(--client-color-primary); border-radius: 6px; overflow: hidden; padding-top: 60%; position: relative;">
-                        <img src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
-                             alt="{{ $car->name }}" 
-                             style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <div class="vinfast-autohaiphong_product_hero">
+            <div class="vinfast-autohaiphong_product_gallery">
+                {{-- Gallery ảnh 16:9 với thumbnail điều hướng --}}
+                @php
+                    $gallerySlides = $galleryImages->map(fn ($image) => [
+                        'src' => asset('storage/' . $image->path),
+                        'alt' => $image->alt_text ?: $car->name,
+                    ])->values();
+                @endphp
+                <div class="vinfast-autohaiphong_product_gallery_viewer" data-vf-product-gallery data-slide-count="{{ $gallerySlides->count() }}">
+                    <div class="vinfast-autohaiphong_product_main_image" aria-live="polite">
+                        @forelse($gallerySlides as $index => $slide)
+                            <img src="{{ $slide['src'] }}"
+                                 alt="{{ $slide['alt'] }}"
+                                 class="vinfast-autohaiphong_product_main_image_asset {{ $index === 0 ? 'is-active' : '' }}"
+                                 data-vf-gallery-slide="{{ $index }}"
+                                 @if($index > 0) loading="lazy" @endif>
+                        @empty
+                            <img src="{{ asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}"
+                                 alt="{{ $car->name }}"
+                                 class="vinfast-autohaiphong_product_main_image_asset is-active">
+                        @endforelse
+                        @if($gallerySlides->count() > 1)
+                            <button type="button" class="vinfast-autohaiphong_product_gallery_arrow is-previous" data-vf-gallery-previous aria-label="Ảnh trước">‹</button>
+                            <button type="button" class="vinfast-autohaiphong_product_gallery_arrow is-next" data-vf-gallery-next aria-label="Ảnh tiếp theo">›</button>
+                            <span class="vinfast-autohaiphong_product_gallery_counter" data-vf-gallery-counter aria-live="polite">1 / {{ $gallerySlides->count() }}</span>
+                        @endif
                     </div>
+                    @if($gallerySlides->count() > 1)
+                        <div class="vinfast-autohaiphong_product_thumbnails" role="tablist" aria-label="Ảnh sản phẩm">
+                            @foreach($gallerySlides as $index => $slide)
+                                <button type="button"
+                                        class="vinfast-autohaiphong_product_thumbnail {{ $index === 0 ? 'is-active' : '' }}"
+                                        data-vf-gallery-thumbnail="{{ $index }}"
+                                        role="tab"
+                                        aria-label="Xem ảnh {{ $index + 1 }}: {{ $slide['alt'] }}"
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                    <img src="{{ $slide['src'] }}" alt="" loading="lazy" class="vinfast-autohaiphong_product_thumbnail_asset">
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
 
             {{-- Cột Phải: Thông tin giá & Mua hàng --}}
-            <div>
-                <span style="font-size: 0.8rem; font-weight: 700; color: var(--client-color-primary); text-transform: uppercase; letter-spacing: 0.5px;">
+            <div class="vinfast-autohaiphong_product_information">
+                <span class="vinfast-autohaiphong_product_category">
                     {{ $car->category_name ?? 'Ô tô điện' }}
                 </span>
-                <h1 style="font-size: 2rem; font-weight: 800; color: var(--client-color-heading); margin: 6px 0 12px 0; line-height: 1.2;">
+                <h1 class="vinfast-autohaiphong_product_title">
                     {{ $car->name }}
                 </h1>
 
                 {{-- Hộp giá niêm yết --}}
-                <div style="background: #ffffff; padding: 18px 20px; border-radius: 6px; border: 1px solid var(--client-color-border); margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-                        <span style="font-size: 0.85rem; color: var(--client-color-muted);">Giá niêm yết chính hãng:</span>
-                        <span id="vf-selected-variant-label" style="font-size: 0.8rem; font-weight: 600; color: var(--client-color-primary); background: #eff6ff; padding: 2px 8px; border-radius: 4px; display: none;"></span>
+                <div class="vinfast-autohaiphong_product_price_panel">
+                    <div class="vinfast-autohaiphong_product_price_heading">
+                        <span class="vinfast-autohaiphong_product_price_caption">Giá niêm yết chính hãng:</span>
+                        <span id="vf-selected-variant-label" class="vinfast-autohaiphong_product_variant_label"></span>
                     </div>
                     @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
-                        <div id="vf-car-price-display" style="font-size: 1.65rem; font-weight: 800; color: var(--client-color-primary);">Liên hệ nhận giá ưu đãi</div>
+                        <div id="vf-car-price-display" class="vinfast-autohaiphong_product_price">Liên hệ nhận giá ưu đãi</div>
                     @else
-                        <div id="vf-car-price-display" style="font-size: 1.85rem; font-weight: 800; color: var(--client-color-primary);">
+                        <div id="vf-car-price-display" class="vinfast-autohaiphong_product_price">
                             {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
                         </div>
                     @endif
-                    <div style="font-size: 0.825rem; color: var(--client-color-muted); margin-top: 6px;">
+                    <div class="vinfast-autohaiphong_product_price_note">
                         * Giá đã bao gồm VAT. Ưu đãi miễn 100% lệ phí trước bạ theo chính sách Nhà nước.
                     </div>
                 </div>
 
                 {{-- Mô tả ngắn --}}
-                <p style="font-size: 0.95rem; line-height: 1.6; color: var(--client-color-text); margin-bottom: 24px;">
+                <p class="vinfast-autohaiphong_product_short_description">
                     {{ $car->short_description ?? 'Mẫu xe ô tô điện thông minh hàng đầu của VinFast với động cơ mạnh mẽ, trang bị công nghệ an toàn hiện đại và nội thất tiện nghi vượt trội.' }}
                 </p>
 
                 {{-- Danh sách phiên bản tương tác động --}}
                 @if($variants->isNotEmpty())
-                    <div style="margin-bottom: 24px;">
-                        <label style="display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; color: var(--client-color-heading);">
+                    <div class="vinfast-autohaiphong_product_variants">
+                        <label class="vinfast-autohaiphong_product_variants_label">
                             Chọn Phiên Bản & Mức Giá:
                         </label>
-                        <div id="vf-variant-buttons-container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <div id="vf-variant-buttons-container" class="vinfast-autohaiphong_product_variant_buttons">
                             @foreach($variants as $idx => $variant)
                                 @php
                                     $vPrice = $variant->sale_price ?: $variant->regular_price;
                                 @endphp
-                                <button type="button" 
-                                        class="vinfast-autohaiphong_btn vf-variant-btn {{ $idx === 0 ? 'vinfast-autohaiphong_btn_primary' : 'vinfast-autohaiphong_btn_outline' }}" 
+                                <button type="button"
+                                        class="vinfast-autohaiphong_btn vf-variant-btn vinfast-autohaiphong_product_variant_button {{ $idx === 0 ? 'vinfast-autohaiphong_btn_primary' : 'vinfast-autohaiphong_btn_outline' }}"
                                         data-price="{{ $vPrice }}"
                                         data-name="{{ $variant->name }}"
                                         data-sku="{{ $variant->sku }}"
-                                        onclick="selectCarVariant(this)"
-                                        style="font-size: 0.85rem; padding: 8px 14px; cursor: pointer;">
+                                        onclick="selectCarVariant(this)">
                                     {{ $variant->name }} - {{ number_format($vPrice, 0, ',', '.') }} đ
                                 </button>
                             @endforeach
@@ -125,8 +147,8 @@
                 @endif
 
                 {{-- Cam kết showroom 3S Hải Phòng --}}
-                <div style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 6px; padding: 14px 18px; margin-bottom: 24px; font-size: 0.85rem; line-height: 1.6;">
-                    <div style="font-weight: 700; color: var(--client-color-heading); margin-bottom: 6px;">ĐẶC QUYỀN KHI MUA XE TẠI ĐẠI LÝ HẢI PHÒNG:</div>
+                <div class="vinfast-autohaiphong_product_benefits">
+                    <div class="vinfast-autohaiphong_product_benefits_heading">ĐẶC QUYỀN KHI MUA XE TẠI ĐẠI LÝ HẢI PHÒNG:</div>
                     <ul style="list-style: none; padding: 0; margin: 0;">
                         <li>✓ Bảo hành chính hãng lên đến 7 – 10 năm hoặc 200.000 km.</li>
                         <li>✓ Hỗ trợ vay trả góp ngân hàng tới 80% giá trị xe, thủ tục duyệt nhanh.</li>
@@ -136,22 +158,19 @@
                 </div>
 
                 {{-- Nút hành động --}}
-                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <div class="vinfast-autohaiphong_product_actions">
                     <a href="{{ route('client.checkout.direct', ['product_id' => $car->id]) }}" 
-                       class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary" 
-                       style="flex: 1.2; padding: 13px 20px; font-size: 0.95rem; text-decoration: none;">
+                       class="vinfast-autohaiphong_product_action vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
                         Đặt Cọc Xe (Tiền Mặt)
                     </a>
                     <button type="button" 
                             onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" 
-                            class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_secondary" 
-                            style="flex: 1; padding: 13px 18px; font-size: 0.95rem;">
+                            class="vinfast-autohaiphong_product_action vinfast-autohaiphong_btn vinfast-autohaiphong_btn_secondary">
                         Nhận Báo Giá
                     </button>
                     <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0988302882') }}" 
-                       class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline" 
-                       style="padding: 13px 18px; font-size: 0.95rem; text-decoration: none;">
-                        📞 {{ $siteSettings['site_phone'] ?? '0988 302 882' }}
+                       class="vinfast-autohaiphong_product_action vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline">
+                        {{ $siteSettings['site_phone'] ?? '0988 302 882' }}
                     </a>
                 </div>
             </div>
@@ -241,7 +260,7 @@
                     @foreach($relatedCars as $rel)
                         <div class="vinfast-autohaiphong_home_car_card">
                             <div class="vinfast-autohaiphong_home_car_thumb">
-                                <img src="{{ $rel->thumbnail_path ? asset('storage/' . $rel->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
+                                <img src="{{ $rel->thumbnail_path ? asset('storage/' . $rel->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}" 
                                      alt="{{ $rel->name }}" 
                                      loading="lazy" 
                                      width="600" 

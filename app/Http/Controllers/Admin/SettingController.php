@@ -20,7 +20,7 @@ class SettingController extends Controller
      */
     public function index(): View
     {
-        $settings = $this->settingsService->getAll();
+        $settings = DB::table('settings')->pluck('value', 'key')->toArray();
 
         return view('admin.settings.index', [
             'settings' => $settings,
@@ -32,7 +32,7 @@ class SettingController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        $data = $request->except(['_token']);
+        $data = $request->except(['_token', '_method']);
         $now = now();
 
         foreach ($data as $key => $value) {

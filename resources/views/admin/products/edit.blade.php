@@ -52,12 +52,12 @@
             <div style="margin-bottom: 20px;">
                 <label style="display: block; font-weight: 600; margin-bottom: 6px;">Ảnh Đại Diện Xe (Media Picker)</label>
                 <div style="display: flex; gap: 12px; align-items: center;">
-                    <div id="product-thumb-preview" style="width: 80px; height: 50px; border-radius: 4px; border: 1px solid var(--admin-border); overflow: hidden; background: #e2e8f0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                    <div id="product-thumb-preview" class="vinfast-autohaiphong_admin_product_preview">
                         @php
                             $currentMedia = $mediaList->firstWhere('id', $product->thumbnail_media_id);
                         @endphp
                         @if($currentMedia)
-                            <img src="{{ asset('storage/' . $currentMedia->path) }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="{{ asset('storage/' . $currentMedia->path) }}" alt="{{ $product->name }}" class="vinfast-autohaiphong_admin_product_preview_image">
                         @else
                             <span style="font-size: 0.75rem; color: var(--admin-muted);">Chưa có</span>
                         @endif

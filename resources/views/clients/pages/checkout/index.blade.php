@@ -111,9 +111,9 @@
                         @foreach($cart->items as $item)
                             <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--client-color-border);">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
+                                    <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}" 
                                          alt="{{ $item->product_name }}" 
-                                         style="width: 50px; height: 32px; object-fit: cover; border-radius: 3px;">
+                                         class="vinfast-autohaiphong_checkout_product_image">
                                     <div>
                                         <div style="font-weight: 600; font-size: 0.9rem; color: var(--client-color-heading);">
                                             {{ $item->product_name }} &times; {{ $item->quantity }}

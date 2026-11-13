@@ -110,7 +110,7 @@
                     <div class="vinfast-autohaiphong_home_car_card">
                         {{-- Thumbnail --}}
                         <div class="vinfast-autohaiphong_home_car_thumb">
-                            <img src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
+                            <img src="{{ $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}" 
                                  alt="{{ $car->thumbnail_alt ?? $car->name }}" 
                                  loading="lazy" 
                                  width="600" 

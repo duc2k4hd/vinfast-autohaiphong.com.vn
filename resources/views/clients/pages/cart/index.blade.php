@@ -38,9 +38,9 @@
                                 <tr>
                                     <td>
                                         <div style="display: flex; align-items: center; gap: 14px;">
-                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : 'https://vinfast-haiphong.com/wp-content/uploads/2026/07/VF2-300x180.webp' }}" 
+                                            <img src="{{ $item->thumbnail_path ? asset('storage/' . $item->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}" 
                                                  alt="{{ $item->product_name }}" 
-                                                 style="width: 80px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid var(--client-color-border);">
+                                                 class="vinfast-autohaiphong_cart_product_image">
                                             <div>
                                                 <a href="{{ url('/xe/' . $item->product_slug) }}" style="font-weight: 700; color: var(--client-color-heading); text-decoration: none;">
                                                     {{ $item->product_name }}
