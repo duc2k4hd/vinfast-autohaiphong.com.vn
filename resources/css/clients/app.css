@@ -24,7 +24,7 @@ body {
 a {
     color: inherit;
     text-decoration: none;
-    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 img {
@@ -48,12 +48,12 @@ button, input, select, textarea {
     padding-right: var(--client-space-4);
 }
 
-/* 2. Topbar - Nền sáng thanh lịch */
+/* 2. Topbar - Nền sáng nhẹ thanh lịch */
 .vinfast-autohaiphong_header_topbar {
     background-color: var(--client-color-surface);
     color: var(--client-color-muted);
     font-size: 0.825rem;
-    padding: 7px 0;
+    padding: 6px 0;
     border-bottom: 1px solid var(--client-color-border);
 }
 .vinfast-autohaiphong_header_topbar_inner {
@@ -63,7 +63,7 @@ button, input, select, textarea {
 }
 .vinfast-autohaiphong_header_topbar_contact {
     display: flex;
-    gap: var(--client-space-6);
+    gap: 20px;
 }
 .vinfast-autohaiphong_header_topbar_link {
     display: inline-flex;
@@ -75,62 +75,66 @@ button, input, select, textarea {
     color: var(--client-color-primary);
 }
 
-/* 3. Main Header */
+/* 3. Main Header - Chiều cao thanh thoát 64px, chuẩn ảnh 2 */
 .vinfast-autohaiphong_header_main {
-    background-color: var(--client-color-background);
+    background-color: #ffffff;
     position: sticky;
     top: 0;
     z-index: 100;
     border-bottom: 1px solid var(--client-color-border);
 }
 .vinfast-autohaiphong_header_inner {
-    height: var(--client-header-height);
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.vinfast-autohaiphong_header_logo {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 800;
-    font-size: 1.25rem;
-    color: var(--client-color-primary);
-    letter-spacing: -0.3px;
-}
-.vinfast-autohaiphong_header_logo_badge {
-    background-color: var(--client-color-primary-light);
-    color: var(--client-color-primary);
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: var(--client-radius-xs);
-    border: 1px solid rgba(20, 100, 244, 0.2);
+.vinfast-autohaiphong_header_logo_img {
+    height: 38px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+    display: block;
 }
 
-/* 4. Header Navigation */
+/* 4. Navigation Menu - Thanh Mảnh, Chuẩn Ảnh 2 */
 .vinfast-autohaiphong_header_nav {
     display: flex;
     align-items: center;
-    gap: var(--client-space-6);
 }
 .vinfast-autohaiphong_header_nav_list {
     display: flex;
     list-style: none;
     align-items: center;
-    gap: 28px;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
 }
 .vinfast-autohaiphong_header_nav_item {
     position: relative;
 }
 .vinfast-autohaiphong_header_nav_link {
-    font-weight: 600;
-    font-size: 0.925rem;
-    color: var(--client-color-heading);
-    padding: 10px 0;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #2b3445;
+    padding: 18px 0;
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    letter-spacing: -0.01em;
+}
+.vinfast-autohaiphong_header_nav_arrow {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-left: 1px;
+    transition: transform 0.2s ease;
+}
+.vinfast-autohaiphong_header_nav_item:hover .vinfast-autohaiphong_header_nav_arrow {
+    transform: rotate(180deg);
+}
+.vinfast-autohaiphong_header_nav_link_brand {
+    color: var(--client-color-primary) !important;
+    font-weight: 600;
 }
 .vinfast-autohaiphong_header_nav_link:hover, 
 .vinfast-autohaiphong_header_nav_link.active {
@@ -141,18 +145,28 @@ button, input, select, textarea {
 .vinfast-autohaiphong_header_dropdown {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -16px;
     background-color: #ffffff;
     border: 1px solid var(--client-color-border);
     border-radius: var(--client-radius-md);
-    box-shadow: var(--client-shadow-md);
-    min-width: 230px;
-    padding: 6px 0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    width: 280px;
+    padding: 12px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(8px);
+    transform: translateY(6px);
     transition: all 0.2s ease;
     z-index: 101;
+}
+.vinfast-autohaiphong_header_dropdown_title {
+    font-size: 0.725rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--client-color-muted);
+    padding: 4px 10px 8px;
+    border-bottom: 1px solid var(--client-color-border);
+    margin-bottom: 6px;
 }
 .vinfast-autohaiphong_header_nav_item:hover .vinfast-autohaiphong_header_dropdown {
     opacity: 1;
@@ -161,14 +175,34 @@ button, input, select, textarea {
 }
 .vinfast-autohaiphong_header_dropdown_item {
     display: block;
-    padding: 9px 18px;
+    padding: 8px 10px;
     font-size: 0.875rem;
     color: var(--client-color-text);
     font-weight: 500;
+    border-radius: 4px;
+    transition: all 0.15s ease;
 }
 .vinfast-autohaiphong_header_dropdown_item:hover {
-    background-color: var(--client-color-surface);
+    background-color: #f1f5f9;
     color: var(--client-color-primary);
+    padding-left: 14px;
+}
+.vinfast-autohaiphong_header_dropdown_item_all {
+    color: var(--client-color-primary);
+    font-weight: 600;
+    border-top: 1px dashed var(--client-color-border);
+    margin-top: 6px;
+    padding-top: 10px;
+}
+
+/* Mobile Toggle Button */
+.vinfast-autohaiphong_header_mobile_btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--client-color-heading);
 }
 
 /* 6. Buttons Chung - Màu chuẩn #1464f4 */
@@ -178,13 +212,12 @@ button, input, select, textarea {
     justify-content: center;
     gap: 6px;
     font-weight: 600;
-    padding: 9px 20px;
+    padding: 9px 18px;
     border-radius: var(--client-radius-sm);
     cursor: pointer;
     border: 1px solid transparent;
     transition: all 0.15s ease;
     font-size: 0.875rem;
-    letter-spacing: 0.2px;
 }
 .vinfast-autohaiphong_btn_primary {
     background-color: var(--client-color-primary);
@@ -211,45 +244,24 @@ button, input, select, textarea {
     color: var(--client-color-primary);
 }
 
-/* 7. Trang Chủ — Hero Banner Sáng & Gọn Gàng */
+/* 7. Trang Chủ — Hero Banner Slider */
 .vinfast-autohaiphong_home_hero {
-    background-color: var(--client-color-surface);
+    background-color: #f8fafc;
     border-bottom: 1px solid var(--client-color-border);
-    padding: 56px 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
 }
-.vinfast-autohaiphong_home_hero_content {
-    max-width: 680px;
-}
-.vinfast-autohaiphong_home_hero_tag {
-    color: var(--client-color-primary);
-    font-weight: 700;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 12px;
-    display: inline-block;
-}
-.vinfast-autohaiphong_home_hero_title {
-    font-size: 2.35rem;
-    font-weight: 800;
-    line-height: 1.25;
-    margin-bottom: 16px;
-    color: var(--client-color-heading);
-}
-.vinfast-autohaiphong_home_hero_desc {
-    font-size: 1.05rem;
-    color: var(--client-color-muted);
-    margin-bottom: 28px;
-    line-height: 1.6;
-}
-.vinfast-autohaiphong_home_hero_actions {
-    display: flex;
-    gap: 12px;
+.vinfast-autohaiphong_home_hero_img {
+    width: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    display: block;
 }
 
 /* 8. Trang Chủ — Section Bố Cục */
 .vinfast-autohaiphong_home_section {
-    padding: 54px 0;
+    padding: 50px 0;
 }
 .vinfast-autohaiphong_home_section_surface {
     background-color: var(--client-color-surface);
@@ -259,10 +271,10 @@ button, input, select, textarea {
 .vinfast-autohaiphong_home_section_header {
     text-align: center;
     max-width: 650px;
-    margin: 0 auto 36px auto;
+    margin: 0 auto 32px auto;
 }
 .vinfast-autohaiphong_home_section_tag {
-    font-size: 0.825rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--client-color-primary);
     text-transform: uppercase;
@@ -271,17 +283,17 @@ button, input, select, textarea {
     display: inline-block;
 }
 .vinfast-autohaiphong_home_section_title {
-    font-size: 1.75rem;
+    font-size: 1.65rem;
     font-weight: 800;
     color: var(--client-color-heading);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 .vinfast-autohaiphong_home_section_desc {
     color: var(--client-color-muted);
-    font-size: 0.95rem;
+    font-size: 0.925rem;
 }
 
-/* 9. Box Trưng Bày Xe — Max-width 1200px, Gọn Gàng */
+/* 9. Box Trưng Bày Xe — Max-width 1200px */
 .vinfast-autohaiphong_home_grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -299,7 +311,7 @@ button, input, select, textarea {
 .vinfast-autohaiphong_home_car_card:hover {
     transform: translateY(-3px);
     box-shadow: var(--client-shadow-hover);
-    border-color: rgba(20, 100, 244, 0.4);
+    border-color: rgba(20, 100, 244, 0.35);
 }
 .vinfast-autohaiphong_home_car_thumb {
     position: relative;
@@ -321,13 +333,13 @@ button, input, select, textarea {
     transform: scale(1.03);
 }
 .vinfast-autohaiphong_home_car_body {
-    padding: 18px 20px;
+    padding: 16px 18px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 .vinfast-autohaiphong_home_car_name {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--client-color-heading);
     margin-bottom: 6px;
@@ -339,7 +351,7 @@ button, input, select, textarea {
     gap: 6px;
 }
 .vinfast-autohaiphong_home_car_price_label {
-    font-size: 0.85rem;
+    font-size: 0.825rem;
     color: var(--client-color-muted);
 }
 .vinfast-autohaiphong_home_car_price {
@@ -352,7 +364,7 @@ button, input, select, textarea {
     grid-template-columns: repeat(2, 1fr);
     gap: 6px;
     margin-bottom: 16px;
-    font-size: 0.825rem;
+    font-size: 0.8rem;
     color: var(--client-color-muted);
     border-top: 1px solid #f1f5f9;
     border-bottom: 1px solid #f1f5f9;
@@ -369,68 +381,91 @@ button, input, select, textarea {
     font-size: 0.825rem;
 }
 
-/* 10. Footer Sáng Sạch & Gọn Gàng */
+/* 10. Bảng Thông Số Kỹ Thuật Key-Value Gọn Gàng */
+.vinfast-autohaiphong_product_specs_table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 14px;
+    font-size: 0.9rem;
+}
+.vinfast-autohaiphong_product_specs_table tr {
+    border-bottom: 1px solid var(--client-color-border);
+}
+.vinfast-autohaiphong_product_specs_table tr:nth-child(even) {
+    background-color: var(--client-color-surface);
+}
+.vinfast-autohaiphong_product_specs_table td {
+    padding: 10px 14px;
+}
+.vinfast-autohaiphong_product_specs_key {
+    font-weight: 600;
+    color: var(--client-color-heading);
+    width: 35%;
+}
+.vinfast-autohaiphong_product_specs_val {
+    color: var(--client-color-text);
+}
+
+/* 11. Footer */
 .vinfast-autohaiphong_footer_main {
     background-color: var(--client-color-surface);
     color: var(--client-color-text);
-    padding-top: 48px;
-    padding-bottom: 24px;
+    padding-top: 44px;
+    padding-bottom: 20px;
     border-top: 2px solid var(--client-color-primary);
 }
 .vinfast-autohaiphong_footer_grid {
     display: grid;
     grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
-    gap: 32px;
-    margin-bottom: 36px;
+    gap: 28px;
+    margin-bottom: 32px;
 }
 .vinfast-autohaiphong_footer_title {
     color: var(--client-color-heading);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
 }
 .vinfast-autohaiphong_footer_list {
     list-style: none;
 }
 .vinfast-autohaiphong_footer_item {
-    margin-bottom: 8px;
-    font-size: 0.9rem;
+    margin-bottom: 7px;
+    font-size: 0.875rem;
     color: var(--client-color-muted);
 }
 .vinfast-autohaiphong_footer_item a:hover {
     color: var(--client-color-primary);
-    padding-left: 2px;
 }
 .vinfast-autohaiphong_footer_bottom {
     border-top: 1px solid var(--client-color-border);
-    padding-top: 20px;
+    padding-top: 18px;
     display: flex;
     justify-content: space-between;
-    font-size: 0.825rem;
+    font-size: 0.8rem;
     color: var(--client-color-muted);
 }
 
-/* 11. Floating Buttons */
+/* 12. Floating Buttons */
 .vinfast-autohaiphong_floating_wrapper {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 20px;
+    right: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     z-index: 99;
 }
 .vinfast-autohaiphong_floating_btn {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     border-radius: var(--client-radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
     transition: transform 0.2s ease;
 }
 .vinfast-autohaiphong_floating_btn:hover {
@@ -443,7 +478,7 @@ button, input, select, textarea {
     background-color: #0068ff;
 }
 
-/* Responsive */
+/* 13. Responsive Mobile & Tablet */
 @media (max-width: 1024px) {
     .vinfast-autohaiphong_home_grid {
         grid-template-columns: repeat(2, 1fr);
@@ -452,15 +487,52 @@ button, input, select, textarea {
         grid-template-columns: repeat(2, 1fr);
     }
 }
-@media (max-width: 768px) {
+@media (max-width: 860px) {
     .vinfast-autohaiphong_header_topbar {
         display: none;
     }
-    .vinfast-autohaiphong_header_nav {
-        display: none;
+    .vinfast-autohaiphong_header_mobile_btn {
+        display: block;
     }
-    .vinfast-autohaiphong_home_hero_title {
-        font-size: 1.85rem;
+    .vinfast-autohaiphong_header_nav {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #ffffff;
+        flex-direction: column;
+        padding: 24px;
+        display: none;
+        box-shadow: var(--client-shadow-lg);
+        overflow-y: auto;
+    }
+    .vinfast-autohaiphong_header_nav.active {
+        display: flex;
+    }
+    .vinfast-autohaiphong_header_nav_list {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 0;
+    }
+    .vinfast-autohaiphong_header_nav_item {
+        width: 100%;
+        border-bottom: 1px solid var(--client-color-border);
+    }
+    .vinfast-autohaiphong_header_nav_link {
+        width: 100%;
+        padding: 14px 0;
+    }
+    .vinfast-autohaiphong_header_dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        border: none;
+        padding-left: 16px;
+        background: #f8fafc;
     }
     .vinfast-autohaiphong_home_grid {
         grid-template-columns: 1fr;
@@ -474,3 +546,129 @@ button, input, select, textarea {
         text-align: center;
     }
 }
+
+/* 11. Bảng Thông Số Kỹ Thuật Chuẩn Hóa Key-Value (Đầu Trang Chi Tiết Xe) */
+.vinfast-autohaiphong_product_specs_box {
+    background-color: #ffffff;
+    border: 1px solid var(--client-color-border);
+    border-radius: var(--client-radius-md);
+    padding: 28px 32px;
+    margin-bottom: 36px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.vinfast-autohaiphong_product_specs_heading {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--client-color-heading);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.vinfast-autohaiphong_product_specs_heading::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background-color: var(--client-color-primary);
+    border-radius: 2px;
+}
+.vinfast-autohaiphong_product_specs_grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 24px;
+}
+.vinfast-autohaiphong_product_specs_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 4px;
+    background-color: #f8fafc;
+    border: 1px solid #f1f5f9;
+}
+.vinfast-autohaiphong_product_specs_row:nth-child(even) {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}
+.vinfast-autohaiphong_product_specs_key {
+    font-size: 0.875rem;
+    color: #475569;
+    font-weight: 500;
+}
+.vinfast-autohaiphong_product_specs_value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #0f172a;
+    text-align: right;
+}
+
+@media (max-width: 768px) {
+    .vinfast-autohaiphong_product_specs_grid {
+        grid-template-columns: 1fr;
+    }
+    .vinfast-autohaiphong_product_specs_box {
+        padding: 20px 16px;
+    }
+}
+
+/* 12. Mô Tả Chi Tiết Sản Phẩm (Nằm Phía Dưới Thông Số Kỹ Thuật) */
+.vinfast-autohaiphong_product_detail_box {
+    background-color: #ffffff;
+    border: 1px solid var(--client-color-border);
+    border-radius: var(--client-radius-md);
+    padding: 32px;
+    margin-bottom: 40px;
+    line-height: 1.8;
+    color: #334155;
+}
+.vinfast-autohaiphong_product_detail_content h2,
+.vinfast-autohaiphong_product_detail_content h3 {
+    color: var(--client-color-heading);
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+.vinfast-autohaiphong_product_detail_content p {
+    margin-bottom: 16px;
+}
+.vinfast-autohaiphong_product_detail_content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--client-radius-sm);
+    margin: 16px 0;
+}
+
+/* 13. Giỏ Hàng & Checkout Tiền Mặt */
+.vinfast-autohaiphong_cart_table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border: 1px solid var(--client-color-border);
+    border-radius: var(--client-radius-md);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+.vinfast-autohaiphong_cart_table th {
+    background: #f8fafc;
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 1px solid var(--client-color-border);
+}
+.vinfast-autohaiphong_cart_table td {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--client-color-border);
+    vertical-align: middle;
+}
+.vinfast-autohaiphong_checkout_cash_notice {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--client-radius-md);
+    padding: 18px 24px;
+    margin-bottom: 24px;
+    color: #1e40af;
+}
+

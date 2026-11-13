@@ -2,11 +2,23 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
+use Database\Seeders\InitialCarsSeeder;
+use Database\Seeders\InitialSettingsSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed(InitialSettingsSeeder::class);
+        $this->seed(InitialCarsSeeder::class);
+    }
+
     /**
      * A basic test example.
      */

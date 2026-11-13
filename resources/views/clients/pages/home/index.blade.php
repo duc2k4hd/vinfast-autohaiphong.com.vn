@@ -5,26 +5,55 @@
 @section('canonical', route('client.home'))
 
 @section('content')
-{{-- 1. Hero Banner - Tối Giản, Nền Sáng --}}
+{{-- 1. Hero Banner - Banners Ảnh Thật --}}
 <section class="vinfast-autohaiphong_home_hero">
-    <div class="vinfast-autohaiphong_layout_container">
-        <div class="vinfast-autohaiphong_home_hero_content">
-            <span class="vinfast-autohaiphong_home_hero_tag">Đại Lý Ủy Quyền VinFast Hải Phòng</span>
-            <h1 class="vinfast-autohaiphong_home_hero_title">
-                BẢNG GIÁ VÀ ƯU ĐÃI Ô TÔ ĐIỆN VINFAST MỚI NHẤT
-            </h1>
-            <p class="vinfast-autohaiphong_home_hero_desc">
-                Cung cấp đầy đủ các dòng xe điện thông minh chính hãng với chi phí vận hành siêu tiết kiệm, hỗ trợ trả góp lên đến 80% giá trị xe và chính sách bảo hành chính hãng lên đến 10 năm.
-            </p>
-            <div class="vinfast-autohaiphong_home_hero_actions">
-                <button type="button" onclick="openQuoteModal(null, 'Tất cả các dòng xe')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
-                    Báo Giá Lăn Bánh
-                </button>
-                <a href="tel:0988302882" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline">
-                    Hotline: 0988 302 882
+    <div style="position: relative; width: 100%; overflow: hidden;">
+        <div id="vf-banner-slider" style="display: flex; transition: transform 0.5s ease; width: 100%;">
+            {{-- Slide 1 --}}
+            <div style="min-width: 100%; position: relative;">
+                <a href="{{ url('/xe/vinfast-vf-wild') }}">
+                    <img src="{{ asset('storage/clients/assets/images/banners/banner-vf-wild-94utr45.webp') }}" 
+                         alt="VinFast VF Wild" 
+                         class="vinfast-autohaiphong_home_hero_img"
+                         width="1920" 
+                         height="520">
+                </a>
+            </div>
+            {{-- Slide 2 --}}
+            <div style="min-width: 100%; position: relative;">
+                <a href="{{ url('/o-to-vinfast') }}">
+                    <img src="{{ asset('storage/clients/assets/images/banners/banner-vi-tuong-lai-xanh-546ygtr5webp.webp') }}" 
+                         alt="Vì Tương Lai Xanh" 
+                         class="vinfast-autohaiphong_home_hero_img"
+                         width="1920" 
+                         height="520">
+                </a>
+            </div>
+            {{-- Slide 3 --}}
+            <div style="min-width: 100%; position: relative;">
+                <a href="{{ url('/lien-he') }}">
+                    <img src="{{ asset('storage/clients/assets/images/banners/vinfast-banner-54gf5.png') }}" 
+                         alt="VinFast Hải Phòng Showroom" 
+                         class="vinfast-autohaiphong_home_hero_img"
+                         width="1920" 
+                         height="520">
                 </a>
             </div>
         </div>
+
+        {{-- Nút Chuyển Slide Tinh Tế --}}
+        <button type="button" 
+                onclick="prevSlide()" 
+                style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #333;" 
+                aria-label="Slide trước">
+            ‹
+        </button>
+        <button type="button" 
+                onclick="nextSlide()" 
+                style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.7); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #333;" 
+                aria-label="Slide tiếp">
+            ›
+        </button>
     </div>
 </section>
 
@@ -222,4 +251,31 @@
         </div>
     </div>
 </section>
+
+@push('scripts')
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('#vf-banner-slider > div');
+    const totalSlides = slides.length;
+    const slider = document.getElementById('vf-banner-slider');
+
+    function updateSlider() {
+        if (!slider) return;
+        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlider();
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlider();
+    }
+
+    // Auto play 5s
+    setInterval(nextSlide, 5000);
+</script>
+@endpush
 @endsection

@@ -27,7 +27,7 @@ class HomeTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
-        $response->assertSee('VINFAST HẢI PHÒNG');
+        $response->assertSee('VinFast Hải Phòng');
         $response->assertSee('VinFast VF 3');
         $response->assertSee('VinFast VF 5 Plus');
         $response->assertSee('VinFast VF 8 All New');
