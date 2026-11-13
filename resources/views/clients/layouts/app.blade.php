@@ -28,7 +28,30 @@
     {{-- Assets qua Vite --}}
     @vite(['resources/css/clients/app.css', 'resources/js/clients/app.js'])
 
+    {{-- Structured Data JSON-LD (AutoDealer Schema) --}}
+    <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'AutoDealer',
+        'name' => $siteSettings['site_name'] ?? 'VinFast Hải Phòng',
+        'image' => asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
+        'telephone' => $siteSettings['site_phone'] ?? '0988 302 882',
+        'address' => [
+            '@type' => 'PostalAddress',
+            'streetAddress' => 'Số 1 Bạch Đằng, Phường Thượng Lý',
+            'addressLocality' => 'Quận Hồng Bàng',
+            'addressRegion' => 'Hải Phòng',
+            'addressCountry' => 'VN',
+        ],
+        'url' => url('/'),
+        'priceRange' => '$$$$',
+        'paymentAccepted' => 'Cash',
+        'openingHours' => 'Mo-Sa 07:30-18:00, Su 07:00-18:00',
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+    </script>
+
     @stack('styles')
+    @stack('schema')
 </head>
 <body class="vinfast-autohaiphong_body @yield('body_class')">
 

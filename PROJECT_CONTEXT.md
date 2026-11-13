@@ -78,9 +78,19 @@ Mọi class HTML trong Blade template và file CSS bắt buộc phải có tiề
 - Quản lý Dòng xe: `/admin/products` & `/admin/products/{id}/edit` (cho phép thêm bớt, sửa đổi thông số kỹ thuật Key-Value trực quan).
 - Quản lý Đơn cọc tiền mặt: `/admin/orders` (xác nhận thu tiền mặt tại showroom và cập nhật `payment_records`).
 - Quản lý Khách hàng tiềm năng: `/admin/leads` (tiếp nhận báo giá, đổi trạng thái).
+- Quản lý Tin tức / Bài viết: `/admin/posts` (thêm, sửa bài viết, chọn danh mục, xuất bản).
+- Thư viện Media tập trung: `/admin/media` (upload, quản lý tài nguyên ảnh tập trung).
 - Quản lý Cài đặt: `/admin/settings` (hotline 4 số, giờ làm việc, địa chỉ; xóa cache tự động qua `SettingsService->invalidate()`).
 
-### 4.5. Kiểm Thử & Định Dạng Mã Nguồn
-- 20 Feature/Unit Tests: **100% Passed (83 assertions)**.
+### 4.5. Phân Loại Tài Nguyên Assets Tập Trung (`public/storage/clients/assets/`)
+Toàn bộ assets tĩnh đã được tổ chức và gom vào đúng thư mục:
+- `images/products/`: Toàn bộ 15 ảnh sản phẩm dòng xe (`vinfast-vf-2.webp` đến `vinfast-ec-van.webp`).
+- `images/banners/`: Các banner trang chủ (`banner-vf-wild-94utr45.webp`, `banner-vi-tuong-lai-xanh-546ygtr5webp.webp`, `vinfast-banner-54gf5.png`).
+- `images/business/`: Logo đại lý thương hiệu chính thức `vinfast-haiphong.png`.
+- `images/posts/`: Ảnh minh họa các bài viết tin tức.
+- `fonts/`: Đầy đủ 12 tệp font Open Sans woff/woff2 phục vụ tải cục bộ siêu tốc.
+
+### 4.6. Kiểm Thử & Định Dạng Mã Nguồn
+- 26 Feature Tests: **100% Passed (111 assertions)** bao gồm toàn bộ luồng Client, Checkout tiền mặt, Admin Panel, Post & Media, SEO và Sitemap.
 - Laravel Pint: Đã định dạng chuẩn phong cách Laravel.
-- Vite Assets: Đã build sẵn sàng cho production.
+- Vite Assets: Đã build hoàn tất sẵn sàng cho production.

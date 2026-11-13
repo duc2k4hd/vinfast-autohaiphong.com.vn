@@ -81,6 +81,16 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.posts.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.posts*') ? 'active' : '' }}">
+                        📰 Quản Lý Tin Tức
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.media.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.media*') ? 'active' : '' }}">
+                        🖼️ Thư Viện Media
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.settings.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
                         ⚙️ Cài Đặt Hệ Thống
                     </a>

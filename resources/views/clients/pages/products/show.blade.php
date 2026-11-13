@@ -4,6 +4,30 @@
 @section('meta_description', 'Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết key-value, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Minh Đạo Hải Phòng.')
 @section('canonical', url('/xe/' . $car->slug))
 
+@push('schema')
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org/',
+    '@type' => 'Car',
+    'name' => $car->name,
+    'image' => $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
+    'description' => $car->short_description,
+    'brand' => [
+        '@type' => 'Brand',
+        'name' => 'VinFast',
+    ],
+    'offers' => [
+        '@type' => 'Offer',
+        'url' => url('/xe/' . $car->slug),
+        'priceCurrency' => 'VND',
+        'price' => (float) ($car->sale_price ?: $car->regular_price ?: 0),
+        'availability' => 'https://schema.org/InStock',
+        'priceValidUntil' => '2026-12-31',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+
 @section('content')
 {{-- Breadcrumb --}}
 <div class="vinfast-autohaiphong_product_breadcrumb_wrapper" style="background-color: var(--client-color-surface); border-bottom: 1px solid var(--client-color-border); padding: 12px 0;">

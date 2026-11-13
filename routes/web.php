@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
+use App\Http\Controllers\Admin\MediaController as AdminMediaController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\SettingController as AdminSettingController;
 use App\Http\Controllers\Client\CartController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\Client\LeadController;
 use App\Http\Controllers\Client\PageController;
 use App\Http\Controllers\Client\PostController;
 use App\Http\Controllers\Client\ProductController;
+use App\Http\Controllers\Client\SitemapController;
 use Illuminate\Support\Facades\Route;
 
 // Route đăng nhập chung hệ thống
@@ -65,6 +68,9 @@ Route::name('client.')->group(function () {
     Route::get('/chinh-sach-bao-mat', [PageController::class, 'privacyPolicy'])->name('pages.privacy_policy');
     Route::get('/chinh-sach-bao-hanh', [PageController::class, 'warrantyPolicy'])->name('pages.warranty_policy');
     Route::get('/dieu-khoan-su-dung', [PageController::class, 'terms'])->name('pages.terms');
+
+    // 10. Sitemap XML động
+    Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 });
 
 /*
@@ -99,6 +105,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Quản lý Báo giá (Leads)
         Route::get('/leads', [AdminLeadController::class, 'index'])->name('leads.index');
         Route::patch('/leads/{id}/status', [AdminLeadController::class, 'updateStatus'])->name('leads.update_status');
+
+        // Quản lý Tin tức (Posts)
+        Route::get('/posts', [AdminPostController::class, 'index'])->name('posts.index');
+        Route::get('/posts/create', [AdminPostController::class, 'create'])->name('posts.create');
+        Route::post('/posts', [AdminPostController::class, 'store'])->name('posts.store');
+        Route::get('/posts/{id}/edit', [AdminPostController::class, 'edit'])->name('posts.edit');
+        Route::put('/posts/{id}', [AdminPostController::class, 'update'])->name('posts.update');
+        Route::delete('/posts/{id}', [AdminPostController::class, 'destroy'])->name('posts.destroy');
+
+        // Quản lý Thư viện Media
+        Route::get('/media', [AdminMediaController::class, 'index'])->name('media.index');
+        Route::post('/media', [AdminMediaController::class, 'store'])->name('media.store');
+        Route::delete('/media/{id}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
 
         // Quản lý Cài đặt
         Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');

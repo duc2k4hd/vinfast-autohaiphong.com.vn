@@ -248,8 +248,8 @@ class InitialCarsSeeder extends Seeder
                 ]);
             }
 
-            $relPath = 'clients/assets/images/products/' . $car['slug'] . '.webp';
-            
+            $relPath = 'clients/assets/images/products/'.$car['slug'].'.webp';
+
             // Tìm hoặc tạo media record cho xe
             $mediaId = DB::table('media')->where('path', $relPath)->value('id');
             if (! $mediaId) {
@@ -257,13 +257,13 @@ class InitialCarsSeeder extends Seeder
                     'uuid' => (string) Str::uuid(),
                     'folder_id' => null,
                     'disk' => 'public',
-                    'filename' => $car['slug'] . '.webp',
-                    'original_filename' => $car['slug'] . '.webp',
+                    'filename' => $car['slug'].'.webp',
+                    'original_filename' => $car['slug'].'.webp',
                     'extension' => 'webp',
                     'path' => $relPath,
                     'mime_type' => 'image/webp',
                     'file_size' => 25000,
-                    'alt_text' => $car['name'] . ' tại VinFast Hải Phòng',
+                    'alt_text' => $car['name'].' tại VinFast Hải Phòng',
                     'created_at' => $now,
                     'updated_at' => $now,
                 ]);

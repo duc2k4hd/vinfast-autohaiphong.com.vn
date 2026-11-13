@@ -66,3 +66,30 @@
     - `images/posts/`: Ảnh bài viết tin tức.
     - `fonts/`: Đầy đủ 12 tệp font Open Sans woff/woff2 phục vụ tải cục bộ.
     - `images/icons/`, `css/`, `js/`: Đầy đủ cấu trúc thư mục quy định.
+
+---
+
+## Phiên làm việc: Khắc phục JSON-LD Schema Blade Directive & Hoàn thiện Bộ Test Suite 26 Tests (13/11/2026)
+
+### 1. Công việc đã thực hiện
+- **Khắc phục xung đột Blade Directive với JSON-LD Schema:**
+  - Chuyển đổi toàn bộ cú pháp JSON-LD Schema trong các view Blade (đặc biệt là `@push('schema')` tại [products/show.blade.php](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/clients/pages/products/show.blade.php)) từ định dạng thô có chứa ký tự `@context` sang hàm PHP chuẩn an toàn `{!! json_encode([...], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}`.
+  - Loại bỏ hoàn toàn lỗi cú pháp Blade `syntax error, unexpected end of file, expecting elseif or else or endif`.
+- **Dọn dẹp & Xác minh View Cache:**
+  - Xóa file script kiểm tra tạm thời `check_show.php`.
+  - Thực thi `php artisan view:clear` làm mới toàn bộ bộ nhớ đệm view.
+- **Mở rộng & Chạy Toàn Diện Bộ Kiểm Thử (Full Test Suite):**
+  - Chạy `php artisan test --compact`: **26/26 tests PASS 100% (111 assertions, thời gian chạy ~1.3s)** bao gồm:
+    - `AdminPanelTest`: Đăng nhập, Dashboard, Danh sách xe, Chi tiết chỉnh sửa xe Key-Value, Quản lý đơn cọc tiền mặt, Quản lý Leads, Cài đặt hệ thống.
+    - `AdminPostAndMediaTest`: Quản lý danh sách bài viết & Quản lý thư viện Media tập trung.
+    - `CartAndCheckoutTest`: Toàn bộ luồng giỏ hàng, xác thực số điện thoại, đặt cọc tiền mặt duy nhất, sinh mã đơn `VFHP-YYYYMMDD-XXXX`.
+    - `CatalogAndProductTest`: Trang danh mục xe, bộ lọc giá, sắp xếp, trang chi tiết xe, nạp specs key-value lên đầu tiên.
+    - `ClientContentPagesTest`: Pin & trạm sạc, Trải nghiệm khách hàng, Tin tức, Chi tiết tin tức, Liên hệ, 4 trang chính sách pháp lý.
+    - `HomeTest`: Trang chủ, hiển thị danh mục xe, form đăng ký báo giá, banner trang chủ.
+    - `SitemapAndSeoTest`: Sitemap XML động `/sitemap.xml`, thẻ meta SEO, canonical URL, JSON-LD Schema.
+- **Định Dạng Mã Nguồn & Tối Ưu Hóa Frontend:**
+  - Chạy `vendor/bin/pint --format agent` hoàn thiện phong cách code Laravel PSR-12.
+  - Chạy `npm run build` xuất bản bundle Vite CSS/JS sản xuất trong 173ms.
+- **Đồng Bộ Context & Quy Tắc Dự Án:**
+  - Cập nhật [PROJECT_CONTEXT.md](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/PROJECT_CONTEXT.md) và [docs/context/SESSION_LOG.md](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/docs/context/SESSION_LOG.md).
+  - Tuân thủ tuyệt đối quy tắc KHÔNG chạy lệnh Git, chuẩn bị commit mẫu có dấu cho người dùng.
