@@ -54,11 +54,16 @@ class LeadController extends Controller
             'note' => ['nullable', 'string', 'max:500'],
         ]);
 
-        DB::table('leads')->where('id', $id)->update([
+        $updateData = [
             'status' => $request->input('status'),
-            'note' => $request->input('note'),
             'updated_at' => now(),
-        ]);
+        ];
+
+        if ($request->filled('note') || $request->filled('message')) {
+            $updateData['message'] = $request->input('note') ?? $request->input('message');
+        }
+
+        DB::table('leads')->where('id', $id)->update($updateData);
 
         return back()->with('success', 'Đã cập nhật trạng thái khách hàng tiềm năng thành công.');
     }

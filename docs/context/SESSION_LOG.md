@@ -17,11 +17,12 @@
   - **Loại Bỏ Emoji & Nâng Cấp Thao Tác Nhanh:** Thay thế toàn bộ emoji bằng biểu tượng SVG đơn sắc (icon thùng rác, icon mắt xem trước, icon tiền mặt, icon lưu trữ, icon điện thoại). Bổ sung nút Copy nhanh URL ảnh trong Thư viện Media với phản hồi "✓ Đã chép".
   - **Cảnh Báo Thay Đổi Chưa Lưu (Unsaved Changes Warning):** Tự động phát hiện thay đổi và cảnh báo người dùng khi vô tình đóng hoặc chuyển tab mà chưa bấm Lưu trong form xe, bài viết và cài đặt hệ thống.
 - **Kiểm Thử, Định Dạng & Biên Dịch:**
-  - Test Suite: **40/40 tests PASS 100% (183 assertions, 1.3s)**.
+  - Test Suite: **42/42 tests PASS 100% (192 assertions, ~1.1s)** bao gồm bổ sung test xác thực Media Picker cho xe và bộ lọc Leads đa chiều.
   - Quét Cú Pháp Blade (`test_scan.php`): **`DONE SCAN` (0 mismatch)**.
+  - Khắc phục thuộc tính `leads.message` khớp 100% database schema.
   - View Cache (`php artisan view:cache`): **Biên dịch thành công 100% không cảnh báo**.
   - Laravel Pint: **100% PSR-12 sạch sẽ**.
-  - Vite Assets: **`built in 121ms` sẵn sàng cho môi trường sản xuất**.
+  - Vite Assets: **`built in 93ms` sẵn sàng cho môi trường sản xuất**.
 - **Nghiệm Thu Toàn Diện V2:**
   - Hoàn tất tick 100% các tiêu chí tại `docs/upgrade-v2/13-ACCEPTANCE-CRITERIA.md`.
 
