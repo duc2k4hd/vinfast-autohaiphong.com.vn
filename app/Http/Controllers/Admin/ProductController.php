@@ -59,10 +59,15 @@ class ProductController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
+        $mediaList = DB::table('media')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
             'variants' => $variants,
+            'mediaList' => $mediaList,
         ]);
     }
 
@@ -77,6 +82,7 @@ class ProductController extends Controller
             'sale_price' => ['nullable', 'numeric', 'min:0'],
             'short_description' => ['nullable', 'string', 'max:500'],
             'description_html' => ['nullable', 'string'],
+            'thumbnail_media_id' => ['nullable', 'integer', 'exists:media,id'],
             'specs_labels' => ['nullable', 'array'],
             'specs_values' => ['nullable', 'array'],
             'variant_names' => ['nullable', 'array'],
@@ -96,6 +102,7 @@ class ProductController extends Controller
                 'sale_price' => $request->input('sale_price'),
                 'short_description' => $request->input('short_description'),
                 'description_html' => HtmlSanitizer::clean($request->input('description_html')),
+                'thumbnail_media_id' => $request->input('thumbnail_media_id'),
                 'updated_at' => $now,
             ]);
 

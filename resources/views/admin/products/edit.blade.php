@@ -49,6 +49,35 @@
                           style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">{{ old('short_description', $product->short_description) }}</textarea>
             </div>
 
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 6px;">Ảnh Đại Diện Xe (Media Picker)</label>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <div id="product-thumb-preview" style="width: 80px; height: 50px; border-radius: 4px; border: 1px solid var(--admin-border); overflow: hidden; background: #e2e8f0; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+                        @php
+                            $currentMedia = $mediaList->firstWhere('id', $product->thumbnail_media_id);
+                        @endphp
+                        @if($currentMedia)
+                            <img src="{{ asset('storage/' . $currentMedia->path) }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                        @else
+                            <span style="font-size: 0.75rem; color: var(--admin-muted);">Chưa có</span>
+                        @endif
+                    </div>
+                    <div style="flex: 1;">
+                        <select name="thumbnail_media_id" style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.85rem;">
+                            <option value="">-- Chọn ảnh từ Thư viện Media --</option>
+                            @foreach($mediaList as $m)
+                                <option value="{{ $m->id }}" {{ $product->thumbnail_media_id == $m->id ? 'selected' : '' }}>
+                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
+                                </option>
+                            @endforeach
+                        </select>
+                        <div style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">
+                            <a href="{{ route('admin.media.index') }}" target="_blank" style="color: var(--admin-primary); font-weight: 600;">+ Tải thêm ảnh lên Thư viện Media</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @include('admin.components.editor', [
                 'name' => 'description_html',
                 'id' => 'description_html',
@@ -58,8 +87,9 @@
                 'height' => 380,
             ])
 
-            <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px;">
-                Lưu Toàn Bộ Cập Nhật &rarr;
+            <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                Lưu Toàn Bộ Cập Nhật
             </button>
         </div>
 
