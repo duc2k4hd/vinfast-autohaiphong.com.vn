@@ -19,7 +19,7 @@
 <div class="vinfast-autohaiphong_catalog_section" style="padding: 40px 0 60px 0;">
     <div class="vinfast-autohaiphong_layout_container">
         {{-- Tiêu đề trang & Thanh công cụ lọc --}}
-        <div class="vinfast-autohaiphong_catalog_header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: gap: 16px; margin-bottom: 30px; border-bottom: 1px solid var(--client-color-border); padding-bottom: 20px;">
+        <div class="vinfast-autohaiphong_catalog_header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; border-bottom: 1px solid var(--client-color-border); padding-bottom: 20px;">
             <div>
                 <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--client-color-heading); margin-bottom: 6px;">
                     CÁC DÒNG XE Ô TÔ VINFAST
