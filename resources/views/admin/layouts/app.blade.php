@@ -27,7 +27,8 @@
         .vinfast-autohaiphong_admin_sidebar { width: 250px; background-color: #ffffff; border-right: 1px solid var(--admin-border); flex-shrink: 0; display: flex; flex-direction: column; }
         .vinfast-autohaiphong_admin_sidebar_brand { padding: 20px 24px; border-bottom: 1px solid var(--admin-border); font-size: 1.05rem; font-weight: 800; color: var(--admin-primary); letter-spacing: 0.5px; }
         .vinfast-autohaiphong_admin_sidebar_menu { list-style: none; padding: 16px 12px; flex: 1; }
-        .vinfast-autohaiphong_admin_sidebar_link { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 6px; font-weight: 600; color: var(--admin-text); margin-bottom: 4px; transition: all 0.15s ease; font-size: 0.9rem; }
+        .vinfast-autohaiphong_admin_sidebar_heading { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--admin-muted); padding: 14px 14px 6px 14px; }
+        .vinfast-autohaiphong_admin_sidebar_link { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 6px; font-weight: 600; color: var(--admin-text); margin-bottom: 2px; transition: all 0.15s ease; font-size: 0.88rem; }
         .vinfast-autohaiphong_admin_sidebar_link:hover, .vinfast-autohaiphong_admin_sidebar_link.active { background-color: #eff6ff; color: var(--admin-primary); }
         .vinfast-autohaiphong_admin_sidebar_link svg { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 2; }
         
@@ -64,18 +65,15 @@
                 <div style="font-size: 0.75rem; color: var(--admin-muted); font-weight: normal; margin-top: 2px;">Hệ Thống Quản Trị Doanh Nghiệp</div>
             </div>
             <ul class="vinfast-autohaiphong_admin_sidebar_menu">
+                <li class="vinfast-autohaiphong_admin_sidebar_heading">TỔNG QUAN</li>
                 <li>
                     <a href="{{ route('admin.dashboard') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                        Tổng Quan
+                        Bảng Điều Khiển
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('admin.products.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 17h14M5 17a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2M5 17l-2 3h18l-2-3"></path><circle cx="7.5" cy="12.5" r="1.5"></circle><circle cx="16.5" cy="12.5" r="1.5"></circle></svg>
-                        Quản Lý Dòng Xe
-                    </a>
-                </li>
+
+                <li class="vinfast-autohaiphong_admin_sidebar_heading">BÁN HÀNG</li>
                 <li>
                     <a href="{{ route('admin.orders.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
@@ -86,6 +84,14 @@
                     <a href="{{ route('admin.leads.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.leads*') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                         Yêu Cầu Báo Giá
+                    </a>
+                </li>
+
+                <li class="vinfast-autohaiphong_admin_sidebar_heading">SẢN PHẨM & NỘI DUNG</li>
+                <li>
+                    <a href="{{ route('admin.products.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 17h14M5 17a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2M5 17l-2 3h18l-2-3"></path><circle cx="7.5" cy="12.5" r="1.5"></circle><circle cx="16.5" cy="12.5" r="1.5"></circle></svg>
+                        Quản Lý Dòng Xe
                     </a>
                 </li>
                 <li>
@@ -100,13 +106,15 @@
                         Thư Viện Media
                     </a>
                 </li>
+
+                <li class="vinfast-autohaiphong_admin_sidebar_heading">HỆ THỐNG</li>
                 <li>
                     <a href="{{ route('admin.settings.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                         Cài Đặt Hệ Thống
                     </a>
                 </li>
-                <li style="margin-top: 24px; border-top: 1px solid var(--admin-border); padding-top: 12px;">
+                <li style="margin-top: 18px; border-top: 1px solid var(--admin-border); padding-top: 10px;">
                     <a href="{{ route('client.home') }}" target="_blank" class="vinfast-autohaiphong_admin_sidebar_link">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                         Xem Website Ngoài
@@ -119,8 +127,15 @@
         <div class="vinfast-autohaiphong_admin_main">
             {{-- Topbar --}}
             <header class="vinfast-autohaiphong_admin_topbar">
-                <div style="font-weight: 700; color: var(--admin-heading);">
-                    @yield('header_title', 'Bảng Điều Khiển')
+                <div>
+                    @if(View::hasSection('breadcrumb'))
+                        <div style="font-size: 0.76rem; color: var(--admin-muted); margin-bottom: 2px;">
+                            @yield('breadcrumb')
+                        </div>
+                    @endif
+                    <div style="font-weight: 700; color: var(--admin-heading); font-size: 1.05rem;">
+                        @yield('header_title', 'Bảng Điều Khiển')
+                    </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 16px;">
                     <span style="font-weight: 600; color: var(--admin-text); display: inline-flex; align-items: center; gap: 6px;">
@@ -153,6 +168,7 @@
             </div>
         </div>
     </div>
+    @include('admin.components.confirm-dialog')
     @stack('scripts')
 </body>
 </html>

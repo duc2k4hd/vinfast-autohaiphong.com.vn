@@ -84,15 +84,23 @@
                             </div>
                         </div>
 
-                        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--admin-border); padding-top: 6px;">
-                            <a href="{{ asset('storage/' . $media->path) }}" target="_blank" style="font-size: 0.75rem; color: var(--admin-primary); font-weight: 600;" title="Xem ảnh">
-                                Mở &nearr;
-                            </a>
-                            <form action="{{ route('admin.media.destroy', $media->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa tệp ảnh này khỏi hệ thống?')">
+                        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--admin-border); padding-top: 6px; gap: 6px;">
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <a href="{{ asset('storage/' . $media->path) }}" target="_blank" style="font-size: 0.75rem; color: var(--admin-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 2px;" title="Xem ảnh">
+                                    Mở &nearr;
+                                </a>
+                                <button type="button" 
+                                        onclick="navigator.clipboard.writeText('{{ asset('storage/' . $media->path) }}').then(() => { this.textContent = '✓ Đã chép'; setTimeout(() => this.textContent = 'Sao chép', 1500); })" 
+                                        style="background: none; border: none; font-size: 0.72rem; color: var(--admin-muted); cursor: pointer; padding: 2px 4px; border-radius: 3px; font-weight: 600;" 
+                                        title="Sao chép URL ảnh">
+                                    Sao chép
+                                </button>
+                            </div>
+                            <form action="{{ route('admin.media.destroy', $media->id) }}" method="POST" data-confirm="Bạn có chắc chắn muốn xóa tệp ảnh '{{ $media->filename }}' khỏi hệ thống?" data-confirm-title="Xóa Tệp Ảnh" data-confirm-type="danger" data-confirm-btn="Xóa Tệp">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.85rem;" title="Xóa ảnh">
-                                    🗑️
+                                <button type="submit" style="background: none; border: none; color: #ef4444; cursor: pointer; display: inline-flex; align-items: center; padding: 2px;" title="Xóa ảnh">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                 </button>
                             </form>
                         </div>

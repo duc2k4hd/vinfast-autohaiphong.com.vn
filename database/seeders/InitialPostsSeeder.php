@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class InitialPostsSeeder extends Seeder
 {
@@ -56,7 +57,9 @@ class InitialPostsSeeder extends Seeder
             ],
         ];
 
+        Schema::disableForeignKeyConstraints();
         DB::table('posts')->truncate();
+        Schema::enableForeignKeyConstraints();
         DB::table('posts')->insert($posts);
     }
 }

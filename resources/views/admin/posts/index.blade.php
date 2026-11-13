@@ -53,10 +53,10 @@
                             <a href="{{ route('admin.posts.edit', $post->id) }}" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 10px; font-size: 0.8rem;">
                                 Sửa
                             </a>
-                            <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}" target="_blank" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 8px; font-size: 0.8rem;" title="Xem bài">
-                                👁️
+                            <a href="{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}" target="_blank" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 8px; font-size: 0.8rem; display: inline-flex; align-items: center;" title="Xem bài viết">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                             </a>
-                            <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Bạn có chắc muốn xóa bài viết này?')">
+                            <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" style="display: inline-block;" data-confirm="Bạn có chắc chắn muốn xóa bài viết '{{ $post->title }}' khỏi hệ thống?" data-confirm-title="Xóa Bài Viết" data-confirm-type="danger" data-confirm-btn="Xóa Bài">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 10px; font-size: 0.8rem; color: #ef4444; border-color: #fca5a5;">

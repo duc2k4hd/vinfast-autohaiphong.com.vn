@@ -1,6 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Chỉnh Sửa Dòng Xe ' . $product->name)
+@section('breadcrumb')
+    <a href="{{ route('admin.dashboard') }}" style="color: var(--admin-muted);">Tổng quan</a> &rsaquo; 
+    <a href="{{ route('admin.products.index') }}" style="color: var(--admin-muted);">Dòng xe</a> &rsaquo; 
+    <span>{{ $product->name }}</span>
+@endsection
 @section('header_title', 'CHỈNH SỬA XE & BẢNG THÔNG SỐ KEY-VALUE')
 
 @section('content')
@@ -212,7 +217,23 @@ function addNewVariantRow() {
         </div>
     `;
     container.appendChild(div);
+    formIsDirty = true;
 }
+
+// Cảnh báo khi có dữ liệu chưa lưu
+let formIsDirty = false;
+const productForm = document.querySelector('form[action*="admin/products"]');
+if (productForm) {
+    productForm.addEventListener('input', () => { formIsDirty = true; });
+    productForm.addEventListener('change', () => { formIsDirty = true; });
+    productForm.addEventListener('submit', () => { formIsDirty = false; });
+}
+window.addEventListener('beforeunload', (e) => {
+    if (formIsDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
 </script>
 @endsection
 

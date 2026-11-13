@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class InitialBannersAndSpecsSeeder extends Seeder
 {
@@ -15,7 +16,9 @@ class InitialBannersAndSpecsSeeder extends Seeder
         $now = now();
 
         // 1. Cập nhật Banners từ tài nguyên ảnh thực tế
+        Schema::disableForeignKeyConstraints();
         DB::table('banners')->truncate();
+        Schema::enableForeignKeyConstraints();
 
         DB::table('banners')->insert([
             [
@@ -215,7 +218,9 @@ class InitialBannersAndSpecsSeeder extends Seeder
             ],
         ];
 
+        Schema::disableForeignKeyConstraints();
         DB::table('product_specifications')->truncate();
+        Schema::enableForeignKeyConstraints();
 
         foreach ($specsMap as $slug => $specs) {
             if (! isset($cars[$slug])) {

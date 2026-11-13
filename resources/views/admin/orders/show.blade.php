@@ -1,6 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Chi Tiết Đơn Hàng ' . $order->order_number)
+@section('breadcrumb')
+    <a href="{{ route('admin.dashboard') }}" style="color: var(--admin-muted);">Tổng quan</a> &rsaquo; 
+    <a href="{{ route('admin.orders.index') }}" style="color: var(--admin-muted);">Đơn hàng</a> &rsaquo; 
+    <span>{{ $order->order_number }}</span>
+@endsection
 @section('header_title', 'CHI TIẾT ĐƠN HÀNG ' . $order->order_number)
 
 @section('content')
@@ -134,11 +139,12 @@
             {{-- Nút xác nhận thu tiền mặt --}}
             <div style="margin-top: 24px;">
                 @if($order->payment_status !== 'paid')
-                    <form action="{{ route('admin.orders.confirm_cash', $order->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn xác nhận đã kiểm đếm và thu đủ tiền mặt tại Showroom?')">
+                    <form action="{{ route('admin.orders.confirm_cash', $order->id) }}" method="POST" data-confirm="Bạn có chắc chắn xác nhận đã kiểm đếm và thu đủ số tiền mặt {{ number_format($order->total, 0, ',', '.') }} VNĐ tại Showroom Minh Đạo?" data-confirm-title="Xác Nhận Thu Tiền Mặt" data-confirm-type="primary" data-confirm-btn="Đã Thu Đủ Tiền">
                         @csrf
                         @method('PATCH')
-                        <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
-                            💵 Xác Nhận Đã Thu Tiền Mặt Tại Showroom
+                        <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                            Xác Nhận Đã Thu Tiền Mặt Tại Showroom
                         </button>
                     </form>
                 @else

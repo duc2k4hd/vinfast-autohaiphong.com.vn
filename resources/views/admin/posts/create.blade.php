@@ -1,6 +1,11 @@
 @extends('admin.layouts.app')
 
 @section('title', 'Tạo Bài Viết Tin Tức Mới')
+@section('breadcrumb')
+    <a href="{{ route('admin.dashboard') }}" style="color: var(--admin-muted);">Tổng quan</a> &rsaquo; 
+    <a href="{{ route('admin.posts.index') }}" style="color: var(--admin-muted);">Tin tức</a> &rsaquo; 
+    <span>Tạo mới</span>
+@endsection
 @section('header_title', 'TẠO BÀI VIẾT TIN TỨC MỚI')
 
 @section('content')
@@ -63,8 +68,9 @@
                     </select>
                 </div>
 
-                <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem;">
-                    💾 Đăng Bài Viết
+                <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    Đăng Bài Viết
                 </button>
             </div>
 
@@ -76,5 +82,21 @@
         </div>
     </div>
 </form>
+
+<script>
+let formIsDirty = false;
+const postCreateForm = document.querySelector('form[action*="admin/posts"]');
+if (postCreateForm) {
+    postCreateForm.addEventListener('input', () => { formIsDirty = true; });
+    postCreateForm.addEventListener('change', () => { formIsDirty = true; });
+    postCreateForm.addEventListener('submit', () => { formIsDirty = false; });
+}
+window.addEventListener('beforeunload', (e) => {
+    if (formIsDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
+</script>
 @endsection
 
