@@ -61,4 +61,3 @@ class AuthController extends Controller
             ->with('success', 'Bạn đã đăng xuất an toàn khỏi hệ thống quản trị.');
     }
 }
-

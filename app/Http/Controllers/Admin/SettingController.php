@@ -53,4 +53,3 @@ class SettingController extends Controller
         return back()->with('success', 'Đã lưu cấu hình cài đặt website thành công và xóa sạch cache cấu hình.');
     }
 }
-

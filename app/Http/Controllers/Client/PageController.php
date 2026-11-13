@@ -55,4 +55,3 @@ class PageController extends Controller
         return view('clients.pages.custom.terms');
     }
 }
-

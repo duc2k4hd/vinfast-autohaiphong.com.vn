@@ -58,3 +58,11 @@
   - Toàn bộ 20 Feature/Unit tests: **100% Passed (83 assertions)**.
   - Laravel Pint: Đã định dạng 100% file PHP.
   - Vite: Build thành công assets CSS/JS.
+- **Tổ Chức Quản Lý Assets Tập Trung:**
+  - Toàn bộ assets đã được phân loại chuẩn xác vào `public/storage/clients/assets/`:
+    - `images/products/`: Toàn bộ 15 ảnh sản phẩm dòng xe (`vinfast-vf-2.webp` đến `vinfast-ec-van.webp`), liên kết trực tiếp vào bảng `products.thumbnail_media_id`.
+    - `images/banners/`: 3 file banners thực tế (`banner-vf-wild-94utr45.webp`, `banner-vi-tuong-lai-xanh-546ygtr5webp.webp`, `vinfast-banner-54gf5.png`).
+    - `images/business/`: Logo nhận diện thương hiệu `vinfast-haiphong.png`.
+    - `images/posts/`: Ảnh bài viết tin tức.
+    - `fonts/`: Đầy đủ 12 tệp font Open Sans woff/woff2 phục vụ tải cục bộ.
+    - `images/icons/`, `css/`, `js/`: Đầy đủ cấu trúc thư mục quy định.

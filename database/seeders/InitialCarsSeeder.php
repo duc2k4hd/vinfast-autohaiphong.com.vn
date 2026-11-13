@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class InitialCarsSeeder extends Seeder
 {
@@ -15,25 +16,31 @@ class InitialCarsSeeder extends Seeder
         $now = now();
 
         // 1. Tạo 2 danh mục chính
-        $catPassengerId = DB::table('product_categories')->insertGetId([
-            'name' => 'Ô Tô Điện Du Lịch',
-            'slug' => 'o-to-dien-du-lich',
-            'description' => 'Các dòng xe ô tô điện cá nhân và gia đình thông minh của VinFast',
-            'status' => 'active',
-            'sort_order' => 1,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
+        $catPassengerId = DB::table('product_categories')->updateOrInsert(
+            ['slug' => 'o-to-dien-du-lich'],
+            [
+                'name' => 'Ô Tô Điện Du Lịch',
+                'description' => 'Các dòng xe ô tô điện cá nhân và gia đình thông minh của VinFast',
+                'status' => 'active',
+                'sort_order' => 1,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]
+        );
+        $catPassengerId = DB::table('product_categories')->where('slug', 'o-to-dien-du-lich')->value('id');
 
-        $catCommercialId = DB::table('product_categories')->insertGetId([
-            'name' => 'Xe Dịch Vụ & Vận Tải Xanh',
-            'slug' => 'xe-dich-vu-xanh',
-            'description' => 'Giải pháp phương tiện thuần điện tối ưu chi phí vận hành cho doanh nghiệp và dịch vụ',
-            'status' => 'active',
-            'sort_order' => 2,
-            'created_at' => $now,
-            'updated_at' => $now,
-        ]);
+        $catCommercialId = DB::table('product_categories')->updateOrInsert(
+            ['slug' => 'xe-dich-vu-xanh'],
+            [
+                'name' => 'Xe Dịch Vụ & Vận Tải Xanh',
+                'description' => 'Giải pháp phương tiện thuần điện tối ưu chi phí vận hành cho doanh nghiệp và dịch vụ',
+                'status' => 'active',
+                'sort_order' => 2,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]
+        );
+        $catCommercialId = DB::table('product_categories')->where('slug', 'xe-dich-vu-xanh')->value('id');
 
         // 2. Danh sách 15 mẫu xe theo kiểm kê
         $cars = [
@@ -65,11 +72,11 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF 5 Plus',
                 'slug' => 'vinfast-vf-5',
-                'sku' => 'VF5-PLUS',
-                'regular_price' => 496000000,
-                'sale_price' => 496000000,
+                'sku' => 'VF5-PLS',
+                'regular_price' => 468000000,
+                'sale_price' => 468000000,
                 'price_on_request' => false,
-                'short_description' => 'SUV đô thị hạng A dẫn đầu phân khúc, trang bị hàng loạt công nghệ an toàn.',
+                'short_description' => 'Mẫu SUV hạng A thông minh, tối ưu cho gia đình trẻ tại Hải Phòng.',
                 'sort_order' => 3,
                 'featured' => true,
             ],
@@ -77,11 +84,11 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF 6',
                 'slug' => 'vinfast-vf-6',
-                'sku' => 'VF6-BASE',
-                'regular_price' => 646000000,
-                'sale_price' => 646000000,
+                'sku' => 'VF6-STD',
+                'regular_price' => 675000000,
+                'sale_price' => 675000000,
                 'price_on_request' => false,
-                'short_description' => 'Tuyệt tác thiết kế phong cách châu Âu, trải nghiệm lái thể thao đầy cảm hứng.',
+                'short_description' => 'Tuyệt tác SUV điện hạng B với thiết kế châu Âu thanh lịch và công nghệ vượt trội.',
                 'sort_order' => 4,
                 'featured' => true,
             ],
@@ -89,11 +96,11 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF 7',
                 'slug' => 'vinfast-vf-7',
-                'sku' => 'VF7-BASE',
-                'regular_price' => 740000000,
-                'sale_price' => 740000000,
+                'sku' => 'VF7-STD',
+                'regular_price' => 850000000,
+                'sale_price' => 850000000,
                 'price_on_request' => false,
-                'short_description' => 'Mẫu C-SUV đột phá tương lai, không gian rộng rãi và công nghệ trợ lái ADAS đỉnh cao.',
+                'short_description' => 'Mẫu SUV điện hạng C phong cách phi thuyền tương lai, cảm giác lái đỉnh cao.',
                 'sort_order' => 5,
                 'featured' => true,
             ],
@@ -101,11 +108,11 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF 8',
                 'slug' => 'vinfast-vf-8',
-                'sku' => 'VF8-ECO',
-                'regular_price' => 850000000,
-                'sale_price' => 850000000,
+                'sku' => 'VF8-STD',
+                'regular_price' => 1079000000,
+                'sale_price' => 1079000000,
                 'price_on_request' => false,
-                'short_description' => 'D-SUV điện toàn cầu đẳng cấp, hiệu suất vận hành vượt trội và tiện nghi chuẩn sang.',
+                'short_description' => 'Mẫu SUV điện cỡ trung chuẩn toàn cầu với công nghệ trợ lái thông minh ADAS.',
                 'sort_order' => 6,
                 'featured' => true,
             ],
@@ -113,11 +120,11 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF 8 All New',
                 'slug' => 'vinfast-vf8-all-new',
-                'sku' => 'VF8-ALLNEW',
-                'regular_price' => 899000000,
-                'sale_price' => 899000000,
+                'sku' => 'VF8-NEW',
+                'regular_price' => 1129000000,
+                'sale_price' => 1129000000,
                 'price_on_request' => false,
-                'short_description' => 'Phiên bản nâng cấp toàn diện thế hệ mới với nội thất bọc da cao cấp và trợ lý ảo thông minh.',
+                'short_description' => 'Phiên bản cải tiến toàn diện của mẫu SUV D-class sang trọng, êm ái hàng đầu.',
                 'sort_order' => 7,
                 'featured' => true,
             ],
@@ -125,11 +132,11 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF 9',
                 'slug' => 'vinfast-vf-9',
-                'sku' => 'VF9-ECO',
-                'regular_price' => 1348000000,
-                'sale_price' => 1348000000,
+                'sku' => 'VF9-STD',
+                'regular_price' => 1566000000,
+                'sale_price' => 1566000000,
                 'price_on_request' => false,
-                'short_description' => 'E-SUV 7 chỗ cỡ lớn biểu tượng vị thế lãnh đạo, khoang thương gia tiện ích tối tân.',
+                'short_description' => 'Mẫu SUV điện hạng E đầu bảng 7 chỗ hoặc ghế cơ trưởng VIP sang trọng đẳng cấp.',
                 'sort_order' => 8,
                 'featured' => true,
             ],
@@ -137,11 +144,11 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF Wild',
                 'slug' => 'vinfast-vf-wild',
-                'sku' => 'VF-WILD',
-                'regular_price' => 860000000,
-                'sale_price' => 860000000,
+                'sku' => 'WILD-PUP',
+                'regular_price' => 0,
+                'sale_price' => 0,
                 'price_on_request' => true,
-                'short_description' => 'Mẫu xe bán tải điện đầu tiên của VinFast với thiết kế phóng khoáng và mạnh mẽ.',
+                'short_description' => 'Mẫu bán tải điện thông minh thế hệ mới, mở lối phong cách sống tự do.',
                 'sort_order' => 9,
                 'featured' => true,
             ],
@@ -149,24 +156,23 @@ class InitialCarsSeeder extends Seeder
                 'category_id' => $catPassengerId,
                 'name' => 'VinFast VF MPV 7',
                 'slug' => 'vinfast-vf-mpv-7',
-                'sku' => 'VF-MPV7',
-                'regular_price' => 750000000,
-                'sale_price' => 750000000,
+                'sku' => 'MPV7-ELEC',
+                'regular_price' => 790000000,
+                'sale_price' => 790000000,
                 'price_on_request' => false,
-                'short_description' => 'Mẫu MPV 7 chỗ chuyên dụng, tối ưu hóa không gian cho gia đình và kinh doanh vận tải.',
+                'short_description' => 'Xe đa dụng 7 chỗ thuần điện rộng rãi, tiết kiệm chi phí tối đa cho gia đình.',
                 'sort_order' => 10,
                 'featured' => false,
             ],
-            // Nhóm xe dịch vụ xanh Green Series
             [
                 'category_id' => $catCommercialId,
                 'name' => 'VinFast Minio Green',
                 'slug' => 'vinfast-minio-green',
                 'sku' => 'MINIO-GRN',
-                'regular_price' => 188000000,
-                'sale_price' => 188000000,
+                'regular_price' => 239000000,
+                'sale_price' => 239000000,
                 'price_on_request' => false,
-                'short_description' => 'Xe đô thị siêu tiết kiệm nhiên liệu chuyên phục vụ đưa đón và dịch vụ xanh.',
+                'short_description' => 'Dòng xe siêu nhỏ gọn chuyên phục vụ giao hàng và dịch vụ đô thị không phát thải.',
                 'sort_order' => 11,
                 'featured' => false,
             ],
@@ -221,9 +227,52 @@ class InitialCarsSeeder extends Seeder
         ];
 
         foreach ($cars as $car) {
+            $relPath = 'clients/assets/images/products/'.$car['slug'].'.webp';
+
+            // Tìm hoặc tạo media record cho xe
+            $mediaId = DB::table('media')->where('path', $relPath)->value('id');
+            if (! $mediaId) {
+                $mediaId = DB::table('media')->insertGetId([
+                    'uuid' => (string) Str::uuid(),
+                    'folder_id' => null,
+                    'disk' => 'public',
+                    'filename' => $car['slug'].'.webp',
+                    'original_filename' => $car['slug'].'.webp',
+                    'extension' => 'webp',
+                    'path' => $relPath,
+                    'mime_type' => 'image/webp',
+                    'file_size' => 25000,
+                    'alt_text' => $car['name'].' tại VinFast Hải Phòng',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+            }
+
+            $relPath = 'clients/assets/images/products/' . $car['slug'] . '.webp';
+            
+            // Tìm hoặc tạo media record cho xe
+            $mediaId = DB::table('media')->where('path', $relPath)->value('id');
+            if (! $mediaId) {
+                $mediaId = DB::table('media')->insertGetId([
+                    'uuid' => (string) Str::uuid(),
+                    'folder_id' => null,
+                    'disk' => 'public',
+                    'filename' => $car['slug'] . '.webp',
+                    'original_filename' => $car['slug'] . '.webp',
+                    'extension' => 'webp',
+                    'path' => $relPath,
+                    'mime_type' => 'image/webp',
+                    'file_size' => 25000,
+                    'alt_text' => $car['name'] . ' tại VinFast Hải Phòng',
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ]);
+            }
+
             DB::table('products')->updateOrInsert(
                 ['slug' => $car['slug']],
                 array_merge($car, [
+                    'thumbnail_media_id' => $mediaId,
                     'status' => 'published',
                     'published_at' => $now,
                     'created_at' => $now,

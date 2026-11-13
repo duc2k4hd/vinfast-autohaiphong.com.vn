@@ -123,4 +123,3 @@ class ProductController extends Controller
             ->with('success', 'Đã lưu cập nhật thông tin xe và thông số kỹ thuật Key-Value thành công!');
     }
 }
-

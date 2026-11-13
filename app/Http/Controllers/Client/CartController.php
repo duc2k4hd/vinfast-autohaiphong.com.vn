@@ -78,4 +78,3 @@ class CartController extends Controller
         return redirect()->route('client.cart.index')->with('success', 'Đã xóa xe khỏi danh sách đặt cọc.');
     }
 }
-

@@ -60,4 +60,3 @@ class InitialPostsSeeder extends Seeder
         DB::table('posts')->insert($posts);
     }
 }
-

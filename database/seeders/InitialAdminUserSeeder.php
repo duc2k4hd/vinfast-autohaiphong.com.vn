@@ -49,4 +49,3 @@ class InitialAdminUserSeeder extends Seeder
         }
     }
 }
-

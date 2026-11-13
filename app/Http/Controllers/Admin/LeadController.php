@@ -55,4 +55,3 @@ class LeadController extends Controller
         return back()->with('success', 'Đã cập nhật trạng thái khách hàng tiềm năng thành công.');
     }
 }
-
