@@ -1,2 +1,2 @@
 // Admin App JS
-import './bootstrap';
+console.log('VinFast Hải Phòng Admin System initialized');

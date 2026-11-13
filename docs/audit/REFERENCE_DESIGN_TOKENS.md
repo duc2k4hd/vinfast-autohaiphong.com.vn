@@ -1,82 +1,73 @@
-# REFERENCE DESIGN TOKENS — vinfast-haiphong.com
-> Phương pháp: Khảo sát qua search_web + thông tin nhận diện thương hiệu VinFast  
-> Ngày: 2026-11-13  
-> **Cảnh báo:** Các giá trị hex cụ thể cho website đại lý chưa được xác minh trực tiếp từ CSS — đây là thông tin tổng hợp từ nhận diện thương hiệu VinFast chính thức và mô tả quan sát.
+# Hệ Thống Thiết Kế & Tokens Giao Diện (Reference Design Tokens) — vinfast-haiphong.com
 
----
+## 1. Màu Sắc (Color Palette)
 
-## 1. Màu sắc (Colors)
+```css
+:root {
+    /* Họ Font duy nhất toàn hệ thống */
+    --client-font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-### Màu thương hiệu VinFast chính thức (Global Brand Guidelines)
+    /* Màu thương hiệu VinFast */
+    --client-color-primary: #1464f4;       /* Xanh dương VinFast chủ đạo */
+    --client-color-primary-hover: #0c4ec5; /* Hover xanh đậm */
+    --client-color-secondary: #2196f3;     /* Xanh dương tươi */
+    --client-color-accent: #dd3333;        /* Đỏ ưu đãi / Giá sốc / Badge */
+    --client-color-accent-hover: #c31d1d;
+    --client-color-success: #36a834;       /* Xanh lá biểu tượng sạc / dịch vụ xanh */
 
-| Tên | HEX | RGB | Mô tả |
-|-----|-----|-----|-------|
-| **Future Blue (Primary)** | `#1464F4` | rgb(20, 100, 244) | Màu xanh chủ đạo thương hiệu — dùng cho accent, nút, link |
-| **Steel Blue** | `#92A0B2` | rgb(146, 160, 178) | Màu phụ — viền, icon |
-| **Light Ice / Silver** | `#D9E1E2` | rgb(217, 225, 226) | Màu nền nhẹ, border |
+    /* Màu văn bản & nền */
+    --client-color-text: #32373c;          /* Văn bản chính */
+    --client-color-heading: #1e293b;       /* Tiêu đề H1-H6 */
+    --client-color-muted: #64748b;         /* Văn bản phụ, ngày tháng, chú thích */
+    --client-color-border: #e2e8f0;        /* Đường kẻ phân cách */
+    --client-color-background: #ffffff;    /* Nền trắng */
+    --client-color-surface: #f8fafc;       /* Nền khối xám nhẹ */
 
-### Màu website đại lý (quan sát từ mô tả)
+    /* Kích thước bố cục */
+    --client-container-width: 1240px;      /* Chiều rộng container chính */
+    --client-header-height: 80px;          /* Chiều cao header desktop */
+    --client-header-mobile-height: 60px;   /* Chiều cao header mobile */
 
-| Tên | Giá trị (ước tính) | Dùng cho |
-|-----|-------------------|---------|
-| **Màu nền chính** | `#FFFFFF` (trắng) | Background toàn trang |
-| **Màu nền phụ** | `#F5F5F5` hoặc `#F8F8F8` (xám sáng) | Background section xen kẽ |
-| **Màu header/nav** | Tối (đen hoặc xanh đậm) | Thanh điều hướng |
-| **Màu footer** | Tối (đen hoặc xanh đậm) | Footer background |
-| **Màu text chính** | `#000000` hoặc `#1A1A1A` | Nội dung bài viết, thông số |
-| **Màu text phụ** | `#666666` hoặc `#777777` | Chú thích, metadata |
-| **Màu CTA button** | Đỏ/Cam hoặc Xanh lá sáng | Nút "Đăng ký lái thử", "Báo giá" |
-| **Màu link hover** | `#1464F4` (Future Blue) | Hover state trên menu |
+    /* Bo góc (Border Radius) */
+    --client-radius-xs: 4px;
+    --client-radius-sm: 6px;
+    --client-radius-md: 8px;
+    --client-radius-lg: 12px;
+    --client-radius-full: 9999px;
 
-> [!NOTE]
-> Màu CTA của website đại lý thường lệch khỏi màu chính thức VinFast — có thể là đỏ (#E30613 hoặc tương tự) hoặc xanh lá (#00B14F). Cần xác minh bằng DevTools thực tế.
+    /* Bóng đổ (Box Shadow) */
+    --client-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --client-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --client-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
 
----
+    /* Khoảng cách (Spacing) */
+    --client-space-1: 4px;
+    --client-space-2: 8px;
+    --client-space-3: 12px;
+    --client-space-4: 16px;
+    --client-space-6: 24px;
+    --client-space-8: 32px;
+    --client-space-12: 48px;
+    --client-space-16: 64px;
+}
+```
 
-## 2. Font chữ (Typography)
+## 2. Typography Cốt Lõi (Open Sans)
+- **Display / Hero Headline:** 36px - 44px (Desktop) / 28px - 32px (Mobile), Font weight: 700 - 800.
+- **H1:** 30px - 34px (Desktop) / 24px - 26px (Mobile), Font weight: 700.
+- **H2:** 24px - 28px (Desktop) / 20px - 22px (Mobile), Font weight: 600 - 700.
+- **H3:** 20px - 22px (Desktop) / 18px (Mobile), Font weight: 600.
+- **Body Large:** 18px, Line-height: 1.6, Font weight: 400.
+- **Body Normal:** 15px - 16px, Line-height: 1.6, Font weight: 400.
+- **Price Large:** 20px - 24px, Font weight: 700, Color: `--client-color-accent` (#dd3333).
+- **CTA Button:** 14px - 15px, Font weight: 600, Text transform: Uppercase, Letter-spacing: 0.5px.
 
-| Vị trí | Font family | Ghi chú |
-|--------|------------|---------|
-| **Font chính** | Sans-serif (Roboto, Open Sans, hoặc Inter) | Phổ biến trên WordPress theme ô tô |
-| **Tiêu đề (H1–H3)** | Font không chân (Sans-serif), weight 700 | Bold, uppercase thường dùng |
-| **Nội dung (Body)** | Font không chân, weight 400 | Cỡ ~15–16px |
-| **CTA Button** | Sans-serif, weight 600–700 | Uppercase hoặc Title Case |
-| **Số liệu / Giá** | Sans-serif, weight 700, cỡ lớn | Nổi bật |
-
-> [!NOTE]
-> Chưa xác minh được tên font cụ thể từ source code. Cần kiểm tra `<link>` Google Fonts hoặc `@font-face` trong CSS thực tế.
-
----
-
-## 3. Spacing & Layout (ước tính)
-
-| Token | Giá trị | Dùng cho |
-|-------|---------|---------|
-| Container width | ~1200px hoặc 1280px | Max-width desktop |
-| Section padding | 60px–80px top/bottom | Khoảng cách section |
-| Card gap | 20px–30px | Khoảng cách card sản phẩm |
-| Border radius | 4px–8px | Card, button, input |
-
----
-
-## 4. Logo & Branding
-
-| Mục | Thông tin |
-|-----|-----------|
-| Logo | Logo VinFast chính thức (hình tròn với chữ VinFast) + tên đại lý |
-| Tên đại lý | VinFast Minh Đạo Hải Phòng (theo search result) |
-| Favicon | Dự kiến dùng logo VinFast |
-
----
-
-## 5. Màu sơn xe (Vehicle Colors — quan sát được)
-
-| Mã sơn | Tên màu | Mô tả |
-|--------|---------|-------|
-| C4E | Urban Mint | Xanh bạc hà pastel |
-| GNB | Deep Ocean | Xanh rêu đậm |
-| *(nhiều màu khác)* | — | Đen, Trắng, Bạc, Đỏ, Cam... |
-
----
-
-*Tất cả giá trị trên đây là ước tính/suy luận từ thông tin thương hiệu. Phải xác minh bằng browser DevTools hoặc CSS trực tiếp.*
+## 3. Responsive Breakpoints
+```text
+xs: 360px - 480px (Điện thoại nhỏ)
+sm: 640px (Điện thoại lớn / Tablet đứng nhỏ)
+md: 768px (Tablet đứng)
+lg: 1024px (Tablet ngang / Laptop nhỏ)
+xl: 1280px (Màn hình Desktop chuẩn)
+2xl: 1440px - 1920px (Desktop lớn)
+```

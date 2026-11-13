@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('title', 500);
-            $table->string('slug', 255)->unique();
+            $table->string('slug', 191)->unique();
             $table->longText('content_html')->nullable();
             $table->string('template', 50)->default('default');
             $table->string('status', 20)->default('draft');

@@ -27,7 +27,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('title', 500);
-            $table->string('slug', 500)->unique();
+            $table->string('slug', 191)->unique();
             $table->text('excerpt')->nullable();
             $table->longText('content_html')->nullable();
             $table->unsignedBigInteger('featured_media_id')->nullable();

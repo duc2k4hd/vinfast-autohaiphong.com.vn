@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('media_folders', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('path', 500)->unique();
+            $table->string('path', 191)->unique();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
             $table->foreign('parent_id')->references('id')->on('media_folders')->nullOnDelete();

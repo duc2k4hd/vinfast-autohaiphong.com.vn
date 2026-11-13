@@ -13,7 +13,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id')->nullable()->index();
             $table->string('sku', 100)->nullable()->unique();
             $table->string('name', 255);
-            $table->string('slug', 255)->unique();
+            $table->string('slug', 191)->unique();
             $table->text('short_description')->nullable();
             $table->longText('description_html')->nullable();
             $table->unsignedBigInteger('regular_price')->nullable(); // VND

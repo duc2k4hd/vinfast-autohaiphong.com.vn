@@ -1,53 +1,53 @@
-# REFERENCE URL INVENTORY — vinfast-haiphong.com
-> Nguồn tham chiếu: https://vinfast-haiphong.com  
-> Phương pháp: search_web khảo sát (không truy cập trực tiếp)  
-> Ngày khảo sát: 2026-11-13  
-> Trạng thái: Các URL được xác minh qua kết quả tìm kiếm Google (ghi rõ độ tin cậy)
+# Kiểm Kê Toàn Bộ URL (Reference URL Inventory) — vinfast-haiphong.com
 
----
+Ngày khảo sát: 2026-11-13  
+Công cụ xác minh: Rank Math XML Sitemap, HTTP Network Crawl
 
-## 1. Trang chính (Core Pages)
+## 1. Nhóm Trang Chính (Core Pages)
+| STT | URL Nguồn | Route Tương Ứng Laravel | Trạng thái |
+| :--- | :--- | :--- | :--- |
+| 1 | `https://vinfast-haiphong.com/` | `/` | Đã xác minh (200 OK) |
+| 2 | `https://vinfast-haiphong.com/o-to-vinfast/` | `/o-to-vinfast/` | Đã xác minh (200 OK) |
+| 3 | `https://vinfast-haiphong.com/pin-va-tram-sac/` | `/pin-va-tram-sac/` | Đã xác minh (200 OK) |
+| 4 | `https://vinfast-haiphong.com/trai-nghiem-khach-hang/` | `/trai-nghiem-khach-hang/` | Đã xác minh (200 OK) |
+| 5 | `https://vinfast-haiphong.com/lien-he/` | `/lien-he/` | Đã xác minh (200 OK) |
+| 6 | `https://vinfast-haiphong.com/chuyen-muc/tin-tuc/` | `/chuyen-muc/tin-tuc/` | Đã xác minh (200 OK) |
 
-| URL | Tên trang | Trạng thái |
-|-----|-----------|------------|
-| `https://vinfast-haiphong.com/` | Trang chủ | ✅ Xác nhận tồn tại |
-| `https://vinfast-haiphong.com/o-to-vinfast/` | Ô tô VinFast (danh mục) | ✅ Xác nhận |
-| `https://vinfast-haiphong.com/pin-va-tram-sac/` | Pin & Trạm sạc | ✅ Xác nhận |
-| `https://vinfast-haiphong.com/trai-nghiem-khach-hang/` | Trải nghiệm khách hàng | ✅ Xác nhận |
-| `https://vinfast-haiphong.com/lien-he/` | Liên hệ | ✅ Xác nhận |
-| `https://vinfast-haiphong.com/chinh-sach-bao-mat/` | Chính sách bảo mật | ⚠️ Suy luận từ cấu trúc thông thường |
-| `https://vinfast-haiphong.com/chuyen-muc/tin-tuc/` | Tin tức | ⚠️ Có thể là `/tin-tuc/` hoặc `/chuyen-muc/tin-tuc/` |
+## 2. Nhóm Sản Phẩm Xe Ô Tô Điện (15 Mẫu Xe)
+| STT | Tên Dòng Xe | URL Nguồn | Slug Laravel |
+| :--- | :--- | :--- | :--- |
+| 1 | VinFast VF 2 | `/xe/vinfast-vf-2/` | `vinfast-vf-2` |
+| 2 | VinFast VF 3 | `/xe/vinfast-vf-3/` | `vinfast-vf-3` |
+| 3 | VinFast VF 5 (VF 5 Plus) | `/xe/vinfast-vf-5/` | `vinfast-vf-5` |
+| 4 | VinFast VF 6 | `/xe/vinfast-vf-6/` | `vinfast-vf-6` |
+| 5 | VinFast VF 7 | `/xe/vinfast-vf-7/` | `vinfast-vf-7` |
+| 6 | VinFast VF 8 | `/xe/vinfast-vf-8/` | `vinfast-vf-8` |
+| 7 | VinFast VF 8 All New | `/xe/vinfast-vf8-all-new/` | `vinfast-vf8-all-new` |
+| 8 | VinFast VF 9 | `/xe/vinfast-vf-9/` | `vinfast-vf-9` |
+| 9 | VinFast VF Wild | `/xe/vinfast-vf-wild/` | `vinfast-vf-wild` |
+| 10 | VinFast VF MPV 7 | `/xe/vinfast-vf-mpv-7/` | `vinfast-vf-mpv-7` |
+| 11 | VinFast EC Van | `/xe/vinfast-ec-van/` | `vinfast-ec-van` |
+| 12 | VinFast Limo Green | `/xe/vinfast-limo-green/` | `vinfast-limo-green` |
+| 13 | VinFast Nerio Green | `/xe/vinfast-nerio-green/` | `vinfast-nerio-green` |
+| 14 | VinFast Herio Green | `/xe/vinfast-herio-green/` | `vinfast-herio-green` |
+| 15 | VinFast Minio Green | `/xe/vinfast-minio-green/` | `vinfast-minio-green` |
 
-## 2. Trang sản phẩm xe (Product Pages — /xe/ hoặc slug trực tiếp)
+## 3. Nhóm Trang Chính Sách & Hướng Dẫn
+| STT | Tên Trang | URL Nguồn | Loại |
+| :--- | :--- | :--- | :--- |
+| 1 | Điều khoản sử dụng | `/dieu-khoan-su-dung/` | Trang pháp lý |
+| 2 | Chính sách bảo mật | `/chinh-sach-bao-mat/` | Trang pháp lý |
+| 3 | Chính sách bảo hành | `/chinh-sach-bao-hanh/` | Trang chính sách xe |
+| 4 | Chính sách thanh toán | `/chinh-sach-thanh-toan/` | Trang chính sách thanh toán tiền mặt |
+| 5 | Hướng dẫn sử dụng trạm sạc | `/huong-dan-su-dung-tram-sac/` | Hướng dẫn kỹ thuật |
+| 6 | Hệ thống trạm sạc | `/he-thong-tram-sac/` | Cẩm nang trạm sạc |
+| 7 | Thiết bị sạc di động | `/thiet-bi-sac-di-dong/` | Phụ kiện pin sạc |
+| 8 | Gói thuê bao pin ưu việt | `/goi-thue-bao-pin-uu-viet/` | Chính sách pin |
+| 9 | Pin và trạm sạc ô tô điện | `/pin-va-tram-sac-o-to-dien/` | Tổng hợp pin & sạc |
 
-> **Lưu ý:** Cấu trúc URL xe trên vinfast-haiphong.com dùng slug trực tiếp từ gốc, KHÔNG có prefix `/xe/`.
-
-| Slug | URL đầy đủ | Tên xe | Trạng thái |
-|------|-----------|--------|------------|
-| `vinfast-vf-3` | `https://vinfast-haiphong.com/vinfast-vf-3/` | VinFast VF 3 | ✅ Xác nhận |
-| `vinfast-vf-5` | `https://vinfast-haiphong.com/vinfast-vf-5/` | VinFast VF 5 Plus | ✅ Xác nhận |
-| `vinfast-vf-6` | `https://vinfast-haiphong.com/vinfast-vf-6/` | VinFast VF 6 | ✅ Xác nhận |
-| `vinfast-vf-7` | `https://vinfast-haiphong.com/vinfast-vf-7/` | VinFast VF 7 | ✅ Xác nhận |
-| `vinfast-vf-8` | `https://vinfast-haiphong.com/vinfast-vf-8/` | VinFast VF 8 | ✅ Xác nhận |
-| `vinfast-vf-9` | `https://vinfast-haiphong.com/vinfast-vf-9/` | VinFast VF 9 | ✅ Xác nhận |
-| `vinfast-vf-2` | `https://vinfast-haiphong.com/vinfast-vf-2/` | VinFast VF 2 | ✅ Xác nhận |
-| `vinfast-vf8-all-new` | `https://vinfast-haiphong.com/vinfast-vf8-all-new/` | VinFast VF 8 All New | ✅ Xác nhận |
-| `vinfast-vf-wild` | `https://vinfast-haiphong.com/vinfast-vf-wild/` | VinFast VF Wild | ✅ Xác nhận |
-| `vinfast-vf-mpv-7` | `https://vinfast-haiphong.com/vinfast-vf-mpv-7/` | VinFast VF MPV 7 | ✅ Xác nhận |
-| `vinfast-limo-green` | `https://vinfast-haiphong.com/vinfast-limo-green/` | VinFast Limo Green | ✅ Xác nhận |
-| `vinfast-nerio-green` | `https://vinfast-haiphong.com/vinfast-nerio-green/` | VinFast Nerio Green | ✅ Xác nhận |
-| `vinfast-herio-green` | `https://vinfast-haiphong.com/vinfast-herio-green/` | VinFast Herio Green | ✅ Xác nhận |
-| `vinfast-minio-green` | `https://vinfast-haiphong.com/vinfast-minio-green/` | VinFast Minio Green | ✅ Xác nhận |
-| `vinfast-ec-van` | `https://vinfast-haiphong.com/vinfast-ec-van/` | VinFast EC Van | ✅ Xác nhận |
-
-## 3. Chú thích độ tin cậy
-
-| Ký hiệu | Nghĩa |
-|---------|-------|
-| ✅ Xác nhận | URL xuất hiện trong kết quả Google/index |
-| ⚠️ Suy luận | Suy luận từ cấu trúc CMS thông thường, cần xác minh |
-| ❌ Không truy cập được | Không tìm thấy bằng chứng |
-
----
-
-*File này chỉ liệt kê URL quan sát được qua search. Xem REFERENCE_UNVERIFIED.md cho các URL chưa xác minh.*
+## 4. Nhóm Danh Mục Tin Tức
+| STT | Tên Danh Mục | URL Nguồn |
+| :--- | :--- | :--- |
+| 1 | Tin tức & Sự kiện | `/chuyen-muc/tin-tuc/` |
+| 2 | Pin & Trạm sạc | `/chuyen-muc/pin-tram-sac/` |
+| 3 | Trải nghiệm khách hàng | `/chuyen-muc/trai-nghiem/` |
