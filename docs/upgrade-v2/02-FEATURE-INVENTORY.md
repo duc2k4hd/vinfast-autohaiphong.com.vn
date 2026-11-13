@@ -1,0 +1,23 @@
+# DANH MỤC TÍNH NĂNG TOÀN HỆ THỐNG (FEATURE INVENTORY V2)
+
+| Feature ID | Module | Page / View | Route | Controller & Service | Trạng Thái Hiện Tại | Đánh Giá & Nhiệm Vụ Nâng Cấp V2 | Mức Ưu Tiên |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :---: |
+| **FEAT-C01** | Client | Trang chủ | `GET /` | `HomeController` / `HomeService` | Hoạt động tốt, banner slider cơ bản | Tinh chỉnh Hero Slider, ưu tiên load ảnh LCP, chuẩn hóa card xe, chống lệch chiều cao | **P2** |
+| **FEAT-C02** | Client | Danh mục xe | `GET /o-to-vinfast` & `GET /o-to-vinfast/page/{page}` | `CatalogController` / `CatalogService` | Hoạt động, có lọc danh mục, sắp xếp giá | Đồng bộ URL query parameters khi lọc, empty state tinh tế, responsive hoàn hảo | **P2** |
+| **FEAT-C03** | Client | Chi tiết dòng xe | `GET /xe/{slug}` | `ProductController` / `ProductService` | Hoạt động, Specs Key-Value đầu tiên | Nâng cấp bộ chọn Biến thể (Eco, Plus, Màu ngoại thất) liên kết dữ liệu thật; bộ renderer nội dung an toàn | **P1** |
+| **FEAT-C04** | Client | Báo giá lăn bánh | `POST /lead/store` | `LeadController` / `LeadService` | Hoạt động, modal popup | Chống gửi đúp (double submit), giữ dữ liệu cũ khi validation lỗi, thông báo lỗi tiếng Việt tự nhiên | **P1** |
+| **FEAT-C05** | Client | Giỏ hàng xe | `GET /gio-hang` | `CartController` / `CartService` | Hoạt động, session cart | Đồng bộ giá mới nhất từ database, xử lý biến thể đã chọn, xóa có xác nhận nhẹ nhàng | **P2** |
+| **FEAT-C06** | Client | Đặt cọc tiền mặt | `GET /thanh-toan` & `POST /thanh-toan` | `CheckoutController` / `CheckoutService` | Hoạt động, duy nhất tiền mặt (`cash`), chống trùng lặp `idempotency_key` | Hoàn thiện validation số điện thoại, giao diện thanh toán tinh gọn, hiển thị rõ địa chỉ Showroom | **P1** |
+| **FEAT-C07** | Client | Đặt cọc thành công | `GET /dat-hang-thanh-cong/{order_number}` | `CheckoutController` | Hoạt động | Thêm thông tin snapshot chi tiết, hướng dẫn quy trình mang tiền mặt đến đại lý, bản đồ showroom | **P2** |
+| **FEAT-C08** | Client | Tin tức & Bài viết | `GET /chuyen-muc/tin-tuc` & `GET /chuyen-muc/tin-tuc/{slug}` | `PostController` / `PostService` | Hoạt động | Nâng cấp layout editorial, tính toán thời gian đọc (read time), mục lục TOC cho bài dài | **P2** |
+| **FEAT-C09** | Client | Trang liên hệ & chính sách | `/lien-he`, `/chinh-sach-*`, `/pin-va-tram-sac` | `PageController`, `ContactController` | Hoạt động, đầy đủ 4 số hotline | Tối ưu bản đồ nhúng, form liên hệ ngắn gọn, xác thực tiếng Việt | **P3** |
+| **FEAT-C10** | Client | SEO & Sitemap | `/sitemap.xml`, `/robots.txt` | `SitemapController` | Hoạt động, AutoDealer & Car schema | Tích hợp thêm HTML sitemap, mở rộng meta social (OG width/height, Twitter card), security headers | **P2** |
+| **FEAT-A01** | Admin | Đăng nhập / Đăng xuất | `/admin/login`, `/admin/logout` | `Admin\AuthController` | Hoạt động với guard web | Giao diện đăng nhập chuẩn doanh nghiệp, xử lý rate limit (chống brute force), thông báo lỗi rõ ràng | **P1** |
+| **FEAT-A02** | Admin | Dashboard quản trị | `/admin/dashboard` | `Admin\DashboardController` | Hoạt động, thống kê tổng quát | Nâng cấp bố cục KPI chuẩn Stripe/Linear (cùng chiều cao, số liệu thực, danh sách việc cần xử lý ngay) | **P1** |
+| **FEAT-A03** | Admin | Quản lý Dòng xe & Specs | `/admin/products`, `/admin/products/{id}/edit` | `Admin\ProductController` / `ProductService` | Hoạt động cơ bản, specs key-value | Tích hợp TinyMCE cho mô tả chi tiết, quản lý biến thể (Variants), chọn ảnh thumbnail từ Media Picker | **P0** |
+| **FEAT-A04** | Admin | Quản lý Đơn cọc tiền mặt | `/admin/orders`, `/admin/orders/{id}` | `Admin\OrderController` | Hoạt động, nút thu tiền mặt | Chuẩn hóa bảng dữ liệu, lọc theo trạng thái đơn, modal xác nhận thu tiền mặt và ghi chú nội bộ | **P1** |
+| **FEAT-A05** | Admin | Quản lý Leads báo giá | `/admin/leads` | `Admin\LeadController` | Hoạt động, đổi trạng thái | Thao tác đổi trạng thái nhanh, lọc theo dòng xe quan tâm, hiển thị ngày giờ thân thiện | **P1** |
+| **FEAT-A06** | Admin | Quản lý Bài viết & TinyMCE | `/admin/posts` | `Admin\PostController` / `PostService` | Hoạt động, dùng textarea thường | Nâng cấp toàn diện với TinyMCE, chọn ảnh đại diện từ Media Picker, công cụ đo SEO điểm trực tiếp | **P0** |
+| **FEAT-A07** | Admin | Thư viện Media tập trung | `/admin/media` | `Admin\MediaController` / `MediaService` | Hoạt động, upload ảnh | Hỗ trợ tìm kiếm ảnh, copy URL nhanh, xem dung lượng/kích thước, kiểm tra ảnh đang dùng trước khi xóa | **P1** |
+| **FEAT-A08** | Admin | Cài đặt hệ thống | `/admin/settings` | `Admin\SettingController` / `SettingsService` | Hoạt động, phân nhóm | Tinh chỉnh giao diện chia tab rõ ràng (Thông tin đại lý, Hotline 4 số, Giờ mở cửa, Mạng xã hội, SEO) | **P2** |
+

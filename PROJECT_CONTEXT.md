@@ -13,7 +13,7 @@ Website VinFast Hải Phòng được xây dựng bằng Laravel 13, tái tạo 
   - Thứ 2 – Thứ 7: Dịch vụ (7h50 – 17h00) | Kinh doanh (7h30 – 18h00)
   - Chủ nhật: Dịch vụ & phụ tùng nghỉ | Kinh doanh (7h00 – 18h00)
 - **Fanpage Facebook:** `https://www.facebook.com/VinFastMinhDao`
-- **Địa chỉ showroom:** Số 1 Bạch Đằng, Phường Thượng Lý, Quận Hồng Bàng, TP. Hải Phòng
+- **Địa chỉ showroom:** Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng.
 
 ## Tài sản truyền thông cục bộ (Local Media Assets)
 - **Logo chính thức:** `storage/app/public/clients/assets/images/business/vinfast-haiphong.png` (URL: `/storage/clients/assets/images/business/vinfast-haiphong.png`)
@@ -105,3 +105,23 @@ Toàn bộ assets tĩnh đã được tổ chức và gom vào đúng thư mục
 - 28 Feature Tests: **100% Passed (119 assertions)** bao gồm toàn bộ luồng Client, Checkout tiền mặt, Admin Panel, Post & Media, SEO, Social Meta Cards, Sitemap XML, Robots.txt an toàn và Phân trang chuẩn SEO `/o-to-vinfast/page/2`.
 - Laravel Pint: Đã định dạng chuẩn phong cách Laravel.
 - Vite Assets: Đã build hoàn tất sẵn sàng cho production.
+
+---
+
+## 5. NÂNG CẤP TOÀN DIỆN V2 (MASTER PROMPT V2)
+- **GATE 0 — Hoàn tất khảo sát hiện trạng & xây dựng tài liệu V2:**
+  - `docs/upgrade-v2/`: Đã lập 14 tài liệu toàn diện từ `00-OVERVIEW.md` đến `13-ACCEPTANCE-CRITERIA.md` và `qa/INTERACTION_MATRIX.csv`.
+  - `docs/upgrade-v2/seo/`: Đã hoàn thiện 10 tài liệu nghiên cứu đối chiếu mã nguồn `E:\Project\Laravel\nobifashion.vn`.
+  - `docs/context/`: Đã bổ sung 8 file context chuyên đề V2 (`UI_UX_V2.md`, `ADMIN_V2.md`, `CLIENT_V2.md`, `TINYMCE.md`, `SEO_V2.md`, `QUALITY_GATES.md`, `REGRESSION_TESTS.md`, `PERFORMANCE_V2.md`).
+  - Đã tích hợp và kích hoạt `evondevKit` tại `.agents/skills/evondevKit`.
+  - Xác nhận API Key TinyMCE sẵn sàng trong `.env` (`APP_TINYMCE_KEY`).
+
+---
+
+## 5. NÂNG CẤP TOÀN DIỆN V2 (MASTER PROMPT V2)
+- **GATE 0 — Hoàn tất khảo sát hiện trạng & xây dựng tài liệu V2:**
+  - `docs/upgrade-v2/`: Đã lập 14 tài liệu toàn diện từ `00-OVERVIEW.md` đến `13-ACCEPTANCE-CRITERIA.md` và `qa/INTERACTION_MATRIX.csv`.
+  - `docs/upgrade-v2/seo/`: Đã hoàn thiện 10 tài liệu nghiên cứu đối chiếu mã nguồn `E:\Project\Laravel\nobifashion.vn`.
+  - `docs/context/`: Đã bổ sung 8 file context chuyên đề V2 (`UI_UX_V2.md`, `ADMIN_V2.md`, `CLIENT_V2.md`, `TINYMCE.md`, `SEO_V2.md`, `QUALITY_GATES.md`, `REGRESSION_TESTS.md`, `PERFORMANCE_V2.md`).
+  - Đã tích hợp và kích hoạt `evondevKit` tại `.agents/skills/evondevKit`.
+  - Xác nhận API Key TinyMCE sẵn sàng trong `.env` (`APP_TINYMCE_KEY`).

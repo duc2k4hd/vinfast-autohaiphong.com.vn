@@ -69,7 +69,28 @@
 
 ---
 
-## Phiên làm việc: Hoàn thiện 100% Bộ 8 Tài liệu Khảo sát Hệ thống (Audit Documents) (13/11/2026)
+## Phiên làm việc: Khởi động Master Prompt V2 & Hoàn tất toàn diện GATE 0 (13/11/2026)
+
+### 1. Công việc đã thực hiện
+- **Tiếp quản và thiết lập lộ trình nâng cấp hệ thống V2:**
+  - Nghiêm cấm tạo dự án mới, nâng cấp trực tiếp trên nền tảng hiện có.
+  - Bảo toàn 100% dữ liệu 15 dòng xe, thông số kỹ thuật Key-Value và cơ chế thanh toán tiền mặt duy nhất tại Showroom Số 1 Bạch Đằng.
+- **Thực thi trọn vẹn GATE 0 (Xác minh hiện trạng & Baseline):**
+  - Chạy và ghi nhận baseline kiểm thử: `28/28 tests PASS (119 assertions, 1.57s)`.
+  - Kiểm tra các bảng cơ sở dữ liệu: `users` (1), `products` (15), `product_specifications` (117), `posts` (3), `media` (18), `settings` (15), `product_variants` (0 - cần nâng cấp nạp dữ liệu).
+- **Khảo sát mã nguồn thực tế Nobi Fashion (`E:\Project\Laravel\nobifashion.vn`):**
+  - Xác minh sự tồn tại của dự án local.
+  - Rà soát sâu `app/Services/SeoService.php`, `app/Http/Controllers/Admins/SeoController.php`, `resources/views/clients/sitemap/`.
+  - Biên soạn đủ 10 tài liệu phân tích đối chiếu tại `docs/upgrade-v2/seo/`.
+- **Tích hợp bộ kỹ năng thiết kế `evondevKit`:**
+  - Tải và cài đặt thành công repository `evondev/evondevKit` vào `.agents/skills/evondevKit`.
+  - Đọc và thiết lập các nguyên tắc thiết kế chống "AI feel", chuẩn hóa bảng màu sáng trung tính và font Open Sans.
+- **Hoàn thành hệ thống tài liệu V2:**
+  - Đủ 14 tài liệu trong `docs/upgrade-v2/` và `docs/upgrade-v2/qa/INTERACTION_MATRIX.csv`.
+  - Đủ 8 tài liệu context mới trong `docs/context/`.
+  - Cập nhật [PROJECT_CONTEXT.md](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/PROJECT_CONTEXT.md).
+- **Quy tắc Git:**
+  - Tuân thủ tuyệt đối quy tắc KHÔNG chạy lệnh Git, chuẩn bị commit mẫu có dấu cho người dùng tự chạy.
 
 ### 1. Công việc đã thực hiện
 - **Hoàn thiện đầy đủ bộ tài liệu khảo sát & kiểm kê kiến trúc tại `docs/audit/`:**
