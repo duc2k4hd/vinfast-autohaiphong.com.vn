@@ -200,12 +200,19 @@
 
     /* Quick Anchor Nav */
     .vf-admin-quick-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
         display: flex;
         gap: 8px;
         overflow-x: auto;
-        padding: 6px 0 16px;
-        margin-bottom: 20px;
+        padding: 10px 28px 12px 28px;
+        margin: 0 -28px 20px -28px;
+        background: rgba(248, 250, 252, 0.95);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border-bottom: 1px solid var(--admin-border);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
         scrollbar-width: thin;
     }
     .vf-admin-quick-nav-pill {
@@ -222,11 +229,35 @@
         white-space: nowrap;
         cursor: pointer;
         transition: all 0.15s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
     }
     .vf-admin-quick-nav-pill:hover {
         background: #eff6ff;
         color: var(--admin-primary);
         border-color: #bfdbfe;
+    }
+    .vf-admin-quick-nav-pill.active {
+        background: var(--admin-primary);
+        color: #ffffff;
+        border-color: var(--admin-primary);
+        box-shadow: 0 2px 6px rgba(20, 100, 244, 0.25);
+    }
+    .vf-admin-quick-nav-pill.active span {
+        color: #ffffff;
+    }
+    .vf-admin-quick-nav-pill.active .vf-admin-card-badge {
+        background: rgba(255, 255, 255, 0.28);
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Scroll Margin for smooth jump navigation */
+    html {
+        scroll-behavior: smooth;
+    }
+    .vinfast-autohaiphong_admin_card,
+    .vf-admin-section-grid {
+        scroll-margin-top: 75px;
     }
 
     /* Preview items */
@@ -1936,17 +1967,19 @@ function initProductArticleTinyMCE() {
 
                     const scrollingEl = doc.scrollingElement || doc.documentElement || doc.body;
                     const headerRect = headerEl ? headerEl.getBoundingClientRect() : editorEl.getBoundingClientRect();
-                    const topThreshold = 2; // Header chạm đỉnh màn hình (<= 2px)
+                    const quickNav = document.querySelector('.vf-admin-quick-nav');
+                    const navOffset = quickNav ? quickNav.offsetHeight : 0;
+                    const topThreshold = navOffset + 2; // Header chạm ngay dưới thanh vf-admin-quick-nav
 
                     if (deltaY > 0) {
                         // === CUỘN XUỐNG ===
                         if (headerRect.top > topThreshold) {
-                            // tox-editor-header chưa chạm top 0: Cuộn cả trang xuống
+                            // tox-editor-header chưa chạm mép dưới vf-admin-quick-nav: Cuộn cả trang xuống
                             e.preventDefault();
-                            const step = Math.min(deltaY, headerRect.top);
+                            const step = Math.min(deltaY, headerRect.top - topThreshold);
                             window.scrollBy({ top: step, behavior: 'auto' });
                         } else {
-                            // tox-editor-header đã chạm top 0: Dính tại top 0 và cuộn bên trong editor
+                            // tox-editor-header đã chạm mép dưới: Dính lại và cuộn bên trong editor
                             const maxScrollTop = Math.max(0, scrollingEl.scrollHeight - scrollingEl.clientHeight);
                             const currentScrollTop = scrollingEl.scrollTop;
 
@@ -1964,8 +1997,8 @@ function initProductArticleTinyMCE() {
                         // === CUỘN LÊN ===
                         const currentScrollTop = scrollingEl.scrollTop;
 
-                        if (headerRect.top <= topThreshold && currentScrollTop > 2) {
-                            // tox-editor-header đang ở top 0 và trong editor còn nội dung phía trên: Cuộn ngược editor lên
+                        if (headerRect.top <= topThreshold + 2 && currentScrollTop > 2) {
+                            // tox-editor-header đang ở vị trí dính và trong editor còn nội dung phía trên: Cuộn ngược editor lên
                             e.preventDefault();
                             scrollingEl.scrollTop = Math.max(0, currentScrollTop + deltaY);
                         } else {
@@ -1993,12 +2026,79 @@ function initProductArticleTinyMCE() {
         }
     });
 }
+function initQuickNavScrollSpy() {
+    const navPills = Array.from(document.querySelectorAll('.vf-admin-quick-nav-pill'));
+    if (!navPills.length) return;
+
+    const sections = navPills.map(pill => {
+        const hash = pill.getAttribute('href');
+        if (hash && hash.startsWith('#')) {
+            const el = document.querySelector(hash);
+            return el ? { id: hash.substring(1), el, pill } : null;
+        }
+        return null;
+    }).filter(Boolean);
+
+    if (!sections.length) return;
+
+    let isClickScrolling = false;
+    let clickTimeout = null;
+
+    navPills.forEach(pill => {
+        pill.addEventListener('click', function() {
+            navPills.forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+            isClickScrolling = true;
+            clearTimeout(clickTimeout);
+            clickTimeout = setTimeout(() => { isClickScrolling = false; }, 800);
+        });
+    });
+
+    function onScrollSpy() {
+        if (isClickScrolling) return;
+
+        const quickNav = document.querySelector('.vf-admin-quick-nav');
+        const navHeight = quickNav ? quickNav.offsetHeight : 50;
+        const scrollPos = window.scrollY + navHeight + 80;
+
+        let activeIndex = -1;
+
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 60) {
+            activeIndex = sections.length - 1;
+        } else {
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const rect = sections[i].el.getBoundingClientRect();
+                const elTop = rect.top + window.scrollY;
+                if (scrollPos >= elTop) {
+                    activeIndex = i;
+                    break;
+                }
+            }
+        }
+
+        if (activeIndex === -1 && sections.length > 0) {
+            activeIndex = 0;
+        }
+
+        sections.forEach((sec, idx) => {
+            if (idx === activeIndex) {
+                sec.pill.classList.add('active');
+            } else {
+                sec.pill.classList.remove('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', onScrollSpy, { passive: true });
+    onScrollSpy();
+}
 </script>
 
 @push('scripts')
 <script src="https://cdn.tiny.cloud/1/{{ config('services.tinymce.key', 'no-api-key') }}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    initQuickNavScrollSpy();
     initProductArticleTinyMCE();
 });
 </script>

@@ -32,7 +32,7 @@
         .vinfast-autohaiphong_admin_sidebar_link:hover, .vinfast-autohaiphong_admin_sidebar_link.active { background-color: #eff6ff; color: var(--admin-primary); }
         .vinfast-autohaiphong_admin_sidebar_link svg { width: 18px; height: 18px; flex-shrink: 0; stroke-width: 2; }
         
-        .vinfast-autohaiphong_admin_main { flex: 1; display: flex; flex-direction: column; overflow-x: hidden; }
+        .vinfast-autohaiphong_admin_main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-x: clip; }
         .vinfast-autohaiphong_admin_topbar { height: 60px; background: #ffffff; border-bottom: 1px solid var(--admin-border); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; }
         .vinfast-autohaiphong_admin_content { padding: 28px; flex: 1; }
         
