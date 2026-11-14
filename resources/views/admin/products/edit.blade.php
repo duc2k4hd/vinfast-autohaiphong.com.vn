@@ -345,22 +345,18 @@
                         @endif
                     </div>
                     <div style="flex: 1;">
-                        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
-                            <select name="thumbnail_media_id" id="main_thumbnail_select" onchange="updateMainThumbPreview(this)" class="vf-admin-select" style="font-size: 0.82rem; flex: 1;">
-                                <option value="" data-src="">-- Chọn ảnh xe từ Thư viện Media --</option>
-                                @foreach($mediaList as $m)
-                                    <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ $product->thumbnail_media_id == $m->id ? 'selected' : '' }}>
-                                        {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            <button type="button" class="vinfast-autohaiphong_admin_btn" onclick="openMainThumbnailMediaPicker()" style="padding: 7px 12px; font-size: 0.82rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;">
+                        <input type="hidden" name="thumbnail_media_id" id="main_thumbnail_media_id" value="{{ $product->thumbnail_media_id }}">
+                        <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px; flex-wrap: wrap;">
+                            <button type="button" class="vinfast-autohaiphong_admin_btn" onclick="openMainThumbnailMediaPicker()" style="padding: 7px 14px; font-size: 0.82rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; border-radius: 5px; cursor: pointer;">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                                🖼 Mở Thư Viện Ảnh
+                                🖼 Chọn ảnh từ Thư viện
+                            </button>
+                            <button type="button" id="btn_clear_main_thumb" onclick="removeMainThumbnail()" class="vinfast-autohaiphong_admin_btn" style="padding: 7px 12px; font-size: 0.82rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; font-weight: 500; display: {{ $currentMedia ? 'inline-flex' : 'none' }}; align-items: center; gap: 4px; border-radius: 5px; cursor: pointer;">
+                                ✕ Xóa
                             </button>
                         </div>
-                        <div class="vf-admin-helper-text">
-                            Hỗ trợ chọn ảnh từ thư viện hoặc tải lên hàng loạt ảnh qua popup chung.
+                        <div id="main_thumb_filename" style="font-size: 0.75rem; color: var(--admin-muted); word-break: break-all;">
+                            {{ $currentMedia ? ($currentMedia->filename . ($currentMedia->alt_text ? ' (' . $currentMedia->alt_text . ')' : '')) : 'Chưa chọn ảnh đại diện cho xe (Bấm nút trên để chọn từ popup)' }}
                         </div>
                     </div>
                 </div>
@@ -432,29 +428,26 @@
                                     <input type="text" name="variant_color_names[]" value="{{ $variant->color_name }}" placeholder="VD: Vàng nóc trắng" class="vf-admin-input" style="padding: 6px 10px; font-size: 0.85rem;">
                                 </div>
                             </div>
-                            <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
-                                <div class="variant-img-preview" style="width: 54px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+                                <div class="variant-img-preview" style="width: 60px; height: 42px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                     @if(!empty($variant->thumbnail_path))
                                         <img src="{{ asset('storage/' . $variant->thumbnail_path) }}" alt="{{ $variant->name }}" style="width: 100%; height: 100%; object-fit: contain;">
                                     @else
                                         <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>
                                     @endif
                                 </div>
-                                <div style="flex: 1; display: flex; gap: 6px; align-items: center;">
-                                    <div style="flex: 1;">
-                                        <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Ảnh Riêng Cho Phiên Bản Này</label>
-                                        <select name="variant_thumbnail_media_ids[]" onchange="updateVariantImgPreview(this)" class="vf-admin-select variant-thumb-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                                            <option value="" data-src="">-- Dùng ảnh chính của xe --</option>
-                                            @foreach($mediaList as $m)
-                                                <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($variant->thumbnail_media_id) && $variant->thumbnail_media_id == $m->id) ? 'selected' : '' }}>
-                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <button type="button" onclick="chooseVariantImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                                        🖼 Chọn
+                                <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                    <input type="hidden" name="variant_thumbnail_media_ids[]" class="variant-media-id-input" value="{{ $variant->thumbnail_media_id }}">
+                                    <button type="button" onclick="chooseVariantImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                        🖼 Chọn ảnh
                                     </button>
+                                    <button type="button" onclick="removeVariantImage(this)" class="variant-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: {{ !empty($variant->thumbnail_media_id) ? 'inline-flex' : 'none' }}; align-items: center; gap: 4px;">
+                                        ✕ Xóa
+                                    </button>
+                                    <span class="variant-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {{ !empty($variant->thumbnail_filename) ? $variant->thumbnail_filename : 'Dùng ảnh chính của xe' }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -562,29 +555,26 @@
                                     &times;
                                 </button>
                             </div>
-                            <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
-                                <div class="color-img-preview" style="width: 58px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+                                <div class="color-img-preview" style="width: 65px; height: 42px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                     @if(!empty($col->image_path))
                                         <img src="{{ asset('storage/' . $col->image_path) }}" alt="{{ $col->name }}" style="width: 100%; height: 100%; object-fit: contain;">
                                     @else
                                         <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>
                                     @endif
                                 </div>
-                                <div style="flex: 1; display: flex; gap: 6px; align-items: center;">
-                                    <div style="flex: 1;">
-                                        <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Ảnh Xe Góc Ngang Side-View Theo Màu</label>
-                                        <select name="color_image_media_ids[]" onchange="updateColorImgPreview(this)" class="vf-admin-select color-img-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                                            <option value="" data-src="">-- Chọn ảnh xe theo màu này --</option>
-                                            @foreach($mediaList as $m)
-                                                <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($col->image_media_id) && $col->image_media_id == $m->id) ? 'selected' : '' }}>
-                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <button type="button" onclick="chooseColorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                                        🖼 Chọn
+                                <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                    <input type="hidden" name="color_image_media_ids[]" class="color-media-id-input" value="{{ $col->image_media_id }}">
+                                    <button type="button" onclick="chooseColorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                        🖼 Chọn ảnh
                                     </button>
+                                    <button type="button" onclick="removeColorImage(this)" class="color-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: {{ !empty($col->image_media_id) ? 'inline-flex' : 'none' }}; align-items: center; gap: 4px;">
+                                        ✕ Xóa
+                                    </button>
+                                    <span class="color-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {{ !empty($col->image_filename) ? $col->image_filename : 'Chưa có ảnh góc ngang' }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -630,35 +620,28 @@
                                 </button>
                             </div>
                             <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
-                                <div class="banner-img-preview" style="width: 110px; height: 35px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <div class="banner-img-preview" style="width: 110px; height: 40px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                     @php
                                         $bImgPath = $banner->media_path ?: $banner->image_path;
                                     @endphp
                                     @if(!empty($bImgPath))
                                         <img src="{{ asset('storage/' . ltrim($bImgPath, '/')) }}" alt="{{ $banner->title }}" style="width: 100%; height: 100%; object-fit: cover;">
                                     @else
-                                        <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">19:6</span>
+                                        <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9 / 19:6</span>
                                     @endif
                                 </div>
-                                <div style="flex: 1.2; display: flex; gap: 6px; align-items: center;">
-                                    <div style="flex: 1;">
-                                        <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Chọn từ Thư viện Media</label>
-                                        <select name="banner_image_media_ids[]" onchange="updateBannerImgPreview(this)" class="vf-admin-select banner-img-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                                            <option value="" data-src="">-- Chọn ảnh banner tỷ lệ 19:6 --</option>
-                                            @foreach($mediaList as $m)
-                                                <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($banner->image_media_id) && $banner->image_media_id == $m->id) ? 'selected' : '' }}>
-                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Banner 19:6' }})
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <button type="button" onclick="chooseBannerImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                                        🖼 Chọn
+                                <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                    <input type="hidden" name="banner_image_media_ids[]" class="banner-media-id-input" value="{{ $banner->image_media_id }}">
+                                    <button type="button" onclick="chooseBannerImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                        🖼 Chọn ảnh Banner
                                     </button>
-                                </div>
-                                <div style="flex: 1;">
-                                    <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Hoặc đường dẫn ảnh</label>
-                                    <input type="text" name="banner_image_paths[]" value="{{ $banner->image_path }}" placeholder="storage/... (nếu có)" class="vf-admin-input" style="padding: 5px 8px; font-size: 0.82rem;">
+                                    <button type="button" onclick="removeBannerImage(this)" class="banner-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: {{ (!empty($banner->image_media_id) || !empty($banner->image_path)) ? 'inline-flex' : 'none' }}; align-items: center; gap: 4px;">
+                                        ✕ Xóa
+                                    </button>
+                                    <span class="banner-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {{ !empty($banner->media_filename) ? $banner->media_filename : (!empty($banner->image_path) ? basename($banner->image_path) : 'Chưa chọn ảnh banner') }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -719,21 +702,18 @@
                                     <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>
                                 @endif
                             </div>
-                            <div style="flex: 1; display: flex; gap: 6px; align-items: center;">
-                                <div style="flex: 1;">
-                                    <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Chọn từ Media</label>
-                                    <select name="interior_image_media_ids[]" onchange="updateInteriorImgPreview(this)" class="vf-admin-select interior-img-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                                        <option value="" data-src="">-- Chọn ảnh nội thất --</option>
-                                        @foreach($mediaList as $m)
-                                            <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($interior->image_media_id) && $interior->image_media_id == $m->id) ? 'selected' : '' }}>
-                                                {{ $m->filename }} ({{ $m->alt_text ?: 'Nội thất' }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="button" onclick="chooseInteriorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                                    🖼 Chọn
+                            <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <input type="hidden" name="interior_image_media_ids[]" class="interior-media-id-input" value="{{ $interior->image_media_id }}">
+                                <button type="button" onclick="chooseInteriorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                    🖼 Chọn ảnh
                                 </button>
+                                <button type="button" onclick="removeInteriorImage(this)" class="interior-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: {{ (!empty($interior->image_media_id) || !empty($interior->image_path)) ? 'inline-flex' : 'none' }}; align-items: center; gap: 4px;">
+                                    ✕ Xóa
+                                </button>
+                                <span class="interior-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{ !empty($interior->media_filename) ? $interior->media_filename : (!empty($interior->image_path) ? basename($interior->image_path) : 'Chưa có ảnh nội thất') }}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -915,13 +895,6 @@
 </div>
 
 <script>
-const mediaOptionsTemplate = `
-    <option value="" data-src="">-- Chọn ảnh tương ứng --</option>
-    @foreach($mediaList as $m)
-        <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}">{{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})</option>
-    @endforeach
-`;
-
 // Cập nhật tên xe trên thanh bottom bar thời gian thực
 document.getElementById('product-name')?.addEventListener('input', function() {
     const val = this.value.trim();
@@ -950,34 +923,6 @@ function calculateDiscount() {
 }
 calculateDiscount();
 
-// Preview ảnh chính của xe
-function updateMainThumbPreview(selectEl) {
-    const selectedOption = selectEl.options[selectEl.selectedIndex];
-    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
-    const previewBox = document.getElementById('product-thumb-preview');
-    if (previewBox) {
-        if (src) {
-            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: contain;">`;
-        } else {
-            previewBox.innerHTML = `<span style="font-size: 0.72rem; color: var(--admin-muted);">Chưa có</span>`;
-        }
-    }
-}
-
-// Preview ảnh biến thể
-function updateVariantImgPreview(selectEl) {
-    const selectedOption = selectEl.options[selectEl.selectedIndex];
-    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
-    const previewBox = selectEl.closest('.variant-row').querySelector('.variant-img-preview');
-    if (previewBox) {
-        if (src) {
-            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: contain;">`;
-        } else {
-            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>`;
-        }
-    }
-}
-
 // Thêm biến thể mới
 function addNewVariantRow(data = {}) {
     const placeholder = document.getElementById('no-variants-placeholder');
@@ -989,6 +934,13 @@ function addNewVariantRow(data = {}) {
     div.style.cssText = 'background: var(--admin-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--admin-border); margin-bottom: 12px;';
     
     const count = container.querySelectorAll('.variant-row').length + 1;
+    const hasMedia = !!data.thumbnail_media_id && !!data.media_url;
+    const previewContent = hasMedia
+        ? `<img src="${data.media_url}" style="width: 100%; height: 100%; object-fit: contain;">`
+        : `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>`;
+    const fileName = hasMedia ? (data.media_filename || 'Ảnh đã chọn') : 'Dùng ảnh chính của xe';
+    const removeBtnStyle = hasMedia ? 'inline-flex' : 'none';
+
     div.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <span style="font-size: 0.75rem; font-weight: 700; color: var(--admin-primary); background: #eff6ff; padding: 2px 8px; border-radius: 10px;">
@@ -1023,20 +975,22 @@ function addNewVariantRow(data = {}) {
                 <input type="text" name="variant_color_names[]" value="${data.color_name || ''}" placeholder="VD: Vàng nóc trắng" class="vf-admin-input" style="padding: 6px 10px; font-size: 0.85rem;">
             </div>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
-            <div class="variant-img-preview" style="width: 54px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>
+        <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+            <div class="variant-img-preview" style="width: 60px; height: 42px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                ${previewContent}
             </div>
-            <div style="flex: 1; display: flex; gap: 6px; align-items: center;">
-                <div style="flex: 1;">
-                    <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Ảnh Riêng Cho Phiên Bản Này</label>
-                    <select name="variant_thumbnail_media_ids[]" onchange="updateVariantImgPreview(this)" class="vf-admin-select variant-thumb-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                        ${mediaOptionsTemplate}
-                    </select>
-                </div>
-                <button type="button" onclick="chooseVariantImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                    🖼 Chọn
+            <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <input type="hidden" name="variant_thumbnail_media_ids[]" class="variant-media-id-input" value="${data.thumbnail_media_id || ''}">
+                <button type="button" onclick="chooseVariantImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    🖼 Chọn ảnh
                 </button>
+                <button type="button" onclick="removeVariantImage(this)" class="variant-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: ${removeBtnStyle}; align-items: center; gap: 4px;">
+                    ✕ Xóa
+                </button>
+                <span class="variant-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    ${fileName}
+                </span>
             </div>
         </div>
     `;
@@ -1053,31 +1007,24 @@ function duplicateVariantRow(btn) {
     const reg = row.querySelector('input[name="variant_regular_prices[]"]')?.value || '';
     const sale = row.querySelector('input[name="variant_sale_prices[]"]')?.value || '';
     const color = row.querySelector('input[name="variant_color_names[]"]')?.value || '';
+    const mediaId = row.querySelector('.variant-media-id-input')?.value || '';
+    const imgSrc = row.querySelector('.variant-img-preview img')?.src || '';
+    const imgName = row.querySelector('.variant-img-name')?.textContent.trim() || '';
+
     addNewVariantRow({
         name: name ? name + ' (Bản sao)' : '',
         sku: sku ? sku + '-COPY' : '',
         regular_price: reg,
         sale_price: sale,
-        color_name: color
+        color_name: color,
+        thumbnail_media_id: mediaId,
+        media_url: imgSrc,
+        media_filename: imgName
     });
 }
 
-// Preview ảnh màu sơn
-function updateColorImgPreview(selectEl) {
-    const selectedOption = selectEl.options[selectEl.selectedIndex];
-    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
-    const previewBox = selectEl.closest('.color-row').querySelector('.color-img-preview');
-    if (previewBox) {
-        if (src) {
-            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: contain;">`;
-        } else {
-            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
-        }
-    }
-}
-
 // Thêm màu sắc mới
-function addNewColorRow(name = '', code = '#d83a3a') {
+function addNewColorRow(name = '', code = '#d83a3a', data = {}) {
     const placeholder = document.getElementById('no-colors-placeholder');
     if (placeholder) placeholder.remove();
 
@@ -1085,6 +1032,14 @@ function addNewColorRow(name = '', code = '#d83a3a') {
     const div = document.createElement('div');
     div.className = 'color-row';
     div.style.cssText = 'background: var(--admin-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--admin-border); margin-bottom: 12px;';
+    
+    const hasMedia = !!data.image_media_id && !!data.media_url;
+    const previewContent = hasMedia
+        ? `<img src="${data.media_url}" style="width: 100%; height: 100%; object-fit: contain;">`
+        : `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
+    const fileName = hasMedia ? (data.media_filename || 'Ảnh đã chọn') : 'Chưa có ảnh góc ngang';
+    const removeBtnStyle = hasMedia ? 'inline-flex' : 'none';
+
     div.innerHTML = `
         <div style="display: grid; grid-template-columns: 55px 1.5fr auto; gap: 10px; align-items: center; margin-bottom: 8px;">
             <div>
@@ -1099,20 +1054,22 @@ function addNewColorRow(name = '', code = '#d83a3a') {
                 &times;
             </button>
         </div>
-        <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
-            <div class="color-img-preview" style="width: 58px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>
+        <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+            <div class="color-img-preview" style="width: 65px; height: 42px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                ${previewContent}
             </div>
-            <div style="flex: 1; display: flex; gap: 6px; align-items: center;">
-                <div style="flex: 1;">
-                    <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Ảnh Xe Góc Ngang Side-View Theo Màu</label>
-                    <select name="color_image_media_ids[]" onchange="updateColorImgPreview(this)" class="vf-admin-select color-img-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                        ${mediaOptionsTemplate}
-                    </select>
-                </div>
-                <button type="button" onclick="chooseColorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                    🖼 Chọn
+            <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <input type="hidden" name="color_image_media_ids[]" class="color-media-id-input" value="${data.image_media_id || ''}">
+                <button type="button" onclick="chooseColorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    🖼 Chọn ảnh
                 </button>
+                <button type="button" onclick="removeColorImage(this)" class="color-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: ${removeBtnStyle}; align-items: center; gap: 4px;">
+                    ✕ Xóa
+                </button>
+                <span class="color-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    ${fileName}
+                </span>
             </div>
         </div>
     `;
@@ -1125,22 +1082,8 @@ function quickAddColor(name, code) {
     addNewColorRow(name, code);
 }
 
-// Preview Banner Hero 19:6
-function updateBannerImgPreview(selectEl) {
-    const selectedOption = selectEl.options[selectEl.selectedIndex];
-    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
-    const previewBox = selectEl.closest('.banner-row').querySelector('.banner-img-preview');
-    if (previewBox) {
-        if (src) {
-            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: cover;">`;
-        } else {
-            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">19:6</span>`;
-        }
-    }
-}
-
 // Thêm Banner mới
-function addNewBannerRow() {
+function addNewBannerRow(data = {}) {
     const placeholder = document.getElementById('no-banners-placeholder');
     if (placeholder) placeholder.remove();
 
@@ -1148,55 +1091,46 @@ function addNewBannerRow() {
     const div = document.createElement('div');
     div.className = 'banner-row';
     div.style.cssText = 'background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 12px; margin-bottom: 12px;';
+    
+    const hasMedia = !!data.image_media_id && !!data.media_url;
+    const previewContent = hasMedia
+        ? `<img src="${data.media_url}" style="width: 100%; height: 100%; object-fit: cover;">`
+        : `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9 / 19:6</span>`;
+    const fileName = hasMedia ? (data.media_filename || 'Ảnh đã chọn') : 'Chưa chọn ảnh banner';
+    const removeBtnStyle = hasMedia ? 'inline-flex' : 'none';
+
     div.innerHTML = `
         <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
-            <input type="text" name="banner_titles[]" placeholder="Tiêu đề Banner (VD: VINFAST VF 3)" 
+            <input type="text" name="banner_titles[]" value="${data.title || ''}" placeholder="Tiêu đề Banner (VD: VINFAST VF 3)" 
                    class="vf-admin-input" style="flex: 1.2; padding: 6px 10px; font-size: 0.85rem; font-weight: 600;">
-            <input type="text" name="banner_subtitles[]" placeholder="Phụ đề ngắn..." 
+            <input type="text" name="banner_subtitles[]" value="${data.subtitle || ''}" placeholder="Phụ đề ngắn..." 
                    class="vf-admin-input" style="flex: 2; padding: 6px 10px; font-size: 0.85rem;">
             <button type="button" onclick="this.closest('.banner-row').remove(); updateCounters(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa banner này">
                 &times;
             </button>
         </div>
         <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
-            <div class="banner-img-preview" style="width: 110px; height: 35px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">19:6</span>
+            <div class="banner-img-preview" style="width: 110px; height: 40px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                ${previewContent}
             </div>
-            <div style="flex: 1.2; display: flex; gap: 6px; align-items: center;">
-                <div style="flex: 1;">
-                    <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Chọn từ Thư viện Media</label>
-                    <select name="banner_image_media_ids[]" onchange="updateBannerImgPreview(this)" class="vf-admin-select banner-img-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                        <option value="" data-src="">-- Chọn ảnh banner tỷ lệ 19:6 --</option>
-                        ${mediaOptionsTemplate}
-                    </select>
-                </div>
-                <button type="button" onclick="chooseBannerImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                    🖼 Chọn
+            <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <input type="hidden" name="banner_image_media_ids[]" class="banner-media-id-input" value="${data.image_media_id || ''}">
+                <button type="button" onclick="chooseBannerImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    🖼 Chọn ảnh Banner
                 </button>
-            </div>
-            <div style="flex: 1;">
-                <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Hoặc đường dẫn ảnh</label>
-                <input type="text" name="banner_image_paths[]" placeholder="storage/... (nếu có)" class="vf-admin-input" style="padding: 5px 8px; font-size: 0.82rem;">
+                <button type="button" onclick="removeBannerImage(this)" class="banner-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: ${removeBtnStyle}; align-items: center; gap: 4px;">
+                    ✕ Xóa
+                </button>
+                <span class="banner-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    ${fileName}
+                </span>
             </div>
         </div>
     `;
     container.appendChild(div);
     updateCounters();
     markFormDirty();
-}
-
-// Preview ảnh nội thất
-function updateInteriorImgPreview(selectEl) {
-    const selectedOption = selectEl.options[selectEl.selectedIndex];
-    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
-    const previewBox = selectEl.closest('.interior-row').querySelector('.interior-img-preview');
-    if (previewBox) {
-        if (src) {
-            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: cover;">`;
-        } else {
-            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
-        }
-    }
 }
 
 // Thêm ảnh nội thất mới
@@ -1209,14 +1143,12 @@ function addNewInteriorRow(data = {}) {
     div.className = 'interior-row';
     div.style.cssText = 'background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 12px;';
     
-    const previewContent = data.media_url 
+    const hasMedia = !!data.media_id && !!data.media_url;
+    const previewContent = hasMedia
         ? `<img src="${data.media_url}" style="width: 100%; height: 100%; object-fit: cover;">`
         : `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
-
-    let customOption = '';
-    if (data.media_id && data.media_url) {
-        customOption = `<option value="${data.media_id}" data-src="${data.media_url}" selected>${data.caption || 'Ảnh nội thất đã chọn'}</option>`;
-    }
+    const fileName = hasMedia ? (data.media_filename || data.caption || 'Ảnh đã chọn') : 'Chưa có ảnh nội thất';
+    const removeBtnStyle = hasMedia ? 'inline-flex' : 'none';
 
     div.innerHTML = `
         <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
@@ -1230,18 +1162,18 @@ function addNewInteriorRow(data = {}) {
             <div class="interior-img-preview" style="width: 72px; height: 48px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 ${previewContent}
             </div>
-            <div style="flex: 1; display: flex; gap: 6px; align-items: center;">
-                <div style="flex: 1;">
-                    <label class="vf-admin-label" style="font-size: 0.72rem; margin-bottom: 2px;">Chọn từ Media</label>
-                    <select name="interior_image_media_ids[]" onchange="updateInteriorImgPreview(this)" class="vf-admin-select interior-img-select" style="padding: 5px 8px; font-size: 0.82rem;">
-                        ${customOption}
-                        <option value="" data-src="">-- Chọn ảnh nội thất --</option>
-                        ${mediaOptionsTemplate}
-                    </select>
-                </div>
-                <button type="button" onclick="chooseInteriorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 5px 8px; font-size: 0.78rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; margin-top: 14px; white-space: nowrap;" title="Chọn ảnh từ Thư viện">
-                    🖼 Chọn
+            <div style="flex: 1; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <input type="hidden" name="interior_image_media_ids[]" class="interior-media-id-input" value="${data.media_id || ''}">
+                <button type="button" onclick="chooseInteriorImage(this)" class="vinfast-autohaiphong_admin_btn" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; border-radius: 4px; cursor: pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    🖼 Chọn ảnh
                 </button>
+                <button type="button" onclick="removeInteriorImage(this)" class="interior-img-remove-btn" style="padding: 6px 10px; font-size: 0.78rem; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3; border-radius: 4px; cursor: pointer; display: ${removeBtnStyle}; align-items: center; gap: 4px;">
+                    ✕ Xóa
+                </button>
+                <span class="interior-img-name" style="font-size: 0.75rem; color: var(--admin-muted); flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    ${fileName}
+                </span>
             </div>
         </div>
     `;
@@ -1499,99 +1431,187 @@ window.addEventListener('beforeunload', (e) => {
 // HÀM TÍCH HỢP MEDIA MANAGER POPUP CHUNG VÀO CÁC Ô CHỌN ẢNH SẢN PHẨM
 // =========================================================================
 
-// Helper gán ảnh chọn từ Media Manager vào bất kỳ Select và Preview nào
-function assignMediaToSelect(selectEl, previewBox, media) {
-    if (!selectEl || !media) return;
-    let option = selectEl.querySelector(`option[value="${media.id}"]`);
-    if (!option) {
-        option = document.createElement('option');
-        option.value = media.id;
-        option.setAttribute('data-src', media.url);
-        option.textContent = `${media.filename} (${media.alt_text || 'Ảnh vừa chọn'})`;
-        selectEl.appendChild(option);
-    }
-    selectEl.value = media.id;
-    
-    if (previewBox) {
-        previewBox.innerHTML = `<img src="${media.url}" alt="${media.alt_text || media.filename}" style="width: 100%; height: 100%; object-fit: contain;">`;
-    }
-    selectEl.dispatchEvent(new Event('change'));
-    markFormDirty();
-}
-
-// 1. Chọn ảnh đại diện xe chính
+// 1. Chọn & Xóa ảnh đại diện xe chính
 function openMainThumbnailMediaPicker() {
     window.openMediaManager({
         mode: 'single',
         confirmText: 'Chọn làm ảnh đại diện',
         onSelect: function(media) {
-            const select = document.getElementById('main_thumbnail_select');
+            const input = document.getElementById('main_thumbnail_media_id');
             const preview = document.getElementById('product-thumb-preview');
-            assignMediaToSelect(select, preview, media);
+            const nameEl = document.getElementById('main_thumb_filename');
+            const clearBtn = document.getElementById('btn_clear_main_thumb');
+            if (input) input.value = media.id;
+            if (preview) {
+                preview.innerHTML = `<img src="${media.url}" alt="${media.alt_text || media.filename}" style="width: 100%; height: 100%; object-fit: contain;">`;
+            }
+            if (nameEl) {
+                nameEl.textContent = `${media.filename} ${media.alt_text ? '(' + media.alt_text + ')' : ''}`;
+            }
+            if (clearBtn) clearBtn.style.display = 'inline-flex';
+            markFormDirty();
         }
     });
 }
 
-// 2. Chọn ảnh cho phiên bản (Variant)
+function removeMainThumbnail() {
+    const input = document.getElementById('main_thumbnail_media_id');
+    const preview = document.getElementById('product-thumb-preview');
+    const nameEl = document.getElementById('main_thumb_filename');
+    const clearBtn = document.getElementById('btn_clear_main_thumb');
+    if (input) input.value = '';
+    if (preview) {
+        preview.innerHTML = `<span style="font-size: 0.72rem; color: var(--admin-muted);">Chưa có</span>`;
+    }
+    if (nameEl) {
+        nameEl.textContent = 'Chưa chọn ảnh đại diện cho xe (Bấm nút trên để chọn từ popup)';
+    }
+    if (clearBtn) clearBtn.style.display = 'none';
+    markFormDirty();
+}
+
+// 2. Chọn & Xóa ảnh cho phiên bản (Variant)
 function chooseVariantImage(btn) {
     const row = btn.closest('.variant-row');
-    const select = row.querySelector('.variant-thumb-select');
+    const input = row.querySelector('.variant-media-id-input');
     const preview = row.querySelector('.variant-img-preview');
+    const nameEl = row.querySelector('.variant-img-name');
+    const removeBtn = row.querySelector('.variant-img-remove-btn');
     window.openMediaManager({
         mode: 'single',
         confirmText: 'Chọn ảnh cho phiên bản này',
         onSelect: function(media) {
-            assignMediaToSelect(select, preview, media);
+            if (input) input.value = media.id;
+            if (preview) {
+                preview.innerHTML = `<img src="${media.url}" alt="${media.alt_text || media.filename}" style="width: 100%; height: 100%; object-fit: contain;">`;
+            }
+            if (nameEl) nameEl.textContent = media.filename;
+            if (removeBtn) removeBtn.style.display = 'inline-flex';
+            markFormDirty();
         }
     });
 }
 
-// 3. Chọn ảnh theo màu sắc (Color Studio)
+function removeVariantImage(btn) {
+    const row = btn.closest('.variant-row');
+    const input = row.querySelector('.variant-media-id-input');
+    const preview = row.querySelector('.variant-img-preview');
+    const nameEl = row.querySelector('.variant-img-name');
+    if (input) input.value = '';
+    if (preview) {
+        preview.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>`;
+    }
+    if (nameEl) nameEl.textContent = 'Dùng ảnh chính của xe';
+    btn.style.display = 'none';
+    markFormDirty();
+}
+
+// 3. Chọn & Xóa ảnh theo màu sắc (Color Studio)
 function chooseColorImage(btn) {
     const row = btn.closest('.color-row');
-    const select = row.querySelector('.color-img-select');
+    const input = row.querySelector('.color-media-id-input');
     const preview = row.querySelector('.color-img-preview');
+    const nameEl = row.querySelector('.color-img-name');
+    const removeBtn = row.querySelector('.color-img-remove-btn');
     window.openMediaManager({
         mode: 'single',
         confirmText: 'Chọn ảnh xe theo màu này',
         onSelect: function(media) {
-            assignMediaToSelect(select, preview, media);
+            if (input) input.value = media.id;
+            if (preview) {
+                preview.innerHTML = `<img src="${media.url}" alt="${media.alt_text || media.filename}" style="width: 100%; height: 100%; object-fit: contain;">`;
+            }
+            if (nameEl) nameEl.textContent = media.filename;
+            if (removeBtn) removeBtn.style.display = 'inline-flex';
+            markFormDirty();
         }
     });
 }
 
-// 4. Chọn ảnh Banner Hero 19:6
+function removeColorImage(btn) {
+    const row = btn.closest('.color-row');
+    const input = row.querySelector('.color-media-id-input');
+    const preview = row.querySelector('.color-img-preview');
+    const nameEl = row.querySelector('.color-img-name');
+    if (input) input.value = '';
+    if (preview) {
+        preview.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
+    }
+    if (nameEl) nameEl.textContent = 'Chưa có ảnh góc ngang';
+    btn.style.display = 'none';
+    markFormDirty();
+}
+
+// 4. Chọn & Xóa ảnh Banner Hero (Tỷ lệ 16:9 / 19:6)
 function chooseBannerImage(btn) {
     const row = btn.closest('.banner-row');
-    const select = row.querySelector('.banner-img-select');
+    const input = row.querySelector('.banner-media-id-input');
     const preview = row.querySelector('.banner-img-preview');
+    const nameEl = row.querySelector('.banner-img-name');
+    const removeBtn = row.querySelector('.banner-img-remove-btn');
     window.openMediaManager({
         mode: 'single',
-        confirmText: 'Chọn ảnh banner tỷ lệ 19:6',
+        confirmText: 'Chọn ảnh banner',
         onSelect: function(media) {
-            assignMediaToSelect(select, preview, media);
-            if (preview && preview.querySelector('img')) {
-                preview.querySelector('img').style.objectFit = 'cover';
+            if (input) input.value = media.id;
+            if (preview) {
+                preview.innerHTML = `<img src="${media.url}" alt="${media.alt_text || media.filename}" style="width: 100%; height: 100%; object-fit: cover;">`;
             }
+            if (nameEl) nameEl.textContent = media.filename;
+            if (removeBtn) removeBtn.style.display = 'inline-flex';
+            markFormDirty();
         }
     });
 }
 
-// 5. Chọn ảnh nội thất đơn lẻ
+function removeBannerImage(btn) {
+    const row = btn.closest('.banner-row');
+    const input = row.querySelector('.banner-media-id-input');
+    const preview = row.querySelector('.banner-img-preview');
+    const nameEl = row.querySelector('.banner-img-name');
+    if (input) input.value = '';
+    if (preview) {
+        preview.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9 / 19:6</span>`;
+    }
+    if (nameEl) nameEl.textContent = 'Chưa chọn ảnh banner';
+    btn.style.display = 'none';
+    markFormDirty();
+}
+
+// 5. Chọn & Xóa ảnh nội thất đơn lẻ
 function chooseInteriorImage(btn) {
     const row = btn.closest('.interior-row');
-    const select = row.querySelector('.interior-img-select');
+    const input = row.querySelector('.interior-media-id-input');
     const preview = row.querySelector('.interior-img-preview');
+    const nameEl = row.querySelector('.interior-img-name');
+    const removeBtn = row.querySelector('.interior-img-remove-btn');
     window.openMediaManager({
         mode: 'single',
         confirmText: 'Chọn ảnh nội thất này',
         onSelect: function(media) {
-            assignMediaToSelect(select, preview, media);
-            if (preview && preview.querySelector('img')) {
-                preview.querySelector('img').style.objectFit = 'cover';
+            if (input) input.value = media.id;
+            if (preview) {
+                preview.innerHTML = `<img src="${media.url}" alt="${media.alt_text || media.filename}" style="width: 100%; height: 100%; object-fit: cover;">`;
             }
+            if (nameEl) nameEl.textContent = media.filename;
+            if (removeBtn) removeBtn.style.display = 'inline-flex';
+            markFormDirty();
         }
     });
+}
+
+function removeInteriorImage(btn) {
+    const row = btn.closest('.interior-row');
+    const input = row.querySelector('.interior-media-id-input');
+    const preview = row.querySelector('.interior-img-preview');
+    const nameEl = row.querySelector('.interior-img-name');
+    if (input) input.value = '';
+    if (preview) {
+        preview.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
+    }
+    if (nameEl) nameEl.textContent = 'Chưa có ảnh nội thất';
+    btn.style.display = 'none';
+    markFormDirty();
 }
 
 // 6. Thêm hàng loạt ảnh nội thất từ Media Manager (Batch Add)
@@ -1605,7 +1625,8 @@ function batchAddInteriorsFromMedia() {
                 addNewInteriorRow({
                     caption: img.alt_text || img.filename.replace(/\.[^/.]+$/, ""),
                     media_id: img.id,
-                    media_url: img.url
+                    media_url: img.url,
+                    media_filename: img.filename
                 });
             });
         }
