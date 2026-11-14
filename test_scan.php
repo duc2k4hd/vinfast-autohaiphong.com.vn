@@ -1,16 +1,21 @@
 <?php
-function scanDirBlade($dir) {
+
+function scanDirBlade($dir)
+{
     $results = [];
     $files = scandir($dir);
     foreach ($files as $file) {
-        if ($file === '.' || $file === '..') continue;
-        $path = $dir . '/' . $file;
+        if ($file === '.' || $file === '..') {
+            continue;
+        }
+        $path = $dir.'/'.$file;
         if (is_dir($path)) {
             $results = array_merge($results, scanDirBlade($path));
         } elseif (str_ends_with($file, '.blade.php')) {
             $results[] = $path;
         }
     }
+
     return $results;
 }
 
@@ -24,4 +29,3 @@ foreach ($files as $file) {
     }
 }
 echo "DONE SCAN\n";
-

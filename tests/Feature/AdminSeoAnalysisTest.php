@@ -71,4 +71,3 @@ class AdminSeoAnalysisTest extends TestCase
         ]);
     }
 }
-

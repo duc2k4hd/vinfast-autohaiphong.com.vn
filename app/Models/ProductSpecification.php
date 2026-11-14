@@ -39,4 +39,3 @@ class ProductSpecification extends Model
         return $this->belongsTo(ProductSpecificationGroup::class, 'group_id');
     }
 }
-

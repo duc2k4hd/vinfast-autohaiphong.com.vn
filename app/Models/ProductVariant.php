@@ -49,4 +49,3 @@ class ProductVariant extends Model
         return $this->belongsTo(Media::class, 'thumbnail_media_id');
     }
 }
-

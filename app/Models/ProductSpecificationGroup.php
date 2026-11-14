@@ -28,4 +28,3 @@ class ProductSpecificationGroup extends Model
         return $this->hasMany(ProductSpecification::class, 'group_id');
     }
 }
-
