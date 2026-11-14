@@ -128,40 +128,6 @@ class ProductService
                     'id' => $banner->id,
                     'title' => $banner->title,
                     'subtitle' => $banner->subtitle,
-                    'image_url' => $path ? asset('storage/' . ltrim($path, '/')) : null,
-                    'alt_text' => $banner->media_alt ?: ($banner->title ?: 'VinFast Banner'),
-                ];
-            })
-            ->filter(fn ($b) => ! empty($b->image_url))
-            ->values();
-    }
-
-    /**
-     * Lấy danh sách banner hero riêng của xe (tỷ lệ 16:9).
-     */
-    public function getBanners(int $productId): Collection
-    {
-        return DB::table('product_banners')
-            ->leftJoin('media', 'product_banners.image_media_id', '=', 'media.id')
-            ->where('product_banners.product_id', $productId)
-            ->where('product_banners.is_active', true)
-            ->select([
-                'product_banners.id',
-                'product_banners.title',
-                'product_banners.subtitle',
-                'product_banners.image_path as direct_image_path',
-                'media.path as media_image_path',
-                'media.alt_text as media_alt',
-            ])
-            ->orderBy('product_banners.sort_order', 'asc')
-            ->get()
-            ->map(function ($banner) {
-                $path = $banner->media_image_path ?: $banner->direct_image_path;
-
-                return (object) [
-                    'id' => $banner->id,
-                    'title' => $banner->title,
-                    'subtitle' => $banner->subtitle,
                     'image_url' => $path ? asset('storage/'.ltrim($path, '/')) : null,
                     'alt_text' => $banner->media_alt ?: ($banner->title ?: 'VinFast Banner'),
                 ];
