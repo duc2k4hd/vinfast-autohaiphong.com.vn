@@ -620,47 +620,115 @@ window.VINFAST_PRODUCT_DATA = {
                     <p>Thiết kế công thái học tối ưu hoá từng centimet, mang lại trải nghiệm tiện nghi, trẻ trung và hiện đại</p>
                 </div>
 
-                {{-- Khối Bento Grid to dài, xếp tầng xếp lớp nghệ thuật kết hợp nhiều hình dạng ảnh nội thất --}}
-                <div class="vinfast-autohaiphong_product_interior-bento" data-reveal>
+                {{-- Khối Nội Thất Xếp Tầng Xếp Lớp (Tiered Gallery) - Ảnh to bản, dài sâu, tuyệt đối không đè nhau --}}
+                <div class="vinfast-autohaiphong_product_interior-gallery" data-reveal>
                     @php
-                        $totalItems = $interiorList->count();
+                        $interiorItems = $interiorList->values();
+                        $total = $interiorItems->count();
+                        $cIdx = 0;
                     @endphp
-                    @foreach($interiorList as $idx => $item)
+
+                    @while($cIdx < $total)
                         @php
-                            $shapeClass = 'vinfast-autohaiphong_product_interior-bento-item';
-                            if ($totalItems === 1) {
-                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-full';
-                            } elseif ($totalItems === 2) {
-                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-half';
-                            } else {
-                                $mod = $idx % 6;
-                                if ($mod === 0) {
-                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-hero';
-                                } elseif ($mod === 1 || $mod === 2) {
-                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-stacked';
-                                } elseif ($mod === 3 || $mod === 4) {
-                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-half';
-                                } else {
-                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-full';
-                                }
-                            }
+                            $rem = $total - $cIdx;
                         @endphp
-                        <div class="{{ $shapeClass }} vinfast-autohaiphong_product_lightbox-trigger"
-                             role="button"
-                             tabindex="0"
-                             data-lightbox="{{ $idx }}"
-                             aria-label="Xem chi tiết: {{ $item->caption ?: 'Nội thất xe' }}">
-                            <img src="{{ $item->image_url }}"
-                                 alt="{{ $item->alt_text ?: ($item->caption ?: 'Ảnh nội thất ' . ($idx + 1)) }}"
-                                 loading="lazy" />
-                            @if(!empty($item->caption))
-                                <div class="vinfast-autohaiphong_product_interior-caption">
-                                    <span>{{ $item->caption }}</span>
-                                    <span class="vinfast-autohaiphong_product_interior-zoom-icon">↗</span>
+
+                        @if($rem === 1)
+                            {{-- Tầng 1 ảnh to đại cảnh trải rộng --}}
+                            <div class="vinfast-autohaiphong_product_interior-tier vinfast-autohaiphong_product_interior-tier-full">
+                                @php $item = $interiorItems[$cIdx]; @endphp
+                                <div class="vinfast-autohaiphong_product_interior-card vinfast-autohaiphong_product_lightbox-trigger"
+                                     role="button" tabindex="0" data-lightbox="{{ $cIdx }}"
+                                     aria-label="Xem chi tiết: {{ $item->caption ?: 'Nội thất xe' }}">
+                                    <img src="{{ $item->image_url }}" alt="{{ $item->alt_text ?: ($item->caption ?: 'Ảnh nội thất ' . ($cIdx + 1)) }}" loading="lazy" />
+                                    @if(!empty($item->caption))
+                                        <div class="vinfast-autohaiphong_product_interior-caption">
+                                            <span>{{ $item->caption }}</span>
+                                            <span class="vinfast-autohaiphong_product_interior-zoom-icon">↗</span>
+                                        </div>
+                                    @endif
                                 </div>
-                            @endif
-                        </div>
-                    @endforeach
+                                @php $cIdx += 1; @endphp
+                            </div>
+                        @elseif($rem === 2)
+                            {{-- Tầng 2 ảnh to song song ngang nhau --}}
+                            <div class="vinfast-autohaiphong_product_interior-tier vinfast-autohaiphong_product_interior-tier-pair">
+                                @for($k = 0; $k < 2; $k++)
+                                    @php $item = $interiorItems[$cIdx]; @endphp
+                                    <div class="vinfast-autohaiphong_product_interior-card vinfast-autohaiphong_product_lightbox-trigger"
+                                         role="button" tabindex="0" data-lightbox="{{ $cIdx }}"
+                                         aria-label="Xem chi tiết: {{ $item->caption ?: 'Nội thất xe' }}">
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->alt_text ?: ($item->caption ?: 'Ảnh nội thất ' . ($cIdx + 1)) }}" loading="lazy" />
+                                        @if(!empty($item->caption))
+                                            <div class="vinfast-autohaiphong_product_interior-caption">
+                                                <span>{{ $item->caption }}</span>
+                                                <span class="vinfast-autohaiphong_product_interior-zoom-icon">↗</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    @php $cIdx += 1; @endphp
+                                @endfor
+                            </div>
+                        @elseif($rem === 3 || $rem >= 5)
+                            {{-- Tầng Cụm 3 ảnh: 1 ảnh lớn (Hero) + 2 ảnh xếp chồng bên cạnh (Đảo bên so le theo lượt) --}}
+                            @php
+                                $isReversed = (floor($cIdx / 5) % 2 === 1);
+                            @endphp
+                            <div class="vinfast-autohaiphong_product_interior-tier vinfast-autohaiphong_product_interior-tier-combo {{ $isReversed ? 'vinfast-autohaiphong_product_interior-tier-reversed' : '' }}">
+                                <div class="vinfast-autohaiphong_product_interior-combo-hero">
+                                    @php $item = $interiorItems[$cIdx]; @endphp
+                                    <div class="vinfast-autohaiphong_product_interior-card vinfast-autohaiphong_product_lightbox-trigger"
+                                         role="button" tabindex="0" data-lightbox="{{ $cIdx }}"
+                                         aria-label="Xem chi tiết: {{ $item->caption ?: 'Nội thất xe' }}">
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->alt_text ?: ($item->caption ?: 'Ảnh nội thất ' . ($cIdx + 1)) }}" loading="lazy" />
+                                        @if(!empty($item->caption))
+                                            <div class="vinfast-autohaiphong_product_interior-caption">
+                                                <span>{{ $item->caption }}</span>
+                                                <span class="vinfast-autohaiphong_product_interior-zoom-icon">↗</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    @php $cIdx += 1; @endphp
+                                </div>
+                                <div class="vinfast-autohaiphong_product_interior-combo-stack">
+                                    @for($k = 0; $k < 2; $k++)
+                                        @php $item = $interiorItems[$cIdx]; @endphp
+                                        <div class="vinfast-autohaiphong_product_interior-card vinfast-autohaiphong_product_lightbox-trigger"
+                                             role="button" tabindex="0" data-lightbox="{{ $cIdx }}"
+                                             aria-label="Xem chi tiết: {{ $item->caption ?: 'Nội thất xe' }}">
+                                            <img src="{{ $item->image_url }}" alt="{{ $item->alt_text ?: ($item->caption ?: 'Ảnh nội thất ' . ($cIdx + 1)) }}" loading="lazy" />
+                                            @if(!empty($item->caption))
+                                                <div class="vinfast-autohaiphong_product_interior-caption">
+                                                    <span>{{ $item->caption }}</span>
+                                                    <span class="vinfast-autohaiphong_product_interior-zoom-icon">↗</span>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        @php $cIdx += 1; @endphp
+                                    @endfor
+                                </div>
+                            </div>
+                        @elseif($rem === 4)
+                            {{-- 4 ảnh còn lại: chia thành 2 cặp ảnh to song song --}}
+                            <div class="vinfast-autohaiphong_product_interior-tier vinfast-autohaiphong_product_interior-tier-pair">
+                                @for($k = 0; $k < 2; $k++)
+                                    @php $item = $interiorItems[$cIdx]; @endphp
+                                    <div class="vinfast-autohaiphong_product_interior-card vinfast-autohaiphong_product_lightbox-trigger"
+                                         role="button" tabindex="0" data-lightbox="{{ $cIdx }}"
+                                         aria-label="Xem chi tiết: {{ $item->caption ?: 'Nội thất xe' }}">
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->alt_text ?: ($item->caption ?: 'Ảnh nội thất ' . ($cIdx + 1)) }}" loading="lazy" />
+                                        @if(!empty($item->caption))
+                                            <div class="vinfast-autohaiphong_product_interior-caption">
+                                                <span>{{ $item->caption }}</span>
+                                                <span class="vinfast-autohaiphong_product_interior-zoom-icon">↗</span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    @php $cIdx += 1; @endphp
+                                @endfor
+                            </div>
+                        @endif
+                    @endwhile
                 </div>
             </div>
         </section>
