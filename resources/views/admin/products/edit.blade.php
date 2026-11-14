@@ -103,14 +103,11 @@
         position: relative;
     }
     .vf-admin-editor-sticky-header {
-        position: sticky;
-        top: 0;
-        z-index: 25;
+        position: relative;
         background: #ffffff;
         margin: -24px -24px 14px -24px;
         padding: 16px 24px 12px 24px;
         border-bottom: 1px solid var(--admin-border);
-        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
     }
@@ -119,6 +116,16 @@
         height: fit-content;
         border-radius: 6px;
         border: 1px solid var(--admin-border);
+        overflow: visible !important;
+    }
+    #bai-viet-gioi-thieu .tox-editor-header {
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 40 !important;
+        background: #ffffff !important;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
     }
     #bai-viet-gioi-thieu .tox-edit-area {
         min-height: 900px;
@@ -1694,7 +1701,7 @@ function initProductArticleTinyMCE() {
         selector: '#article-editor',
         min_height: 1000,
         toolbar_sticky: true,
-        toolbar_sticky_offset: 106,
+        toolbar_sticky_offset: 0,
         autoresize_bottom_margin: 30,
         autoresize_overflow_padding: 20,
         menubar: 'file edit view insert format tools table help',
@@ -1854,6 +1861,21 @@ function initProductArticleTinyMCE() {
 
             editor.on('init', function () {
                 syncEditorData();
+
+                // Đảm bảo cuộn chuột khi con trỏ ở bên trong iframe editor mượt mà và thanh header bám chạm đỉnh
+                const doc = editor.getDoc();
+                if (doc) {
+                    doc.addEventListener('wheel', function (e) {
+                        let deltaY = e.deltaY;
+                        if (e.deltaMode === 1) deltaY *= 33;
+                        else if (e.deltaMode === 2) deltaY *= window.innerHeight;
+                        window.scrollBy({
+                            top: deltaY,
+                            left: e.deltaX,
+                            behavior: 'auto'
+                        });
+                    }, { passive: true });
+                }
             });
             editor.on('keyup change undo redo NodeChange', function () {
                 syncEditorData();
