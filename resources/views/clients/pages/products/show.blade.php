@@ -170,35 +170,49 @@ window.VINFAST_PRODUCT_DATA = {
             <div class="vinfast-autohaiphong_product_container">
                 <div class="vinfast-autohaiphong_product_intro-grid">
                     {{-- Cột Trái: Visual và Watermark Tỷ Lệ 4/3 Chuẩn --}}
+                    @php
+                        $firstVariant = $variants->first();
+                        $initialCarImage = ($firstVariant && !empty($firstVariant->thumbnail_path))
+                            ? asset('storage/' . $firstVariant->thumbnail_path)
+                            : $mainCarImage;
+                    @endphp
                     <div class="vinfast-autohaiphong_product_intro-visual" data-reveal>
+                        <span class="vinfast-autohaiphong_product_intro-watermark">{{ $shortModelName }}</span>
                         <img class="vinfast-autohaiphong_product_intro-car"
-                             src="{{ $mainCarImage }}"
+                             src="{{ $initialCarImage }}"
                              alt="{{ $car->name }}"
-                             loading="lazy" />
+                             loading="eager" />
                     </div>
 
                     {{-- Cột Phải: Trims, Specs Highlights, Price & Deposit Chuẩn Ảnh Mẫu --}}
                     <div class="vinfast-autohaiphong_product_intro-info" data-reveal>
                         <h1 class="sr-only">{{ $car->name }}</h1>
 
-                        {{-- 1. Trim Picker (Nằm trên cùng bên phải giống hệt ảnh mẫu) --}}
+                        {{-- 1. Trim Picker (Nằm trên cùng bên phải giống hệt ảnh mẫu với hiệu ứng trượt) --}}
                         <span class="sr-only">Chọn Phiên Bản</span>
                         <div class="vinfast-autohaiphong_product_trim-picker-wrapper">
                             <div class="vinfast-autohaiphong_product_trim-picker" role="group" aria-label="Phiên bản xe">
+                                <span class="vinfast-autohaiphong_product_trim-indicator" aria-hidden="true"></span>
                                 @if($variants->isNotEmpty())
                                     @foreach($variants as $idx => $variant)
+                                        @php
+                                            $variantImg = !empty($variant->thumbnail_path)
+                                                ? asset('storage/' . $variant->thumbnail_path)
+                                                : ($idx === 0 ? $mainCarImage : (file_exists(public_path('storage/clients/assets/images/products/xe-dien-vinfast-vf3-1794624468.webp')) ? asset('storage/clients/assets/images/products/xe-dien-vinfast-vf3-1794624468.webp') : $mainCarImage));
+                                        @endphp
                                         <button type="button"
                                                 data-trim="{{ $variant->id }}"
                                                 data-price-val="{{ $variant->sale_price ?: $variant->regular_price }}"
                                                 data-price-formatted="{{ number_format($variant->sale_price ?: $variant->regular_price, 0, ',', '.') }} VNĐ"
                                                 data-name="{{ $variant->name }}"
+                                                data-image="{{ $variantImg }}"
                                                 class="vinfast-autohaiphong_product_trim {{ $idx === 0 ? 'vinfast-autohaiphong_product_is-active' : '' }}"
                                                 aria-pressed="{{ $idx === 0 ? 'true' : 'false' }}">
                                             {{ $variant->name }}
                                         </button>
                                     @endforeach
                                 @else
-                                    <button type="button" data-trim="standard" data-price-val="{{ $car->sale_price ?: $car->regular_price }}" data-price-formatted="{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ" data-name="{{ $car->name }} Tiêu Chuẩn" class="vinfast-autohaiphong_product_trim vinfast-autohaiphong_product_is-active">
+                                    <button type="button" data-trim="standard" data-price-val="{{ $car->sale_price ?: $car->regular_price }}" data-price-formatted="{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ" data-name="{{ $car->name }} Tiêu Chuẩn" data-image="{{ $mainCarImage }}" class="vinfast-autohaiphong_product_trim vinfast-autohaiphong_product_is-active">
                                         {{ $car->name }} Tiêu Chuẩn
                                     </button>
                                 @endif

@@ -70,19 +70,21 @@ class ProductService
     public function getVariants(int $productId): Collection
     {
         return DB::table('product_variants')
-            ->where('product_id', $productId)
-            ->where('is_active', true)
+            ->leftJoin('media', 'product_variants.thumbnail_media_id', '=', 'media.id')
+            ->where('product_variants.product_id', $productId)
+            ->where('product_variants.is_active', true)
             ->select([
-                'id',
-                'name',
-                'sku',
-                'color_name',
-                'color_code',
-                'regular_price',
-                'sale_price',
-                'is_available',
+                'product_variants.id',
+                'product_variants.name',
+                'product_variants.sku',
+                'product_variants.color_name',
+                'product_variants.color_code',
+                'product_variants.regular_price',
+                'product_variants.sale_price',
+                'product_variants.is_available',
+                'media.path as thumbnail_path',
             ])
-            ->orderBy('sort_order', 'asc')
+            ->orderBy('product_variants.sort_order', 'asc')
             ->get();
     }
 

@@ -48,8 +48,84 @@ export function initProductThemeV1() {
     };
   });
 
-  // 1. Variant / Trim Selection
-  const selectTrim = (key) => {
+  // 1. Variant / Trim Selection & Sliding Background Indicator
+  const updateTrimIndicator = (immediate = false) => {
+    const activeBtn = $('[data-trim].' + P + 'is-active');
+    const indicator = $('.' + P + 'trim-indicator');
+    if (!activeBtn || !indicator) return;
+
+    if (immediate) {
+      indicator.style.transition = 'none';
+    }
+
+    const left = activeBtn.offsetLeft;
+    const top = activeBtn.offsetTop;
+    const width = activeBtn.offsetWidth;
+    const height = activeBtn.offsetHeight;
+
+    indicator.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+    indicator.style.width = `${width}px`;
+    indicator.style.height = `${height}px`;
+    indicator.style.opacity = '1';
+
+    if (immediate) {
+      void indicator.offsetHeight;
+      indicator.style.transition = '';
+    }
+  };
+
+  const switchCarVariantImage = (newSrc, altText = '') => {
+    if (!newSrc) return;
+    const visual = $('.' + P + 'intro-visual');
+    if (!visual) return;
+
+    const currentImg = visual.querySelector('.' + P + 'intro-car:not(.' + P + 'car-exiting)');
+    if (currentImg) {
+      const curSrc = currentImg.getAttribute('src');
+      if (curSrc === newSrc || (curSrc && curSrc.endsWith(newSrc))) return;
+
+      // Ảnh cũ: trượt sang phải và biến mất mượt mà
+      currentImg.classList.add(P + 'car-exiting');
+      currentImg.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+      currentImg.style.transform = 'translate3d(120px, 0, 0) scale(var(--vf-car-scale, 1.06))';
+      currentImg.style.opacity = '0';
+      currentImg.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        currentImg.remove();
+      }, 550);
+    }
+
+    // Ảnh mới: trượt từ trên xuống và xuất hiện mượt mà
+    const newImg = document.createElement('img');
+    newImg.className = P + 'intro-car ' + P + 'car-entering';
+    newImg.src = newSrc;
+    newImg.alt = altText || 'VinFast';
+    newImg.loading = 'eager';
+
+    newImg.style.opacity = '0';
+    newImg.style.transform = 'translate3d(0, -90px, 0) scale(var(--vf-car-scale, 1.18))';
+    newImg.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
+    newImg.style.pointerEvents = 'none';
+
+    visual.appendChild(newImg);
+
+    void newImg.offsetHeight;
+
+    requestAnimationFrame(() => {
+      newImg.style.opacity = '1';
+      newImg.style.transform = 'translate3d(0, 0, 0) scale(var(--vf-car-scale, 1.12))';
+      setTimeout(() => {
+        newImg.classList.remove(P + 'car-entering');
+        newImg.style.transition = '';
+        newImg.style.transform = '';
+        newImg.style.opacity = '';
+        newImg.style.pointerEvents = '';
+      }, 580);
+    });
+  };
+
+  const selectTrim = (key, isInit = false) => {
     const btn = $(`[data-trim="${key}"]`);
     if (!btn) return;
 
@@ -59,9 +135,16 @@ export function initProductThemeV1() {
       b.setAttribute('aria-pressed', String(active));
     });
 
+    updateTrimIndicator(isInit);
+
     const priceFormatted = btn.dataset.priceFormatted;
     const priceVal = btn.dataset.priceVal;
     const name = btn.dataset.name;
+    const imageSrc = btn.dataset.image;
+
+    if (!isInit && imageSrc) {
+      switchCarVariantImage(imageSrc, name || btn.textContent.trim());
+    }
 
     const priceEl = $('[data-price]');
     if (priceEl && priceFormatted) {
@@ -426,8 +509,11 @@ export function initProductThemeV1() {
   // Initialize components
   const firstTrimBtn = $('[data-trim]');
   if (firstTrimBtn) {
-    selectTrim(firstTrimBtn.dataset.trim);
+    selectTrim(firstTrimBtn.dataset.trim, true);
+    requestAnimationFrame(() => updateTrimIndicator(true));
   }
+  window.addEventListener('resize', () => updateTrimIndicator(true));
+
   initColors();
   const firstSpecTab = $('[data-spec-tab]');
   if (firstSpecTab) {
