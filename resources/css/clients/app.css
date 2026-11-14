@@ -147,10 +147,9 @@ button, input, select, textarea {
 /* 5. Vehicle mega menu */
 .vinfast-autohaiphong_header_cars_toggle { border: 0; background: transparent; font-family: inherit; cursor: pointer; }
 .vinfast-autohaiphong_header_cars_toggle[aria-expanded="true"] .vinfast-autohaiphong_header_nav_arrow { transform: rotate(180deg); }
-.vinfast-autohaiphong_header_dropdown[hidden] { display: none; }
+.vinfast-autohaiphong_header_dropdown[hidden] { display: none !important; }
 @media (hover: hover) and (min-width: 861px) {
-    .vinfast-autohaiphong_header_nav_item_has_sub.is-hover-open > .vinfast-autohaiphong_header_dropdown,
-    .vinfast-autohaiphong_header_nav_item_has_sub:focus-within > .vinfast-autohaiphong_header_dropdown {
+    .vinfast-autohaiphong_header_nav_item_has_sub.is-hover-open > .vinfast-autohaiphong_header_dropdown {
         display: block;
     }
 }

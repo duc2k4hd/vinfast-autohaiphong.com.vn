@@ -659,8 +659,8 @@ select:focus-visible,
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 980px;
-    height: clamp(300px, 36vw, 420px);
+    max-width: 1200px;
+    height: clamp(700px, 36vw, 420px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -685,7 +685,7 @@ select:focus-visible,
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: 36px;
+    margin-top: 0;
     z-index: 3;
 }
 .vinfast-autohaiphong_product_color-switcher {
@@ -2761,7 +2761,7 @@ select:focus-visible,
         color: #e6ebf0;
     }
     .vinfast-autohaiphong_product_color-car-wrapper {
-        height: clamp(170px, 42vw, 230px);
+        height: clamp(370px, 42vw, 230px);
         margin-top: 5px;
     }
     .vinfast-autohaiphong_product_color-car {

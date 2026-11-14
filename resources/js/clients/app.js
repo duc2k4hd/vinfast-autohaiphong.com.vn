@@ -33,10 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         carsToggle.addEventListener('click', (event) => {
             event.preventDefault();
+            event.stopPropagation();
             window.clearTimeout(closeTimer);
-            isClickPinned = carsDropdown.hidden;
-            suppressHoverUntilLeave = !isClickPinned;
-            setCarsMenuOpen(isClickPinned);
+            const shouldOpen = carsDropdown.hidden;
+            isClickPinned = shouldOpen;
+            suppressHoverUntilLeave = !shouldOpen;
+            setCarsMenuOpen(shouldOpen);
+            if (!shouldOpen) {
+                carsToggle.blur();
+            }
         });
         const carsCloseBtn = carsDropdown.querySelector('[data-vf-cars-close]');
         carsCloseBtn?.addEventListener('click', (event) => {
@@ -46,7 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isClickPinned = false;
             suppressHoverUntilLeave = true;
             setCarsMenuOpen(false);
-            carsToggle.focus();
+            carsCloseBtn.blur();
+            carsToggle.blur();
         });
         carsMenu.addEventListener('mouseenter', (event) => {
             if (event.pointerType !== 'touch' && window.matchMedia('(min-width: 861px)').matches && !suppressHoverUntilLeave) {
@@ -57,12 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         carsMenu.addEventListener('mouseleave', (event) => {
             if (event.pointerType !== 'touch' && window.matchMedia('(min-width: 861px)').matches) {
                 suppressHoverUntilLeave = false;
-                if (!isClickPinned) closeTimer = window.setTimeout(() => setCarsMenuOpen(false), 350);
+                if (!isClickPinned) closeTimer = window.setTimeout(() => setCarsMenuOpen(false), 200);
             }
-        });
-        carsMenu.addEventListener('focusin', () => setCarsMenuOpen(true));
-        carsMenu.addEventListener('focusout', (event) => {
-            if (!carsMenu.contains(event.relatedTarget) && !isClickPinned) setCarsMenuOpen(false);
         });
         document.addEventListener('click', (event) => {
             if (!carsMenu.contains(event.target)) {
@@ -77,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 isClickPinned = false;
                 suppressHoverUntilLeave = false;
                 setCarsMenuOpen(false);
-                carsToggle.focus();
+                carsToggle.blur();
             }
         });
         mobileMenuBtn?.addEventListener('click', () => {
