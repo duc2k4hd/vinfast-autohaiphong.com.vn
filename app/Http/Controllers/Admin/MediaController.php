@@ -50,30 +50,75 @@ class MediaController extends Controller
     }
 
     /**
-     * Tải lên tệp media mới (Hỗ trợ cả Web Form và TinyMCE Image Upload API).
+     * API tải danh sách media JSON phân trang siêu tốc (Tận dụng Primary Key Index cho hàng triệu ảnh).
+     */
+    public function apiList(Request $request): JsonResponse
+    {
+        $search = trim($request->query('search', ''));
+        $perPage = (int) $request->query('per_page', 36);
+        $perPage = max(12, min(72, $perPage));
+
+        $query = DB::table('media')
+            ->select(['id', 'path', 'filename', 'original_filename', 'alt_text', 'file_size', 'created_at']);
+
+        if (! empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('filename', 'like', "%{$search}%")
+                    ->orWhere('alt_text', 'like', "%{$search}%")
+                    ->orWhere('original_filename', 'like', "%{$search}%");
+            });
+        }
+
+        // Tối ưu hóa truy vấn bằng ID desc dựa trên Primary Key B-Tree index
+        $paginator = $query->orderBy('id', 'desc')->paginate($perPage);
+
+        $items = collect($paginator->items())->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'filename' => $item->filename,
+                'original_filename' => $item->original_filename ?: $item->filename,
+                'alt_text' => $item->alt_text ?: $item->filename,
+                'path' => $item->path,
+                'url' => asset('storage/'.ltrim($item->path, '/')),
+                'file_size' => $item->file_size ? round($item->file_size / 1024, 1).' KB' : '',
+                'created_at' => $item->created_at ? date('d/m/Y H:i', strtotime($item->created_at)) : '',
+            ];
+        });
+
+        return response()->json([
+            'items' => $items,
+            'current_page' => $paginator->currentPage(),
+            'last_page' => $paginator->lastPage(),
+            'total' => $paginator->total(),
+            'has_more' => $paginator->hasMorePages(),
+        ]);
+    }
+
+    /**
+     * Tải lên tệp media mới (Hỗ trợ Web Form, TinyMCE và Popup Media Manager với batch đa luồng).
      */
     public function store(Request $request): RedirectResponse|JsonResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'mimes:webp,png,jpg,jpeg,svg', 'max:5120'], // tối đa 5MB
+            'file' => ['required', 'file', 'mimes:webp,png,jpg,jpeg,svg,gif,avif', 'max:5120'], // tối đa 5MB
             'folder' => ['nullable', 'in:products,banners,business,posts'],
             'alt_text' => ['nullable', 'string', 'max:255'],
         ], [
             'file.required' => 'Vui lòng chọn một tệp ảnh để tải lên.',
-            'file.mimes' => 'Định dạng ảnh được chấp nhận: webp, png, jpg, jpeg, svg.',
+            'file.mimes' => 'Định dạng ảnh được chấp nhận: webp, png, jpg, jpeg, svg, gif, avif.',
             'file.max' => 'Dung lượng ảnh tối đa là 5MB.',
         ]);
 
         $uploadedFile = $request->file('file');
-        $folder = $request->input('folder', 'posts');
-        $altText = $request->input('alt_text') ?: $uploadedFile->getClientOriginalName();
+        $folder = $request->input('folder', 'products');
+        $altText = $request->input('alt_text') ?: pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
 
         $destinationFolder = public_path("storage/clients/assets/images/{$folder}");
         if (! File::exists($destinationFolder)) {
             File::makeDirectory($destinationFolder, 0755, true);
         }
 
-        $safeName = Str::slug(pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)).'-'.time().'.'.$uploadedFile->getClientOriginalExtension();
+        $safeName = Str::slug(pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)).'-'.time().'-'.Str::random(4).'.'.$uploadedFile->getClientOriginalExtension();
         $uploadedFile->move($destinationFolder, $safeName);
 
         $relPath = "clients/assets/images/{$folder}/{$safeName}";
@@ -99,11 +144,22 @@ class MediaController extends Controller
         ]);
 
         if ($request->expectsJson() || $request->ajax()) {
-            return response()->json([
-                'location' => asset('storage/'.$relPath),
+            $itemData = [
+                'id' => $insertedId,
                 'media_id' => $insertedId,
                 'path' => $relPath,
-            ]);
+                'url' => asset('storage/'.$relPath),
+                'filename' => $safeName,
+                'original_filename' => $uploadedFile->getClientOriginalName(),
+                'alt_text' => $altText,
+                'file_size' => round($fileSize / 1024, 1).' KB',
+            ];
+
+            return response()->json(array_merge([
+                'success' => true,
+                'location' => asset('storage/'.$relPath),
+                'item' => $itemData,
+            ], $itemData));
         }
 
         return redirect()->route('admin.media.index', ['folder' => $folder])

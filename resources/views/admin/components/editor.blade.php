@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ],
             toolbar: 'undo redo | blocks | bold italic underline strikethrough | ' +
                      'alignleft aligncenter alignright alignjustify | bullist numlist | ' +
-                     'link image media table | removeformat code fullscreen preview',
+                     'mediaManager link image media table | removeformat code fullscreen preview',
             block_formats: 'Đoạn văn=p; Tiêu đề lớn (H2)=h2; Tiêu đề vừa (H3)=h3; Tiêu đề nhỏ (H4)=h4; Trích dẫn=blockquote; Khối mã=pre',
             content_style: `
                 body {
@@ -126,6 +126,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             },
             setup: function (editor) {
+                // Đăng ký nút mở Thư viện Media Manager chung cho toàn bộ Admin
+                editor.ui.registry.addButton('mediaManager', {
+                    icon: 'gallery',
+                    text: 'Thư viện ảnh',
+                    tooltip: 'Mở popup Thư viện ảnh chung để chèn ảnh nhanh chóng',
+                    onAction: function () {
+                        if (typeof window.openMediaManager === 'function') {
+                            window.openMediaManager({
+                                mode: 'multiple',
+                                confirmText: 'Chèn vào nội dung',
+                                onSelect: function (selected) {
+                                    const items = Array.isArray(selected) ? selected : [selected];
+                                    items.forEach(function (img) {
+                                        const alt = img.alt_text || img.filename || 'Ảnh minh họa';
+                                        editor.insertContent(
+                                            `<p><img src="${img.url}" alt="${alt}" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 16px auto;" /></p>`
+                                        );
+                                    });
+                                }
+                            });
+                        } else {
+                            alert('Tính năng Thư viện Media đang được tải...');
+                        }
+                    }
+                });
+
                 function updateStats() {
                     const text = editor.getContent({ format: 'text' }) || '';
                     const words = text.trim() ? text.trim().split(/\s+/).length : 0;

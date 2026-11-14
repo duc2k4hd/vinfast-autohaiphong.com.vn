@@ -7,7 +7,9 @@ use Database\Seeders\InitialAdminUserSeeder;
 use Database\Seeders\InitialCarsSeeder;
 use Database\Seeders\InitialSettingsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
@@ -216,5 +218,51 @@ class AdminPanelTest extends TestCase
         $this->assertDatabaseMissing('settings', ['key' => '_method']);
         $this->actingAs($admin)->get(route('admin.settings.index'))
             ->assertOk()->assertSee('Tên đại lý mới')->assertSee('VinFast Hải Phòng - Đại Lý Số 1 Bạch Đằng');
+    }
+
+    public function test_admin_can_fetch_media_list_via_api(): void
+    {
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+
+        $response = $this->actingAs($admin)->getJson(route('admin.media.api.list', [
+            'page' => 1,
+            'per_page' => 10,
+        ]));
+
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'items',
+            'current_page',
+            'has_more',
+            'total',
+        ]);
+    }
+
+    public function test_admin_can_upload_media_via_ajax(): void
+    {
+        Storage::fake('public');
+
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+        $file = UploadedFile::fake()->image('test-vf3-banner.webp', 1200, 600);
+
+        $response = $this->actingAs($admin)
+            ->withHeaders(['X-Requested-With' => 'XMLHttpRequest'])
+            ->post(route('admin.media.store'), [
+                'file' => $file,
+                'folder' => 'products',
+            ]);
+
+        $response->assertOk();
+        $response->assertJson([
+            'success' => true,
+        ]);
+        $response->assertJsonStructure([
+            'success',
+            'item' => [
+                'id',
+                'url',
+                'filename',
+            ],
+        ]);
     }
 }

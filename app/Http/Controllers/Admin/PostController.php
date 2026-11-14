@@ -107,7 +107,11 @@ class PostController extends Controller
      */
     public function edit(int $id): View
     {
-        $post = DB::table('posts')->where('id', $id)->first();
+        $post = DB::table('posts')
+            ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
+            ->where('posts.id', $id)
+            ->select('posts.*', 'media.path as featured_image_path', 'media.filename as featured_image_filename')
+            ->first();
         if (! $post) {
             abort(404, 'Không tìm thấy bài viết này.');
         }

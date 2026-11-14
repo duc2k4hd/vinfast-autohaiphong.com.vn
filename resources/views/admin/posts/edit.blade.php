@@ -60,15 +60,31 @@
                 </div>
 
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Ảnh Đại Diện (Media ID)</label>
-                    <select name="featured_media_id" style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
-                        <option value="">-- Không chọn ảnh --</option>
-                        @foreach($mediaList as $m)
-                            <option value="{{ $m->id }}" {{ $post->featured_media_id == $m->id ? 'selected' : '' }}>
-                                {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh' }})
-                            </option>
-                        @endforeach
-                    </select>
+                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Ảnh Đại Diện Bài Viết</label>
+                    <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                        <div id="post-featured-preview" style="width: 80px; height: 60px; border: 1px dashed var(--admin-border); border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            @if(!empty($post->featured_image_path))
+                                <img src="{{ asset('storage/' . $post->featured_image_path) }}" alt="{{ $post->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            @else
+                                <span style="font-size: 0.72rem; color: var(--admin-muted);">Chưa có</span>
+                            @endif
+                        </div>
+                        <div style="flex: 1;">
+                            <input type="hidden" name="featured_media_id" id="post_featured_media_id" value="{{ $post->featured_media_id }}">
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                                <button type="button" class="vinfast-autohaiphong_admin_btn" onclick="choosePostFeaturedImage()" style="padding: 6px 12px; font-size: 0.8rem; background: #eff6ff; color: #1464f4; border: 1px solid #bfdbfe; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                    🖼 Chọn ảnh từ Thư viện
+                                </button>
+                                <button type="button" class="vinfast-autohaiphong_admin_btn" onclick="clearPostFeaturedImage()" style="padding: 6px 10px; font-size: 0.8rem; background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0;">
+                                    Xóa
+                                </button>
+                            </div>
+                            <div id="post-featured-filename" style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">
+                                {{ $post->featured_image_filename ?: 'Chưa chọn ảnh đại diện' }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
@@ -100,6 +116,39 @@ window.addEventListener('beforeunload', (e) => {
         e.returnValue = '';
     }
 });
+
+function choosePostFeaturedImage() {
+    window.openMediaManager({
+        mode: 'single',
+        confirmText: 'Chọn làm ảnh đại diện',
+        onSelect: function(media) {
+            if (!media || !media.id) return;
+            document.getElementById('post_featured_media_id').value = media.id;
+            const preview = document.getElementById('post-featured-preview');
+            if (preview) {
+                preview.innerHTML = `<img src="${media.url}" alt="${media.alt_text || media.filename}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            }
+            const nameEl = document.getElementById('post-featured-filename');
+            if (nameEl) {
+                nameEl.textContent = media.filename;
+            }
+            formIsDirty = true;
+        }
+    });
+}
+
+function clearPostFeaturedImage() {
+    document.getElementById('post_featured_media_id').value = '';
+    const preview = document.getElementById('post-featured-preview');
+    if (preview) {
+        preview.innerHTML = `<span style="font-size: 0.72rem; color: var(--admin-muted);">Chưa có</span>`;
+    }
+    const nameEl = document.getElementById('post-featured-filename');
+    if (nameEl) {
+        nameEl.textContent = 'Chưa chọn ảnh đại diện';
+    }
+    formIsDirty = true;
+}
 </script>
 @endsection
 

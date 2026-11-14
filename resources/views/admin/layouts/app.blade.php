@@ -172,6 +172,7 @@
         </div>
     </div>
     @include('admin.components.confirm-dialog')
+    @include('admin.components.media-modal')
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {

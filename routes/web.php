@@ -127,6 +127,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Quản lý Thư viện Media
         Route::get('/media', [AdminMediaController::class, 'index'])->name('media.index');
+        Route::get('/media/api/list', [AdminMediaController::class, 'apiList'])->name('media.api.list');
         Route::post('/media', [AdminMediaController::class, 'store'])->name('media.store');
         Route::delete('/media/{id}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
 
