@@ -348,9 +348,9 @@ window.VINFAST_PRODUCT_DATA = {
                     <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
                 </div>
                 <div class="vinfast-autohaiphong_product_color-stage" data-reveal>
-                    {{-- Chữ mờ VF3 Watermark in nghiêng to bản chuẩn 100% như ảnh mẫu --}}
+                    {{-- Chữ mờ Watermark dòng xe in nghiêng to bản vươn cao chuẩn 100% như ảnh 2 --}}
                     <div class="vinfast-autohaiphong_product_color-watermark" aria-hidden="true">
-                        <span>{{ $modelCode }}</span>
+                        <span>{{ $shortModelName }}</span>
                     </div>
 
                     {{-- Khung hiển thị xe góc ngang side-view to lớn hoành tráng --}}
