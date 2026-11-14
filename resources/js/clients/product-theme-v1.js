@@ -302,8 +302,10 @@ export function initProductThemeV1() {
       if (title) title.textContent = block.title;
       if (host && Array.isArray(block.rows)) {
         host.replaceChildren();
-        block.rows.forEach(([name, value]) => {
+        block.rows.forEach(([name, value], idx) => {
           const tr = document.createElement('tr');
+          tr.style.setProperty('--row-idx', idx);
+          tr.style.animationDelay = `${Math.min(idx * 0.025, 0.4)}s`;
           const tdLabel = document.createElement('td');
           const tdValue = document.createElement('td');
           tdLabel.className = P + 'cell-label';
@@ -394,8 +396,10 @@ export function initProductThemeV1() {
 
         if (searchResultsHost) {
           searchResultsHost.replaceChildren();
-          matched.forEach(item => {
+          matched.forEach((item, idx) => {
             const tr = document.createElement('tr');
+            tr.style.setProperty('--row-idx', idx);
+            tr.style.animationDelay = `${Math.min(idx * 0.02, 0.35)}s`;
             const tdGroup = document.createElement('td');
             const tdName = document.createElement('td');
             const tdVal = document.createElement('td');

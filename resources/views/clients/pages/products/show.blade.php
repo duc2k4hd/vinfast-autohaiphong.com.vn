@@ -532,7 +532,7 @@ window.VINFAST_PRODUCT_DATA = {
                 </div>
 
                 {{-- THANH CÔNG CỤ KỸ THUẬT (SEARCH, VIEW MODES, COPY & PRINT) --}}
-                <div class="vinfast-autohaiphong_product_technical-toolbar">
+                <div class="vinfast-autohaiphong_product_technical-toolbar" data-reveal>
                     <div class="vinfast-autohaiphong_product_technical-search">
                         <svg class="vinfast-autohaiphong_product_search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                         <input type="text"
@@ -568,7 +568,7 @@ window.VINFAST_PRODUCT_DATA = {
                 <div data-spec-search-status class="vinfast-autohaiphong_product_spec-search-status" style="display: none;"></div>
 
                 {{-- VIEW 1: CHẾ ĐỘ PHÂN NHÓM (TABBED VIEW) --}}
-                <div data-spec-view-tabs class="vinfast-autohaiphong_product_technical-grid">
+                <div data-spec-view-tabs class="vinfast-autohaiphong_product_technical-grid" data-reveal>
                     <div class="vinfast-autohaiphong_product_technical-tabs" role="tablist" aria-label="Nhóm thông số">
                         @if($specGroups->isNotEmpty())
                             @foreach($specGroups as $gName => $gSpecs)
@@ -612,13 +612,13 @@ window.VINFAST_PRODUCT_DATA = {
                                 <tbody data-spec-content>
                                     @if($specGroups->isNotEmpty())
                                         @foreach($specGroups->first() as $sp)
-                                            <tr>
+                                            <tr style="--row-idx: {{ $loop->index }};">
                                                 <td class="vinfast-autohaiphong_product_cell-label">{{ $sp->label }}</td>
                                                 <td class="vinfast-autohaiphong_product_cell-value">{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</td>
                                             </tr>
                                         @endforeach
                                     @else
-                                        <tr>
+                                        <tr style="--row-idx: 0;">
                                             <td class="vinfast-autohaiphong_product_cell-label">Tên dòng xe</td>
                                             <td class="vinfast-autohaiphong_product_cell-value">{{ $car->name }}</td>
                                         </tr>
@@ -633,7 +633,7 @@ window.VINFAST_PRODUCT_DATA = {
                 <div data-spec-view-all class="vinfast-autohaiphong_product_spec-all-view" style="display: none;">
                     @if($specGroups->isNotEmpty())
                         @foreach($specGroups as $gName => $gSpecs)
-                            <div class="vinfast-autohaiphong_product_spec-group-block">
+                            <div class="vinfast-autohaiphong_product_spec-group-block" data-reveal>
                                 <div class="vinfast-autohaiphong_product_spec-group-head">
                                     <span class="vinfast-autohaiphong_product_spec-group-num">{{ sprintf('%02d', $loop->iteration) }}</span>
                                     <h4>{{ Str::upper($gName) }}</h4>
@@ -649,7 +649,7 @@ window.VINFAST_PRODUCT_DATA = {
                                         </thead>
                                         <tbody>
                                             @foreach($gSpecs as $sp)
-                                                <tr>
+                                                <tr style="--row-idx: {{ $loop->index }};">
                                                     <td class="vinfast-autohaiphong_product_cell-label">{{ $sp->label }}</td>
                                                     <td class="vinfast-autohaiphong_product_cell-value">{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</td>
                                                 </tr>
@@ -680,7 +680,7 @@ window.VINFAST_PRODUCT_DATA = {
                 </div>
 
                 {{-- GHI CHÚ PHÁP LÝ & CTA KỸ THUẬT --}}
-                <div class="vinfast-autohaiphong_product_technical-note">
+                <div class="vinfast-autohaiphong_product_technical-note" data-reveal>
                     <p>
                         (*) Các thông số kỹ thuật trên được căn cứ theo tài liệu công bố chính thức của VinFast Việt Nam. Các trang bị, tính năng có thể được nâng cấp hoặc thay đổi mà không cần thông báo trước tùy theo phiên bản phần mềm (FOTA/SOTA) hoặc lô sản xuất. Quý khách vui lòng liên hệ VinFast Minh Đạo Hải Phòng để nhận bảng cấu hình chính xác nhất tại thời điểm giao dịch.
                     </p>
