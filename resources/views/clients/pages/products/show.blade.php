@@ -465,12 +465,58 @@ window.VINFAST_PRODUCT_DATA = {
             </div>
         </section>
 
-        {{-- SECTION 5: SHOWCASE IMAGE BANNER --}}
-        <section class="vinfast-autohaiphong_product_image-banner vinfast-autohaiphong_product_showcase" aria-label="VinFast {{ $car->name }}">
-            <img src="{{ asset('storage/clients/assets/images/theme-v1/style-yellow.webp') }}"
-                 alt="{{ $car->name }} - Ngoại thất và kiến trúc nổi bật"
-                 loading="lazy" />
-            <span aria-hidden="true">{{ $shortModelName }}</span>
+        {{-- SECTION 5: SHOWCASE IMAGE BANNER (SLIDER 19:6 NGHỆ THUẬT, KHÔNG CHỨA TEXT) --}}
+        @php
+            $showcaseBanners = (!empty($banners) && $banners->isNotEmpty()) ? $banners : collect([
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/style-yellow.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' - Ngoại thất và kiến trúc nổi bật',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/nature-yellow.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' - Khám phá tự do phong cách',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/hero.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' - Đột phá phong cách đô thị',
+                ],
+            ]);
+        @endphp
+
+        <section class="vinfast-autohaiphong_product_image-banner vinfast-autohaiphong_product_showcase" aria-label="Bộ ảnh VinFast {{ $car->name }}">
+            <div class="vinfast-autohaiphong_product_showcase-slider" data-showcase-slider>
+                @foreach($showcaseBanners as $sIndex => $sBanner)
+                    <div class="vinfast-autohaiphong_product_showcase-slide {{ $sIndex === 0 ? 'vinfast-autohaiphong_product_showcase-slide-active' : '' }}"
+                         data-showcase-slide="{{ $sIndex }}"
+                         aria-hidden="{{ $sIndex === 0 ? 'false' : 'true' }}">
+                        <img src="{{ $sBanner->image_url }}"
+                             alt="{{ $sBanner->alt_text ?: ($car->name . ' - Hình ảnh chi tiết ' . ($sIndex + 1)) }}"
+                             loading="lazy" />
+                    </div>
+                @endforeach
+            </div>
+
+            @if($showcaseBanners->count() > 1)
+                {{-- Nút điều hướng mũi tên mảnh mai hai bên --}}
+                <button type="button" 
+                        class="vinfast-autohaiphong_product_showcase-arrow vinfast-autohaiphong_product_showcase-prev" 
+                        data-action="showcase-prev" 
+                        aria-label="Ảnh trước">‹</button>
+                <button type="button" 
+                        class="vinfast-autohaiphong_product_showcase-arrow vinfast-autohaiphong_product_showcase-next" 
+                        data-action="showcase-next" 
+                        aria-label="Ảnh tiếp theo">›</button>
+
+                {{-- Chấm pagination chuyển ảnh thanh lịch --}}
+                <div class="vinfast-autohaiphong_product_showcase-pagination" data-showcase-pagination>
+                    @foreach($showcaseBanners as $sIndex => $sBanner)
+                        <button type="button" 
+                                class="vinfast-autohaiphong_product_showcase-dot {{ $sIndex === 0 ? 'vinfast-autohaiphong_product_is-active' : '' }}" 
+                                data-showcase-dot="{{ $sIndex }}" 
+                                aria-label="Chuyển đến ảnh banner {{ $sIndex + 1 }}"></button>
+                    @endforeach
+                </div>
+            @endif
         </section>
 
         {{-- SECTION 4: SO SÁNH CHI PHÍ VẬN HÀNH (EV VS ICE) --}}
@@ -623,9 +669,59 @@ window.VINFAST_PRODUCT_DATA = {
             </div>
         </section>
 
-        {{-- SECTION 10: BOTTOM HERO CTA --}}
+        {{-- SECTION 10: BOTTOM HERO CTA (SLIDER 19:6 NGHỆ THUẬT, GIỮ NGUYÊN BOTTOM-OVERLAY) --}}
+        @php
+            $bottomBanners = (!empty($banners) && $banners->isNotEmpty()) ? $banners : collect([
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/footer-car.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' trên mọi cung đường',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/hero.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' - Khám phá phong cách mới',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/nature-yellow.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' - Bền bỉ và tiết kiệm',
+                ],
+            ]);
+        @endphp
+
         <section class="vinfast-autohaiphong_product_bottom-hero" aria-label="Khám phá VinFast {{ $car->name }}">
-            <img src="{{ asset('storage/clients/assets/images/theme-v1/footer-car.webp') }}" alt="{{ $car->name }} trên cung đường" loading="lazy" />
+            <div class="vinfast-autohaiphong_product_bottom-slider" data-bottom-slider>
+                @foreach($bottomBanners as $bIndex => $bBanner)
+                    <div class="vinfast-autohaiphong_product_bottom-slide {{ $bIndex === 0 ? 'vinfast-autohaiphong_product_bottom-slide-active' : '' }}"
+                         data-bottom-slide="{{ $bIndex }}"
+                         aria-hidden="{{ $bIndex === 0 ? 'false' : 'true' }}">
+                        <img src="{{ $bBanner->image_url }}" 
+                             alt="{{ $bBanner->alt_text ?: ($car->name . ' - Banner ' . ($bIndex + 1)) }}" 
+                             loading="lazy" />
+                    </div>
+                @endforeach
+            </div>
+
+            @if($bottomBanners->count() > 1)
+                {{-- Nút điều hướng hai bên mỏng nhẹ --}}
+                <button type="button" 
+                        class="vinfast-autohaiphong_product_bottom-arrow vinfast-autohaiphong_product_bottom-prev" 
+                        data-action="bottom-prev" 
+                        aria-label="Ảnh trước">‹</button>
+                <button type="button" 
+                        class="vinfast-autohaiphong_product_bottom-arrow vinfast-autohaiphong_product_bottom-next" 
+                        data-action="bottom-next" 
+                        aria-label="Ảnh tiếp theo">›</button>
+
+                {{-- Pagination dots thanh lịch ở đáy --}}
+                <div class="vinfast-autohaiphong_product_bottom-pagination" data-bottom-pagination>
+                    @foreach($bottomBanners as $bIndex => $bBanner)
+                        <button type="button" 
+                                class="vinfast-autohaiphong_product_bottom-dot {{ $bIndex === 0 ? 'vinfast-autohaiphong_product_is-active' : '' }}" 
+                                data-bottom-dot="{{ $bIndex }}" 
+                                aria-label="Chuyển sang ảnh {{ $bIndex + 1 }}"></button>
+                    @endforeach
+                </div>
+            @endif
+
             <div class="vinfast-autohaiphong_product_bottom-overlay">
                 <h2>{{ $shortModelName }}</h2>
                 <p>Nhỏ gọn. Cá tính. Sẵn sàng cùng bạn trên mọi hành trình.</p>

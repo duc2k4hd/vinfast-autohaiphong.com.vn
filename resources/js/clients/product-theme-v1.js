@@ -35,8 +35,14 @@ export function initProductThemeV1() {
   let galleryIndex = 0;
   let lightboxIndex = 0;
   let heroTimer = null;
+  let showcaseIndex = 0;
+  let showcaseTimer = null;
+  let bottomIndex = 0;
+  let bottomTimer = null;
 
   const heroSlides = $$(pref('hero-slide'));
+  const showcaseSlides = $$(pref('showcase-slide'));
+  const bottomSlides = $$(pref('bottom-slide'));
   const galleryTrack = $('[data-design-track]');
   const galleryImages = galleryTrack ? $$('img', galleryTrack) : [];
   const lbTriggers = $$('[data-lightbox]');
@@ -384,6 +390,58 @@ export function initProductThemeV1() {
     }, 7000);
   };
 
+  // 6.2. Showcase Image Banner Slider (Tỷ lệ 19:6, Chuyển ảnh Cinematic không text)
+  const setShowcase = (i) => {
+    if (!showcaseSlides.length) return;
+    showcaseIndex = (i + showcaseSlides.length) % showcaseSlides.length;
+
+    showcaseSlides.forEach((slide, index) => {
+      const active = index === showcaseIndex;
+      slide.classList.toggle(P + 'showcase-slide-active', active);
+      slide.setAttribute('aria-hidden', String(!active));
+    });
+
+    $$('[data-showcase-dot]').forEach((dot, index) => {
+      const active = index === showcaseIndex;
+      dot.classList.toggle(P + 'is-active', active);
+      dot.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  const restartShowcase = () => {
+    window.clearInterval(showcaseTimer);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || showcaseSlides.length < 2) return;
+    showcaseTimer = window.setInterval(() => {
+      if (!document.hidden) setShowcase(showcaseIndex + 1);
+    }, 5000);
+  };
+
+  // 6.3. Bottom Hero CTA Slider (Tỷ lệ 19:6, Chuyển ảnh Cinematic không text)
+  const setBottom = (i) => {
+    if (!bottomSlides.length) return;
+    bottomIndex = (i + bottomSlides.length) % bottomSlides.length;
+
+    bottomSlides.forEach((slide, index) => {
+      const active = index === bottomIndex;
+      slide.classList.toggle(P + 'bottom-slide-active', active);
+      slide.setAttribute('aria-hidden', String(!active));
+    });
+
+    $$('[data-bottom-dot]').forEach((dot, index) => {
+      const active = index === bottomIndex;
+      dot.classList.toggle(P + 'is-active', active);
+      dot.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  const restartBottom = () => {
+    window.clearInterval(bottomTimer);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || bottomSlides.length < 2) return;
+    bottomTimer = window.setInterval(() => {
+      if (!document.hidden) setBottom(bottomIndex + 1);
+    }, 5500);
+  };
+
   // 7. Gallery Slider
   const moveGallery = (delta) => {
     if (!galleryImages.length || !galleryTrack) return;
@@ -468,6 +526,10 @@ export function initProductThemeV1() {
     'top': scrollTop,
     'hero-prev': () => { setHero(heroIndex - 1); restartHero(); },
     'hero-next': () => { setHero(heroIndex + 1); restartHero(); },
+    'showcase-prev': () => { setShowcase(showcaseIndex - 1); restartShowcase(); },
+    'showcase-next': () => { setShowcase(showcaseIndex + 1); restartShowcase(); },
+    'bottom-prev': () => { setBottom(bottomIndex - 1); restartBottom(); },
+    'bottom-next': () => { setBottom(bottomIndex + 1); restartBottom(); },
     'color-prev': () => renderColor(colorIndex - 1),
     'color-next': () => renderColor(colorIndex + 1),
     'gallery-prev': () => moveGallery(-1),
@@ -515,6 +577,20 @@ export function initProductThemeV1() {
     if (dot) {
       setHero(Number(dot.dataset.heroDot));
       restartHero();
+      return;
+    }
+
+    const sDot = e.target.closest('[data-showcase-dot]');
+    if (sDot) {
+      setShowcase(Number(sDot.dataset.showcaseDot));
+      restartShowcase();
+      return;
+    }
+
+    const bDot = e.target.closest('[data-bottom-dot]');
+    if (bDot) {
+      setBottom(Number(bDot.dataset.bottomDot));
+      restartBottom();
       return;
     }
 
@@ -593,6 +669,60 @@ export function initProductThemeV1() {
   setHero(0);
   restartHero();
 
-  window.addEventListener('pagehide', () => window.clearInterval(heroTimer), { once: true });
+  // Showcase Slider Setup
+  if (showcaseSlides.length) {
+    setShowcase(0);
+    restartShowcase();
+
+    const showcaseBox = $('.' + P + 'showcase');
+    if (showcaseBox && showcaseSlides.length > 1) {
+      showcaseBox.addEventListener('mouseenter', () => window.clearInterval(showcaseTimer));
+      showcaseBox.addEventListener('mouseleave', restartShowcase);
+
+      let startX = 0;
+      showcaseBox.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+      }, { passive: true });
+      showcaseBox.addEventListener('touchend', (e) => {
+        const diffX = e.changedTouches[0].clientX - startX;
+        if (Math.abs(diffX) > 40) {
+          if (diffX < 0) setShowcase(showcaseIndex + 1);
+          else setShowcase(showcaseIndex - 1);
+          restartShowcase();
+        }
+      }, { passive: true });
+    }
+  }
+
+  // Bottom Hero Slider Setup
+  if (bottomSlides.length) {
+    setBottom(0);
+    restartBottom();
+
+    const bottomHeroBox = $('.' + P + 'bottom-hero');
+    if (bottomHeroBox && bottomSlides.length > 1) {
+      bottomHeroBox.addEventListener('mouseenter', () => window.clearInterval(bottomTimer));
+      bottomHeroBox.addEventListener('mouseleave', restartBottom);
+
+      let bStartX = 0;
+      bottomHeroBox.addEventListener('touchstart', (e) => {
+        bStartX = e.touches[0].clientX;
+      }, { passive: true });
+      bottomHeroBox.addEventListener('touchend', (e) => {
+        const diffX = e.changedTouches[0].clientX - bStartX;
+        if (Math.abs(diffX) > 40) {
+          if (diffX < 0) setBottom(bottomIndex + 1);
+          else setBottom(bottomIndex - 1);
+          restartBottom();
+        }
+      }, { passive: true });
+    }
+  }
+
+  window.addEventListener('pagehide', () => {
+    window.clearInterval(heroTimer);
+    window.clearInterval(showcaseTimer);
+    window.clearInterval(bottomTimer);
+  }, { once: true });
 }
 

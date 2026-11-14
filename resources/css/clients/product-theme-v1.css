@@ -959,6 +959,121 @@ select:focus-visible,
     padding: 16px 0 0;
     border-top: 1px solid #f1f5f9;
 }
+/* Showcase Banner (Tỷ lệ 19:6, Nghệ thuật không text, Chuyển ảnh Cinematic) */
+.vinfast-autohaiphong_product_image-banner.vinfast-autohaiphong_product_showcase {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 19 / 6;
+    height: auto;
+    overflow: hidden;
+    background: #0b1320;
+}
+.vinfast-autohaiphong_product_showcase-slider {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_showcase-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 5s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+    overflow: hidden;
+    will-change: transform, opacity;
+}
+.vinfast-autohaiphong_product_showcase-slide.vinfast-autohaiphong_product_showcase-slide-active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    z-index: 2;
+}
+.vinfast-autohaiphong_product_showcase-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+.vinfast-autohaiphong_product_showcase-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0) 25%,
+        rgba(0, 0, 0, 0) 75%,
+        rgba(0, 0, 0, 0.25) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+}
+/* Mũi tên điều hướng Showcase mỏng nhẹ thanh lịch */
+.vinfast-autohaiphong_product_showcase-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 44px;
+    font-weight: 200;
+    cursor: pointer;
+    z-index: 5;
+    transition: all 0.25s ease;
+    user-select: none;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
+}
+.vinfast-autohaiphong_product_showcase-arrow:hover {
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.15);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
+}
+.vinfast-autohaiphong_product_showcase-prev {
+    left: clamp(8px, 1.8vw, 24px);
+}
+.vinfast-autohaiphong_product_showcase-next {
+    right: clamp(8px, 1.8vw, 24px);
+}
+/* Dots pagination Showcase dạng viên thuốc (pill active) */
+.vinfast-autohaiphong_product_showcase-pagination {
+    position: absolute;
+    bottom: clamp(10px, 1.6vw, 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 5;
+}
+.vinfast-autohaiphong_product_showcase-dot {
+    width: 7px;
+    height: 7px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 0;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+.vinfast-autohaiphong_product_showcase-dot.vinfast-autohaiphong_product_is-active {
+    width: 26px;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
 .vinfast-autohaiphong_product_image-banner {
     position: relative;
     height: clamp(320px, 43vw, 640px);
@@ -972,16 +1087,7 @@ select:focus-visible,
     object-position: center;
 }
 .vinfast-autohaiphong_product_image-banner > span {
-    position: absolute;
-    bottom: -66px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-weight: 800;
-    font-style: italic;
-    letter-spacing: -7px;
-    font-size: clamp(110px, 16vw, 270px);
-    color: #ffffff8a;
-    pointer-events: none;
+    display: none;
 }
 /* Design */
 .vinfast-autohaiphong_product_design {
@@ -1460,41 +1566,152 @@ select:focus-visible,
     color: #626a76;
     text-align: center;
 }
-/* Bottom CTA and footer */
+/* Bottom Hero CTA Slider (Tỷ lệ 19:6, Chuyển ảnh Cinematic, Giữ nguyên bottom-overlay) */
 .vinfast-autohaiphong_product_bottom-hero {
-    height: clamp(300px, 32vw, 540px);
     position: relative;
-    background: #b1bec8;
+    width: 100%;
+    aspect-ratio: 19 / 6;
+    min-height: 330px;
+    height: auto;
+    overflow: hidden;
+    background: #0b1320;
 }
-.vinfast-autohaiphong_product_bottom-hero > img {
+.vinfast-autohaiphong_product_bottom-slider {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_bottom-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.05);
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 5s cubic-bezier(0.25, 1, 0.5, 1);
+    pointer-events: none;
+    overflow: hidden;
+    will-change: transform, opacity;
+}
+.vinfast-autohaiphong_product_bottom-slide.vinfast-autohaiphong_product_bottom-slide-active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+    z-index: 2;
+}
+.vinfast-autohaiphong_product_bottom-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
+    display: block;
 }
+.vinfast-autohaiphong_product_bottom-slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.45) 0%,
+        rgba(0, 0, 0, 0.2) 45%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+}
+/* Giữ nguyên lớp phủ Bottom Overlay */
 .vinfast-autohaiphong_product_bottom-overlay {
     position: absolute;
-    top: 17%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     text-align: center;
-    width: min(560px, 94%);
-    color: #161a1d;
-    text-shadow: 0 1px 7px #fff8;
+    width: min(580px, 92%);
+    color: #ffffff;
+    z-index: 10;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.7);
 }
 .vinfast-autohaiphong_product_bottom-overlay h2 {
-    margin: 0;
-    font-size: 48px;
+    margin: 0 0 6px;
+    font-size: clamp(34px, 4vw, 54px);
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1.15;
+    color: #ffffff;
+    letter-spacing: -0.6px;
 }
 .vinfast-autohaiphong_product_bottom-overlay p {
-    font-size: 14px;
+    font-size: clamp(13px, 1.25vw, 16px);
+    color: rgba(255, 255, 255, 0.94);
+    margin: 0 0 20px;
+    line-height: 1.45;
 }
 .vinfast-autohaiphong_product_bottom-overlay > div {
     display: flex;
     gap: 12px;
     justify-content: center;
+    align-items: center;
+}
+/* Mũi tên điều hướng Bottom Hero */
+.vinfast-autohaiphong_product_bottom-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 44px;
+    font-weight: 200;
+    cursor: pointer;
+    z-index: 11;
+    transition: all 0.25s ease;
+    user-select: none;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+.vinfast-autohaiphong_product_bottom-arrow:hover {
+    color: #ffffff;
+    transform: translateY(-50%) scale(1.15);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.75);
+}
+.vinfast-autohaiphong_product_bottom-prev {
+    left: clamp(8px, 1.8vw, 24px);
+}
+.vinfast-autohaiphong_product_bottom-next {
+    right: clamp(8px, 1.8vw, 24px);
+}
+/* Dots pagination Bottom Hero */
+.vinfast-autohaiphong_product_bottom-pagination {
+    position: absolute;
+    bottom: clamp(10px, 1.6vw, 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 11;
+}
+.vinfast-autohaiphong_product_bottom-dot {
+    width: 7px;
+    height: 7px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.55);
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    padding: 0;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+.vinfast-autohaiphong_product_bottom-dot.vinfast-autohaiphong_product_is-active {
+    width: 26px;
+    border-radius: 6px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 .vinfast-autohaiphong_product_footer {
     background: #f9fafb;
@@ -2039,13 +2256,41 @@ select:focus-visible,
     .vinfast-autohaiphong_product_compare-story-top {
         padding: 0;
     }
+    .vinfast-autohaiphong_product_image-banner.vinfast-autohaiphong_product_showcase {
+        aspect-ratio: 19 / 6;
+        width: 100%;
+        height: auto;
+        min-height: unset;
+    }
+    .vinfast-autohaiphong_product_showcase-arrow {
+        width: 24px;
+        height: 36px;
+        font-size: 24px;
+    }
+    .vinfast-autohaiphong_product_showcase-prev {
+        left: 4px;
+    }
+    .vinfast-autohaiphong_product_showcase-next {
+        right: 4px;
+    }
+    .vinfast-autohaiphong_product_showcase-pagination {
+        bottom: 4px;
+        gap: 5px;
+    }
+    .vinfast-autohaiphong_product_showcase-dot {
+        width: 5px;
+        height: 5px;
+    }
+    .vinfast-autohaiphong_product_showcase-dot.vinfast-autohaiphong_product_is-active {
+        width: 16px;
+        border-radius: 4px;
+    }
     .vinfast-autohaiphong_product_image-banner {
         height: 54vw;
         min-height: 235px;
     }
     .vinfast-autohaiphong_product_image-banner > span {
-        font-size: 90px;
-        bottom: -32px;
+        display: none;
     }
     .vinfast-autohaiphong_product_design {
         padding: 64px 0 40px;
@@ -2177,18 +2422,50 @@ select:focus-visible,
         height: 300px;
     }
     .vinfast-autohaiphong_product_bottom-hero {
-        height: 330px;
+        aspect-ratio: 19 / 6;
+        width: 100%;
+        height: auto;
+        min-height: 250px;
     }
     .vinfast-autohaiphong_product_bottom-overlay {
-        top: 11%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
     }
     .vinfast-autohaiphong_product_bottom-overlay h2 {
-        font-size: 39px;
+        font-size: 26px;
+        margin-bottom: 4px;
     }
-    .vinfast-autohaiphong_product_bottom-overlay
-        .vinfast-autohaiphong_product_btn {
+    .vinfast-autohaiphong_product_bottom-overlay p {
+        font-size: 11.5px;
+        margin-bottom: 12px;
+    }
+    .vinfast-autohaiphong_product_bottom-overlay .vinfast-autohaiphong_product_btn {
         font-size: 11px;
-        padding: 9px 11px;
+        padding: 8px 12px;
+    }
+    .vinfast-autohaiphong_product_bottom-arrow {
+        width: 24px;
+        height: 36px;
+        font-size: 24px;
+    }
+    .vinfast-autohaiphong_product_bottom-prev {
+        left: 4px;
+    }
+    .vinfast-autohaiphong_product_bottom-next {
+        right: 4px;
+    }
+    .vinfast-autohaiphong_product_bottom-pagination {
+        bottom: 4px;
+        gap: 5px;
+    }
+    .vinfast-autohaiphong_product_bottom-dot {
+        width: 5px;
+        height: 5px;
+    }
+    .vinfast-autohaiphong_product_bottom-dot.vinfast-autohaiphong_product_is-active {
+        width: 16px;
+        border-radius: 4px;
     }
     .vinfast-autohaiphong_product_footer-grid {
         grid-template-columns: 1fr 1fr;
