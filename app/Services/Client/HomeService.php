@@ -16,7 +16,7 @@ class HomeService
     {
         return DB::table('products')
             ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
-            ->where('products.status', 'published')
+            ->whereIn('products.status', ['published', 'active', 'coming_soon'])
             ->where(function ($query) {
                 $query->whereNull('products.published_at')
                     ->orWhere('products.published_at', '<=', now());

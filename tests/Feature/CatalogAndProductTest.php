@@ -127,4 +127,16 @@ class CatalogAndProductTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('CÁC DÒNG XE Ô TÔ VINFAST');
     }
+
+    public function test_product_detail_accessible_with_active_or_coming_soon_status(): void
+    {
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update(['status' => 'active']);
+        $this->get('/xe/vinfast-vf-3')->assertStatus(200);
+
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update(['status' => 'coming_soon']);
+        $this->get('/xe/vinfast-vf-3')->assertStatus(200);
+
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update(['status' => 'inactive']);
+        $this->get('/xe/vinfast-vf-3')->assertStatus(404);
+    }
 }

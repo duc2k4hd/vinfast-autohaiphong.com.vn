@@ -213,7 +213,12 @@ class ProductController extends Controller
             $slug = $originalSlug.'-'.(++$count);
         }
 
-        $id = DB::transaction(function () use ($request, $slug, $now) {
+        $statusVal = $request->input('status', 'published');
+        if ($statusVal === 'active') {
+            $statusVal = 'published';
+        }
+
+        $id = DB::transaction(function () use ($request, $slug, $now, $statusVal) {
             $newId = DB::table('products')->insertGetId([
                 'name' => $request->input('name'),
                 'slug' => $slug,
@@ -221,7 +226,8 @@ class ProductController extends Controller
                 'category_id' => $request->input('category_id') ?: null,
                 'regular_price' => $request->input('regular_price'),
                 'sale_price' => $request->input('sale_price'),
-                'status' => $request->input('status', 'active'),
+                'status' => $statusVal,
+                'published_at' => in_array($statusVal, ['published', 'coming_soon']) ? $now : null,
                 'featured' => $request->boolean('featured'),
                 'short_description' => $request->input('short_description'),
                 'description_html' => HtmlSanitizer::clean($request->input('description_html')),
@@ -253,7 +259,7 @@ class ProductController extends Controller
             'slug' => ['nullable', 'string', 'max:160'],
             'sku' => ['nullable', 'string', 'max:100'],
             'category_id' => ['nullable', 'integer'],
-            'status' => ['nullable', 'string', 'in:active,inactive,coming_soon'],
+            'status' => ['nullable', 'string', 'in:published,active,inactive,draft,coming_soon,archived'],
             'regular_price' => ['nullable', 'numeric', 'min:0'],
             'sale_price' => ['nullable', 'numeric', 'min:0'],
             'short_description' => ['nullable', 'string', 'max:500'],
@@ -327,7 +333,14 @@ class ProductController extends Controller
                 $productUpdate['category_id'] = $request->input('category_id') ?: null;
             }
             if ($request->filled('status')) {
-                $productUpdate['status'] = $request->input('status');
+                $statusVal = $request->input('status');
+                if ($statusVal === 'active') {
+                    $statusVal = 'published';
+                }
+                $productUpdate['status'] = $statusVal;
+                if (in_array($statusVal, ['published', 'coming_soon']) && empty($product->published_at)) {
+                    $productUpdate['published_at'] = $now;
+                }
             }
             $productUpdate['featured'] = $request->boolean('featured');
 

@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             $cars = DB::table('products')
                 ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
                 ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
-                ->where('products.status', 'published')
+                ->whereIn('products.status', ['published', 'active', 'coming_soon'])
                 ->whereNull('products.deleted_at')
                 ->where(function ($query) {
                     $query->whereNull('products.published_at')->orWhere('products.published_at', '<=', now());

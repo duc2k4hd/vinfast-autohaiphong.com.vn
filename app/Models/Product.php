@@ -74,7 +74,7 @@ class Product extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('status', 'published')
+        return $query->whereIn('status', ['published', 'active', 'coming_soon'])
             ->where(function ($q) {
                 $q->whereNull('published_at')
                     ->orWhere('published_at', '<=', now());

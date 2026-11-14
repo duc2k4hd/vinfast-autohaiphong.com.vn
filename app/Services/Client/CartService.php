@@ -113,7 +113,7 @@ class CartService
         $products = DB::table('products')
             ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
             ->whereIn('products.id', $productIds)
-            ->where('products.status', 'published')
+            ->whereIn('products.status', ['published', 'active'])
             ->select([
                 'products.id',
                 'products.name',

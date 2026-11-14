@@ -21,7 +21,7 @@ class CatalogService
         $query = DB::table('products')
             ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
             ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
-            ->where('products.status', 'published')
+            ->whereIn('products.status', ['published', 'active', 'coming_soon'])
             ->where(function ($q) {
                 $q->whereNull('products.published_at')
                     ->orWhere('products.published_at', '<=', now());

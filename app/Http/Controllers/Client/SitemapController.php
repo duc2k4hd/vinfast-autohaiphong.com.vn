@@ -15,7 +15,7 @@ class SitemapController extends Controller
     public function index(): Response
     {
         $cars = DB::table('products')
-            ->where('status', 'published')
+            ->whereIn('status', ['published', 'active', 'coming_soon'])
             ->select(['slug', 'updated_at'])
             ->get();
 
@@ -53,7 +53,7 @@ class SitemapController extends Controller
     public function html(): View
     {
         $cars = DB::table('products')
-            ->where('status', 'published')
+            ->whereIn('status', ['published', 'active', 'coming_soon'])
             ->select(['id', 'name', 'slug', 'sale_price', 'regular_price'])
             ->orderBy('id', 'asc')
             ->get();

@@ -408,9 +408,10 @@
                 <div>
                     <label class="vf-admin-label">Trạng Thái Kinh Doanh</label>
                     <select name="status" class="vf-admin-select">
-                        <option value="active" {{ old('status', $product->status) === 'active' ? 'selected' : '' }}>🟢 Đang kinh doanh</option>
-                        <option value="inactive" {{ old('status', $product->status) === 'inactive' ? 'selected' : '' }}>⚪ Tạm dừng bán</option>
-                        <option value="coming_soon" {{ old('status', $product->status) === 'coming_soon' ? 'selected' : '' }}>🟡 Sắp ra mắt</option>
+                        <option value="published" {{ in_array(old('status', $product->status), ['published', 'active']) ? 'selected' : '' }}>🟢 Đang kinh doanh (Hiển thị website)</option>
+                        <option value="coming_soon" {{ old('status', $product->status) === 'coming_soon' ? 'selected' : '' }}>🟡 Sắp ra mắt (Hiển thị website)</option>
+                        <option value="inactive" {{ in_array(old('status', $product->status), ['inactive', 'draft']) ? 'selected' : '' }}>⚪ Tạm dừng bán (Ẩn khỏi website)</option>
+                        <option value="archived" {{ old('status', $product->status) === 'archived' ? 'selected' : '' }}>🔴 Ngừng kinh doanh (Lưu trữ)</option>
                     </select>
                 </div>
                 <div style="display: flex; flex-direction: column; justify-content: center;">
