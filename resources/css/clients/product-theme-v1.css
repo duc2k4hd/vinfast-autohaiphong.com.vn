@@ -1,4 +1,4 @@
-﻿/* VinFast VF 3 — giao diện tham khảo độc lập. Mọi class có tiền tố cố định. */
+/* VinFast VF 3 — giao diện tham khảo độc lập. Mọi class có tiền tố cố định. */
 :root {
     --vf-blue: #1464fa;
     --vf-blue-dark: #0047ce;
@@ -313,26 +313,32 @@ select:focus-visible,
 }
 /* Intro */
 .vinfast-autohaiphong_product_intro {
-    padding-bottom: 20px;
-    padding-top: 20px;
+    padding-bottom: 36px;
+    padding-top: 30px;
 }
 .vinfast-autohaiphong_product_intro-grid {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 5%;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 6%;
     align-items: center;
-    min-height: 480px;
+    min-height: 520px;
 }
-.vinfast-autohaiphong_product_intro-visual {
-    min-height: 445px;
+.vinfast-autohaiphong_product_intro-visual,
+.vinfast-autohaiphong_product_intro-visual.vinfast-autohaiphong_product_revealed {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    min-height: unset;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 .vinfast-autohaiphong_product_intro-car {
-    width: 95%;
-    max-height: 360px;
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    height: 100%;
+    max-height: none;
     object-fit: contain;
     position: relative;
     z-index: 2;
@@ -340,64 +346,133 @@ select:focus-visible,
     filter: contrast(1.05);
 }
 .vinfast-autohaiphong_product_intro-info {
-    padding: 12px 0 15px;
+    padding: 10px 0 15px;
+    display: flex;
+    flex-direction: column;
 }
 .vinfast-autohaiphong_product_trim-picker {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 4px;
-    margin-bottom: 25px;
+    background: #f4f5f7;
+    border-radius: 9px;
+    padding: 5px;
+    gap: 5px;
+    margin-bottom: 28px;
 }
 .vinfast-autohaiphong_product_trim {
-    border: 1px solid #dfe4ee;
-    background: #fff;
-    color: #9ba2ad;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 9px 17px;
-    min-width: 110px;
+    border: 0;
+    background: transparent;
+    color: #64748b;
+    font-size: 15.5px;
+    font-weight: 400;
+    padding: 9px 22px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.4;
 }
 .vinfast-autohaiphong_product_trim.vinfast-autohaiphong_product_is-active {
     color: var(--vf-blue);
-    border-color: var(--vf-blue);
-    background: #f7fbff;
+    background: #ffffff;
+    font-weight: 500;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 .vinfast-autohaiphong_product_spec-highlights {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 30px;
 }
-.vinfast-autohaiphong_product_spec-highlights > div {
-    padding: 4px 0;
+.vinfast-autohaiphong_product_spec-item {
+    padding: 24px 0;
+    border-bottom: 1px solid #eef1f5;
 }
-.vinfast-autohaiphong_product_spec-highlights strong {
-    font-size: 20px;
-    font-weight: 700;
+.vinfast-autohaiphong_product_spec-item:last-child {
+    border-bottom: 0;
+}
+.vinfast-autohaiphong_product_spec-number {
+    font-size: clamp(32px, 3.2vw, 42px);
+    font-weight: 400;
+    color: #111827;
+    line-height: 1.15;
+    letter-spacing: -0.6px;
+}
+.vinfast-autohaiphong_product_spec-unit {
+    font-size: clamp(16px, 1.45vw, 19px);
+    font-weight: 400;
+    color: #1f2937;
+    margin-left: 8px;
+}
+.vinfast-autohaiphong_product_spec-title {
+    font-size: clamp(24px, 2.3vw, 32px);
+    font-weight: 400;
+    color: #111827;
+    line-height: 1.25;
     letter-spacing: -0.4px;
 }
-.vinfast-autohaiphong_product_spec-highlights strong small {
-    font-size: 13px;
-    font-weight: 500;
+.vinfast-autohaiphong_product_spec-sub {
+    margin: 6px 0 0;
+    font-size: 15.5px;
+    font-weight: 400;
+    color: #1f2937;
+    line-height: 1.4;
 }
-.vinfast-autohaiphong_product_spec-highlights p {
-    margin: 2px 0 0;
-    color: #7d838e;
-    font-size: 13px;
+.vinfast-autohaiphong_product_spec-label {
+    margin: 6px 0 0;
+    color: #8c939e;
+    font-size: 14.5px;
+    font-weight: 400;
+    line-height: 1.4;
 }
-.vinfast-autohaiphong_product_intro-price {
-    margin: 20px 0 22px;
+.vinfast-autohaiphong_product_intro-actions {
     display: flex;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
     flex-wrap: wrap;
+    margin-top: 14px;
 }
-.vinfast-autohaiphong_product_intro-price span {
-    font-size: 13px;
-    color: #777;
+.vinfast-autohaiphong_product_price-tag {
+    background: #edf5ff;
+    border-radius: 9px;
+    padding: 14px 26px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--vf-blue);
+    font-size: 16px;
+    font-weight: 400;
+    flex: 1;
+    min-width: 260px;
 }
-.vinfast-autohaiphong_product_intro-price strong {
-    font-weight: 700;
-    font-size: 24px;
+.vinfast-autohaiphong_product_price-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--vf-blue);
+    display: inline-block;
+    flex-shrink: 0;
+}
+.vinfast-autohaiphong_product_price-tag strong {
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_btn-deposit {
+    background: var(--vf-blue);
+    color: #ffffff;
+    border: none;
+    border-radius: 9px;
+    padding: 14px 34px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+.vinfast-autohaiphong_product_btn-deposit:hover {
+    background: var(--vf-blue-dark);
+    transform: translateY(-1px);
 }
 .vinfast-autohaiphong_product_intro-cta {
     display: flex;
@@ -1335,8 +1410,15 @@ select:focus-visible,
         grid-template-columns: 1fr 1fr;
         gap: 10px;
     }
-    .vinfast-autohaiphong_product_intro-visual {
-        min-height: 380px;
+    .vinfast-autohaiphong_product_intro-visual,
+    .vinfast-autohaiphong_product_intro-visual.vinfast-autohaiphong_product_revealed {
+        aspect-ratio: 4 / 3;
+        min-height: unset;
+    }
+    .vinfast-autohaiphong_product_intro-car {
+        aspect-ratio: 4 / 3;
+        max-height: none;
+        height: 100%;
     }
     .vinfast-autohaiphong_product_intro-cta {
         gap: 8px;
@@ -1413,16 +1495,20 @@ select:focus-visible,
         gap: 0;
         min-height: unset;
     }
-    .vinfast-autohaiphong_product_intro-visual {
-        min-height: 300px;
+    .vinfast-autohaiphong_product_intro-visual,
+    .vinfast-autohaiphong_product_intro-visual.vinfast-autohaiphong_product_revealed {
+        aspect-ratio: 4 / 3;
+        min-height: unset;
         margin: -8px auto 0;
-        max-width: 450px;
+        max-width: 480px;
         width: 100%;
     }
     .vinfast-autohaiphong_product_intro-car {
+        aspect-ratio: 4 / 3;
         width: 100%;
-        max-width: 430px;
-        max-height: 270px;
+        max-width: 480px;
+        height: 100%;
+        max-height: none;
     }
     .vinfast-autohaiphong_product_intro-info {
         max-width: 440px;
@@ -1660,11 +1746,15 @@ select:focus-visible,
         font-size: 10px;
         padding: 7px;
     }
-    .vinfast-autohaiphong_product_intro-visual {
-        min-height: 245px;
+    .vinfast-autohaiphong_product_intro-visual,
+    .vinfast-autohaiphong_product_intro-visual.vinfast-autohaiphong_product_revealed {
+        aspect-ratio: 4 / 3;
+        min-height: unset;
     }
     .vinfast-autohaiphong_product_intro-car {
-        max-height: 220px;
+        aspect-ratio: 4 / 3;
+        max-height: none;
+        height: 100%;
     }
     .vinfast-autohaiphong_product_spec-highlights strong {
         font-size: 13px;
