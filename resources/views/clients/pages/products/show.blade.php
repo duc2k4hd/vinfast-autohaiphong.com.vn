@@ -343,16 +343,16 @@ window.VINFAST_PRODUCT_DATA = {
         @endphp
         <section class="vinfast-autohaiphong_product_colors vinfast-autohaiphong_product_section" id="vf3-mau-xe">
             <div class="vinfast-autohaiphong_product_container">
+                {{-- Chữ mờ Watermark dòng xe đặt trực tiếp dưới cấp container, hiển thị sau xe --}}
+                <div class="vinfast-autohaiphong_product_color-watermark" aria-hidden="true">
+                    <span>{{ $shortModelName }}</span>
+                </div>
+
                 <div class="vinfast-autohaiphong_product_section-head" data-reveal>
                     <h2>Tự do sáng tạo, tỏa sáng chất riêng</h2>
                     <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
                 </div>
                 <div class="vinfast-autohaiphong_product_color-stage" data-reveal>
-                    {{-- Chữ mờ Watermark dòng xe in nghiêng to bản vươn cao chuẩn 100% như ảnh 2 --}}
-                    <div class="vinfast-autohaiphong_product_color-watermark" aria-hidden="true">
-                        <span>{{ $shortModelName }}</span>
-                    </div>
-
                     {{-- Khung hiển thị xe góc ngang side-view to lớn hoành tráng --}}
                     <div class="vinfast-autohaiphong_product_color-car-wrapper" data-color-car-wrapper>
                         <img class="vinfast-autohaiphong_product_color-car"

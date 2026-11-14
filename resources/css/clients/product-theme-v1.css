@@ -625,10 +625,17 @@ select:focus-visible,
 .vinfast-autohaiphong_product_colors {
     padding: 60px 0 80px;
     background: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_colors .vinfast-autohaiphong_product_container {
+    position: relative;
 }
 .vinfast-autohaiphong_product_colors
     .vinfast-autohaiphong_product_section-head {
     margin-bottom: 30px;
+    position: relative;
+    z-index: 3;
 }
 .vinfast-autohaiphong_product_color-stage {
     position: relative;
@@ -637,14 +644,15 @@ select:focus-visible,
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #ffffff;
+    background: transparent;
     border-radius: 16px;
     padding: 24px 24px 36px;
-    overflow: hidden;
+    overflow: visible;
+    z-index: 2;
 }
 .vinfast-autohaiphong_product_color-watermark {
     position: absolute;
-    top: 23%;
+    top: 42%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -657,13 +665,13 @@ select:focus-visible,
 }
 .vinfast-autohaiphong_product_color-watermark span {
     display: inline-block;
-    font-size: clamp(170px, 28vw, 400px);
+    font-size: clamp(160px, 25vw, 360px);
     font-weight: 900;
     font-style: italic;
     font-family: inherit;
     letter-spacing: -0.01em;
-    color: #e6ebf0;
-    -webkit-text-stroke: 0;
+    color: #cbd5e1;
+    -webkit-text-stroke: 1px rgba(180, 195, 215, 0.45);
     text-transform: uppercase;
     white-space: nowrap;
 }
@@ -2762,16 +2770,16 @@ select:focus-visible,
     }
     .vinfast-autohaiphong_product_color-stage {
         min-height: 270px;
-        background: #ffffff;
+        background: transparent;
         padding: 20px 10px 25px;
     }
     .vinfast-autohaiphong_product_color-watermark {
-        top: 22%;
+        top: 38%;
     }
     .vinfast-autohaiphong_product_color-watermark span {
-        font-size: clamp(80px, 24vw, 150px);
-        -webkit-text-stroke: 0;
-        color: #e6ebf0;
+        font-size: clamp(90px, 26vw, 170px);
+        -webkit-text-stroke: 1px rgba(180, 195, 215, 0.45);
+        color: #cbd5e1;
     }
     .vinfast-autohaiphong_product_color-car-wrapper {
         height: clamp(180px, 45vw, 240px);
