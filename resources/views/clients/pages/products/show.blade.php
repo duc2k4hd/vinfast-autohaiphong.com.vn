@@ -364,77 +364,6 @@ window.VINFAST_PRODUCT_DATA = {
             </div>
         </section>
 
-        {{-- SECTION 4: SO SÁNH CHI PHÍ VẬN HÀNH (EV VS ICE) --}}
-        <section class="vinfast-autohaiphong_product_compare vinfast-autohaiphong_product_section" 
-                 id="vf3-so-sanh"
-                 data-calc-ev-rate="{{ $comparison['ev_consumption'] }}"
-                 data-calc-ice-rate="{{ $comparison['ice_consumption'] }}">
-            <div class="vinfast-autohaiphong_product_container">
-                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
-                    <h2>So sánh kinh tế giữa VinFast <strong>"{{ $car->name }}"</strong> và xe xăng cùng phân khúc</h2>
-                    <p>Định mức tiêu hao thực tế theo phân khúc {{ $comparison['segment_name'] }} giúp ước tính chính xác hiệu quả tiết kiệm chi phí</p>
-                </div>
-                <div class="vinfast-autohaiphong_product_compare-grid" data-reveal>
-                    <div class="vinfast-autohaiphong_product_compare-form">
-                        <h3>Ước tính chi phí năng lượng di chuyển hằng năm</h3>
-                        <p class="vinfast-autohaiphong_product_muted">
-                            Dựa trên định mức tiêu chuẩn của VinFast <strong>"{{ $car->name }}"</strong> và dòng xe động cơ đốt trong tương đương (chưa bao gồm chi phí bảo dưỡng và khấu hao).
-                        </p>
-                        <label class="vinfast-autohaiphong_product_field">
-                            <span>Quãng đường di chuyển mỗi năm</span>
-                            <input type="range" min="3000" max="35000" step="1000" value="{{ $comparison['default_distance'] }}" data-calc="distance" />
-                            <output data-calc-label="distance">{{ number_format($comparison['default_distance'], 0, ',', '.') }} km</output>
-                        </label>
-                        <label class="vinfast-autohaiphong_product_field">
-                            <span>Giá điện sinh hoạt / trụ sạc (VNĐ/kWh)</span>
-                            <input type="number" min="0" step="100" value="{{ $comparison['default_electricity_price'] }}" data-calc="electricity" />
-                        </label>
-                        <label class="vinfast-autohaiphong_product_field">
-                            <span>Giá xăng RON 95 tham chiếu (VNĐ/lít)</span>
-                            <input type="number" min="0" step="100" value="{{ $comparison['default_petrol_price'] }}" data-calc="petrol" />
-                        </label>
-                        <div class="vinfast-autohaiphong_product_compare-results">
-                            <div>
-                                <span>VinFast {{ $car->name }} · {{ $comparison['ev_consumption'] }} kWh/100km</span>
-                                <strong data-calc-result="electric">{{ number_format($comparison['initial_ev_cost'], 0, ',', '.') }} ₫</strong>
-                            </div>
-                            <div>
-                                <span>{{ $comparison['ice_label'] }} · {{ $comparison['ice_consumption'] }} lít/100km</span>
-                                <strong data-calc-result="petrol">{{ number_format($comparison['initial_ice_cost'], 0, ',', '.') }} ₫</strong>
-                            </div>
-                        </div>
-                        <p class="vinfast-autohaiphong_product_saving">
-                            <span>Tiết kiệm chi phí năng lượng mỗi năm:</span>
-                            <strong data-calc-result="saving">{{ number_format($comparison['initial_saving'], 0, ',', '.') }} ₫/năm</strong>
-                        </p>
-                    </div>
-
-                    <div class="vinfast-autohaiphong_product_compare-story">
-                        <div class="vinfast-autohaiphong_product_compare-story-top">
-                            <span class="vinfast-autohaiphong_product_leaf">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-                                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-                                </svg>
-                            </span>
-                            <h3>Lựa chọn di chuyển xanh · {{ $comparison['segment_name'] }}</h3>
-                            <p>Không phát thải khí nhà kính từ ống xả, chi phí nhiên liệu chỉ bằng khoảng 1/3 đến 1/4 so với xe xăng cùng phân khúc, vận hành êm ái vượt bậc.</p>
-                        </div>
-                        <img src="{{ $mainCarImage }}" alt="{{ $car->name }}" loading="lazy" />
-                        <p>Thông số so sánh thực tế theo phân khúc {{ $comparison['segment_name'] }}, minh chứng lợi thế tài chính lâu dài của xe điện VinFast.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {{-- SECTION 5: SHOWCASE IMAGE BANNER --}}
-        <section class="vinfast-autohaiphong_product_image-banner vinfast-autohaiphong_product_showcase" aria-label="VinFast {{ $car->name }}">
-            <img src="{{ asset('storage/clients/assets/images/theme-v1/style-yellow.webp') }}"
-                 alt="{{ $car->name }} - Ngoại thất và kiến trúc nổi bật"
-                 loading="lazy" />
-            <span aria-hidden="true">{{ $shortModelName }}</span>
-        </section>
-
         {{-- SECTION 7: BÀI VIẾT GIỚI THIỆU CHI TIẾT SẢN PHẨM (PRODUCT CONTENT ARTICLE) --}}
         <section class="vinfast-autohaiphong_product_article vinfast-autohaiphong_product_section" id="vf3-bai-viet" aria-label="Giới thiệu chi tiết {{ $car->name }}">
             <div class="vinfast-autohaiphong_product_container">
@@ -531,6 +460,77 @@ window.VINFAST_PRODUCT_DATA = {
                                 Với chi phí vận hành siêu tiết kiệm chỉ bằng 1/3 xe xăng cùng chính sách hậu mãi và bảo hành chính hãng lên tới 7 năm hoặc 160.000 km, VinFast {{ $car->name }} là sự lựa chọn kinh tế, bền bỉ và đáng tin cậy hàng đầu cho mọi cá nhân và gia đình.
                             </p>
                         @endif
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- SECTION 5: SHOWCASE IMAGE BANNER --}}
+        <section class="vinfast-autohaiphong_product_image-banner vinfast-autohaiphong_product_showcase" aria-label="VinFast {{ $car->name }}">
+            <img src="{{ asset('storage/clients/assets/images/theme-v1/style-yellow.webp') }}"
+                 alt="{{ $car->name }} - Ngoại thất và kiến trúc nổi bật"
+                 loading="lazy" />
+            <span aria-hidden="true">{{ $shortModelName }}</span>
+        </section>
+
+        {{-- SECTION 4: SO SÁNH CHI PHÍ VẬN HÀNH (EV VS ICE) --}}
+        <section class="vinfast-autohaiphong_product_compare vinfast-autohaiphong_product_section" 
+                 id="vf3-so-sanh"
+                 data-calc-ev-rate="{{ $comparison['ev_consumption'] }}"
+                 data-calc-ice-rate="{{ $comparison['ice_consumption'] }}">
+            <div class="vinfast-autohaiphong_product_container">
+                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
+                    <h2>So sánh kinh tế giữa VinFast <strong>"{{ $car->name }}"</strong> và xe xăng cùng phân khúc</h2>
+                    <p>Định mức tiêu hao thực tế theo phân khúc {{ $comparison['segment_name'] }} giúp ước tính chính xác hiệu quả tiết kiệm chi phí</p>
+                </div>
+                <div class="vinfast-autohaiphong_product_compare-grid" data-reveal>
+                    <div class="vinfast-autohaiphong_product_compare-form">
+                        <h3>Ước tính chi phí năng lượng di chuyển hằng năm</h3>
+                        <p class="vinfast-autohaiphong_product_muted">
+                            Dựa trên định mức tiêu chuẩn của VinFast <strong>"{{ $car->name }}"</strong> và dòng xe động cơ đốt trong tương đương (chưa bao gồm chi phí bảo dưỡng và khấu hao).
+                        </p>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Quãng đường di chuyển mỗi năm</span>
+                            <input type="range" min="3000" max="35000" step="1000" value="{{ $comparison['default_distance'] }}" data-calc="distance" />
+                            <output data-calc-label="distance">{{ number_format($comparison['default_distance'], 0, ',', '.') }} km</output>
+                        </label>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Giá điện sinh hoạt / trụ sạc (VNĐ/kWh)</span>
+                            <input type="number" min="0" step="100" value="{{ $comparison['default_electricity_price'] }}" data-calc="electricity" />
+                        </label>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Giá xăng RON 95 tham chiếu (VNĐ/lít)</span>
+                            <input type="number" min="0" step="100" value="{{ $comparison['default_petrol_price'] }}" data-calc="petrol" />
+                        </label>
+                        <div class="vinfast-autohaiphong_product_compare-results">
+                            <div>
+                                <span>VinFast {{ $car->name }} · {{ $comparison['ev_consumption'] }} kWh/100km</span>
+                                <strong data-calc-result="electric">{{ number_format($comparison['initial_ev_cost'], 0, ',', '.') }} ₫</strong>
+                            </div>
+                            <div>
+                                <span>{{ $comparison['ice_label'] }} · {{ $comparison['ice_consumption'] }} lít/100km</span>
+                                <strong data-calc-result="petrol">{{ number_format($comparison['initial_ice_cost'], 0, ',', '.') }} ₫</strong>
+                            </div>
+                        </div>
+                        <p class="vinfast-autohaiphong_product_saving">
+                            <span>Tiết kiệm chi phí năng lượng mỗi năm:</span>
+                            <strong data-calc-result="saving">{{ number_format($comparison['initial_saving'], 0, ',', '.') }} ₫/năm</strong>
+                        </p>
+                    </div>
+
+                    <div class="vinfast-autohaiphong_product_compare-story">
+                        <div class="vinfast-autohaiphong_product_compare-story-top">
+                            <span class="vinfast-autohaiphong_product_leaf">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                                </svg>
+                            </span>
+                            <h3>Lựa chọn di chuyển xanh · {{ $comparison['segment_name'] }}</h3>
+                            <p>Không phát thải khí nhà kính từ ống xả, chi phí nhiên liệu chỉ bằng khoảng 1/3 đến 1/4 so với xe xăng cùng phân khúc, vận hành êm ái vượt bậc.</p>
+                        </div>
+                        <img src="{{ $mainCarImage }}" alt="{{ $car->name }}" loading="lazy" />
+                        <p>Thông số so sánh thực tế theo phân khúc {{ $comparison['segment_name'] }}, minh chứng lợi thế tài chính lâu dài của xe điện VinFast.</p>
                     </div>
                 </div>
             </div>
