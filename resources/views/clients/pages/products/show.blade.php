@@ -582,16 +582,73 @@ window.VINFAST_PRODUCT_DATA = {
             </div>
         </section>
 
-        {{-- SECTION 8: NỘI THẤT XE --}}
+        {{-- SECTION 8: NỘI THẤT XE (BENTO / MOSAIC GALLERY HÌNH CHỮ NHẬT DÀI) --}}
+        @php
+            $interiorList = (!empty($interiors) && $interiors->isNotEmpty()) ? $interiors : collect([
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/interior.webp'),
+                    'alt_text' => 'Khoang lái công thái học & Màn hình 10 inch',
+                    'caption' => 'Khoang lái công thái học & Màn hình 10 inch',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/front-detail.webp'),
+                    'alt_text' => 'Chi tiết táp-lô & Vô lăng thể thao D-cut',
+                    'caption' => 'Chi tiết táp-lô & Vô lăng thể thao D-cut',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/wheel-thumb.webp'),
+                    'alt_text' => 'Cụm điều khiển thông minh & Cần gạt số',
+                    'caption' => 'Cụm điều khiển thông minh & Cần gạt số',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/red-thumb.webp'),
+                    'alt_text' => 'Hàng ghế sau gập linh hoạt 285L',
+                    'caption' => 'Hàng ghế sau gập linh hoạt 285L',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/yellow-thumb.webp'),
+                    'alt_text' => 'Tối ưu không gian 4 chỗ ngồi rộng rãi',
+                    'caption' => 'Tối ưu không gian 4 chỗ ngồi rộng rãi',
+                ],
+            ]);
+        @endphp
+
         <section class="vinfast-autohaiphong_product_interior vinfast-autohaiphong_product_section" id="vf3-noi-that">
             <div class="vinfast-autohaiphong_product_container">
                 <div class="vinfast-autohaiphong_product_section-head" data-reveal>
-                    <h2>Luôn đủ chỗ cho mọi người</h2>
-                    <p>Không gian được tối ưu để mỗi hành trình đều thoải mái cho bạn và những người đồng hành.</p>
+                    <h2>Không gian nội thất xe {{ $car->name }}</h2>
+                    <p>Thiết kế công thái học tối ưu hoá từng centimet, mang lại trải nghiệm tiện nghi, trẻ trung và hiện đại</p>
                 </div>
-                <div class="vinfast-autohaiphong_product_interior-image vinfast-autohaiphong_product_lightbox-trigger" role="button" tabindex="0" data-lightbox="6" aria-label="Xem chi tiết nội thất">
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/interior.webp') }}" alt="Không gian nội thất xe {{ $car->name }}, ghế ngồi và màn hình giải trí" loading="lazy" />
-                    <span class="vinfast-autohaiphong_product_interior-label">Nội thất <span>↗</span></span>
+
+                {{-- Khối Bento Grid hình chữ nhật dài kết hợp nhiều hình dạng ảnh nội thất --}}
+                <div class="vinfast-autohaiphong_product_interior-bento" data-reveal>
+                    @foreach($interiorList as $idx => $item)
+                        @php
+                            $shapeClass = 'vinfast-autohaiphong_product_interior-bento-item';
+                            if ($idx % 5 === 0) {
+                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-hero';
+                            } elseif ($idx % 5 === 1) {
+                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-wide';
+                            } else {
+                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-small';
+                            }
+                        @endphp
+                        <div class="{{ $shapeClass }} vinfast-autohaiphong_product_lightbox-trigger"
+                             role="button"
+                             tabindex="0"
+                             data-lightbox="{{ $idx }}"
+                             aria-label="Xem chi tiết: {{ $item->caption ?: 'Nội thất xe' }}">
+                            <img src="{{ $item->image_url }}"
+                                 alt="{{ $item->alt_text ?: ($item->caption ?: 'Ảnh nội thất ' . ($idx + 1)) }}"
+                                 loading="lazy" />
+                            @if(!empty($item->caption))
+                                <div class="vinfast-autohaiphong_product_interior-caption">
+                                    <span>{{ $item->caption }}</span>
+                                    <span class="vinfast-autohaiphong_product_interior-zoom-icon">↗</span>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>

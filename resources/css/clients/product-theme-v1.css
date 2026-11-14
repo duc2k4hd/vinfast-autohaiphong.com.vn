@@ -1385,9 +1385,79 @@ select:focus-visible,
 .vinfast-autohaiphong_product_lightbox-trigger {
     cursor: zoom-in;
 }
-/* Interior */
+/* Interior Bento Grid (Khối hình chữ nhật dài nghệ thuật) */
 .vinfast-autohaiphong_product_interior {
-    padding: 95px 0 88px;
+    padding: 80px 0;
+}
+.vinfast-autohaiphong_product_interior-bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 240px 240px;
+    gap: 12px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_interior-bento-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0f172a;
+    cursor: zoom-in;
+}
+.vinfast-autohaiphong_product_interior-bento-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.vinfast-autohaiphong_product_interior-bento-item:hover img {
+    transform: scale(1.06);
+}
+/* Ô to nhất (Hero): 3 cột x 2 hàng (chiếm 50% diện tích bên trái) */
+.vinfast-autohaiphong_product_interior-bento-hero {
+    grid-column: span 3;
+    grid-row: span 2;
+}
+/* Ô ngang (Wide): 3 cột x 1 hàng (chiếm 50% góc trên bên phải) */
+.vinfast-autohaiphong_product_interior-bento-wide {
+    grid-column: span 3;
+    grid-row: span 1;
+}
+/* Ô nhỏ (Small): 1 cột x 1 hàng (3 ô nhỏ ghép thành 3 cột = 50% góc dưới bên phải) */
+.vinfast-autohaiphong_product_interior-bento-small {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+/* Chú thích ảnh nội thất */
+.vinfast-autohaiphong_product_interior-caption {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    padding: 6px 12px;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    transition: background 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.vinfast-autohaiphong_product_interior-bento-item:hover .vinfast-autohaiphong_product_interior-caption {
+    background: rgba(15, 23, 42, 0.88);
+}
+.vinfast-autohaiphong_product_interior-zoom-icon {
+    font-size: 13px;
+    opacity: 0.8;
 }
 .vinfast-autohaiphong_product_interior-image {
     position: relative;
@@ -2354,6 +2424,23 @@ select:focus-visible,
         overflow-x: auto;
         white-space: nowrap;
         font-size: 13.5px;
+    }
+    .vinfast-autohaiphong_product_interior-bento {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        gap: 10px;
+    }
+    .vinfast-autohaiphong_product_interior-bento-hero {
+        grid-column: span 2;
+        height: 240px;
+    }
+    .vinfast-autohaiphong_product_interior-bento-wide {
+        grid-column: span 2;
+        height: 170px;
+    }
+    .vinfast-autohaiphong_product_interior-bento-small {
+        grid-column: span 1;
+        height: 140px;
     }
     .vinfast-autohaiphong_product_interior-image {
         height: 280px;

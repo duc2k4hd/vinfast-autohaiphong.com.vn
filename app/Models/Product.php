@@ -62,6 +62,14 @@ class Product extends Model
     }
 
     /**
+     * Quan hệ các ảnh nội thất xe.
+     */
+    public function interiors(): HasMany
+    {
+        return $this->hasMany(ProductInterior::class, 'product_id')->orderBy('sort_order', 'asc');
+    }
+
+    /**
      * Scope lọc các sản phẩm đã được xuất bản ra công khai.
      */
     public function scopePublished($query)

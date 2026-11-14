@@ -103,12 +103,24 @@ class ProductController extends Controller
             ->orderBy('product_banners.sort_order', 'asc')
             ->get();
 
+        $interiors = DB::table('product_interiors')
+            ->leftJoin('media', 'product_interiors.image_media_id', '=', 'media.id')
+            ->where('product_interiors.product_id', $id)
+            ->select([
+                'product_interiors.*',
+                'media.path as media_path',
+                'media.filename as media_filename',
+            ])
+            ->orderBy('product_interiors.sort_order', 'asc')
+            ->get();
+
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
             'variants' => $variants,
             'colors' => $colors,
             'banners' => $banners,
+            'interiors' => $interiors,
             'mediaList' => $mediaList,
         ]);
     }
@@ -260,6 +272,34 @@ class ProductController extends Controller
                             'image_media_id' => $mediaId,
                             'image_path' => $directPath,
                             'sort_order' => $bSort++,
+                            'is_active' => true,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+                }
+            }
+
+            // Cập nhật danh sách ảnh nội thất xe (Bento / Mosaic Gallery)
+            if ($request->has('interior_captions') || $request->has('interior_image_media_ids') || $request->has('interior_image_paths')) {
+                DB::table('product_interiors')->where('product_id', $id)->delete();
+
+                $iCaptions = $request->input('interior_captions', []);
+                $iMediaIds = $request->input('interior_image_media_ids', []);
+                $iPaths = $request->input('interior_image_paths', []);
+
+                $iSort = 1;
+                foreach ($iCaptions as $iIdx => $iCaption) {
+                    $mediaId = ! empty($iMediaIds[$iIdx]) ? (int) $iMediaIds[$iIdx] : null;
+                    $directPath = ! empty($iPaths[$iIdx]) ? trim($iPaths[$iIdx]) : null;
+
+                    if ($mediaId || ! empty($directPath) || ! empty(trim($iCaption))) {
+                        DB::table('product_interiors')->insert([
+                            'product_id' => $id,
+                            'caption' => trim($iCaption),
+                            'image_media_id' => $mediaId,
+                            'image_path' => $directPath,
+                            'sort_order' => $iSort++,
                             'is_active' => true,
                             'created_at' => $now,
                             'updated_at' => $now,

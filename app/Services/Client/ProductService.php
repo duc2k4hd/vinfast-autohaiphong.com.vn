@@ -137,6 +137,38 @@ class ProductService
     }
 
     /**
+     * Lấy danh sách ảnh nội thất xe.
+     */
+    public function getInteriors(int $productId): Collection
+    {
+        return DB::table('product_interiors')
+            ->leftJoin('media', 'product_interiors.image_media_id', '=', 'media.id')
+            ->where('product_interiors.product_id', $productId)
+            ->where('product_interiors.is_active', true)
+            ->select([
+                'product_interiors.id',
+                'product_interiors.caption',
+                'product_interiors.image_path as direct_image_path',
+                'media.path as media_image_path',
+                'media.alt_text as media_alt',
+            ])
+            ->orderBy('product_interiors.sort_order', 'asc')
+            ->get()
+            ->map(function ($item) {
+                $path = $item->media_image_path ?: $item->direct_image_path;
+
+                return (object) [
+                    'id' => $item->id,
+                    'caption' => $item->caption,
+                    'image_url' => $path ? asset('storage/'.ltrim($path, '/')) : null,
+                    'alt_text' => $item->caption ?: ($item->media_alt ?: 'Nội thất xe VinFast'),
+                ];
+            })
+            ->filter(fn ($it) => ! empty($it->image_url))
+            ->values();
+    }
+
+    /**
      * Lấy các thông số kỹ thuật chi tiết của xe.
      */
     public function getSpecifications(int $productId): Collection

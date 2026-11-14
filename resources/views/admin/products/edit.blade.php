@@ -285,7 +285,65 @@
                 </div>
             </div>
 
-            {{-- 3. Bảng Thông Số Kỹ Thuật Key-Value --}}
+            {{-- 3. Bộ Sưu Tập Ảnh Nội Thất Xe (Bento / Mosaic Gallery) --}}
+            <div class="vinfast-autohaiphong_admin_card">
+                <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>BỘ SƯU TẬP ẢNH NỘI THẤT XE (BENTO / MOSAIC GALLERY)</span>
+                    <button type="button" onclick="addNewInteriorRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
+                        + Thêm Ảnh Nội Thất
+                    </button>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
+                    Các ảnh nội thất (khoang lái, táp-lô, màn hình, hàng ghế...) sẽ tự động kết hợp với nhiều hình dạng khác nhau thành một <strong>khối hình chữ nhật dài hoàn chỉnh (Bento Grid)</strong> tại mục Nội thất của trang xe.
+                </p>
+
+                <div id="interiors-container">
+                    @if(!empty($interiors) && $interiors->isNotEmpty())
+                        @foreach($interiors as $interior)
+                            <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 12px; margin-bottom: 12px;" class="interior-row">
+                                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                                    <input type="text" name="interior_captions[]" value="{{ $interior->caption }}" placeholder="Chú thích ảnh nội thất (VD: Khoang lái công thái học, Màn hình 10 inch...)" 
+                                           style="flex: 1; padding: 7px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    <button type="button" onclick="this.closest('.interior-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa ảnh này">
+                                        &times;
+                                    </button>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+                                    <div class="interior-img-preview" style="width: 60px; height: 42px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        @php
+                                            $iImgPath = $interior->media_path ?: $interior->image_path;
+                                        @endphp
+                                        @if(!empty($iImgPath))
+                                            <img src="{{ asset('storage/' . ltrim($iImgPath, '/')) }}" alt="{{ $interior->caption }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        @else
+                                            <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>
+                                        @endif
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Chọn từ thư viện Media</label>
+                                        <select name="interior_image_media_ids[]" onchange="updateInteriorImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                                            <option value="" data-src="">-- Chọn ảnh nội thất từ Media --</option>
+                                            @foreach($mediaList as $m)
+                                                <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($interior->image_media_id) && $interior->image_media_id == $m->id) ? 'selected' : '' }}>
+                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Nội thất' }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Hoặc đường dẫn ảnh trực tiếp</label>
+                                        <input type="text" name="interior_image_paths[]" value="{{ $interior->image_path }}" placeholder="clients/assets/images/... (nếu không chọn media)"
+                                               style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            {{-- 4. Bảng Thông Số Kỹ Thuật Key-Value --}}
             <div class="vinfast-autohaiphong_admin_card">
                 <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
                     <span>THÔNG SỐ KỸ THUẬT KEY - VALUE</span>
@@ -494,6 +552,54 @@ function addNewBannerRow() {
             <div style="flex: 1;">
                 <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Hoặc đường dẫn ảnh trực tiếp</label>
                 <input type="text" name="banner_image_paths[]" placeholder="clients/assets/images/... (nếu không chọn media)"
+                       style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+            </div>
+        </div>
+    `;
+    container.appendChild(div);
+    formIsDirty = true;
+}
+
+function updateInteriorImgPreview(selectEl) {
+    const selectedOption = selectEl.options[selectEl.selectedIndex];
+    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
+    const previewBox = selectEl.closest('.interior-row').querySelector('.interior-img-preview');
+    if (previewBox) {
+        if (src) {
+            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: cover;">`;
+        } else {
+            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
+        }
+    }
+}
+
+function addNewInteriorRow() {
+    const container = document.getElementById('interiors-container');
+    const div = document.createElement('div');
+    div.className = 'interior-row';
+    div.style.cssText = 'background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 12px; margin-bottom: 12px;';
+    div.innerHTML = `
+        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+            <input type="text" name="interior_captions[]" placeholder="Chú thích ảnh nội thất (VD: Khoang lái công thái học, Màn hình 10 inch...)" 
+                   style="flex: 1; padding: 7px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            <button type="button" onclick="this.closest('.interior-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa ảnh này">
+                &times;
+            </button>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 8px 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+            <div class="interior-img-preview" style="width: 60px; height: 42px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Chọn từ thư viện Media</label>
+                <select name="interior_image_media_ids[]" onchange="updateInteriorImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                    <option value="" data-src="">-- Chọn ảnh nội thất từ Media --</option>
+                    ${mediaOptionsTemplate}
+                </select>
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Hoặc đường dẫn ảnh trực tiếp</label>
+                <input type="text" name="interior_image_paths[]" placeholder="clients/assets/images/... (nếu không chọn media)"
                        style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
             </div>
         </div>
