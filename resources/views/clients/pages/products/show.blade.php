@@ -124,7 +124,7 @@ window.VINFAST_PRODUCT_DATA = {
 {{-- Container Giao Diện Theme V1 --}}
 <div class="vinfast-autohaiphong_product_app" data-car-id="{{ $car->id }}" data-car-name="{{ $car->name }}">
     <main>
-        {{-- SECTION 1: HERO BANNER SLIDER (TỶ LỆ CHUẨN 16:9) --}}
+        {{-- SECTION 1: HERO BANNER SLIDER (TỶ LỆ CHUẨN 19:6) --}}
         @php
             $heroBanners = (!empty($banners) && $banners->isNotEmpty()) ? $banners : collect([
                 (object)[
@@ -156,7 +156,7 @@ window.VINFAST_PRODUCT_DATA = {
                         @if(!empty($banner->title) || !empty($banner->subtitle))
                             <div class="vinfast-autohaiphong_product_hero-caption">
                                 @if(!empty($banner->title))
-                                    <h1 class="vinfast-autohaiphong_product_hero-title">{{ $banner->title }}</h1>
+                                    <h2 class="vinfast-autohaiphong_product_hero-title">{{ $banner->title }}</h2>
                                 @endif
                                 @if(!empty($banner->subtitle))
                                     <p class="vinfast-autohaiphong_product_hero-subtitle">{{ $banner->subtitle }}</p>

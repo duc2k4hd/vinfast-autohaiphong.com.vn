@@ -228,14 +228,14 @@
             {{-- 2.5. Bộ Sưu Tập Ảnh Banner Hero Riêng (Tỷ Lệ 16:9) --}}
             <div class="vinfast-autohaiphong_admin_card">
                 <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
-                    <span>BANNER HERO SẢN PHẨM (TỶ LỆ 16:9)</span>
+                    <span>BANNER HERO SẢN PHẨM (TỶ LỆ 19:6)</span>
                     <button type="button" onclick="addNewBannerRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
                         + Thêm Banner Hero
                     </button>
                 </div>
 
                 <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
-                    Các ảnh slider kích thước lớn hiển thị ở đầu trang chi tiết xe (chuẩn tỷ lệ 16:9). Tiêu đề và mô tả ngắn sẽ hiển thị ở <strong>khoảng trên chính giữa</strong> của từng ảnh banner.
+                    Các ảnh slider kích thước lớn hiển thị ở đầu trang chi tiết xe (chuẩn tỷ lệ 19:6). Tiêu đề và mô tả ngắn sẽ hiển thị ở <strong>khoảng trên chính giữa</strong> của từng ảnh banner.
                 </p>
 
                 <div id="banners-container">
@@ -252,23 +252,23 @@
                                     </button>
                                 </div>
                                 <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #edf2f7;">
-                                    <div class="banner-img-preview" style="width: 80px; height: 45px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <div class="banner-img-preview" style="width: 95px; height: 30px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                                         @php
                                             $bImgPath = $banner->media_path ?: $banner->image_path;
                                         @endphp
                                         @if(!empty($bImgPath))
                                             <img src="{{ asset('storage/' . ltrim($bImgPath, '/')) }}" alt="{{ $banner->title }}" style="width: 100%; height: 100%; object-fit: cover;">
                                         @else
-                                            <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9</span>
+                                            <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">19:6</span>
                                         @endif
                                     </div>
                                     <div style="flex: 1;">
                                         <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Chọn từ thư viện Media</label>
                                         <select name="banner_image_media_ids[]" onchange="updateBannerImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
-                                            <option value="" data-src="">-- Chọn ảnh banner tỷ lệ 16:9 --</option>
+                                            <option value="" data-src="">-- Chọn ảnh banner tỷ lệ 19:6 --</option>
                                             @foreach($mediaList as $m)
                                                 <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($banner->image_media_id) && $banner->image_media_id == $m->id) ? 'selected' : '' }}>
-                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Banner 16:9' }})
+                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Banner 19:6' }})
                                                 </option>
                                             @endforeach
                                         </select>
@@ -460,7 +460,7 @@ function updateBannerImgPreview(selectEl) {
         if (src) {
             previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: cover;">`;
         } else {
-            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9</span>`;
+            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">19:6</span>`;
         }
     }
 }
@@ -481,12 +481,13 @@ function addNewBannerRow() {
             </button>
         </div>
         <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #edf2f7;">
-            <div class="banner-img-preview" style="width: 80px; height: 45px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9</span>
+            <div class="banner-img-preview" style="width: 95px; height: 30px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">19:6</span>
             </div>
             <div style="flex: 1;">
                 <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Chọn từ thư viện Media</label>
                 <select name="banner_image_media_ids[]" onchange="updateBannerImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                    <option value="" data-src="">-- Chọn ảnh banner tỷ lệ 19:6 --</option>
                     ${mediaOptionsTemplate}
                 </select>
             </div>
