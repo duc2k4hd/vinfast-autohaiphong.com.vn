@@ -12,11 +12,13 @@ use Illuminate\View\View;
 class ProductController extends Controller
 {
     /**
-     * Danh sách sản phẩm các dòng xe.
+     * Danh sách sản phẩm các dòng xe kèm bộ lọc tìm kiếm.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $products = DB::table('products')
+        $search = $request->query('search');
+
+        $query = DB::table('products')
             ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
             ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
             ->select([
@@ -30,12 +32,22 @@ class ProductController extends Controller
                 'products.featured',
                 'product_categories.name as category_name',
                 'media.path as thumbnail_path',
-            ])
-            ->orderBy('products.id', 'asc')
-            ->paginate(15);
+            ]);
+
+        if (! empty($search)) {
+            $cleanSearch = trim($search);
+            $query->where(function ($q) use ($cleanSearch) {
+                $q->where('products.name', 'like', "%{$cleanSearch}%")
+                    ->orWhere('products.sku', 'like', "%{$cleanSearch}%")
+                    ->orWhere('products.slug', 'like', "%{$cleanSearch}%");
+            });
+        }
+
+        $products = $query->orderBy('products.id', 'asc')->paginate(15)->withQueryString();
 
         return view('admin.products.index', [
             'products' => $products,
+            'currentSearch' => $search,
         ]);
     }
 

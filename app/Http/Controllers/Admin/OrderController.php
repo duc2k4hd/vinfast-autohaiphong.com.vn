@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Shared\CurrencyHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,11 +13,12 @@ use Illuminate\View\View;
 class OrderController extends Controller
 {
     /**
-     * Danh sách đơn đặt cọc xe thanh toán tiền mặt.
+     * Danh sách đơn đặt cọc xe thanh toán tiền mặt kèm bộ lọc tìm kiếm.
      */
     public function index(Request $request): View
     {
         $status = $request->query('payment_status');
+        $search = $request->query('search');
 
         $query = DB::table('orders');
 
@@ -24,11 +26,21 @@ class OrderController extends Controller
             $query->where('payment_status', $status);
         }
 
-        $orders = $query->orderBy('created_at', 'desc')->paginate(20);
+        if (! empty($search)) {
+            $cleanSearch = trim($search);
+            $query->where(function ($q) use ($cleanSearch) {
+                $q->where('order_number', 'like', "%{$cleanSearch}%")
+                    ->orWhere('customer_name', 'like', "%{$cleanSearch}%")
+                    ->orWhere('customer_phone', 'like', "%{$cleanSearch}%");
+            });
+        }
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
 
         return view('admin.orders.index', [
             'orders' => $orders,
             'currentStatus' => $status,
+            'currentSearch' => $search,
         ]);
     }
 
@@ -49,6 +61,28 @@ class OrderController extends Controller
             'order' => $order,
             'items' => $items,
             'payments' => $payments,
+        ]);
+    }
+
+    /**
+     * Xem & in Phiếu Thu Tiền Mặt / Đặt Cọc Xe tại Showroom.
+     */
+    public function print(int $id): View
+    {
+        $order = DB::table('orders')->where('id', $id)->first();
+        if (! $order) {
+            abort(404, 'Không tìm thấy đơn hàng này.');
+        }
+
+        $items = DB::table('order_items')->where('order_id', $id)->get();
+        $payments = DB::table('payment_records')->where('order_id', $id)->orderBy('created_at', 'asc')->get();
+        $totalInWords = CurrencyHelper::toVietnameseWords($order->total);
+
+        return view('admin.orders.print', [
+            'order' => $order,
+            'items' => $items,
+            'payments' => $payments,
+            'totalInWords' => $totalInWords,
         ]);
     }
 

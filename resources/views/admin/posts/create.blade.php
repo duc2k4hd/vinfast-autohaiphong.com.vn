@@ -15,7 +15,7 @@
     </a>
 </div>
 
-<form action="{{ route('admin.posts.store') }}" method="POST">
+<form action="{{ route('admin.posts.store') }}" method="POST" class="form-track-changes">
     @csrf
 
     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; align-items: start;">

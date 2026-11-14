@@ -9,8 +9,21 @@
 
 @section('content')
 <div class="vinfast-autohaiphong_admin_card">
-    <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <span>DANH SÁCH DÒNG XE TRÊN HỆ THỐNG</span>
+
+        <form action="{{ route('admin.products.index') }}" method="GET" style="display: flex; gap: 6px;">
+            <input type="text" name="search" value="{{ $currentSearch ?? '' }}" placeholder="Tìm theo tên xe, SKU..." 
+                   style="padding: 5px 10px; border: 1px solid var(--admin-border); border-radius: 5px; font-size: 0.8rem; width: 220px;">
+            <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                Tìm Kiếm
+            </button>
+            @if(!empty($currentSearch))
+                <a href="{{ route('admin.products.index') }}" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 8px; font-size: 0.8rem; color: #ef4444;">
+                    ✕ Xóa
+                </a>
+            @endif
+        </form>
     </div>
 
     <table class="vinfast-autohaiphong_admin_table">

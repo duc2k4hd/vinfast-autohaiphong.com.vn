@@ -56,17 +56,19 @@
                 @endphp
                 <div class="vinfast-autohaiphong_product_gallery_viewer" data-vf-product-gallery data-slide-count="{{ $gallerySlides->count() }}">
                     <div class="vinfast-autohaiphong_product_main_image" aria-live="polite">
-                        @forelse($gallerySlides as $index => $slide)
-                            <img src="{{ $slide['src'] }}"
-                                 alt="{{ $slide['alt'] }}"
-                                 class="vinfast-autohaiphong_product_main_image_asset {{ $index === 0 ? 'is-active' : '' }}"
-                                 data-vf-gallery-slide="{{ $index }}"
-                                 @if($index > 0) loading="lazy" @endif>
-                        @empty
+                        @if($gallerySlides->isNotEmpty())
+                            @foreach($gallerySlides as $index => $slide)
+                                <img src="{{ $slide['src'] }}"
+                                     alt="{{ $slide['alt'] }}"
+                                     class="vinfast-autohaiphong_product_main_image_asset {{ $index === 0 ? 'is-active' : '' }}"
+                                     data-vf-gallery-slide="{{ $index }}"
+                                     @if($index > 0) loading="lazy" @endif>
+                            @endforeach
+                        @else
                             <img src="{{ asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}"
                                  alt="{{ $car->name }}"
                                  class="vinfast-autohaiphong_product_main_image_asset is-active">
-                        @endforelse
+                        @endif
                         @if($gallerySlides->count() > 1)
                             <button type="button" class="vinfast-autohaiphong_product_gallery_arrow is-previous" data-vf-gallery-previous aria-label="Ảnh trước">‹</button>
                             <button type="button" class="vinfast-autohaiphong_product_gallery_arrow is-next" data-vf-gallery-next aria-label="Ảnh tiếp theo">›</button>

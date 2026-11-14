@@ -107,6 +107,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Quản lý Đơn hàng tiền mặt
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
         Route::get('/orders/{id}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::get('/orders/{id}/print', [AdminOrderController::class, 'print'])->name('orders.print');
         Route::patch('/orders/{id}/confirm-cash', [AdminOrderController::class, 'confirmCashPayment'])->name('orders.confirm_cash');
 
         // Quản lý Báo giá (Leads)

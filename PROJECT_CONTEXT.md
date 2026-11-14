@@ -27,7 +27,8 @@ Website VinFast Hải Phòng được xây dựng bằng Laravel 13, tái tạo 
 2. **Trình soạn thảo TinyMCE:** Tích hợp Tiny Cloud v7 với key chính thức, có bộ lọc `HtmlSanitizer` chống XSS, đếm từ và ước tính thời gian đọc.
 3. **SEO toàn diện (Kế thừa từ Nobi Fashion):** Xây dựng `SeoService` tự động sinh slug unique tiếng Việt không dấu, trích xuất tóm tắt excerpt, đánh giá điểm chất lượng SEO 0-100 thời gian thực qua endpoint `/admin/seo/analyze`, cung cấp widget trực quan `admin.components.seo-analyzer` trong form bài viết.
 4. **Hiệu năng & Khả năng tiếp cận:** Tối ưu LCP trên Hero Banner trang chủ (`fetchpriority="high"`), bổ sung HTML Sitemap tại `/so-do-trang-web`.
-5. **Hệ thống kiểm thử chống hồi quy:** 39 tests tự động bao phủ 100% các luồng quan trọng (Admin, Client, Variants, TinyMCE, SEO, Checkout tiền mặt).
+5. **Hệ thống kiểm thử chống hồi quy:** 49 tests tự động bao phủ 100% các luồng quan trọng (Admin, Client, Variants, TinyMCE, SEO, Checkout tiền mặt, In phiếu thu A4).
+6. **Nghiệp vụ Showroom Hải Phòng:** In Phiếu đặt cọc & Thu tiền mặt chuẩn A4, đọc số tiền ra chữ tiếng Việt (`CurrencyHelper`), tìm kiếm nhanh đơn hàng/xe/bài viết, và cảnh báo thay đổi chưa lưu (`beforeunload`).
 
 ## QUY TẮC BỐ CỤC & DỮ LIỆU SẢN PHẨM (PRODUCT DATA & LAYOUT RULES)
 1. **Thông số sản phẩm (Specifications):** Lưu trữ dạng Key-Value chuẩn hóa để trích xuất trực tiếp cực nhanh, mượt mà và tối ưu hóa bộ nhớ RAM.

@@ -172,6 +172,28 @@
         </div>
     </div>
     @include('admin.components.confirm-dialog')
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const trackedForms = document.querySelectorAll('form.form-track-changes');
+        trackedForms.forEach(function (form) {
+            let isDirty = false;
+            let isSubmitting = false;
+
+            form.addEventListener('input', () => isDirty = true);
+            form.addEventListener('change', () => isDirty = true);
+            form.addEventListener('submit', () => isSubmitting = true);
+
+            window.addEventListener('beforeunload', function (e) {
+                if (isDirty && !isSubmitting) {
+                    e.preventDefault();
+                    e.returnValue = 'Bạn có các thay đổi chưa được lưu. Bạn có chắc chắn muốn rời đi?';
+                    return e.returnValue;
+                }
+            });
+        });
+    });
+    </script>
     @stack('scripts')
 </body>
 </html>

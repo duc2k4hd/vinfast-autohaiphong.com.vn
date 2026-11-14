@@ -15,7 +15,7 @@
     </a>
 </div>
 
-<form action="{{ route('admin.products.update', $product->id) }}" method="POST">
+<form action="{{ route('admin.products.update', $product->id) }}" method="POST" class="form-track-changes">
     @csrf
     @method('PUT')
 

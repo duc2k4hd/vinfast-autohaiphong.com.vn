@@ -9,9 +9,14 @@
 @section('header_title', 'CHI TIẾT ĐƠN HÀNG ' . $order->order_number)
 
 @section('content')
-<div style="margin-bottom: 20px;">
+<div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
     <a href="{{ route('admin.orders.index') }}" style="color: var(--admin-primary); font-weight: 600;">
         &larr; Quay lại danh sách đơn hàng
+    </a>
+
+    <a href="{{ route('admin.orders.print', $order->id) }}" target="_blank" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="display: inline-flex; align-items: center; gap: 6px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        In Phiếu Đặt Cọc (Khổ A4)
     </a>
 </div>
 

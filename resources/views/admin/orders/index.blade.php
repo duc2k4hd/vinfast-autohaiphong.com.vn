@@ -12,16 +12,29 @@
     <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <span>DANH SÁCH ĐƠN ĐẶT CỌC XE</span>
 
-        <div style="display: flex; gap: 8px;">
-            <a href="{{ route('admin.orders.index') }}" class="vinfast-autohaiphong_admin_btn {{ !$currentStatus ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Tất Cả
-            </a>
-            <a href="{{ route('admin.orders.index', ['payment_status' => 'unpaid']) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'unpaid' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Chờ Tiền Mặt
-            </a>
-            <a href="{{ route('admin.orders.index', ['payment_status' => 'paid']) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'paid' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Đã Thu Tiền Mặt
-            </a>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <form action="{{ route('admin.orders.index') }}" method="GET" style="display: flex; gap: 6px;">
+                @if($currentStatus)
+                    <input type="hidden" name="payment_status" value="{{ $currentStatus }}">
+                @endif
+                <input type="text" name="search" value="{{ $currentSearch ?? '' }}" placeholder="Tìm mã đơn, tên, SĐT..." 
+                       style="padding: 5px 10px; border: 1px solid var(--admin-border); border-radius: 5px; font-size: 0.8rem; width: 190px;">
+                <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                    Tìm
+                </button>
+            </form>
+
+            <div style="display: flex; gap: 6px;">
+                <a href="{{ route('admin.orders.index', array_filter(['search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ !$currentStatus ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Tất Cả
+                </a>
+                <a href="{{ route('admin.orders.index', array_filter(['payment_status' => 'unpaid', 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'unpaid' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Chờ Tiền Mặt
+                </a>
+                <a href="{{ route('admin.orders.index', array_filter(['payment_status' => 'paid', 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'paid' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Đã Thu Tiền
+                </a>
+            </div>
         </div>
     </div>
 

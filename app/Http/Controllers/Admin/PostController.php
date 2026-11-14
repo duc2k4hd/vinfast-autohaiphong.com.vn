@@ -14,11 +14,13 @@ use Illuminate\View\View;
 class PostController extends Controller
 {
     /**
-     * Danh sách bài viết tin tức trong trang quản trị.
+     * Danh sách bài viết tin tức trong trang quản trị kèm bộ lọc tìm kiếm.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $posts = DB::table('posts')
+        $search = $request->query('search');
+
+        $query = DB::table('posts')
             ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
             ->select([
                 'posts.id',
@@ -29,12 +31,21 @@ class PostController extends Controller
                 'posts.created_at',
                 'media.path as thumbnail_path',
             ])
-            ->whereNull('posts.deleted_at')
-            ->orderBy('posts.created_at', 'desc')
-            ->paginate(15);
+            ->whereNull('posts.deleted_at');
+
+        if (! empty($search)) {
+            $cleanSearch = trim($search);
+            $query->where(function ($q) use ($cleanSearch) {
+                $q->where('posts.title', 'like', "%{$cleanSearch}%")
+                    ->orWhere('posts.slug', 'like', "%{$cleanSearch}%");
+            });
+        }
+
+        $posts = $query->orderBy('posts.created_at', 'desc')->paginate(15)->withQueryString();
 
         return view('admin.posts.index', [
             'posts' => $posts,
+            'currentSearch' => $search,
         ]);
     }
 

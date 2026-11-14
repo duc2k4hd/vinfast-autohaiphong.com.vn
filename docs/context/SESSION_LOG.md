@@ -1,5 +1,30 @@
 # Nhật Ký Các Phiên Làm Việc (Session Log) — VinFast Hải Phòng
 
+## Phiên làm việc: Nâng Cấp Nghiệp Vụ Showroom, In Phiếu Thu A4 & Tìm Kiếm Toàn Diện (14/11/2026)
+
+### 1. Đã hoàn thành (100% Quality Gates):
+- **Nghiệp Vụ In Phiếu Đặt Cọc Xe & Thu Tiền Mặt Tại Showroom:**
+  - Xây dựng lớp [`CurrencyHelper.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Services/Shared/CurrencyHelper.php) chuyển đổi số tiền VNĐ thành văn bản chữ tiếng Việt chuẩn xác (VD: 322.000.000 VNĐ -> "Ba trăm hai mươi hai triệu đồng chẵn").
+  - Xây dựng giao diện in ấn chuyên nghiệp chuẩn A4 [`admin/orders/print.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/orders/print.blade.php) với logo VinFast Minh Đạo, mã đơn hàng, ngày giờ, thông tin khách hàng, chi tiết xe, phương thức tiền mặt, chữ ký 3 bên (Khách hàng, Nhân viên kinh doanh, Thủ quỹ).
+  - Tích hợp nút in phiếu đặt cọc trực tiếp tại [`admin/orders/show.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/orders/show.blade.php).
+- **Bộ Lọc Tìm Kiếm Nhanh Bằng Từ Khóa Cho Admin:**
+  - Nâng cấp [`OrderController@index`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Http/Controllers/Admin/OrderController.php) và [`admin/orders/index.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/orders/index.blade.php): Tìm kiếm đơn cọc theo mã đơn, họ tên hoặc số điện thoại.
+  - Nâng cấp [`ProductController@index`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Http/Controllers/Admin/ProductController.php) và [`admin/products/index.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/products/index.blade.php): Tìm kiếm xe theo tên dòng xe hoặc mã SKU.
+  - Nâng cấp [`PostController@index`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Http/Controllers/Admin/PostController.php) và [`admin/posts/index.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/posts/index.blade.php): Tìm kiếm bài viết tin tức theo tiêu đề.
+- **Bảo Vệ Dữ Liệu Biên Soạn Chưa Lưu (Unsaved Changes Warning):**
+  - Tích hợp cơ chế tự động theo dõi thay đổi (`form-track-changes` & `beforeunload`) trong [`admin/layouts/app.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/layouts/app.blade.php), trang sửa xe và viết/sửa bài viết, chống mất dữ liệu khi nhân viên vô tình đóng tab hoặc chuyển trang.
+- **Tối Ưu Blade Scanner & Kiểm Thử Toàn Diện:**
+  - Khắc phục cấu trúc lặp trong [`clients/pages/products/show.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/clients/pages/products/show.blade.php) đạt chuẩn `DONE SCAN` (0 mismatch).
+  - Thêm Feature Test [`tests/Feature/AdminOrderPrintAndSearchTest.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/tests/Feature/AdminOrderPrintAndSearchTest.php).
+  - Toàn bộ bộ kiểm thử tự động: **49/49 tests PASS 100% (230 assertions, ~3.1s)**.
+  - Chuẩn hóa mã nguồn: **100% PSR-12 qua Laravel Pint**.
+  - Biên dịch Frontend: **Vite build thành công trong 472ms**.
+
+### 2. Quy tắc Git:
+- **Tuyệt đối không chạy bất kỳ lệnh `git` nào**. Soạn sẵn commit mẫu tiếng Việt có dấu ở phản hồi cho người dùng tự chạy.
+
+---
+
 ## Phiên làm việc: Hoàn Thiện Toàn Diện Database Seeding & Admin UI/UX V2 (13/11/2026 - Chiều Tối)
 
 ### 1. Đã hoàn thành (100% Quality Gates):

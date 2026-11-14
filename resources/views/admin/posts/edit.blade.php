@@ -15,7 +15,7 @@
     </a>
 </div>
 
-<form action="{{ route('admin.posts.update', $post->id) }}" method="POST">
+<form action="{{ route('admin.posts.update', $post->id) }}" method="POST" class="form-track-changes">
     @csrf
     @method('PUT')
 
