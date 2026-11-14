@@ -181,6 +181,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:150'],
+            'slug' => ['nullable', 'string', 'max:160'],
             'sku' => ['nullable', 'string', 'max:100'],
             'category_id' => ['nullable', 'integer'],
             'regular_price' => ['nullable', 'numeric', 'min:0'],
@@ -188,10 +189,24 @@ class ProductController extends Controller
             'short_description' => ['nullable', 'string', 'max:500'],
             'description_html' => ['nullable', 'string'],
             'thumbnail_media_id' => ['nullable', 'integer', 'exists:media,id'],
+        ], [
+            'name.required' => 'Vui lòng nhập tên dòng xe.',
+            'slug.max' => 'Đường dẫn tĩnh không được vượt quá 160 ký tự.',
         ]);
 
         $now = now();
-        $slug = Str::slug($request->input('name'));
+        $inputSlug = trim((string) $request->input('slug'));
+        if ($inputSlug !== '') {
+            $slug = Str::slug($inputSlug);
+        } else {
+            // Chỉ tạo theo tên khi tạo lần đầu khi không nhập slug thôi
+            $slug = Str::slug($request->input('name'));
+        }
+
+        if (empty($slug)) {
+            $slug = 'xe-vinfast-'.time();
+        }
+
         $originalSlug = $slug;
         $count = 1;
         while (DB::table('products')->where('slug', $slug)->exists()) {
@@ -228,8 +243,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, int $id): RedirectResponse
     {
+        $product = DB::table('products')->where('id', $id)->first();
+        if (! $product) {
+            return redirect()->route('admin.products.index')->with('error', 'Không tìm thấy dòng xe.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:150'],
+            'slug' => ['nullable', 'string', 'max:160'],
             'sku' => ['nullable', 'string', 'max:100'],
             'category_id' => ['nullable', 'integer'],
             'status' => ['nullable', 'string', 'in:active,inactive,coming_soon'],
@@ -253,11 +274,37 @@ class ProductController extends Controller
             'banner_subtitles' => ['nullable', 'array'],
             'banner_image_media_ids' => ['nullable', 'array'],
             'banner_image_paths' => ['nullable', 'array'],
+        ], [
+            'name.required' => 'Vui lòng nhập tên dòng xe.',
+            'slug.max' => 'Đường dẫn tĩnh không được vượt quá 160 ký tự.',
         ]);
 
         $now = now();
 
-        DB::transaction(function () use ($request, $id, $now) {
+        // Xử lý slug khi cập nhật:
+        // - Nếu người dùng nhập slug mới: chuẩn hóa và kiểm tra trùng lặp
+        // - Nếu người dùng để trống hoặc không nhập: TUÂN THỦ SLUG CŨ ($product->slug), KHÔNG tự tạo theo tên
+        $newSlug = null;
+        $inputSlug = trim((string) $request->input('slug'));
+        if ($inputSlug !== '') {
+            $formattedSlug = Str::slug($inputSlug);
+            if ($formattedSlug !== '' && $formattedSlug !== $product->slug) {
+                $exists = DB::table('products')
+                    ->where('slug', $formattedSlug)
+                    ->where('id', '!=', $id)
+                    ->exists();
+
+                if ($exists) {
+                    return back()->withInput()->withErrors([
+                        'slug' => 'Đường dẫn tĩnh (slug) "'.$formattedSlug.'" đã được sử dụng bởi dòng xe khác.',
+                    ]);
+                }
+
+                $newSlug = $formattedSlug;
+            }
+        }
+
+        DB::transaction(function () use ($request, $id, $now, $newSlug) {
             // Cập nhật bảng products
             $productUpdate = [
                 'name' => $request->input('name'),
@@ -268,6 +315,10 @@ class ProductController extends Controller
                 'thumbnail_media_id' => $request->input('thumbnail_media_id'),
                 'updated_at' => $now,
             ];
+
+            if ($newSlug !== null) {
+                $productUpdate['slug'] = $newSlug;
+            }
 
             if ($request->filled('sku')) {
                 $productUpdate['sku'] = trim($request->input('sku'));

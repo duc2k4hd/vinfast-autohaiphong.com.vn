@@ -342,6 +342,35 @@
                        class="vf-admin-input" placeholder="VD: VinFast VF 3, VinFast VF 7...">
             </div>
 
+            <div class="vf-admin-input-group">
+                <label class="vf-admin-label">
+                    Đường Dẫn Tĩnh (Slug)
+                    @if(!$isCreate)
+                        <span style="font-size: 0.75rem; font-weight: normal; color: var(--admin-muted); margin-left: 4px;">(Bảo lưu slug cũ, chỉ đổi khi bạn tự nhập mới)</span>
+                    @else
+                        <span style="font-size: 0.75rem; font-weight: normal; color: var(--admin-muted); margin-left: 4px;">(Để trống sẽ tự động tạo theo tên dòng xe)</span>
+                    @endif
+                </label>
+                <div style="display: flex; align-items: center;">
+                    <span style="display: inline-flex; align-items: center; padding: 0 10px; height: 38px; background: #f8fafc; border: 1px solid var(--admin-border); border-right: none; border-radius: 6px 0 0 6px; font-size: 0.82rem; color: var(--admin-muted); font-family: Consolas, monospace; font-weight: 600;">/xe/</span>
+                    <input type="text" name="slug" id="product-slug" value="{{ old('slug', $product->slug) }}" 
+                           class="vf-admin-input" style="border-radius: 0 6px 6px 0; font-family: Consolas, monospace; font-size: 0.85rem;" 
+                           placeholder="{{ $isCreate ? 'tu-dong-tao-theo-ten-xe' : 'duong-dan-tinh' }}">
+                </div>
+                @if(!$isCreate && $product->slug)
+                    <div class="vf-admin-helper-text" style="margin-top: 4px; display: flex; justify-content: space-between; align-items: center;">
+                        <span>URL xem xe ngoài website: <a href="{{ route('client.products.show', $product->slug) }}" target="_blank" style="color: var(--admin-primary); font-family: Consolas, monospace; text-decoration: underline;">/xe/{{ $product->slug }}</a> ↗</span>
+                    </div>
+                @else
+                    <div class="vf-admin-helper-text">
+                        Chỉ tự động tạo theo tên xe khi tạo lần đầu nếu không nhập slug. Khi chỉnh sửa, hệ thống sẽ luôn tuân thủ slug cũ trừ khi bạn chủ động nhập slug mới.
+                    </div>
+                @endif
+                @error('slug')
+                    <div style="color: #ef4444; font-size: 0.78rem; margin-top: 4px; font-weight: 600;">{{ $message }}</div>
+                @enderror
+            </div>
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="vf-admin-input-group">
                 <div>
                     <label class="vf-admin-label">Mã SKU</label>
@@ -963,6 +992,38 @@ document.getElementById('product-name')?.addEventListener('input', function() {
     const barEl = document.getElementById('bar-product-name');
     if (barEl) barEl.textContent = val || 'Dòng xe mới';
 });
+
+@if($isCreate)
+// Khi tạo mới xe lần đầu: tự động tạo slug theo tên xe nếu người dùng chưa tự nhập
+(function() {
+    let slugTouched = false;
+    const nameEl = document.getElementById('product-name');
+    const slugEl = document.getElementById('product-slug');
+    if (!nameEl || !slugEl) return;
+
+    slugEl.addEventListener('input', function() {
+        slugTouched = this.value.trim().length > 0;
+    });
+
+    nameEl.addEventListener('input', function() {
+        if (!slugTouched) {
+            slugEl.value = convertToSlug(this.value);
+        }
+    });
+
+    function convertToSlug(str) {
+        if (!str) return '';
+        let slug = str.toLowerCase();
+        slug = slug.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        slug = slug.replace(/[đĐ]/g, 'd');
+        slug = slug.replace(/[^0-9a-z-\s]/g, '');
+        slug = slug.replace(/\s+/g, '-');
+        slug = slug.replace(/-+/g, '-');
+        slug = slug.replace(/^-+|-+$/g, '');
+        return slug;
+    }
+})();
+@endif
 
 // Tính toán tự động phần trăm giảm giá và số tiền tiết kiệm
 function calculateDiscount() {

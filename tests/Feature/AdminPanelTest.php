@@ -265,4 +265,90 @@ class AdminPanelTest extends TestCase
             ],
         ]);
     }
+
+    public function test_admin_creating_product_without_slug_auto_generates_from_name(): void
+    {
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+
+        $response = $this->actingAs($admin)->post(route('admin.products.store'), [
+            'name' => 'VinFast VF Test Auto Slug',
+            'regular_price' => 300000000,
+        ]);
+
+        $this->assertDatabaseHas('products', [
+            'name' => 'VinFast VF Test Auto Slug',
+            'slug' => 'vinfast-vf-test-auto-slug',
+        ]);
+    }
+
+    public function test_admin_creating_product_with_custom_slug_uses_custom_slug(): void
+    {
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+
+        $response = $this->actingAs($admin)->post(route('admin.products.store'), [
+            'name' => 'VinFast VF Test Custom',
+            'slug' => 'vf-custom-custom-slug',
+            'regular_price' => 300000000,
+        ]);
+
+        $this->assertDatabaseHas('products', [
+            'name' => 'VinFast VF Test Custom',
+            'slug' => 'vf-custom-custom-slug',
+        ]);
+    }
+
+    public function test_admin_updating_product_preserves_old_slug_when_slug_not_changed(): void
+    {
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+        $car = DB::table('products')->where('slug', 'vinfast-vf-3')->first();
+
+        // Cập nhật tên xe mà để trống slug -> phải bảo lưu slug cũ
+        $response = $this->actingAs($admin)->put('/admin/products/'.$car->id, [
+            'name' => 'VinFast VF 3 Đổi Tên Xe Mới',
+            'slug' => '',
+            'regular_price' => 300000000,
+        ]);
+
+        $response->assertRedirect('/admin/products/'.$car->id.'/edit');
+
+        $this->assertDatabaseHas('products', [
+            'id' => $car->id,
+            'name' => 'VinFast VF 3 Đổi Tên Xe Mới',
+            'slug' => 'vinfast-vf-3', // Vẫn giữ nguyên slug cũ!
+        ]);
+    }
+
+    public function test_admin_can_update_product_slug_explicitly(): void
+    {
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+        $car = DB::table('products')->where('slug', 'vinfast-vf-3')->first();
+
+        $response = $this->actingAs($admin)->put('/admin/products/'.$car->id, [
+            'name' => 'VinFast VF 3',
+            'slug' => 'vinfast-vf-3-chinh-hang-hai-phong',
+            'regular_price' => 300000000,
+        ]);
+
+        $response->assertRedirect('/admin/products/'.$car->id.'/edit');
+
+        $this->assertDatabaseHas('products', [
+            'id' => $car->id,
+            'slug' => 'vinfast-vf-3-chinh-hang-hai-phong',
+        ]);
+    }
+
+    public function test_admin_updating_product_slug_rejects_duplicate(): void
+    {
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+        $car1 = DB::table('products')->first();
+        $car2 = DB::table('products')->where('id', '!=', $car1->id)->first();
+
+        // Cố tình đổi slug của car1 sang slug của car2
+        $response = $this->actingAs($admin)->put('/admin/products/'.$car1->id, [
+            'name' => $car1->name,
+            'slug' => $car2->slug,
+        ]);
+
+        $response->assertSessionHasErrors(['slug']);
+    }
 }
