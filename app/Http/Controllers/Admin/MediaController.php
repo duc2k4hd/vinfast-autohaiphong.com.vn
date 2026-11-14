@@ -59,7 +59,7 @@ class MediaController extends Controller
         $perPage = max(12, min(72, $perPage));
 
         $query = DB::table('media')
-            ->select(['id', 'path', 'filename', 'original_filename', 'alt_text', 'file_size', 'created_at']);
+            ->select(['id', 'path', 'filename', 'original_filename', 'extension', 'mime_type', 'alt_text', 'file_size', 'created_at']);
 
         if (! empty($search)) {
             $query->where(function ($q) use ($search) {
@@ -72,7 +72,11 @@ class MediaController extends Controller
         // Tối ưu hóa truy vấn bằng ID desc dựa trên Primary Key B-Tree index
         $paginator = $query->orderBy('id', 'desc')->paginate($perPage);
 
-        $items = collect($paginator->items())->map(function ($item) {
+        $videoExts = ['mp4', 'webm', 'ogg', 'mov', 'm4v', 'avi'];
+        $items = collect($paginator->items())->map(function ($item) use ($videoExts) {
+            $ext = strtolower($item->extension ?? pathinfo($item->path, PATHINFO_EXTENSION));
+            $isVideo = str_starts_with($item->mime_type ?? '', 'video/') || in_array($ext, $videoExts);
+
             return [
                 'id' => $item->id,
                 'filename' => $item->filename,
@@ -80,6 +84,8 @@ class MediaController extends Controller
                 'alt_text' => $item->alt_text ?: $item->filename,
                 'path' => $item->path,
                 'url' => asset('storage/'.ltrim($item->path, '/')),
+                'is_video' => $isVideo,
+                'extension' => $ext,
                 'file_size' => $item->file_size ? round($item->file_size / 1024, 1).' KB' : '',
                 'created_at' => $item->created_at ? date('d/m/Y H:i', strtotime($item->created_at)) : '',
             ];
@@ -99,24 +105,31 @@ class MediaController extends Controller
      */
     public function store(Request $request): RedirectResponse|JsonResponse
     {
-        $maxKb = MediaService::getMaxUploadSizeKb(isAdmin: true);
+        $file = $request->file('file');
+        $ext = $file ? strtolower($file->getClientOriginalExtension()) : '';
+        $videoExts = ['mp4', 'webm', 'ogg', 'mov', 'm4v', 'avi'];
+        $isVideo = in_array($ext, $videoExts);
+
+        $maxKb = $isVideo ? 51200 : 10240; // 50MB cho video, 10MB cho ảnh
         $maxMb = round($maxKb / 1024);
+        $maxMsg = $isVideo ? "Dung lượng video tối đa là {$maxMb}MB." : "Dung lượng ảnh tối đa là {$maxMb}MB.";
 
         $request->validate([
-            'file' => ['required', 'file', 'mimes:webp,png,jpg,jpeg,svg,gif,avif', 'max:'.$maxKb], // tối đa 10MB trong admin
-            'folder' => ['nullable', 'in:products,banners,business,posts'],
+            'file' => ['required', 'file', 'mimes:webp,png,jpg,jpeg,svg,gif,avif,mp4,webm,ogg,mov,m4v,avi', 'max:'.$maxKb],
+            'folder' => ['nullable', 'in:products,banners,business,posts,videos'],
             'alt_text' => ['nullable', 'string', 'max:255'],
         ], [
             'file.required' => 'Vui lòng chọn một tệp ảnh để tải lên.',
-            'file.mimes' => 'Định dạng ảnh được chấp nhận: webp, png, jpg, jpeg, svg, gif, avif.',
-            'file.max' => "Dung lượng ảnh tối đa là {$maxMb}MB.",
+            'file.mimes' => 'Định dạng được chấp nhận: Ảnh (webp, png, jpg, jpeg, svg, gif, avif) hoặc Video (mp4, webm, ogg, mov, m4v, avi).',
+            'file.max' => $maxMsg,
         ]);
 
         $uploadedFile = $request->file('file');
         $folder = $request->input('folder', 'products');
         $altText = $request->input('alt_text') ?: pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
 
-        $destinationFolder = public_path("storage/clients/assets/images/{$folder}");
+        $mediaSubdir = $isVideo ? 'videos' : 'images';
+        $destinationFolder = public_path("storage/clients/assets/{$mediaSubdir}/{$folder}");
         if (! File::exists($destinationFolder)) {
             File::makeDirectory($destinationFolder, 0755, true);
         }
@@ -124,10 +137,15 @@ class MediaController extends Controller
         $safeName = Str::slug(pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME)).'-'.time().'-'.Str::random(4).'.'.$uploadedFile->getClientOriginalExtension();
         $uploadedFile->move($destinationFolder, $safeName);
 
-        $relPath = "clients/assets/images/{$folder}/{$safeName}";
+        $relPath = "clients/assets/{$mediaSubdir}/{$folder}/{$safeName}";
         $fullPath = $destinationFolder.'/'.$safeName;
         $fileSize = File::exists($fullPath) ? File::size($fullPath) : 0;
         $checksum = File::exists($fullPath) ? hash_file('sha256', $fullPath) : null;
+
+        $mimeType = File::mimeType($fullPath);
+        if (! $mimeType) {
+            $mimeType = $isVideo ? 'video/mp4' : 'image/jpeg';
+        }
 
         $now = now();
         $insertedId = DB::table('media')->insertGetId([
@@ -138,7 +156,7 @@ class MediaController extends Controller
             'original_filename' => $uploadedFile->getClientOriginalName(),
             'extension' => $uploadedFile->getClientOriginalExtension(),
             'path' => $relPath,
-            'mime_type' => File::mimeType($fullPath) ?: 'image/jpeg',
+            'mime_type' => $mimeType,
             'file_size' => $fileSize,
             'checksum_sha256' => $checksum,
             'alt_text' => $altText,
@@ -155,6 +173,8 @@ class MediaController extends Controller
                 'filename' => $safeName,
                 'original_filename' => $uploadedFile->getClientOriginalName(),
                 'alt_text' => $altText,
+                'is_video' => $isVideo,
+                'extension' => strtolower($uploadedFile->getClientOriginalExtension()),
                 'file_size' => round($fileSize / 1024, 1).' KB',
             ];
 
@@ -166,7 +186,7 @@ class MediaController extends Controller
         }
 
         return redirect()->route('admin.media.index', ['folder' => $folder])
-            ->with('success', 'Đã tải lên tệp ảnh mới và lưu trữ tập trung thành công!');
+            ->with('success', 'Đã tải lên tệp media mới và lưu trữ tập trung thành công!');
     }
 
     /**

@@ -143,7 +143,45 @@ class AdminPostAndMediaTest extends TestCase
 
     public function test_media_service_configured_for_10mb_admin_and_3mb_client(): void
     {
-        $this->assertSame(10240, MediaService::getMaxUploadSizeKb(isAdmin: true));
+        $this->assertSame(10240, MediaService::getMaxUploadSizeKb(isAdmin: true, isVideo: false));
+        $this->assertSame(51200, MediaService::getMaxUploadSizeKb(isAdmin: true, isVideo: true));
         $this->assertSame(3072, MediaService::getMaxUploadSizeKb(isAdmin: false));
+    }
+
+    public function test_admin_can_upload_video_up_to_50mb(): void
+    {
+        $admin = User::first();
+        $videoFile = UploadedFile::fake()->create('car-showcase.mp4', 15000, 'video/mp4'); // 15MB
+
+        $response = $this->actingAs($admin)
+            ->post('/admin/media', [
+                'file' => $videoFile,
+                'folder' => 'products',
+            ]);
+
+        $response->assertRedirect('/admin/media?folder=products');
+        $this->assertDatabaseHas('media', [
+            'original_filename' => 'car-showcase.mp4',
+            'extension' => 'mp4',
+        ]);
+    }
+
+    public function test_admin_upload_rejects_videos_over_50mb(): void
+    {
+        $admin = User::first();
+        $oversizedVideo = UploadedFile::fake()->create('huge-video.mp4', 52000, 'video/mp4'); // 52MB
+
+        $response = $this->actingAs($admin)
+            ->from('/admin/media')
+            ->post('/admin/media', [
+                'file' => $oversizedVideo,
+                'folder' => 'products',
+            ]);
+
+        $response->assertSessionHasErrors(['file']);
+        $this->assertSame(
+            'Dung lượng video tối đa là 50MB.',
+            session('errors')->first('file')
+        );
     }
 }

@@ -293,24 +293,27 @@
     <a href="#bai-viet-gioi-thieu" class="vf-admin-quick-nav-pill">
         <span>③ Bài Viết Giới Thiệu</span>
     </a>
+    <a href="#video-gioi-thieu-xe" class="vf-admin-quick-nav-pill">
+        <span>④ Video 16:9</span>
+    </a>
     <a href="#bo-suu-tap-mau-sac" class="vf-admin-quick-nav-pill">
-        <span>④ Màu Sắc (Studio)</span>
+        <span>⑤ Màu Sắc (Studio)</span>
         <span class="vf-admin-card-badge" id="pill-count-colors">{{ $colors->count() }}</span>
     </a>
     <a href="#banner-hero-san-pham" class="vf-admin-quick-nav-pill">
-        <span>⑤ Banner Hero 19:6</span>
+        <span>⑥ Banner Hero 19:6</span>
         <span class="vf-admin-card-badge" id="pill-count-banners">{{ $banners->count() }}</span>
     </a>
     <a href="#anh-noi-that-bento" class="vf-admin-quick-nav-pill">
-        <span>⑥ Ảnh Nội Thất (Bento)</span>
+        <span>⑦ Ảnh Nội Thất (Bento)</span>
         <span class="vf-admin-card-badge" id="pill-count-interiors">{{ $interiors->count() }}</span>
     </a>
     <a href="#thong-so-noi-bat" class="vf-admin-quick-nav-pill">
-        <span>⑦ Thông Số Nổi Bật</span>
+        <span>⑧ Thông Số Nổi Bật</span>
         <span class="vf-admin-card-badge" id="pill-count-highlights">{{ $specHighlights->count() }}</span>
     </a>
     <a href="#thong-so-ky-thuat-specs" class="vf-admin-quick-nav-pill">
-        <span>⑧ Thông Số Key-Value</span>
+        <span>⑨ Thông Số Key-Value</span>
         <span class="vf-admin-card-badge" id="pill-count-specs">{{ $specifications->count() }}</span>
     </a>
 </nav>
@@ -598,6 +601,112 @@
                   oninput="updateArticleWordCount()">{{ old('description_html', $product->description_html) }}</textarea>
         <div class="vf-admin-helper-text">
             Nội dung hiển thị trọn vẹn tại mục Bài Viết Giới Thiệu của trang xe. Hệ thống tự động lọc thẻ HTML an toàn chuẩn bảo mật.
+        </div>
+    </div>
+
+    {{-- ========================================================================= --}}
+    {{-- HÀNG: [VIDEO GIỚI THIỆU XE (TỶ LỆ 16:9)] (Full Width)                    --}}
+    {{-- ========================================================================= --}}
+    <div class="vinfast-autohaiphong_admin_card" id="video-gioi-thieu-xe" style="margin-bottom: 24px;">
+        <div class="vf-admin-card-header">
+            <div class="vf-admin-card-title-text">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/><path d="M19 12H5"/></svg>
+                <span>VIDEO GIỚI THIỆU XE (TỶ LỆ 16:9 FULL VIỀN)</span>
+            </div>
+            <span class="vf-admin-card-badge" style="background: #eef2ff; color: #4338ca;">Tự phát khi cuộn tới</span>
+        </div>
+        <div class="vf-admin-card-body" style="padding: 20px;">
+            <p style="font-size: 0.82rem; color: var(--admin-muted); margin-bottom: 16px;">
+                Video hiển thị 16:9 full viền ngay phía trên khối Màu sắc ngoại thất ngoài website. Khi người dùng cuộn gần tới video sẽ bắt đầu tải và tự động phát khi vào tầm nhìn (tắt tiếng). Ban đầu chỉ tải ảnh poster để tối ưu SEO.
+            </p>
+
+            <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 24px; align-items: start;">
+                {{-- Cột trái: Khung xem trước Video 16/9 --}}
+                <div>
+                    <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 8px;">Xem trước Video</label>
+                    <div id="video-preview-wrapper" style="position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0f172a; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--admin-border);">
+                        @php
+                            $currentVideoUrl = !empty($product->video_path) 
+                                ? asset('storage/' . $product->video_path) 
+                                : ($videoMedia ? asset('storage/' . $videoMedia->path) : '');
+                            $currentPosterUrl = !empty($product->video_poster_path) 
+                                ? asset('storage/' . $product->video_poster_path) 
+                                : ($videoPosterMedia ? asset('storage/' . $videoPosterMedia->path) : '');
+                        @endphp
+                        
+                        <video id="admin-video-player" 
+                               controls 
+                               playsinline 
+                               poster="{{ $currentPosterUrl }}"
+                               style="width: 100%; height: 100%; object-fit: contain; {{ $currentVideoUrl ? '' : 'display: none;' }}">
+                            <source id="admin-video-source" src="{{ $currentVideoUrl }}" type="video/mp4">
+                            Trình duyệt không hỗ trợ thẻ video.
+                        </video>
+
+                        <div id="admin-video-placeholder" style="text-align: center; color: #94a3b8; padding: 20px; {{ $currentVideoUrl ? 'display: none;' : '' }}">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 8px; display: block; opacity: 0.6;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            <span style="font-size: 0.85rem;">Chưa có video. Nhấn nút "Chọn video từ Media" để thêm.</span>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Cột phải: Cấu hình Video & Poster --}}
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div>
+                        <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 6px;">Tiêu đề Video (SEO & Trợ năng)</label>
+                        <input type="text" 
+                               name="video_title" 
+                               id="video_title_input" 
+                               class="vf-admin-input" 
+                               value="{{ old('video_title', $product->video_title ?? '') }}" 
+                               placeholder="Ví dụ: Video mô phỏng xe điện VinFast VF 3">
+                    </div>
+
+                    <div>
+                        <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 6px;">Tệp Video (MP4 / WEBM)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" 
+                                   name="video_path" 
+                                   id="video_path_input" 
+                                   class="vf-admin-input" 
+                                   value="{{ old('video_path', $product->video_path ?? '') }}" 
+                                   placeholder="clients/assets/videos/..."
+                                   readonly>
+                            <input type="hidden" name="video_media_id" id="video_media_id_input" value="{{ old('video_media_id', $product->video_media_id ?? '') }}">
+                            
+                            <button type="button" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="white-space: nowrap;" onclick="chooseProductVideo()">
+                                Chọn từ Media
+                            </button>
+                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; color: #ef4444; border-color: #fca5a5;" onclick="clearProductVideo()">
+                                Xóa
+                            </button>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">Hỗ trợ MP4, WEBM tải lên từ popup Media (tối đa 50MB).</p>
+                    </div>
+
+                    <div>
+                        <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 6px;">Ảnh Bìa Video (Poster - Tốt cho SEO & Tốc độ tải)</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" 
+                                   name="video_poster_path" 
+                                   id="video_poster_path_input" 
+                                   class="vf-admin-input" 
+                                   value="{{ old('video_poster_path', $product->video_poster_path ?? '') }}" 
+                                   placeholder="Để trống sẽ dùng ảnh thumbnail đại diện xe"
+                                   readonly>
+                            <input type="hidden" name="video_poster_media_id" id="video_poster_media_id_input" value="{{ old('video_poster_media_id', $product->video_poster_media_id ?? '') }}">
+                            
+                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap;" onclick="chooseProductVideoPoster()">
+                                Chọn ảnh bìa
+                            </button>
+                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; color: #ef4444; border-color: #fca5a5;" onclick="clearProductVideoPoster()">
+                                Xóa
+                            </button>
+                        </div>
+                        <p style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">Ảnh hiển thị đầu tiên trước khi cuộn tới tải video, giúp tăng tốc độ tải trang và tối ưu SEO.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1699,6 +1808,80 @@ function removeBannerImage(btn) {
     }
     if (nameEl) nameEl.textContent = 'Chưa chọn ảnh banner';
     btn.style.display = 'none';
+    markFormDirty();
+}
+
+// 4.1. Chọn & Xóa Video giới thiệu xe (16:9)
+function chooseProductVideo() {
+    window.openMediaManager({
+        mode: 'single',
+        confirmText: 'Chọn video này cho xe',
+        onSelect: function(media) {
+            const inputPath = document.getElementById('video_path_input');
+            const inputMediaId = document.getElementById('video_media_id_input');
+            const player = document.getElementById('admin-video-player');
+            const source = document.getElementById('admin-video-source');
+            const placeholder = document.getElementById('admin-video-placeholder');
+
+            if (inputPath) inputPath.value = media.path || '';
+            if (inputMediaId) inputMediaId.value = media.id || '';
+
+            if (player && source && media.url) {
+                source.src = media.url;
+                player.load();
+                player.style.display = 'block';
+                if (placeholder) placeholder.style.display = 'none';
+            }
+            markFormDirty();
+        }
+    });
+}
+
+function clearProductVideo() {
+    const inputPath = document.getElementById('video_path_input');
+    const inputMediaId = document.getElementById('video_media_id_input');
+    const player = document.getElementById('admin-video-player');
+    const source = document.getElementById('admin-video-source');
+    const placeholder = document.getElementById('admin-video-placeholder');
+
+    if (inputPath) inputPath.value = '';
+    if (inputMediaId) inputMediaId.value = '';
+    if (source) source.src = '';
+    if (player) {
+        player.pause();
+        player.style.display = 'none';
+    }
+    if (placeholder) placeholder.style.display = 'block';
+    markFormDirty();
+}
+
+function chooseProductVideoPoster() {
+    window.openMediaManager({
+        mode: 'single',
+        confirmText: 'Chọn ảnh bìa video',
+        onSelect: function(media) {
+            const inputPath = document.getElementById('video_poster_path_input');
+            const inputMediaId = document.getElementById('video_poster_media_id_input');
+            const player = document.getElementById('admin-video-player');
+
+            if (inputPath) inputPath.value = media.path || '';
+            if (inputMediaId) inputMediaId.value = media.id || '';
+            if (player && media.url) {
+                player.poster = media.url;
+            }
+            markFormDirty();
+        }
+    });
+}
+
+function clearProductVideoPoster() {
+    const inputPath = document.getElementById('video_poster_path_input');
+    const inputMediaId = document.getElementById('video_poster_media_id_input');
+    const player = document.getElementById('admin-video-player');
+
+    if (inputPath) inputPath.value = '';
+    if (inputMediaId) inputMediaId.value = '';
+    if (player) player.poster = '';
     markFormDirty();
 }
 

@@ -674,6 +674,75 @@ export function initProductThemeV1() {
     lastFocus?.focus?.();
   };
 
+  // Lazy Load & Scroll Autoplay for 16:9 Showcase Video
+  const initShowcaseVideo = () => {
+    const video = $('[data-vf-lazy-video]');
+    if (!video) return;
+
+    const videoSrc = video.dataset.src;
+    let isSourceLoaded = false;
+
+    // Phase 1: Preload video khi cuộn gần tới (rootMargin: 350px)
+    if ('IntersectionObserver' in window) {
+      const preloadObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !isSourceLoaded) {
+            isSourceLoaded = true;
+            if (videoSrc) {
+              video.src = videoSrc;
+              video.load();
+            }
+            observer.disconnect();
+          }
+        });
+      }, {
+        rootMargin: '350px 0px 350px 0px'
+      });
+      preloadObserver.observe(video);
+
+      // Phase 2: Tự động phát khi cuộn tới và tạm dừng khi cuộn qua
+      const playbackObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!isSourceLoaded && videoSrc) {
+              isSourceLoaded = true;
+              video.src = videoSrc;
+              video.load();
+            }
+            video.play().catch(() => {});
+          } else {
+            if (!video.paused) {
+              video.pause();
+            }
+          }
+        });
+      }, {
+        threshold: 0.35
+      });
+      playbackObserver.observe(video);
+    } else {
+      if (videoSrc) {
+        video.src = videoSrc;
+        video.load();
+      }
+    }
+
+    // Toggle âm thanh (Mute / Unmute)
+    const soundBtn = $('[data-video-sound-toggle]');
+    if (soundBtn) {
+      soundBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        video.muted = !video.muted;
+        const iconMuted = soundBtn.querySelector('.icon-muted');
+        const iconUnmuted = soundBtn.querySelector('.icon-unmuted');
+        if (iconMuted && iconUnmuted) {
+          iconMuted.style.display = video.muted ? 'block' : 'none';
+          iconUnmuted.style.display = video.muted ? 'none' : 'block';
+        }
+      });
+    }
+  };
+
   const moveLightbox = (delta) => {
     if (!lbImgs.length) return;
     lightboxIndex = (lightboxIndex + delta + lbImgs.length) % lbImgs.length;
@@ -859,6 +928,7 @@ export function initProductThemeV1() {
   window.addEventListener('resize', () => updateTrimIndicator(true));
 
   initColors();
+  initShowcaseVideo();
   const firstSpecTab = $('[data-spec-tab]');
   if (firstSpecTab) {
     renderSpecs(firstSpecTab.dataset.specTab);

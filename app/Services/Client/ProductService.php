@@ -15,6 +15,8 @@ class ProductService
         return DB::table('products')
             ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
             ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
+            ->leftJoin('media as video_media', 'products.video_media_id', '=', 'video_media.id')
+            ->leftJoin('media as poster_media', 'products.video_poster_media_id', '=', 'poster_media.id')
             ->where('products.slug', $slug)
             ->whereIn('products.status', ['published', 'active', 'coming_soon'])
             ->where(function ($q) {
@@ -32,11 +34,18 @@ class ProductService
                 'products.regular_price',
                 'products.sale_price',
                 'products.price_on_request',
+                'products.video_media_id',
+                'products.video_path',
+                'products.video_poster_media_id',
+                'products.video_poster_path',
+                'products.video_title',
                 'products.created_at',
                 'product_categories.name as category_name',
                 'product_categories.slug as category_slug',
                 'media.path as thumbnail_path',
                 'media.alt_text as thumbnail_alt',
+                'video_media.path as video_media_path',
+                'poster_media.path as video_poster_media_path',
             ])
             ->first();
     }

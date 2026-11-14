@@ -73,13 +73,13 @@
             <div id="vf-media-tab-upload" class="vf-media-tab-content">
                 {{-- Vùng Kéo Thả Upload Lớn --}}
                 <div id="vf-media-dropzone" class="vf-media-dropzone" onclick="document.getElementById('vf-media-file-input').click()">
-                    <input type="file" id="vf-media-file-input" multiple accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/avif" style="display: none;" onchange="handleMediaFilesSelected(this.files)">
+                    <input type="file" id="vf-media-file-input" multiple accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/avif,video/mp4,video/webm,video/ogg,video/quicktime" style="display: none;" onchange="handleMediaFilesSelected(this.files)">
                     <div class="vf-media-dropzone-icon">
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     </div>
-                    <div class="vf-media-dropzone-title">Kéo thả ảnh vào đây hoặc click để chọn</div>
-                    <div class="vf-media-dropzone-subtitle">Hỗ trợ: JPG, PNG, GIF, WEBP, AVIF, SVG (tối đa 10MB / mỗi ảnh)</div>
-                    <div class="vf-media-dropzone-hint">⚡ Hệ thống hỗ trợ tải hàng trăm ảnh cùng lúc với công nghệ chia batch đa luồng tự động</div>
+                    <div class="vf-media-dropzone-title">Kéo thả tệp ảnh hoặc video vào đây hoặc click để chọn</div>
+                    <div class="vf-media-dropzone-subtitle">Hỗ trợ: Ảnh JPG, PNG, WEBP, SVG (tối đa 10MB) & Video MP4, WEBM (tối đa 50MB)</div>
+                    <div class="vf-media-dropzone-hint">⚡ Hệ thống hỗ trợ tải đa luồng tự động cho cả hình ảnh và video</div>
                 </div>
 
                 {{-- Tiến trình tải lên Upload Queue --}}
@@ -844,10 +844,17 @@
             div.setAttribute('data-id', item.id);
             div.title = `${item.filename} (${item.file_size || ''})`;
 
+            const thumbContent = item.is_video
+                ? `<div style="width:100%; height:100%; background:#0f172a; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#fff; position:relative;">
+                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                     <span style="position: absolute; bottom: 4px; right: 4px; background: rgba(0,0,0,0.75); color: #fff; font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 3px;">VIDEO</span>
+                   </div>`
+                : `<img src="${item.url}" alt="${item.alt_text || item.filename}" loading="lazy">`;
+
             div.innerHTML = `
                 <div class="vf-media-item-checkbox"></div>
                 <div class="vf-media-item-thumb">
-                    <img src="${item.url}" alt="${item.alt_text || item.filename}" loading="lazy">
+                    ${thumbContent}
                 </div>
                 <div class="vf-media-item-name">${item.original_filename || item.filename}</div>
             `;
@@ -1009,16 +1016,20 @@
         const itemEl = document.getElementById(queueItem.id);
         const statusEl = itemEl ? itemEl.querySelector('.vf-media-queue-status') : null;
 
-        // Kiểm tra dung lượng tối đa 10MB trước khi gửi request
-        const MAX_ADMIN_BYTES = 10 * 1024 * 1024; // 10MB
-        if (queueItem.file && queueItem.file.size > MAX_ADMIN_BYTES) {
+        // Kiểm tra dung lượng: tối đa 50MB cho video, 10MB cho ảnh trước khi gửi request
+        const fileExt = queueItem.file && queueItem.file.name ? queueItem.file.name.split('.').pop().toLowerCase() : '';
+        const isVideo = ['mp4', 'webm', 'ogg', 'mov', 'm4v', 'avi'].includes(fileExt) || (queueItem.file && queueItem.file.type && queueItem.file.type.startsWith('video/'));
+        const maxBytes = isVideo ? 50 * 1024 * 1024 : 10 * 1024 * 1024;
+        const maxMbText = isVideo ? '50MB' : '10MB';
+
+        if (queueItem.file && queueItem.file.size > maxBytes) {
             activeUploadsCount--;
             finishedFilesCount++;
             updateOverallProgress();
 
             if (statusEl) {
                 statusEl.className = 'vf-media-queue-status error';
-                statusEl.textContent = '✕ Vượt quá 10MB (tối đa 10MB)';
+                statusEl.textContent = `✕ Vượt quá ${maxMbText} (tối đa ${maxMbText})`;
             }
 
             processUploadQueue();

@@ -124,6 +124,15 @@ class ProductController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
+        $videoMedia = null;
+        if (! empty($product->video_media_id)) {
+            $videoMedia = DB::table('media')->where('id', $product->video_media_id)->first();
+        }
+        $videoPosterMedia = null;
+        if (! empty($product->video_poster_media_id)) {
+            $videoPosterMedia = DB::table('media')->where('id', $product->video_poster_media_id)->first();
+        }
+
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
@@ -134,6 +143,8 @@ class ProductController extends Controller
             'specHighlights' => $specHighlights,
             'mediaList' => $mediaList,
             'categories' => $categories,
+            'videoMedia' => $videoMedia,
+            'videoPosterMedia' => $videoPosterMedia,
         ]);
     }
 
@@ -265,6 +276,11 @@ class ProductController extends Controller
             'short_description' => ['nullable', 'string', 'max:500'],
             'description_html' => ['nullable', 'string'],
             'thumbnail_media_id' => ['nullable', 'integer', 'exists:media,id'],
+            'video_path' => ['nullable', 'string', 'max:500'],
+            'video_media_id' => ['nullable', 'integer', 'exists:media,id'],
+            'video_poster_path' => ['nullable', 'string', 'max:500'],
+            'video_poster_media_id' => ['nullable', 'integer', 'exists:media,id'],
+            'video_title' => ['nullable', 'string', 'max:255'],
             'specs_labels' => ['nullable', 'array'],
             'specs_values' => ['nullable', 'array'],
             'variant_names' => ['nullable', 'array'],
@@ -319,6 +335,11 @@ class ProductController extends Controller
                 'short_description' => $request->input('short_description'),
                 'description_html' => HtmlSanitizer::clean($request->input('description_html')),
                 'thumbnail_media_id' => $request->input('thumbnail_media_id'),
+                'video_path' => $request->input('video_path') ?: null,
+                'video_media_id' => $request->input('video_media_id') ?: null,
+                'video_poster_path' => $request->input('video_poster_path') ?: null,
+                'video_poster_media_id' => $request->input('video_poster_media_id') ?: null,
+                'video_title' => $request->input('video_title') ?: null,
                 'updated_at' => $now,
             ];
 

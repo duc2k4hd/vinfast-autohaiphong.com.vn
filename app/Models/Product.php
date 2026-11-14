@@ -26,6 +26,11 @@ class Product extends Model
         'featured',
         'sort_order',
         'thumbnail_media_id',
+        'video_media_id',
+        'video_path',
+        'video_poster_media_id',
+        'video_poster_path',
+        'video_title',
         'published_at',
     ];
 

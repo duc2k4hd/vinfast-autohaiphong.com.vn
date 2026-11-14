@@ -139,4 +139,19 @@ class CatalogAndProductTest extends TestCase
         DB::table('products')->where('slug', 'vinfast-vf-3')->update(['status' => 'inactive']);
         $this->get('/xe/vinfast-vf-3')->assertStatus(404);
     }
+
+    public function test_product_detail_displays_video_section_when_configured(): void
+    {
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update([
+            'video_path' => 'clients/assets/videos/products/test-video.mp4',
+            'video_title' => 'Video Thử Nghiệm VF 3',
+        ]);
+
+        $response = $this->get('/xe/vinfast-vf-3');
+        $response->assertStatus(200);
+        $response->assertSee('id="vf3-video"', false);
+        $response->assertSee('data-vf-lazy-video', false);
+        $response->assertSee('test-video.mp4');
+        $response->assertSee('VideoObject');
+    }
 }
