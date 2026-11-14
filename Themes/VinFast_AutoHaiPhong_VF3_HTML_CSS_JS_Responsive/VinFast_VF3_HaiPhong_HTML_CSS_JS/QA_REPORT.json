@@ -1,0 +1,99 @@
+[
+  {
+    "width": 320,
+    "overflow": 0,
+    "errors": [],
+    "other": {
+      "innerWidth": 320,
+      "documentWidth": 320,
+      "sections": 11,
+      "price": "296.000.000 ₫",
+      "swatches": 7,
+      "bodyHeight": 7854
+    }
+  },
+  {
+    "width": 390,
+    "overflow": 0,
+    "errors": [],
+    "other": {
+      "innerWidth": 390,
+      "documentWidth": 390,
+      "sections": 11,
+      "price": "296.000.000 ₫",
+      "swatches": 7,
+      "bodyHeight": 7517
+    }
+  },
+  {
+    "test": "trim",
+    "value": "285.000.000 ₫"
+  },
+  {
+    "test": "color",
+    "value": "SOLAR RUBY"
+  },
+  {
+    "test": "spec",
+    "value": "Pin & Sạc"
+  },
+  {
+    "test": "calc",
+    "value": "21.600.000 ₫/năm"
+  },
+  {
+    "test": "modal_open",
+    "value": true
+  },
+  {
+    "test": "modal_closed",
+    "value": true
+  },
+  {
+    "test": "lightbox_open",
+    "value": true
+  },
+  {
+    "test": "lightbox_closed",
+    "value": true
+  },
+  {
+    "width": 768,
+    "overflow": 0,
+    "errors": [],
+    "other": {
+      "innerWidth": 768,
+      "documentWidth": 768,
+      "sections": 11,
+      "price": "296.000.000 ₫",
+      "swatches": 7,
+      "bodyHeight": 7225
+    }
+  },
+  {
+    "width": 1024,
+    "overflow": 0,
+    "errors": [],
+    "other": {
+      "innerWidth": 1024,
+      "documentWidth": 1024,
+      "sections": 11,
+      "price": "296.000.000 ₫",
+      "swatches": 7,
+      "bodyHeight": 7495
+    }
+  },
+  {
+    "width": 1440,
+    "overflow": 0,
+    "errors": [],
+    "other": {
+      "innerWidth": 1440,
+      "documentWidth": 1440,
+      "sections": 11,
+      "price": "296.000.000 ₫",
+      "swatches": 7,
+      "bodyHeight": 8608
+    }
+  }
+]

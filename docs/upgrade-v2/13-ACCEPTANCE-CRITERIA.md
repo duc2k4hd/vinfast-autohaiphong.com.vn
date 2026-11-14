@@ -25,5 +25,5 @@
 - [x] Bảo toàn 100% dữ liệu 15 dòng xe, 117 thông số kỹ thuật Key-Value và 20 biến thể pin/phiên bản xe.
 - [x] Thông số kỹ thuật nằm ở vị trí đầu tiên trên trang chi tiết xe.
 - [x] Thanh toán duy nhất bằng tiền mặt (`cash`) tại Showroom Số 1 Bạch Đằng, Hải Phòng.
-- [x] Bộ kiểm thử hồi quy tự động đạt 100% PASS (40/40 tests, 183 assertions) không có lỗi chéo.
+- [x] Bộ kiểm thử hồi quy tự động đạt 100% PASS (52/52 tests, 248 assertions) không có lỗi chéo.
 - [x] Không tự ý chạy bất kỳ lệnh Git nào; chỉ cung cấp commit mẫu có dấu.
