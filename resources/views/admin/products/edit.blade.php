@@ -96,9 +96,8 @@
         line-height: 1.4;
     }
 
-    /* Box Bài Viết Giới Thiệu & Sticky Editor Header */
+    /* Box Bài Viết Giới Thiệu */
     #bai-viet-gioi-thieu {
-        min-height: 1000px;
         margin-bottom: 24px;
         position: relative;
     }
@@ -112,26 +111,51 @@
         border-top-right-radius: 8px;
     }
     #bai-viet-gioi-thieu .tox-tinymce {
-        min-height: 1000px;
-        height: fit-content;
+        height: calc(100vh - 90px) !important;
+        min-height: 550px !important;
         border-radius: 6px;
         border: 1px solid var(--admin-border);
-        overflow: visible !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow: hidden !important;
     }
     #bai-viet-gioi-thieu .tox-editor-header {
-        position: sticky !important;
-        top: 0 !important;
-        z-index: 40 !important;
+        flex-shrink: 0 !important;
         background: #ffffff !important;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08) !important;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
+        border-bottom: 1px solid var(--admin-border) !important;
+        z-index: 2 !important;
+    }
+    #bai-viet-gioi-thieu .tox-editor-container {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+    #bai-viet-gioi-thieu .tox-sidebar-wrap {
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
     }
     #bai-viet-gioi-thieu .tox-edit-area {
-        min-height: 900px;
+        flex: 1 1 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
     }
     #bai-viet-gioi-thieu .tox-edit-area iframe {
-        min-height: 900px;
+        flex: 1 1 auto !important;
+        height: 100% !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        border: 0 !important;
+    }
+    #bai-viet-gioi-thieu .tox-statusbar {
+        flex-shrink: 0 !important;
+        border-top: 1px solid var(--admin-border) !important;
     }
 
     /* Fixed Bottom Action Bar */
@@ -1699,11 +1723,9 @@ function initProductArticleTinyMCE() {
 
     tinymce.init({
         selector: '#article-editor',
-        min_height: 1000,
-        toolbar_sticky: true,
-        toolbar_sticky_offset: 0,
-        autoresize_bottom_margin: 30,
-        autoresize_overflow_padding: 20,
+        height: 'calc(100vh - 90px)',
+        min_height: 550,
+        auto_focus: false,
         menubar: 'file edit view insert format tools table help',
         menu: {
             insert: {
@@ -1712,7 +1734,7 @@ function initProductArticleTinyMCE() {
             }
         },
         plugins: [
-            'autoresize', 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
             'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
             'insertdatetime', 'media', 'table', 'wordcount', 'accordion', 'emoticons',
             'directionality', 'quickbars'
@@ -1742,6 +1764,10 @@ function initProductArticleTinyMCE() {
         font_family_formats: 'Open Sans=Open Sans,sans-serif; Arial=arial,helvetica,sans-serif; Segoe UI=Segoe UI,sans-serif; Roboto=Roboto,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier;',
         font_size_formats: '12px 13px 14px 15px 16px 18px 20px 24px 28px 32px 36px',
         content_style: `
+            html, body {
+                overflow-y: auto !important;
+                min-height: 100%;
+            }
             body {
                 font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
                 font-size: 15px;
@@ -1749,6 +1775,21 @@ function initProductArticleTinyMCE() {
                 color: #334155;
                 padding: 18px 24px;
                 max-width: 100%;
+                box-sizing: border-box;
+            }
+            ::-webkit-scrollbar {
+                width: 6px;
+                height: 6px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #f1f5f9;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #cbd5e1;
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #94a3b8;
             }
             figure.image {
                 display: table;
@@ -1862,19 +1903,86 @@ function initProductArticleTinyMCE() {
             editor.on('init', function () {
                 syncEditorData();
 
-                // Đảm bảo cuộn chuột khi con trỏ ở bên trong iframe editor mượt mà và thanh header bám chạm đỉnh
                 const doc = editor.getDoc();
-                if (doc) {
-                    doc.addEventListener('wheel', function (e) {
-                        let deltaY = e.deltaY;
-                        if (e.deltaMode === 1) deltaY *= 33;
-                        else if (e.deltaMode === 2) deltaY *= window.innerHeight;
-                        window.scrollBy({
-                            top: deltaY,
-                            left: e.deltaX,
-                            behavior: 'auto'
-                        });
-                    }, { passive: true });
+                if (!doc) return;
+
+                const editorEl = editor.getContainer(); // .tox-tinymce
+                const headerEl = editorEl ? editorEl.querySelector('.tox-editor-header') : null;
+
+                // 1. Chống giật trang khi click/focus vào bên trong editor
+                let preventScrollJump = false;
+                doc.addEventListener('mousedown', function () {
+                    const currentY = window.scrollY;
+                    preventScrollJump = true;
+                    requestAnimationFrame(() => {
+                        if (preventScrollJump && Math.abs(window.scrollY - currentY) > 20) {
+                            window.scrollTo({ top: currentY, behavior: 'instant' });
+                        }
+                        preventScrollJump = false;
+                    });
+                }, { passive: true });
+
+                // 2. Điều phối cuộn thông minh:
+                // - Cuộn xuống: cuộn cả trang cho đến khi tox-editor-header chạm top 0.
+                // - Khi tox-editor-header chạm top 0: dính tại top 0 và cuộn nội dung trong trình soạn thảo.
+                // - Khi cuộn hết bài viết trong editor: tiếp tục cuộn cả trang xuống dưới.
+                // - Cuộn lên: cuộn ngược bài viết trong editor lên trước; chạm đỉnh editor thì cuộn tiếp cả trang lên.
+                function handleEditorWheelCoordination(e) {
+                    let deltaY = e.deltaY;
+                    if (e.deltaMode === 1) deltaY *= 33;
+                    else if (e.deltaMode === 2) deltaY *= window.innerHeight;
+
+                    if (Math.abs(deltaY) < 0.5) return;
+
+                    const scrollingEl = doc.scrollingElement || doc.documentElement || doc.body;
+                    const headerRect = headerEl ? headerEl.getBoundingClientRect() : editorEl.getBoundingClientRect();
+                    const topThreshold = 2; // Header chạm đỉnh màn hình (<= 2px)
+
+                    if (deltaY > 0) {
+                        // === CUỘN XUỐNG ===
+                        if (headerRect.top > topThreshold) {
+                            // tox-editor-header chưa chạm top 0: Cuộn cả trang xuống
+                            e.preventDefault();
+                            const step = Math.min(deltaY, headerRect.top);
+                            window.scrollBy({ top: step, behavior: 'auto' });
+                        } else {
+                            // tox-editor-header đã chạm top 0: Dính tại top 0 và cuộn bên trong editor
+                            const maxScrollTop = Math.max(0, scrollingEl.scrollHeight - scrollingEl.clientHeight);
+                            const currentScrollTop = scrollingEl.scrollTop;
+
+                            if (currentScrollTop < maxScrollTop - 2) {
+                                // Chưa cuộn hết nội dung bài viết: Cuộn tiếp trong editor
+                                e.preventDefault();
+                                scrollingEl.scrollTop = Math.min(maxScrollTop, currentScrollTop + deltaY);
+                            } else {
+                                // Đã cuộn hết bài viết trong trình soạn thảo: Cuộn tiếp cả trang xuống
+                                e.preventDefault();
+                                window.scrollBy({ top: deltaY, behavior: 'auto' });
+                            }
+                        }
+                    } else {
+                        // === CUỘN LÊN ===
+                        const currentScrollTop = scrollingEl.scrollTop;
+
+                        if (headerRect.top <= topThreshold && currentScrollTop > 2) {
+                            // tox-editor-header đang ở top 0 và trong editor còn nội dung phía trên: Cuộn ngược editor lên
+                            e.preventDefault();
+                            scrollingEl.scrollTop = Math.max(0, currentScrollTop + deltaY);
+                        } else {
+                            // Đã ở đầu bài viết trong editor: Cuộn cả trang lên
+                            e.preventDefault();
+                            window.scrollBy({ top: deltaY, behavior: 'auto' });
+                        }
+                    }
+                }
+
+                // Gắn listener vào cả iframe doc và khung ngoài editor
+                doc.addEventListener('wheel', handleEditorWheelCoordination, { passive: false });
+                if (editorEl) {
+                    editorEl.addEventListener('wheel', function (e) {
+                        if (e.target.closest('iframe')) return;
+                        handleEditorWheelCoordination(e);
+                    }, { passive: false });
                 }
             });
             editor.on('keyup change undo redo NodeChange', function () {
