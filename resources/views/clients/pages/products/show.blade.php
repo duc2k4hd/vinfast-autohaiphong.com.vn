@@ -31,6 +31,7 @@
 @section('content')
 @php
     $shortModelName = trim(Str::upper(Str::replace(['VinFast ', 'vinfast '], '', $car->name)));
+    $modelCode = trim(Str::upper(preg_replace('/[^a-zA-Z0-9]/', '', str_replace(['VinFast', 'vinfast'], '', $car->name)))) ?: 'VF3';
     $mainCarImage = $car->thumbnail_path 
         ? asset('storage/' . $car->thumbnail_path) 
         : asset('storage/clients/assets/images/theme-v1/product.webp');
@@ -203,7 +204,6 @@ window.VINFAST_PRODUCT_DATA = {
                             : $mainCarImage;
                     @endphp
                     <div class="vinfast-autohaiphong_product_intro-visual" data-reveal>
-                        <span class="vinfast-autohaiphong_product_intro-watermark" aria-hidden="true">{{ $shortModelName }}</span>
                         <img class="vinfast-autohaiphong_product_intro-car"
                              src="{{ $initialCarImage }}"
                              alt="{{ $car->name }}"
@@ -348,9 +348,9 @@ window.VINFAST_PRODUCT_DATA = {
                     <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
                 </div>
                 <div class="vinfast-autohaiphong_product_color-stage" data-reveal>
-                    {{-- Chữ mờ Watermark thương hiệu dòng xe trên phần nền xám --}}
+                    {{-- Chữ mờ VF3 Watermark in nghiêng to bản chuẩn 100% như ảnh mẫu --}}
                     <div class="vinfast-autohaiphong_product_color-watermark" aria-hidden="true">
-                        <span>{{ $shortModelName }}</span>
+                        <span>{{ $modelCode }}</span>
                     </div>
 
                     {{-- Khung hiển thị xe góc ngang side-view to lớn hoành tráng --}}
