@@ -54,5 +54,29 @@ class ClientContactAndLeadSearchTest extends TestCase
         $responsePhone->assertStatus(200);
         $responsePhone->assertSee('Hoàng Văn Thử Nghiệm');
     }
-}
 
+    public function test_admin_can_update_lead_status_and_delete_lead(): void
+    {
+        $id = DB::table('leads')->insertGetId([
+            'name' => 'Khách Hàng Spam Test',
+            'phone' => '0911223344',
+            'email' => 'spam@test.vn',
+            'product_id' => null,
+            'message' => 'Spam message',
+            'type' => 'consultation',
+            'status' => 'new',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $updateResponse = $this->actingAs($this->admin)->patch(route('admin.leads.update_status', $id), [
+            'status' => 'contacted',
+        ]);
+        $updateResponse->assertSessionHas('success');
+        $this->assertDatabaseHas('leads', ['id' => $id, 'status' => 'contacted']);
+
+        $deleteResponse = $this->actingAs($this->admin)->delete(route('admin.leads.destroy', $id));
+        $deleteResponse->assertSessionHas('success');
+        $this->assertDatabaseMissing('leads', ['id' => $id]);
+    }
+}

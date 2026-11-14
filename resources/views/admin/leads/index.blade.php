@@ -97,16 +97,26 @@
                             @endif
                         </td>
                         <td style="text-align: right;">
-                            <form action="{{ route('admin.leads.update_status', $lead->id) }}" method="POST" style="display: inline-flex; gap: 4px;">
-                                @csrf
-                                @method('PATCH')
-                                <select name="status" onchange="this.form.submit()" style="padding: 4px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.8rem;">
-                                    <option value="new" {{ $lead->status === 'new' ? 'selected' : '' }}>Mới</option>
-                                    <option value="contacted" {{ $lead->status === 'contacted' ? 'selected' : '' }}>Đã gọi</option>
-                                    <option value="converted" {{ $lead->status === 'converted' ? 'selected' : '' }}>Đã chốt cọc</option>
-                                    <option value="rejected" {{ $lead->status === 'rejected' ? 'selected' : '' }}>Hủy bỏ</option>
-                                </select>
-                            </form>
+                            <div style="display: inline-flex; align-items: center; gap: 6px;">
+                                <form action="{{ route('admin.leads.update_status', $lead->id) }}" method="POST" style="display: inline-flex;">
+                                    @csrf
+                                    @method('PATCH')
+                                    <select name="status" onchange="this.form.submit()" style="padding: 4px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.8rem; background: #ffffff;">
+                                        <option value="new" {{ $lead->status === 'new' ? 'selected' : '' }}>Mới</option>
+                                        <option value="contacted" {{ $lead->status === 'contacted' ? 'selected' : '' }}>Đã gọi</option>
+                                        <option value="converted" {{ $lead->status === 'converted' ? 'selected' : '' }}>Đã chốt cọc</option>
+                                        <option value="rejected" {{ $lead->status === 'rejected' ? 'selected' : '' }}>Hủy bỏ</option>
+                                    </select>
+                                </form>
+
+                                <form action="{{ route('admin.leads.destroy', $lead->id) }}" method="POST" style="display: inline-flex;" data-confirm="Bạn có chắc chắn muốn xóa yêu cầu tư vấn của khách '{{ $lead->name }}' ({{ $lead->phone }}) khỏi hệ thống?" data-confirm-title="Xóa Yêu Cầu Tư Vấn" data-confirm-type="danger" data-confirm-btn="Xóa Yêu Cầu">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 8px; font-size: 0.8rem; color: #ef4444; border-color: #fca5a5;" title="Xóa yêu cầu tư vấn">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

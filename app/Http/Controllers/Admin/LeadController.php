@@ -78,4 +78,14 @@ class LeadController extends Controller
 
         return back()->with('success', 'Đã cập nhật trạng thái khách hàng tiềm năng thành công.');
     }
+
+    /**
+     * Xóa yêu cầu tư vấn / spam lead.
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        DB::table('leads')->where('id', $id)->delete();
+
+        return back()->with('success', 'Đã xóa yêu cầu tư vấn thành công.');
+    }
 }

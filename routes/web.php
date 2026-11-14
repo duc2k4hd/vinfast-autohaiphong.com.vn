@@ -113,6 +113,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Quản lý Báo giá (Leads)
         Route::get('/leads', [AdminLeadController::class, 'index'])->name('leads.index');
         Route::patch('/leads/{id}/status', [AdminLeadController::class, 'updateStatus'])->name('leads.update_status');
+        Route::delete('/leads/{id}', [AdminLeadController::class, 'destroy'])->name('leads.destroy');
 
         // Quản lý Tin tức (Posts)
         Route::get('/posts', [AdminPostController::class, 'index'])->name('posts.index');
