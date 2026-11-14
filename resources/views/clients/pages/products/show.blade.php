@@ -551,10 +551,10 @@ window.VINFAST_PRODUCT_DATA = {
             <div class="vinfast-autohaiphong_product_container">
                 {{-- HEADER PHONG CÁCH KỸ THUẬT Ô TÔ CHUYÊN NGHIỆP --}}
                 <div class="vinfast-autohaiphong_product_technical-header" data-reveal>
-                    <span class="vinfast-autohaiphong_product_technical-code">SPECIFICATION SHEET &bull; {{ Str::upper($car->sku ?? 'VF-3') }}</span>
-                    <h2>BẢNG THÔNG SỐ KỸ THUẬT XE {{ Str::upper($car->name) }}</h2>
+                    <span style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;">BẢNG THÔNG SỐ KỸ THUẬT XE {{ Str::upper($car->name) }}</span>
+                    <h2>Thông số kỹ thuật</h2>
                     <p class="vinfast-autohaiphong_product_technical-subtitle">
-                        Số liệu kỹ thuật tiêu chuẩn được kiểm định và công bố bởi VinFast Việt Nam
+                        Số liệu kỹ thuật chi tiết dòng xe {{ $car->name }} được công bố chính thức bởi VinFast
                     </p>
                 </div>
 
@@ -605,16 +605,14 @@ window.VINFAST_PRODUCT_DATA = {
                                         role="tab"
                                         aria-selected="{{ $loop->first ? 'true' : 'false' }}"
                                         data-spec-tab="{{ $gSlug }}">
-                                    <span class="vinfast-autohaiphong_product_spec-tab-num">{{ sprintf('%02d', $loop->iteration) }}</span>
                                     <span class="vinfast-autohaiphong_product_spec-tab-title">{{ $gName }}</span>
-                                    <span class="vinfast-autohaiphong_product_spec-tab-count">{{ $gSpecs->count() }}</span>
+                                    <svg class="vinfast-autohaiphong_product_spec-tab-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                                 </button>
                             @endforeach
                         @else
                             <button class="vinfast-autohaiphong_product_is-active" type="button" role="tab" aria-selected="true" data-spec-tab="general">
-                                <span class="vinfast-autohaiphong_product_spec-tab-num">01</span>
                                 <span class="vinfast-autohaiphong_product_spec-tab-title">Thông số tổng quan</span>
-                                <span class="vinfast-autohaiphong_product_spec-tab-count">3</span>
+                                <svg class="vinfast-autohaiphong_product_spec-tab-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
                             </button>
                         @endif
                     </div>
@@ -708,15 +706,19 @@ window.VINFAST_PRODUCT_DATA = {
 
                 {{-- GHI CHÚ PHÁP LÝ & CTA KỸ THUẬT --}}
                 <div class="vinfast-autohaiphong_product_technical-note" data-reveal>
-                    <p>
-                        (*) Các thông số kỹ thuật trên được căn cứ theo tài liệu công bố chính thức của VinFast Việt Nam. Các trang bị, tính năng có thể được nâng cấp hoặc thay đổi mà không cần thông báo trước tùy theo phiên bản phần mềm (FOTA/SOTA) hoặc lô sản xuất. Quý khách vui lòng liên hệ VinFast Minh Đạo Hải Phòng để nhận bảng cấu hình chính xác nhất tại thời điểm giao dịch.
-                    </p>
+                    <div>
+                        <p style="font-weight: 500; margin-bottom: 6px; color: #8e95a2;">(*) Lưu ý:</p>
+                        <p>
+                            • Quãng đường di chuyển và các thông số vận hành được tính toán dựa trên kết quả kiểm định theo tiêu chuẩn quy chuẩn. Quãng đường thực tế có thể thay đổi tùy thuộc vào tốc độ, điều kiện tải trọng, thời tiết và thói quen điều khiển xe.<br>
+                            • Các thông số kỹ thuật được căn cứ theo tài liệu công bố chính thức của VinFast. Một số trang bị, tính năng có thể được nâng cấp hoặc thay đổi tùy theo phiên bản phần mềm FOTA/SOTA hoặc lô sản xuất. Quý khách vui lòng liên hệ VinFast Hải Phòng để nhận bảng cấu hình cập nhật mới nhất.
+                        </p>
+                    </div>
                     <div class="vinfast-autohaiphong_product_technical-cta">
                         <a href="#vf3-so-sanh" class="vinfast-autohaiphong_product_btn-sharp">
-                            Bảng so sánh chi phí vận hành
+                            Bảng so sánh chi phí
                         </a>
                         <button type="button" class="vinfast-autohaiphong_product_btn-sharp vinfast-autohaiphong_product_btn-sharp-primary" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
-                            Yêu cầu tư vấn kỹ thuật chi tiết
+                            Tư vấn chi tiết
                         </button>
                     </div>
                 </div>
