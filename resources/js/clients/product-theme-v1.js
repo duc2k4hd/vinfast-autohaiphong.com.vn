@@ -327,18 +327,22 @@ export function initProductThemeV1() {
     });
   };
 
-  // 5. Comparison Calculator (EV vs ICE)
+  // 5. Comparison Calculator (EV vs ICE) - Chuẩn hóa theo định mức phân khúc từng dòng xe
   const renderCompare = () => {
+    const compareSection = $('[data-calc-ev-rate]') || $('.' + P + 'compare');
+    const evRate = Number(compareSection?.dataset?.calcEvRate) || 8.9;
+    const iceRate = Number(compareSection?.dataset?.calcIceRate) || 5.5;
+
     const distInput = $('[data-calc="distance"]');
     const elecInput = $('[data-calc="electricity"]');
     const petInput = $('[data-calc="petrol"]');
 
     const distance = Number(distInput?.value) || 12000;
-    const electricity = Math.max(0, Number(elecInput?.value) || 3000);
-    const petrol = Math.max(0, Number(petInput?.value) || 24000);
+    const electricity = Math.max(0, Number(elecInput?.value) || 3500);
+    const petrol = Math.max(0, Number(petInput?.value) || 23000);
 
-    const electricCost = (distance / 100) * 12 * electricity;
-    const petrolCost = (distance / 100) * 6 * petrol;
+    const electricCost = Math.round((distance / 100) * evRate * electricity);
+    const petrolCost = Math.round((distance / 100) * iceRate * petrol);
     const saving = petrolCost - electricCost;
 
     const label = $('[data-calc-label="distance"]');

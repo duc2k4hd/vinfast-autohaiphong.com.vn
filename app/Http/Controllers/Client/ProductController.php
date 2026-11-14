@@ -35,6 +35,7 @@ class ProductController extends Controller
         $variants = $this->productService->getVariants($car->id);
         $colors = $this->productService->getColors($car->id);
         $specifications = $this->productService->getSpecifications($car->id);
+        $comparison = $this->productService->getComparisonBenchmark($car, $specifications);
         $relatedCars = $this->productService->getRelatedCars($car->category_id, $car->id, 3);
 
         return view('clients.pages.products.show', [
@@ -43,6 +44,7 @@ class ProductController extends Controller
             'variants' => $variants,
             'colors' => $colors,
             'specifications' => $specifications,
+            'comparison' => $comparison,
             'relatedCars' => $relatedCars,
         ]);
     }

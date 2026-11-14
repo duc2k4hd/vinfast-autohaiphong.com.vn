@@ -143,4 +143,234 @@ class ProductService
             ->limit($limit)
             ->get();
     }
+
+    /**
+     * Xác định thông số so sánh kinh tế chuẩn xác giữa xe điện VinFast và xe xăng tương đương theo phân khúc.
+     *
+     * @return array{
+     *     ev_consumption: float,
+     *     ice_consumption: float,
+     *     segment_name: string,
+     *     ice_label: string,
+     *     default_distance: int,
+     *     default_electricity_price: int,
+     *     default_petrol_price: int,
+     *     initial_ev_cost: int,
+     *     initial_ice_cost: int,
+     *     initial_saving: int
+     * }
+     */
+    public function getComparisonBenchmark(object $car, Collection $specifications): array
+    {
+        $batteryKwh = null;
+        $rangeKm = null;
+
+        foreach ($specifications as $spec) {
+            $labelLower = mb_strtolower($spec->label ?? '', 'UTF-8');
+            $val = $spec->value ?? '';
+
+            if (str_contains($labelLower, 'pin') && (str_contains($labelLower, 'dung lượng') || str_contains($labelLower, 'khả dụng'))) {
+                if (preg_match('/([0-9]+[.,]?[0-9]*)\s*kwh/i', $val, $m)) {
+                    $batteryKwh = (float) str_replace(',', '.', $m[1]);
+                }
+            }
+
+            if (str_contains($labelLower, 'quãng đường') || str_contains($labelLower, 'tầm hoạt động')) {
+                if (preg_match('/([0-9]+[.,]?[0-9]*)\s*km/i', $val, $m)) {
+                    $rangeKm = (float) str_replace(',', '.', $m[1]);
+                }
+            }
+        }
+
+        $slug = strtolower($car->slug ?? '');
+        $name = strtolower($car->name ?? '');
+
+        // Ma trận định mức tiêu chuẩn từng dòng xe VinFast so với xe xăng cùng phân khúc
+        if (str_contains($slug, 'vf-3') || str_contains($slug, 'vf-2') || str_contains($slug, 'minio') || str_contains($name, 'vf 3') || str_contains($name, 'vf 2')) {
+            $segmentName = 'Mini SUV đô thị';
+            $evRate = 8.9;
+            $iceRate = 5.5;
+            $iceLabel = 'Xe xăng hạng A / cỡ nhỏ (1.0L - 1.2L)';
+        } elseif (str_contains($slug, 'vf-5') || str_contains($slug, 'herio') || str_contains($slug, 'ec-van') || str_contains($name, 'vf 5')) {
+            $segmentName = 'A-SUV Crossover đô thị';
+            $evRate = 11.5;
+            $iceRate = 6.5;
+            $iceLabel = 'Xe xăng A-SUV tương đương (1.2L - 1.5L)';
+        } elseif (str_contains($slug, 'vf-6') || str_contains($slug, 'e34') || str_contains($slug, 'nerio') || str_contains($name, 'vf 6')) {
+            $segmentName = 'B-SUV thời thượng';
+            $evRate = 14.5;
+            $iceRate = 7.6;
+            $iceLabel = 'Xe xăng B-SUV tương đương (1.5L)';
+        } elseif (str_contains($slug, 'vf-7') || str_contains($slug, 'mpv') || str_contains($name, 'vf 7')) {
+            $segmentName = 'C-SUV thể thao & MPV';
+            $evRate = 16.8;
+            $iceRate = 8.8;
+            $iceLabel = 'Xe xăng C-SUV tương đương (1.5T - 2.0L)';
+        } elseif (str_contains($slug, 'vf-8') || str_contains($slug, 'wild') || str_contains($name, 'vf 8')) {
+            $segmentName = 'D-SUV hạng sang & Bán tải điện';
+            $evRate = 19.2;
+            $iceRate = 10.5;
+            $iceLabel = 'Xe xăng D-SUV tương đương (2.0T - 2.5L)';
+        } elseif (str_contains($slug, 'vf-9') || str_contains($slug, 'limo') || str_contains($name, 'vf 9')) {
+            $segmentName = 'E-SUV Full-size cao cấp';
+            $evRate = 21.5;
+            $iceRate = 13.5;
+            $iceLabel = 'Xe xăng E-SUV Full-size cỡ lớn (V6 3.0L+)';
+        } elseif (str_contains($slug, 'xe-may') || str_contains($name, 'evo') || str_contains($name, 'feliz') || str_contains($name, 'klara') || str_contains($name, 'theon') || str_contains($name, 'vento')) {
+            $segmentName = 'Xe máy điện thông minh';
+            $evRate = 2.8;
+            $iceRate = 2.2;
+            $iceLabel = 'Xe máy xăng phổ thông (110cc - 150cc)';
+        } else {
+            $segmentName = 'Xe điện thông minh';
+            $evRate = 13.5;
+            $iceRate = 7.5;
+            $iceLabel = 'Xe xăng cùng phân khúc tương đương';
+        }
+
+        // Ưu tiên tính toán trực tiếp từ thông số pin và tầm hoạt động thực tế nếu có
+        if ($batteryKwh && $rangeKm && $rangeKm > 0) {
+            $calculatedEv = round(($batteryKwh / $rangeKm) * 100, 1);
+            if ($calculatedEv >= 2.0 && $calculatedEv <= 35.0) {
+                $evRate = $calculatedEv;
+            }
+        }
+
+        $defaultDistance = 12000;
+        $defaultElecPrice = 3500;
+        $defaultPetrolPrice = 23000;
+
+        $initialEvCost = (int) round(($defaultDistance / 100) * $evRate * $defaultElecPrice);
+        $initialIceCost = (int) round(($defaultDistance / 100) * $iceRate * $defaultPetrolPrice);
+        $initialSaving = $initialIceCost - $initialEvCost;
+
+        return [
+            'ev_consumption' => $evRate,
+            'ice_consumption' => $iceRate,
+            'segment_name' => $segmentName,
+            'ice_label' => $iceLabel,
+            'default_distance' => $defaultDistance,
+            'default_electricity_price' => $defaultElecPrice,
+            'default_petrol_price' => $defaultPetrolPrice,
+            'initial_ev_cost' => $initialEvCost,
+            'initial_ice_cost' => $initialIceCost,
+            'initial_saving' => $initialSaving,
+        ];
+    }
+
+    /**
+     * Xác định thông số so sánh kinh tế chuẩn xác giữa xe điện VinFast và xe xăng tương đương theo phân khúc.
+     *
+     * @param  object  $car
+     * @param  Collection  $specifications
+     * @return array{
+     *     ev_consumption: float,
+     *     ice_consumption: float,
+     *     segment_name: string,
+     *     ice_label: string,
+     *     default_distance: int,
+     *     default_electricity_price: int,
+     *     default_petrol_price: int,
+     *     initial_ev_cost: int,
+     *     initial_ice_cost: int,
+     *     initial_saving: int
+     * }
+     */
+    public function getComparisonBenchmark(object $car, Collection $specifications): array
+    {
+        $batteryKwh = null;
+        $rangeKm = null;
+
+        foreach ($specifications as $spec) {
+            $labelLower = mb_strtolower($spec->label ?? '', 'UTF-8');
+            $val = $spec->value ?? '';
+
+            if (str_contains($labelLower, 'pin') && (str_contains($labelLower, 'dung lượng') || str_contains($labelLower, 'khả dụng'))) {
+                if (preg_match('/([0-9]+[.,]?[0-9]*)\s*kwh/i', $val, $m)) {
+                    $batteryKwh = (float) str_replace(',', '.', $m[1]);
+                }
+            }
+
+            if (str_contains($labelLower, 'quãng đường') || str_contains($labelLower, 'tầm hoạt động')) {
+                if (preg_match('/([0-9]+[.,]?[0-9]*)\s*km/i', $val, $m)) {
+                    $rangeKm = (float) str_replace(',', '.', $m[1]);
+                }
+            }
+        }
+
+        $slug = strtolower($car->slug ?? '');
+        $name = strtolower($car->name ?? '');
+
+        // Ma trận định mức tiêu chuẩn từng dòng xe VinFast so với xe xăng cùng phân khúc
+        if (str_contains($slug, 'vf-3') || str_contains($slug, 'vf-2') || str_contains($slug, 'minio') || str_contains($name, 'vf 3') || str_contains($name, 'vf 2')) {
+            $segmentName = 'Mini SUV đô thị';
+            $evRate = 8.9;
+            $iceRate = 5.5;
+            $iceLabel = 'Xe xăng hạng A / cỡ nhỏ (1.0L - 1.2L)';
+        } elseif (str_contains($slug, 'vf-5') || str_contains($slug, 'herio') || str_contains($slug, 'ec-van') || str_contains($name, 'vf 5')) {
+            $segmentName = 'A-SUV Crossover đô thị';
+            $evRate = 11.5;
+            $iceRate = 6.5;
+            $iceLabel = 'Xe xăng A-SUV tương đương (1.2L - 1.5L)';
+        } elseif (str_contains($slug, 'vf-6') || str_contains($slug, 'e34') || str_contains($slug, 'nerio') || str_contains($name, 'vf 6')) {
+            $segmentName = 'B-SUV thời thượng';
+            $evRate = 14.5;
+            $iceRate = 7.6;
+            $iceLabel = 'Xe xăng B-SUV tương đương (1.5L)';
+        } elseif (str_contains($slug, 'vf-7') || str_contains($slug, 'mpv') || str_contains($name, 'vf 7')) {
+            $segmentName = 'C-SUV thể thao & MPV';
+            $evRate = 16.8;
+            $iceRate = 8.8;
+            $iceLabel = 'Xe xăng C-SUV tương đương (1.5T - 2.0L)';
+        } elseif (str_contains($slug, 'vf-8') || str_contains($slug, 'wild') || str_contains($name, 'vf 8')) {
+            $segmentName = 'D-SUV hạng sang & Bán tải điện';
+            $evRate = 19.2;
+            $iceRate = 10.5;
+            $iceLabel = 'Xe xăng D-SUV tương đương (2.0T - 2.5L)';
+        } elseif (str_contains($slug, 'vf-9') || str_contains($slug, 'limo') || str_contains($name, 'vf 9')) {
+            $segmentName = 'E-SUV Full-size cao cấp';
+            $evRate = 21.5;
+            $iceRate = 13.5;
+            $iceLabel = 'Xe xăng E-SUV Full-size cỡ lớn (V6 3.0L+)';
+        } elseif (str_contains($slug, 'xe-may') || str_contains($name, 'evo') || str_contains($name, 'feliz') || str_contains($name, 'klara') || str_contains($name, 'theon') || str_contains($name, 'vento')) {
+            $segmentName = 'Xe máy điện thông minh';
+            $evRate = 2.8;
+            $iceRate = 2.2;
+            $iceLabel = 'Xe máy xăng phổ thông (110cc - 150cc)';
+        } else {
+            $segmentName = 'Xe điện thông minh';
+            $evRate = 13.5;
+            $iceRate = 7.5;
+            $iceLabel = 'Xe xăng cùng phân khúc tương đương';
+        }
+
+        // Ưu tiên tính toán trực tiếp từ thông số pin và tầm hoạt động thực tế nếu có
+        if ($batteryKwh && $rangeKm && $rangeKm > 0) {
+            $calculatedEv = round(($batteryKwh / $rangeKm) * 100, 1);
+            if ($calculatedEv >= 2.0 && $calculatedEv <= 35.0) {
+                $evRate = $calculatedEv;
+            }
+        }
+
+        $defaultDistance = 12000;
+        $defaultElecPrice = 3500;
+        $defaultPetrolPrice = 23000;
+
+        $initialEvCost = (int) round(($defaultDistance / 100) * $evRate * $defaultElecPrice);
+        $initialIceCost = (int) round(($defaultDistance / 100) * $iceRate * $defaultPetrolPrice);
+        $initialSaving = $initialIceCost - $initialEvCost;
+
+        return [
+            'ev_consumption' => $evRate,
+            'ice_consumption' => $iceRate,
+            'segment_name' => $segmentName,
+            'ice_label' => $iceLabel,
+            'default_distance' => $defaultDistance,
+            'default_electricity_price' => $defaultElecPrice,
+            'default_petrol_price' => $defaultPetrolPrice,
+            'initial_ev_cost' => $initialEvCost,
+            'initial_ice_cost' => $initialIceCost,
+            'initial_saving' => $initialSaving,
+        ];
+    }
 }

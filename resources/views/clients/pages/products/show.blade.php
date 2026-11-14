@@ -339,43 +339,47 @@ window.VINFAST_PRODUCT_DATA = {
         </section>
 
         {{-- SECTION 4: SO SÁNH CHI PHÍ VẬN HÀNH (EV VS ICE) --}}
-        <section class="vinfast-autohaiphong_product_compare vinfast-autohaiphong_product_section" id="vf3-so-sanh">
+        <section class="vinfast-autohaiphong_product_compare vinfast-autohaiphong_product_section" 
+                 id="vf3-so-sanh"
+                 data-calc-ev-rate="{{ $comparison['ev_consumption'] }}"
+                 data-calc-ice-rate="{{ $comparison['ice_consumption'] }}">
             <div class="vinfast-autohaiphong_product_container">
                 <div class="vinfast-autohaiphong_product_section-head" data-reveal>
-                    <h2>So sánh giữa xe VinFast {{ $car->name }} và xe động cơ đốt trong</h2>
-                    <p>Khám phá lợi ích vượt trội về kinh tế và môi trường của xe điện trong sử dụng hằng ngày</p>
+                    <h2>So sánh kinh tế giữa VinFast <strong>"{{ $car->name }}"</strong> và xe xăng cùng phân khúc</h2>
+                    <p>Định mức tiêu hao thực tế theo phân khúc {{ $comparison['segment_name'] }} giúp ước tính chính xác hiệu quả tiết kiệm chi phí</p>
                 </div>
                 <div class="vinfast-autohaiphong_product_compare-grid" data-reveal>
                     <div class="vinfast-autohaiphong_product_compare-form">
-                        <h3>Ước tính chi phí di chuyển hằng năm</h3>
+                        <h3>Ước tính chi phí năng lượng di chuyển hằng năm</h3>
                         <p class="vinfast-autohaiphong_product_muted">
-                            Nhập giả định để tự so sánh chi phí năng lượng (không bao gồm phí mua xe và bảo dưỡng).
+                            Dựa trên định mức tiêu chuẩn của VinFast <strong>"{{ $car->name }}"</strong> và dòng xe động cơ đốt trong tương đương (chưa bao gồm chi phí bảo dưỡng và khấu hao).
                         </p>
                         <label class="vinfast-autohaiphong_product_field">
-                            <span>Quãng đường mỗi năm</span>
-                            <input type="range" min="3000" max="35000" step="1000" value="12000" data-calc="distance" />
-                            <output data-calc-label="distance">12.000 km</output>
+                            <span>Quãng đường di chuyển mỗi năm</span>
+                            <input type="range" min="3000" max="35000" step="1000" value="{{ $comparison['default_distance'] }}" data-calc="distance" />
+                            <output data-calc-label="distance">{{ number_format($comparison['default_distance'], 0, ',', '.') }} km</output>
                         </label>
                         <label class="vinfast-autohaiphong_product_field">
-                            <span>Giá điện giả định (VNĐ/kWh)</span>
-                            <input type="number" min="0" step="500" value="3000" data-calc="electricity" />
+                            <span>Giá điện sinh hoạt / trụ sạc (VNĐ/kWh)</span>
+                            <input type="number" min="0" step="100" value="{{ $comparison['default_electricity_price'] }}" data-calc="electricity" />
                         </label>
                         <label class="vinfast-autohaiphong_product_field">
-                            <span>Giá xăng giả định (VNĐ/lít)</span>
-                            <input type="number" min="0" step="500" value="24000" data-calc="petrol" />
+                            <span>Giá xăng RON 95 tham chiếu (VNĐ/lít)</span>
+                            <input type="number" min="0" step="100" value="{{ $comparison['default_petrol_price'] }}" data-calc="petrol" />
                         </label>
                         <div class="vinfast-autohaiphong_product_compare-results">
                             <div>
-                                <span>Xe điện · 12 kWh/100km (giả định)</span>
-                                <strong data-calc-result="electric">4.320.000 ₫</strong>
+                                <span>VinFast {{ $car->name }} · {{ $comparison['ev_consumption'] }} kWh/100km</span>
+                                <strong data-calc-result="electric">{{ number_format($comparison['initial_ev_cost'], 0, ',', '.') }} ₫</strong>
                             </div>
                             <div>
-                                <span>Xe xăng · 6 lít/100km (giả định)</span>
-                                <strong data-calc-result="petrol">17.280.000 ₫</strong>
+                                <span>{{ $comparison['ice_label'] }} · {{ $comparison['ice_consumption'] }} lít/100km</span>
+                                <strong data-calc-result="petrol">{{ number_format($comparison['initial_ice_cost'], 0, ',', '.') }} ₫</strong>
                             </div>
                         </div>
                         <p class="vinfast-autohaiphong_product_saving">
-                            Chênh lệch chi phí giả định: <strong data-calc-result="saving">12.960.000 ₫/năm</strong>
+                            <span>Tiết kiệm chi phí năng lượng mỗi năm:</span>
+                            <strong data-calc-result="saving">{{ number_format($comparison['initial_saving'], 0, ',', '.') }} ₫/năm</strong>
                         </p>
                     </div>
 
@@ -387,11 +391,11 @@ window.VINFAST_PRODUCT_DATA = {
                                     <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
                                 </svg>
                             </span>
-                            <h3>Lựa chọn di chuyển xanh</h3>
-                            <p>Không phát thải trực tiếp từ ống xả, vận hành êm ái và linh hoạt trên mọi cung đường.</p>
+                            <h3>Lựa chọn di chuyển xanh · {{ $comparison['segment_name'] }}</h3>
+                            <p>Không phát thải khí nhà kính từ ống xả, chi phí nhiên liệu chỉ bằng khoảng 1/3 đến 1/4 so với xe xăng cùng phân khúc, vận hành êm ái vượt bậc.</p>
                         </div>
                         <img src="{{ $mainCarImage }}" alt="{{ $car->name }}" loading="lazy" />
-                        <p>Ví dụ minh họa dùng thông số tiêu thụ do người dùng giả định, giúp hình dung khả năng tiết kiệm chi phí.</p>
+                        <p>Thông số so sánh thực tế theo phân khúc {{ $comparison['segment_name'] }}, minh chứng lợi thế tài chính lâu dài của xe điện VinFast.</p>
                     </div>
                 </div>
             </div>
