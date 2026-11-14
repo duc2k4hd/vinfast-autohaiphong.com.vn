@@ -237,10 +237,10 @@ window.VINFAST_PRODUCT_DATA = {
                         <div class="vinfast-autohaiphong_product_intro-actions">
                             <div class="vinfast-autohaiphong_product_price-tag">
                                 <span class="vinfast-autohaiphong_product_price-dot"></span>
-                                <span>Giá bán từ: <strong data-price id="vf-car-price-display">{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ</strong></span>
+                                <span class="vinfast-autohaiphong_product_price-text">Giá bán từ: <strong data-price id="vf-car-price-display">{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ</strong></span>
                             </div>
 
-                            <form action="{{ route('client.cart.add') }}" method="POST" style="margin: 0;">
+                            <form action="{{ route('client.cart.add') }}" method="POST" style="margin: 0; display: inline-flex; flex-shrink: 0;">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $car->id }}">
                                 <input type="hidden" name="variant_id" id="vf-cart-variant-id" value="{{ $variants->first()?->id }}">

@@ -331,10 +331,10 @@ select:focus-visible,
 }
 .vinfast-autohaiphong_product_intro-grid {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 6%;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(24px, 4vw, 56px);
     align-items: center;
-    min-height: 520px;
+    min-height: 500px;
 }
 .vinfast-autohaiphong_product_intro-visual,
 .vinfast-autohaiphong_product_intro-visual.vinfast-autohaiphong_product_revealed {
@@ -454,52 +454,74 @@ select:focus-visible,
 .vinfast-autohaiphong_product_intro-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 18px;
+    gap: 14px;
     flex-wrap: wrap;
-    margin-top: 14px;
+    margin-top: 20px;
 }
 .vinfast-autohaiphong_product_price-tag {
     background: #edf5ff;
-    border-radius: 9px;
-    padding: 14px 26px;
+    border-radius: 8px;
+    height: 48px;
+    padding: 0 20px;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     color: var(--vf-blue);
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 400;
-    flex: 1;
-    min-width: 260px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 .vinfast-autohaiphong_product_price-dot {
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--vf-blue);
     display: inline-block;
     flex-shrink: 0;
 }
+.vinfast-autohaiphong_product_price-text {
+    white-space: nowrap;
+    line-height: 1;
+}
 .vinfast-autohaiphong_product_price-tag strong {
     font-weight: 500;
-    font-size: 17px;
+    font-size: 15.5px;
     color: var(--vf-blue);
 }
 .vinfast-autohaiphong_product_btn-deposit {
     background: var(--vf-blue);
     color: #ffffff;
     border: none;
-    border-radius: 9px;
-    padding: 14px 34px;
-    font-size: 16px;
+    border-radius: 8px;
+    height: 48px;
+    padding: 0 28px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
     transition: background 0.2s ease, transform 0.15s ease;
 }
 .vinfast-autohaiphong_product_btn-deposit:hover {
     background: var(--vf-blue-dark);
     transform: translateY(-1px);
+}
+@media (max-width: 560px) {
+    .vinfast-autohaiphong_product_intro-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .vinfast-autohaiphong_product_price-tag,
+    .vinfast-autohaiphong_product_btn-deposit {
+        width: 100%;
+        justify-content: center;
+    }
 }
 .vinfast-autohaiphong_product_intro-cta {
     display: flex;
