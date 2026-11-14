@@ -96,68 +96,35 @@
         line-height: 1.4;
     }
 
-    /* Box Bài Viết Giới Thiệu & Sticky Scroll Architecture */
-    .vf-editor-anchor-wrapper {
-        min-height: 1050px;
-        height: fit-content;
+    /* Box Bài Viết Giới Thiệu & Sticky Editor Header */
+    #bai-viet-gioi-thieu {
+        min-height: 1000px;
         margin-bottom: 24px;
         position: relative;
     }
-    #bai-viet-gioi-thieu {
-        min-height: 1000px;
-        height: fit-content;
+    .vf-admin-editor-sticky-header {
         position: sticky;
-        top: 15px;
-        z-index: 30;
-        margin-bottom: 0;
-        display: flex;
-        flex-direction: column;
-        transition: box-shadow 0.25s ease, border-color 0.25s ease;
-    }
-    #bai-viet-gioi-thieu.is-stuck-top {
-        height: calc(100vh - 95px) !important;
-        max-height: calc(100vh - 95px) !important;
-        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(20, 100, 244, 0.2);
-        border-color: #93c5fd;
+        top: 0;
+        z-index: 25;
+        background: #ffffff;
+        margin: -24px -24px 14px -24px;
+        padding: 16px 24px 12px 24px;
+        border-bottom: 1px solid var(--admin-border);
+        box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
     }
     #bai-viet-gioi-thieu .tox-tinymce {
-        min-height: 850px;
+        min-height: 1000px;
         height: fit-content;
         border-radius: 6px;
         border: 1px solid var(--admin-border);
     }
-    #bai-viet-gioi-thieu.is-stuck-top .tox-tinymce {
-        flex: 1;
-        min-height: 0 !important;
-        height: 100% !important;
-        max-height: 100% !important;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
+    #bai-viet-gioi-thieu .tox-edit-area {
+        min-height: 900px;
     }
-    #bai-viet-gioi-thieu.is-stuck-top .tox-editor-container {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-        overflow: hidden;
-    }
-    #bai-viet-gioi-thieu.is-stuck-top .tox-sidebar-wrap {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-        overflow: hidden;
-    }
-    #bai-viet-gioi-thieu.is-stuck-top .tox-edit-area {
-        flex: 1;
-        min-height: 0 !important;
-        height: 100% !important;
-        overflow: hidden;
-    }
-    #bai-viet-gioi-thieu.is-stuck-top .tox-edit-area iframe {
-        height: 100% !important;
-        min-height: 0 !important;
+    #bai-viet-gioi-thieu .tox-edit-area iframe {
+        min-height: 900px;
     }
 
     /* Fixed Bottom Action Bar */
@@ -504,9 +471,10 @@
     {{-- ========================================================================= --}}
     {{-- HÀNG 2: [BÀI VIẾT GIỚI THIỆU XE] (Full 100% Width)                         --}}
     {{-- ========================================================================= --}}
-    <div id="bai-viet-gioi-thieu-anchor" class="vf-editor-anchor-wrapper">
-        <div class="vinfast-autohaiphong_admin_card" id="bai-viet-gioi-thieu">
-            <div class="vf-admin-card-header">
+    <div class="vinfast-autohaiphong_admin_card" id="bai-viet-gioi-thieu">
+        {{-- Sticky Header: Tiêu đề box + Nút chèn nhanh dính ở đỉnh khi cuộn --}}
+        <div class="vf-admin-editor-sticky-header">
+            <div class="vf-admin-card-header" style="margin-bottom: 8px;">
                 <div class="vf-admin-card-title-text">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
                     <span>BÀI VIẾT GIỚI THIỆU XE (CHI TIẾT ĐÁNH GIÁ & TÍNH NĂNG)</span>
@@ -520,7 +488,7 @@
             </div>
 
             {{-- Thanh công cụ chèn nội dung nhanh --}}
-            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding: 8px 12px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--admin-border); align-items: center;">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 12px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--admin-border); align-items: center;">
                 <span style="font-size: 0.75rem; font-weight: 700; color: var(--admin-muted); margin-right: 4px;">CHÈN NHANH:</span>
                 <button type="button" class="vf-admin-preset-btn" onclick="openArticleMediaPicker()" style="background: #eff6ff; color: #1464f4; border-color: #bfdbfe; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -537,14 +505,14 @@
                 <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('accordion')">+ Hỏi đáp FAQ</button>
                 <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('cta')">+ Nút Đặt cọc</button>
             </div>
+        </div>
 
-            <textarea name="description_html" id="article-editor" rows="12" class="vf-admin-textarea" 
-                      style="font-family: Consolas, Monaco, 'Courier New', monospace; font-size: 0.88rem; line-height: 1.6;"
-                      placeholder="Nhập nội dung HTML bài viết giới thiệu chi tiết, đánh giá vận hành, thiết kế, pin và bảng giá ưu đãi xe..."
-                      oninput="updateArticleWordCount()">{{ old('description_html', $product->description_html) }}</textarea>
-            <div class="vf-admin-helper-text">
-                Nội dung hiển thị trọn vẹn tại mục Bài Viết Giới Thiệu của trang xe. Hệ thống tự động lọc thẻ HTML an toàn chuẩn bảo mật.
-            </div>
+        <textarea name="description_html" id="article-editor" rows="12" class="vf-admin-textarea" 
+                  style="font-family: Consolas, Monaco, 'Courier New', monospace; font-size: 0.88rem; line-height: 1.6;"
+                  placeholder="Nhập nội dung HTML bài viết giới thiệu chi tiết, đánh giá vận hành, thiết kế, pin và bảng giá ưu đãi xe..."
+                  oninput="updateArticleWordCount()">{{ old('description_html', $product->description_html) }}</textarea>
+        <div class="vf-admin-helper-text">
+            Nội dung hiển thị trọn vẹn tại mục Bài Viết Giới Thiệu của trang xe. Hệ thống tự động lọc thẻ HTML an toàn chuẩn bảo mật.
         </div>
     </div>
 
@@ -1704,6 +1672,8 @@ function initProductArticleTinyMCE() {
     tinymce.init({
         selector: '#article-editor',
         min_height: 1000,
+        toolbar_sticky: true,
+        toolbar_sticky_offset: 106,
         autoresize_bottom_margin: 30,
         autoresize_overflow_padding: 20,
         menubar: 'file edit view insert format tools table help',
@@ -1851,7 +1821,7 @@ function initProductArticleTinyMCE() {
                 }
             });
 
-            // Tự động đồng bộ số từ & trạng thái dirty & chiều cao Anchor
+            // Tự động đồng bộ số từ & trạng thái dirty
             function syncEditorData() {
                 const badge = document.getElementById('word-count-badge');
                 if (badge) {
@@ -1859,12 +1829,10 @@ function initProductArticleTinyMCE() {
                     const words = wordCountPlugin ? wordCountPlugin.getCount() : (editor.getContent({ format: 'text' }).trim() ? editor.getContent({ format: 'text' }).trim().split(/\s+/).length : 0);
                     badge.textContent = `${words} từ`;
                 }
-                syncEditorAnchorHeight();
             }
 
             editor.on('init', function () {
                 syncEditorData();
-                setTimeout(syncEditorAnchorHeight, 300);
             });
             editor.on('keyup change undo redo NodeChange', function () {
                 syncEditorData();
@@ -1874,53 +1842,6 @@ function initProductArticleTinyMCE() {
         }
     });
 }
-
-// =========================================================================
-// KIẾN TRÚC STICKY & CUỘN NỘI BỘ TRÌNH SOẠN THẢO KHI CHẠM TOP
-// =========================================================================
-
-// Đồng bộ chiều cao thẻ Anchor để tránh hiện tượng giật trang khi sticky
-function syncEditorAnchorHeight() {
-    const card = document.getElementById('bai-viet-gioi-thieu');
-    const anchor = document.getElementById('bai-viet-gioi-thieu-anchor');
-    if (!card || !anchor) return;
-
-    if (!card.classList.contains('is-stuck-top')) {
-        const measuredHeight = Math.max(1050, card.offsetHeight);
-        anchor.style.minHeight = measuredHeight + 'px';
-        anchor.style.height = measuredHeight + 'px';
-    }
-}
-
-// Kiểm tra khi cuộn trang: box chạm top thì neo lại và bắt đầu cuộn bên trong
-function updateEditorStickyState() {
-    const card = document.getElementById('bai-viet-gioi-thieu');
-    const anchor = document.getElementById('bai-viet-gioi-thieu-anchor');
-    if (!card || !anchor) return;
-
-    const anchorRect = anchor.getBoundingClientRect();
-    const topThreshold = 16; // Chạm mép top 16px
-
-    // Khi đỉnh của anchor chạm top và chưa trôi qua hết phạm vi anchor
-    const shouldStick = anchorRect.top <= topThreshold && (anchorRect.bottom - card.offsetHeight) > 0;
-
-    if (shouldStick) {
-        if (!card.classList.contains('is-stuck-top')) {
-            card.classList.add('is-stuck-top');
-        }
-    } else {
-        if (card.classList.contains('is-stuck-top')) {
-            card.classList.remove('is-stuck-top');
-            syncEditorAnchorHeight();
-        }
-    }
-}
-
-window.addEventListener('scroll', updateEditorStickyState, { passive: true });
-window.addEventListener('resize', function () {
-    syncEditorAnchorHeight();
-    updateEditorStickyState();
-}, { passive: true });
 </script>
 
 @push('scripts')
