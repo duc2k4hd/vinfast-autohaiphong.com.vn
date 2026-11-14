@@ -11,12 +11,13 @@ use Illuminate\View\View;
 class LeadController extends Controller
 {
     /**
-     * Danh sách khách hàng tiềm năng gửi form báo giá / tư vấn.
+     * Danh sách khách hàng tiềm năng gửi form báo giá / tư vấn kèm bộ lọc tìm kiếm.
      */
     public function index(Request $request): View
     {
         $status = $request->query('status');
         $productId = $request->query('product_id');
+        $search = $request->query('search');
 
         $query = DB::table('leads')
             ->leftJoin('products', 'leads.product_id', '=', 'products.id')
@@ -33,6 +34,15 @@ class LeadController extends Controller
             $query->where('leads.product_id', (int) $productId);
         }
 
+        if (! empty($search)) {
+            $cleanSearch = trim($search);
+            $query->where(function ($q) use ($cleanSearch) {
+                $q->where('leads.name', 'like', "%{$cleanSearch}%")
+                    ->orWhere('leads.phone', 'like', "%{$cleanSearch}%")
+                    ->orWhere('leads.email', 'like', "%{$cleanSearch}%");
+            });
+        }
+
         $leads = $query->orderBy('leads.created_at', 'desc')->paginate(20)->withQueryString();
         $products = DB::table('products')->select(['id', 'name'])->orderBy('sort_order', 'asc')->get();
 
@@ -40,6 +50,7 @@ class LeadController extends Controller
             'leads' => $leads,
             'currentStatus' => $status,
             'currentProductId' => $productId,
+            'currentSearch' => $search,
             'products' => $products,
         ]);
     }

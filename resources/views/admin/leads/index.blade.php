@@ -13,6 +13,9 @@
         <span>DANH SÁCH YÊU CẦU TƯ VẤN TỪ KHÁCH HÀNG</span>
         
         <form action="{{ route('admin.leads.index') }}" method="GET" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <input type="text" name="search" value="{{ $currentSearch ?? '' }}" placeholder="Tìm theo tên, SĐT..." 
+                   style="padding: 5px 10px; border: 1px solid var(--admin-border); border-radius: 5px; font-size: 0.8rem; width: 170px;">
+
             <select name="product_id" onchange="this.form.submit()" style="padding: 5px 10px; border: 1px solid var(--admin-border); border-radius: 5px; font-size: 0.8rem; background: #ffffff;">
                 <option value="">-- Tất cả dòng xe --</option>
                 @foreach($products as $p)
@@ -22,17 +25,21 @@
                 @endforeach
             </select>
 
+            <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                Lọc
+            </button>
+
             <div style="display: flex; gap: 6px;">
-                <a href="{{ route('admin.leads.index', array_filter(['product_id' => $currentProductId])) }}" class="vinfast-autohaiphong_admin_btn {{ !$currentStatus ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                <a href="{{ route('admin.leads.index', array_filter(['product_id' => $currentProductId, 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ !$currentStatus ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
                     Tất Cả
                 </a>
-                <a href="{{ route('admin.leads.index', array_filter(['status' => 'new', 'product_id' => $currentProductId])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'new' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                <a href="{{ route('admin.leads.index', array_filter(['status' => 'new', 'product_id' => $currentProductId, 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'new' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
                     Mới
                 </a>
-                <a href="{{ route('admin.leads.index', array_filter(['status' => 'contacted', 'product_id' => $currentProductId])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'contacted' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                <a href="{{ route('admin.leads.index', array_filter(['status' => 'contacted', 'product_id' => $currentProductId, 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'contacted' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
                     Đã Gọi
                 </a>
-                <a href="{{ route('admin.leads.index', array_filter(['status' => 'converted', 'product_id' => $currentProductId])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'converted' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                <a href="{{ route('admin.leads.index', array_filter(['status' => 'converted', 'product_id' => $currentProductId, 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentStatus === 'converted' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
                     Đã Chốt
                 </a>
             </div>

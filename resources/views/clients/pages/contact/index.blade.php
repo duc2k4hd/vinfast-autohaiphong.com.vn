@@ -4,6 +4,35 @@
 @section('meta_description', 'Liên hệ Showroom VinFast Minh Đạo Hải Phòng: Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng. Hotline Bán hàng: 0988 302 882, Dịch vụ: 0915 286 506.')
 @section('canonical', url('/lien-he'))
 
+@push('schema')
+{{-- ContactPage & LocalBusiness Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'ContactPage',
+    'name' => 'Liên Hệ VinFast Minh Đạo Hải Phòng',
+    'description' => 'Trang thông tin liên hệ, hotline bán hàng, hotline dịch vụ và địa chỉ showroom chính thức VinFast tại Hải Phòng.',
+    'url' => url('/lien-he'),
+    'mainEntity' => [
+        '@type' => 'AutoDealer',
+        'name' => 'VinFast Minh Đạo Hải Phòng',
+        'telephone' => '0988 302 882',
+        'address' => [
+            '@type' => 'PostalAddress',
+            'streetAddress' => 'Số 1 Bạch Đằng, Phường Thượng Lý',
+            'addressLocality' => 'Quận Hồng Bàng',
+            'addressRegion' => 'Hải Phòng',
+            'addressCountry' => 'VN'
+        ],
+        'openingHours' => [
+            'Mo-Sa 07:30-18:00',
+            'Su 07:00-18:00'
+        ]
+    ]
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+
 @section('content')
 <div class="vinfast-autohaiphong_contact_header" style="background: #ffffff; border-bottom: 1px solid var(--client-color-border); padding: 32px 0;">
     <div class="vinfast-autohaiphong_layout_container">
@@ -152,6 +181,35 @@
                         Gửi Yêu Cầu Liên Hệ &rarr;
                     </button>
                 </form>
+            </div>
+        </div>
+
+        {{-- Khối Bản Đồ Vị Trí Showroom 3S VinFast Hải Phòng --}}
+        <div style="margin-top: 40px; background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+                <div>
+                    <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--client-color-heading); margin-bottom: 4px;">
+                        VỊ TRÍ SHOWROOM VINFAST MINH ĐẠO HẢI PHÒNG
+                    </h3>
+                    <p style="font-size: 0.88rem; color: var(--client-color-muted); margin: 0;">
+                        Địa chỉ: Số 1 Bạch Đằng, Phường Thượng Lý, Quận Hồng Bàng, Thành phố Hải Phòng (Cách cầu Bính 300m)
+                    </p>
+                </div>
+                <a href="https://maps.google.com/?q=VinFast+Minh+Đạo+Số+1+Bạch+Đằng+Hải+Phòng" target="_blank" rel="noopener noreferrer" 
+                   class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline" style="font-size: 0.85rem; padding: 8px 16px; text-decoration: none;">
+                    📍 Mở Google Maps Chỉ Đường &nearr;
+                </a>
+            </div>
+
+            <div style="border-radius: 6px; overflow: hidden; height: 360px; background: #e2e8f0; position: relative;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3728.39414272847!2d106.67139!3d20.8654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314a7af39b6b7a8b%3A0x6b7a8b39b6b7a8b!2zU-G7kSAxIELhuqFjaCDEkOG6sW5nLCBUaMaw4bujbmcgTMO9LCBI4buTbmcgQsOgbmcsIEjhuqNpIFBow7JuZw!5e0!3m2!1svi!2svn!4v1700000000000!5m2!1svi!2svn" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Bản đồ chỉ dẫn Showroom VinFast Minh Đạo Hải Phòng"></iframe>
             </div>
         </div>
     </div>

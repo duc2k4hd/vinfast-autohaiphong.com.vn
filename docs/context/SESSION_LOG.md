@@ -1,5 +1,25 @@
 # Nhật Ký Các Phiên Làm Việc (Session Log) — VinFast Hải Phòng
 
+## Phiên làm việc: Nâng Cấp Schema ContactPage, Bản Đồ Showroom & Tìm Kiếm Khách Hàng (14/11/2026)
+
+### 1. Đã hoàn thành (100% Quality Gates):
+- **Trang Liên Hệ Showroom Client (`/lien-he`):**
+  - Tích hợp `ContactPage` Schema & `AutoDealer` Schema JSON-LD hỗ trợ SEO Local Google.
+  - Bổ sung khối bản đồ nhúng Google Maps định vị chính xác vị trí Showroom VinFast Minh Đạo (Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng, Hải Phòng) kèm nút mở Google Maps trực tiếp trên di động.
+- **Bộ Lọc Tìm Kiếm Khách Hàng Tiềm Năng (Leads):**
+  - Nâng cấp [`LeadController@index`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Http/Controllers/Admin/LeadController.php) và [`admin/leads/index.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/leads/index.blade.php): Hỗ trợ tìm kiếm theo họ tên, số điện thoại hoặc email khách hàng kết hợp lọc theo dòng xe và trạng thái.
+- **Kiểm Thử & Đảm Bảo Chất Lượng:**
+  - Bổ sung bài kiểm thử Feature [`tests/Feature/ClientContactAndLeadSearchTest.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/tests/Feature/ClientContactAndLeadSearchTest.php).
+  - Toàn bộ bộ kiểm thử tự động: **51/51 tests PASS 100% (239 assertions, ~2.6s)**.
+  - Quét cú pháp Blade: **`DONE SCAN` (0 lỗi)**.
+  - Định dạng chuẩn: **100% PSR-12 qua Laravel Pint**.
+  - Biên dịch Frontend: **Vite build thành công trong 200ms**.
+
+### 2. Quy tắc Git:
+- **Tuyệt đối không chạy bất kỳ lệnh `git` nào**. Soạn sẵn commit mẫu tiếng Việt có dấu ở phản hồi cho người dùng tự chạy.
+
+---
+
 ## Phiên làm việc: Nâng Cấp Nghiệp Vụ Showroom, In Phiếu Thu A4 & Tìm Kiếm Toàn Diện (14/11/2026)
 
 ### 1. Đã hoàn thành (100% Quality Gates):
