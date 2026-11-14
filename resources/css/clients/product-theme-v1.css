@@ -1,3 +1,16 @@
+/* Tiện ích ẩn nội dung nhưng giữ cho trợ năng & crawler/test */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
 /* VinFast VF 3 — giao diện tham khảo độc lập. Mọi class có tiền tố cố định. */
 :root {
     --vf-blue: #1464fa;
@@ -350,32 +363,46 @@ select:focus-visible,
     display: flex;
     flex-direction: column;
 }
+.vinfast-autohaiphong_product_trim-picker-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+}
+@media (max-width: 900px) {
+    .vinfast-autohaiphong_product_trim-picker-wrapper {
+        margin-bottom: 20px;
+    }
+}
 .vinfast-autohaiphong_product_trim-picker {
     display: inline-flex;
     align-items: center;
     background: #f4f5f7;
-    border-radius: 9px;
-    padding: 5px;
-    gap: 5px;
-    margin-bottom: 28px;
+    border-radius: 8px;
+    padding: 4px;
+    gap: 4px;
 }
 .vinfast-autohaiphong_product_trim {
     border: 0;
+    outline: none;
     background: transparent;
-    color: #64748b;
-    font-size: 15.5px;
+    color: #595d66;
+    font-size: 15px;
     font-weight: 400;
-    padding: 9px 22px;
-    border-radius: 7px;
+    padding: 18px 24px;
+    border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
     line-height: 1.4;
+    white-space: nowrap;
+}
+.vinfast-autohaiphong_product_trim:hover {
+    color: #111827;
 }
 .vinfast-autohaiphong_product_trim.vinfast-autohaiphong_product_is-active {
     color: var(--vf-blue);
     background: #ffffff;
-    font-weight: 500;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    font-weight: 400;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 .vinfast-autohaiphong_product_spec-highlights {
     display: flex;

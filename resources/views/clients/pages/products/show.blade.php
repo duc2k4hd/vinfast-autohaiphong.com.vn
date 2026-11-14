@@ -181,10 +181,10 @@ window.VINFAST_PRODUCT_DATA = {
                     <div class="vinfast-autohaiphong_product_intro-info" data-reveal>
                         <h1 class="sr-only">{{ $car->name }}</h1>
 
-                        {{-- 1. Trim Picker (Nằm trên cùng bên phải) --}}
-                        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                        {{-- 1. Trim Picker (Nằm trên cùng bên phải giống hệt ảnh mẫu) --}}
+                        <span class="sr-only">Chọn Phiên Bản</span>
+                        <div class="vinfast-autohaiphong_product_trim-picker-wrapper">
                             <div class="vinfast-autohaiphong_product_trim-picker" role="group" aria-label="Phiên bản xe">
-                                <span class="sr-only">Chọn Phiên Bản</span>
                                 @if($variants->isNotEmpty())
                                     @foreach($variants as $idx => $variant)
                                         <button type="button"
