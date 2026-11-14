@@ -366,22 +366,6 @@ select:focus-visible,
     transform-origin: center center;
     will-change: transform, opacity;
 }
-.vinfast-autohaiphong_product_intro-watermark {
-    position: absolute;
-    top: 2%;
-    left: 0;
-    font-size: clamp(160px, 20vw, 320px);
-    line-height: 0.9;
-    font-style: italic;
-    font-weight: 800;
-    letter-spacing: -14px;
-    color: #e9edf1;
-    opacity: 0.85;
-    white-space: nowrap;
-    z-index: 1;
-    user-select: none;
-    pointer-events: none;
-}
 .vinfast-autohaiphong_product_intro-info {
     padding: 10px 0 15px;
     display: flex;
@@ -571,88 +555,149 @@ select:focus-visible,
 }
 /* Colors */
 .vinfast-autohaiphong_product_colors {
-    padding: 45px 0 75px;
-    background: linear-gradient(#fff, #f9fafa 67%, #fff);
+    padding: 60px 0 80px;
+    background: #ffffff;
 }
 .vinfast-autohaiphong_product_colors
     .vinfast-autohaiphong_product_section-head {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 .vinfast-autohaiphong_product_color-stage {
     position: relative;
-    min-height: 430px;
+    min-height: 560px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
+    background: linear-gradient(180deg, #edf1f5 0%, #edf1f5 52%, #ffffff 52%, #ffffff 100%);
+    border-radius: 16px;
+    padding: 50px 20px 40px;
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_color-car-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 980px;
+    height: clamp(340px, 42vw, 480px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 .vinfast-autohaiphong_product_color-car {
-    width: min(720px, 78vw);
-    height: 320px;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    z-index: 2;
     mix-blend-mode: multiply;
-    transition:
-        filter 0.38s ease,
-        opacity 0.25s ease;
+    filter: contrast(1.05);
+    transform: scale(1.12);
+    transform-origin: center center;
+    will-change: transform, opacity;
 }
 .vinfast-autohaiphong_product_color-bottom {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 5px;
-    padding: 15px 0 2px;
+    width: 100%;
+    margin-top: 36px;
+    z-index: 3;
 }
 .vinfast-autohaiphong_product_color-switcher {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 16px;
-}
-.vinfast-autohaiphong_product_swatches {
-    display: flex;
-    align-items: center;
-    gap: 13px;
-}
-.vinfast-autohaiphong_product_color-dot {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 2px solid #f4f4f4;
-    box-shadow: 0 1px 3px #0002;
-    transition:
-        transform 0.2s,
-        outline-color 0.2s;
-}
-.vinfast-autohaiphong_product_color-dot:hover {
-    transform: scale(1.1);
-}
-.vinfast-autohaiphong_product_color-dot.vinfast-autohaiphong_product_is-active {
-    outline: 2px solid #aaa;
-    outline-offset: 3px;
+    flex-wrap: wrap;
 }
 .vinfast-autohaiphong_product_color-arrow {
-    width: 26px;
-    height: 26px;
-    border: 1px solid #dfe3e7;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #eef1f5;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #4b5563;
+    font-size: 20px;
+    line-height: 1;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+.vinfast-autohaiphong_product_color-arrow:hover {
+    background: #ffffff;
+    border-color: #cbd5e1;
+    color: var(--vf-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+.vinfast-autohaiphong_product_swatches {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.vinfast-autohaiphong_product_color-dot {
+    border: 0;
+    outline: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+.vinfast-autohaiphong_product_color-circle {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: #fff;
-    color: #9fa5af;
-    font-size: 23px;
-    line-height: 18px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14);
+    border: 2px solid #ffffff;
+    display: inline-block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+}
+.vinfast-autohaiphong_product_color-dot:hover .vinfast-autohaiphong_product_color-circle {
+    transform: scale(1.08);
+}
+.vinfast-autohaiphong_product_color-label {
+    display: none;
+    font-size: 15px;
+    font-weight: 400;
+    color: #1f2937;
+    white-space: nowrap;
+    line-height: 1;
+}
+/* Trạng thái Active: Pill bo tròn nền xám nhạt với tên màu thanh mảnh như ảnh */
+.vinfast-autohaiphong_product_color-dot.vinfast-autohaiphong_product_is-active {
+    background: #f1f3f6;
+    padding: 4px 18px 4px 5px;
+    gap: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.vinfast-autohaiphong_product_color-dot.vinfast-autohaiphong_product_is-active .vinfast-autohaiphong_product_color-circle {
+    width: 28px;
+    height: 28px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+.vinfast-autohaiphong_product_color-dot.vinfast-autohaiphong_product_is-active .vinfast-autohaiphong_product_color-label {
+    display: inline-block;
 }
 .vinfast-autohaiphong_product_color-name {
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #7d8187;
-    margin: 10px 0;
+    display: none;
 }
 .vinfast-autohaiphong_product_color-notice {
-    font-size: 11px;
+    font-size: 13px;
     text-align: center;
-    color: #a7aab1;
-    margin: 12px 0 0;
+    color: #94a3b8;
+    margin: 18px 0 0;
 }
 /* Compare */
 .vinfast-autohaiphong_product_compare {

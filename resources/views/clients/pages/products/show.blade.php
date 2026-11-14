@@ -177,7 +177,6 @@ window.VINFAST_PRODUCT_DATA = {
                             : $mainCarImage;
                     @endphp
                     <div class="vinfast-autohaiphong_product_intro-visual" data-reveal>
-                        <span class="vinfast-autohaiphong_product_intro-watermark">{{ $shortModelName }}</span>
                         <img class="vinfast-autohaiphong_product_intro-car"
                              src="{{ $initialCarImage }}"
                              alt="{{ $car->name }}"
@@ -278,7 +277,22 @@ window.VINFAST_PRODUCT_DATA = {
             </div>
         </section>
 
-        {{-- SECTION 3: BỘ SƯU TẬP MÀU SẮC (COLOR STUDIO) --}}
+        {{-- SECTION 3: BỘ SƯU TẬP MÀU SẮC (COLOR STUDIO) CHUẨN THEO ẢNH MẪU --}}
+        @php
+            $colorStudioList = (!empty($colors) && $colors->isNotEmpty()) ? $colors->map(function($c) use ($mainCarImage) {
+                return [
+                    'id' => $c->id,
+                    'name' => $c->name,
+                    'code' => $c->color_code,
+                    'image' => !empty($c->image_path) ? asset('storage/' . $c->image_path) : $mainCarImage,
+                ];
+            }) : collect([
+                ['name' => 'Solar Ruby', 'code' => '#d83a3a', 'image' => asset('storage/clients/assets/images/products/hinh-anh-vinfast-vf3-plus-1794626563.webp')],
+                ['name' => 'Electric Yellow', 'code' => '#f2d852', 'image' => $mainCarImage],
+                ['name' => 'Desert Sage', 'code' => '#82917d', 'image' => asset('storage/clients/assets/images/products/xe-dien-vinfast-vf3-1794624468.webp')],
+            ]);
+            $initialColor = $colorStudioList->first();
+        @endphp
         <section class="vinfast-autohaiphong_product_colors vinfast-autohaiphong_product_section" id="vf3-mau-xe">
             <div class="vinfast-autohaiphong_product_container">
                 <div class="vinfast-autohaiphong_product_section-head" data-reveal>
@@ -286,18 +300,36 @@ window.VINFAST_PRODUCT_DATA = {
                     <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
                 </div>
                 <div class="vinfast-autohaiphong_product_color-stage" data-reveal>
-                    <img class="vinfast-autohaiphong_product_color-car"
-                         data-color-car
-                         src="{{ asset('storage/clients/assets/images/theme-v1/product-white.webp') }}"
-                         alt="Mô phỏng {{ $car->name }} theo màu được chọn"
-                         loading="lazy" />
+                    {{-- Khung hiển thị xe góc ngang side-view to lớn hoành tráng --}}
+                    <div class="vinfast-autohaiphong_product_color-car-wrapper" data-color-car-wrapper>
+                        <img class="vinfast-autohaiphong_product_color-car"
+                             data-color-car
+                             src="{{ $initialColor['image'] }}"
+                             alt="Mô phỏng màu {{ $initialColor['name'] }}"
+                             loading="eager" />
+                    </div>
+
+                    {{-- Dải chuyển màu sắc swatches giống hệt ảnh mẫu --}}
                     <div class="vinfast-autohaiphong_product_color-bottom">
                         <div class="vinfast-autohaiphong_product_color-switcher" role="group" aria-label="Chọn màu xe">
                             <button type="button" data-action="color-prev" class="vinfast-autohaiphong_product_color-arrow" aria-label="Màu trước">‹</button>
-                            <div class="vinfast-autohaiphong_product_swatches" data-swatches></div>
+                            <div class="vinfast-autohaiphong_product_swatches" data-swatches>
+                                @foreach($colorStudioList as $cIdx => $cItem)
+                                    <button type="button"
+                                            class="vinfast-autohaiphong_product_color-dot {{ $cIdx === 0 ? 'vinfast-autohaiphong_product_is-active' : '' }}"
+                                            data-color="{{ $cIdx }}"
+                                            data-name="{{ $cItem['name'] }}"
+                                            data-image="{{ $cItem['image'] }}"
+                                            data-code="{{ $cItem['code'] }}"
+                                            aria-label="Màu {{ $cItem['name'] }}"
+                                            aria-pressed="{{ $cIdx === 0 ? 'true' : 'false' }}">
+                                        <span class="vinfast-autohaiphong_product_color-circle" style="background-color: {{ $cItem['code'] }};"></span>
+                                        <span class="vinfast-autohaiphong_product_color-label">{{ $cItem['name'] }}</span>
+                                    </button>
+                                @endforeach
+                            </div>
                             <button type="button" data-action="color-next" class="vinfast-autohaiphong_product_color-arrow" aria-label="Màu tiếp">›</button>
                         </div>
-                        <p class="vinfast-autohaiphong_product_color-name" data-color-name>Infinity Blanc</p>
                     </div>
                 </div>
                 <p class="vinfast-autohaiphong_product_color-notice">

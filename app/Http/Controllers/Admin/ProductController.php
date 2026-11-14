@@ -81,10 +81,22 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $colors = DB::table('product_colors')
+            ->leftJoin('media', 'product_colors.image_media_id', '=', 'media.id')
+            ->where('product_colors.product_id', $id)
+            ->select([
+                'product_colors.*',
+                'media.path as image_path',
+                'media.filename as image_filename',
+            ])
+            ->orderBy('product_colors.sort_order', 'asc')
+            ->get();
+
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
             'variants' => $variants,
+            'colors' => $colors,
             'mediaList' => $mediaList,
         ]);
     }
@@ -109,6 +121,9 @@ class ProductController extends Controller
             'variant_sale_prices' => ['nullable', 'array'],
             'variant_color_names' => ['nullable', 'array'],
             'variant_thumbnail_media_ids' => ['nullable', 'array'],
+            'color_names' => ['nullable', 'array'],
+            'color_codes' => ['nullable', 'array'],
+            'color_image_media_ids' => ['nullable', 'array'],
         ]);
 
         $now = now();
@@ -175,6 +190,31 @@ class ProductController extends Controller
                             'is_available' => true,
                             'is_active' => true,
                             'sort_order' => $varSort++,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+                }
+            }
+
+            // Cập nhật danh sách màu sắc xe ngoại thất (Color Studio)
+            if ($request->has('color_names')) {
+                DB::table('product_colors')->where('product_id', $id)->delete();
+
+                $colNames = $request->input('color_names', []);
+                $colCodes = $request->input('color_codes', []);
+                $colMediaIds = $request->input('color_image_media_ids', []);
+
+                $colSort = 1;
+                foreach ($colNames as $cIdx => $cName) {
+                    if (! empty(trim($cName))) {
+                        DB::table('product_colors')->insert([
+                            'product_id' => $id,
+                            'name' => trim($cName),
+                            'color_code' => ! empty($colCodes[$cIdx]) ? trim($colCodes[$cIdx]) : '#1464fa',
+                            'image_media_id' => ! empty($colMediaIds[$cIdx]) ? (int) $colMediaIds[$cIdx] : null,
+                            'sort_order' => $colSort++,
+                            'is_active' => true,
                             'created_at' => $now,
                             'updated_at' => $now,
                         ]);

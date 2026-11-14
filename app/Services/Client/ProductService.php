@@ -42,9 +42,7 @@ class ProductService
     }
 
     /**
-     * Lấy thư viện ảnh gallery được gắn cho sản phẩm.
-     *
-     * @return Collection<int, object>
+     * Lấy danh sách ảnh gallery của xe.
      */
     public function getGalleryImages(int $productId): Collection
     {
@@ -53,14 +51,11 @@ class ProductService
             ->where('media_usages.usable_type', 'product')
             ->where('media_usages.usable_id', $productId)
             ->where('media_usages.role', 'gallery')
-            ->where('media.status', 'active')
+            ->orderBy('media_usages.sort_order', 'asc')
             ->select([
                 'media.path',
                 'media.alt_text',
-                'media_usages.sort_order',
             ])
-            ->orderBy('media_usages.sort_order')
-            ->orderBy('media_usages.id')
             ->get();
     }
 
@@ -85,6 +80,25 @@ class ProductService
                 'media.path as thumbnail_path',
             ])
             ->orderBy('product_variants.sort_order', 'asc')
+            ->get();
+    }
+
+    /**
+     * Lấy danh sách màu sắc xe kèm ảnh xe tương ứng.
+     */
+    public function getColors(int $productId): Collection
+    {
+        return DB::table('product_colors')
+            ->leftJoin('media', 'product_colors.image_media_id', '=', 'media.id')
+            ->where('product_colors.product_id', $productId)
+            ->where('product_colors.is_active', true)
+            ->select([
+                'product_colors.id',
+                'product_colors.name',
+                'product_colors.color_code',
+                'media.path as image_path',
+            ])
+            ->orderBy('product_colors.sort_order', 'asc')
             ->get();
     }
 

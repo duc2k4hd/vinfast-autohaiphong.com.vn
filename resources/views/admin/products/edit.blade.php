@@ -19,83 +19,81 @@
     @csrf
     @method('PUT')
 
-    <div style="display: grid; grid-template-columns: 1.2fr 1.5fr; gap: 24px; align-items: start;">
-        {{-- Thông tin xe cơ bản --}}
-        <div class="vinfast-autohaiphong_admin_card">
-            <div class="vinfast-autohaiphong_admin_card_title">THÔNG TIN XE CƠ BẢN</div>
+    <div style="display: grid; grid-template-columns: 1.15fr 1.55fr; gap: 24px; align-items: start;">
+        {{-- Cột Trái: Thông tin xe cơ bản --}}
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+            <div class="vinfast-autohaiphong_admin_card">
+                <div class="vinfast-autohaiphong_admin_card_title">THÔNG TIN XE CƠ BẢN</div>
 
-            <div style="margin-bottom: 16px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 6px;">Tên Dòng Xe</label>
-                <input type="text" name="name" value="{{ old('name', $product->name) }}" required 
-                       style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
-                <div>
-                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Giá Niêm Yết (đ)</label>
-                    <input type="number" name="regular_price" value="{{ old('regular_price', $product->regular_price) }}" 
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Tên Dòng Xe</label>
+                    <input type="text" name="name" value="{{ old('name', $product->name) }}" required 
                            style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
                 </div>
-                <div>
-                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Giá Khuyến Mãi (đ)</label>
-                    <input type="number" name="sale_price" value="{{ old('sale_price', $product->sale_price) }}" 
-                           style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
-                </div>
-            </div>
 
-            <div style="margin-bottom: 16px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 6px;">Mô Tả Ngắn</label>
-                <textarea name="short_description" rows="3" 
-                          style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">{{ old('short_description', $product->short_description) }}</textarea>
-            </div>
-
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; font-weight: 600; margin-bottom: 6px;">Ảnh Đại Diện Xe (Media Picker)</label>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    <div id="product-thumb-preview" class="vinfast-autohaiphong_admin_product_preview">
-                        @php
-                            $currentMedia = $mediaList->firstWhere('id', $product->thumbnail_media_id);
-                        @endphp
-                        @if($currentMedia)
-                            <img src="{{ asset('storage/' . $currentMedia->path) }}" alt="{{ $product->name }}" class="vinfast-autohaiphong_admin_product_preview_image">
-                        @else
-                            <span style="font-size: 0.75rem; color: var(--admin-muted);">Chưa có</span>
-                        @endif
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 6px;">Giá Niêm Yết (đ)</label>
+                        <input type="number" name="regular_price" value="{{ old('regular_price', $product->regular_price) }}" 
+                               style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
                     </div>
-                    <div style="flex: 1;">
-                        <select name="thumbnail_media_id" style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.85rem;">
-                            <option value="">-- Chọn ảnh từ Thư viện Media --</option>
-                            @foreach($mediaList as $m)
-                                <option value="{{ $m->id }}" {{ $product->thumbnail_media_id == $m->id ? 'selected' : '' }}>
-                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
-                                </option>
-                            @endforeach
-                        </select>
-                        <div style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">
-                            <a href="{{ route('admin.media.index') }}" target="_blank" style="color: var(--admin-primary); font-weight: 600;">+ Tải thêm ảnh lên Thư viện Media</a>
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 6px;">Giá Khuyến Mãi (đ)</label>
+                        <input type="number" name="sale_price" value="{{ old('sale_price', $product->sale_price) }}" 
+                               style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Ảnh Đại Diện Xe (Thumbnail Chính)</label>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div id="product-thumb-preview" class="vinfast-autohaiphong_admin_product_preview" style="width: 64px; height: 48px; border: 1px dashed var(--admin-border); border-radius: 6px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            @php
+                                $currentMedia = $mediaList->firstWhere('id', $product->thumbnail_media_id);
+                            @endphp
+                            @if($currentMedia)
+                                <img src="{{ asset('storage/' . $currentMedia->path) }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: contain;">
+                            @else
+                                <span style="font-size: 0.75rem; color: var(--admin-muted);">Chưa có</span>
+                            @endif
+                        </div>
+                        <div style="flex: 1;">
+                            <select name="thumbnail_media_id" style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.85rem;">
+                                <option value="">-- Chọn ảnh từ Thư viện Media --</option>
+                                @foreach($mediaList as $m)
+                                    <option value="{{ $m->id }}" {{ $product->thumbnail_media_id == $m->id ? 'selected' : '' }}>
+                                        {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">
+                                <a href="{{ route('admin.media.index') }}" target="_blank" style="color: var(--admin-primary); font-weight: 600;">+ Tải thêm ảnh lên Thư viện Media</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Mô Tả Ngắn</label>
+                    <textarea name="short_description" rows="3" 
+                              style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">{{ old('short_description', $product->short_description) }}</textarea>
+                </div>
+
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Bài Viết Giới Thiệu Xe</label>
+                    <textarea name="description_html" rows="8" 
+                              style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-family: monospace;">{{ old('description_html', $product->description_html) }}</textarea>
+                </div>
+
+                <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 1rem;">
+                    LƯU CẬP NHẬT XE
+                </button>
             </div>
-
-            @include('admin.components.editor', [
-                'name' => 'description_html',
-                'id' => 'description_html',
-                'value' => $product->description_html,
-                'label' => 'Nội Dung Mô Tả Chi Tiết (TinyMCE Soạn Thảo)',
-                'folder' => 'products',
-                'height' => 380,
-            ])
-
-            <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-                Lưu Toàn Bộ Cập Nhật
-            </button>
         </div>
 
-        {{-- Cột Phải: Biến Thể Xe & Bảng Thông Số Key-Value --}}
+        {{-- Cột Phải: Biến Thể Xe, Màu Sắc Xe & Bảng Thông Số Key-Value --}}
         <div style="display: flex; flex-direction: column; gap: 24px;">
-            {{-- Quản lý Biến Thể / Phiên Bản Xe --}}
+            {{-- 1. Quản lý Biến Thể / Phiên Bản Xe --}}
             <div class="vinfast-autohaiphong_admin_card">
                 <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
                     <span>PHIÊN BẢN & BIẾN THỂ XE (VARIANTS)</span>
@@ -105,7 +103,7 @@
                 </div>
 
                 <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
-                    Thiết lập các phiên bản (Thuê pin, Kèm pin, Eco, Plus) để người dùng chọn trực tiếp tại trang chi tiết xe, tự động cập nhật giá.
+                    Thiết lập các phiên bản (Thuê pin, Kèm pin, Eco, Plus) để người dùng chọn trực tiếp tại trang chi tiết xe, tự động cập nhật giá và ảnh.
                 </p>
 
                 <div id="variants-container">
@@ -170,7 +168,64 @@
                 </div>
             </div>
 
-            {{-- Bảng Thông Số Kỹ Thuật Key-Value --}}
+            {{-- 2. Quản lý Bộ Sưu Tập Màu Sắc Xe (Color Studio) --}}
+            <div class="vinfast-autohaiphong_admin_card">
+                <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>BỘ SƯU TẬP MÀU SẮC XE (COLOR STUDIO)</span>
+                    <button type="button" onclick="addNewColorRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
+                        + Thêm Màu Sắc
+                    </button>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
+                    Thiết lập danh sách màu sơn ngoại thất kèm ảnh xe tương ứng để hiển thị trong bộ sưu tập màu sắc tương tác ở trang chi tiết xe.
+                </p>
+
+                <div id="colors-container">
+                    @if($colors->isNotEmpty())
+                        @foreach($colors as $col)
+                            <div class="color-row" style="background: var(--admin-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--admin-border); margin-bottom: 12px;">
+                                <div style="display: grid; grid-template-columns: 60px 1.5fr auto; gap: 10px; align-items: center; margin-bottom: 8px;">
+                                    <div>
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Mã Màu</label>
+                                        <input type="color" name="color_codes[]" value="{{ $col->color_code }}" style="width: 100%; height: 34px; padding: 2px; border: 1px solid var(--admin-border); border-radius: 4px; cursor: pointer;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Tên Màu Sơn</label>
+                                        <input type="text" name="color_names[]" value="{{ $col->name }}" placeholder="VD: Solar Ruby, Infinity Blanc..." 
+                                               style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    </div>
+                                    <button type="button" onclick="this.closest('.color-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 6px; margin-top: 14px;" title="Xóa màu">
+                                        &times;
+                                    </button>
+                                </div>
+                                <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
+                                    <div class="color-img-preview" style="width: 52px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        @if(!empty($col->image_path))
+                                            <img src="{{ asset('storage/' . $col->image_path) }}" alt="{{ $col->name }}" style="width: 100%; height: 100%; object-fit: contain;">
+                                        @else
+                                            <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>
+                                        @endif
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Ảnh Xe Góc Ngang Theo Màu Sơn</label>
+                                        <select name="color_image_media_ids[]" onchange="updateColorImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                                            <option value="" data-src="">-- Chọn ảnh xe theo màu này --</option>
+                                            @foreach($mediaList as $m)
+                                                <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($col->image_media_id) && $col->image_media_id == $m->id) ? 'selected' : '' }}>
+                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            {{-- 3. Bảng Thông Số Kỹ Thuật Key-Value --}}
             <div class="vinfast-autohaiphong_admin_card">
                 <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
                     <span>THÔNG SỐ KỸ THUẬT KEY - VALUE</span>
@@ -214,21 +269,8 @@
 </form>
 
 <script>
-function addNewSpecRow() {
-    const container = document.getElementById('specs-container');
-    const div = document.createElement('div');
-    div.className = 'spec-row';
-    div.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: center;';
-    div.innerHTML = `
-        <input type="text" name="specs_labels[]" placeholder="Tên thông số (Key)" style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-        <input type="text" name="specs_values[]" placeholder="Giá trị (Value)" style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
-        <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;">&times;</button>
-    `;
-    container.appendChild(div);
-}
-
 const mediaOptionsTemplate = `
-    <option value="" data-src="">-- Dùng ảnh chính của xe --</option>
+    <option value="" data-src="">-- Chọn ảnh xe tương ứng --</option>
     @foreach($mediaList as $m)
         <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}">{{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})</option>
     @endforeach
@@ -245,6 +287,55 @@ function updateVariantImgPreview(selectEl) {
             previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>`;
         }
     }
+}
+
+function updateColorImgPreview(selectEl) {
+    const selectedOption = selectEl.options[selectEl.selectedIndex];
+    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
+    const previewBox = selectEl.closest('.color-row').querySelector('.color-img-preview');
+    if (previewBox) {
+        if (src) {
+            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: contain;">`;
+        } else {
+            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>`;
+        }
+    }
+}
+
+function addNewColorRow() {
+    const container = document.getElementById('colors-container');
+    const div = document.createElement('div');
+    div.className = 'color-row';
+    div.style.cssText = 'background: var(--admin-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--admin-border); margin-bottom: 12px;';
+    div.innerHTML = `
+        <div style="display: grid; grid-template-columns: 60px 1.5fr auto; gap: 10px; align-items: center; margin-bottom: 8px;">
+            <div>
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Mã Màu</label>
+                <input type="color" name="color_codes[]" value="#c92a2a" style="width: 100%; height: 34px; padding: 2px; border: 1px solid var(--admin-border); border-radius: 4px; cursor: pointer;">
+            </div>
+            <div>
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Tên Màu Sơn</label>
+                <input type="text" name="color_names[]" placeholder="VD: Solar Ruby, Infinity Blanc..." 
+                       style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            </div>
+            <button type="button" onclick="this.closest('.color-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 6px; margin-top: 14px;" title="Xóa màu">
+                &times;
+            </button>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
+            <div class="color-img-preview" style="width: 52px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Chưa có</span>
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Ảnh Xe Góc Ngang Theo Màu Sơn</label>
+                <select name="color_image_media_ids[]" onchange="updateColorImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                    ${mediaOptionsTemplate}
+                </select>
+            </div>
+        </div>
+    `;
+    container.appendChild(div);
+    formIsDirty = true;
 }
 
 function addNewVariantRow() {
@@ -301,6 +392,20 @@ function addNewVariantRow() {
     formIsDirty = true;
 }
 
+function addNewSpecRow() {
+    const container = document.getElementById('specs-container');
+    const div = document.createElement('div');
+    div.className = 'spec-row';
+    div.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: center;';
+    div.innerHTML = `
+        <input type="text" name="specs_labels[]" placeholder="Tên thông số (Key)" style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+        <input type="text" name="specs_values[]" placeholder="Giá trị (Value)" style="flex: 1.5; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+        <button type="button" onclick="this.parentElement.remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;">&times;</button>
+    `;
+    container.appendChild(div);
+    formIsDirty = true;
+}
+
 // Cảnh báo khi có dữ liệu chưa lưu
 let formIsDirty = false;
 const productForm = document.querySelector('form[action*="admin/products"]');
@@ -317,4 +422,3 @@ window.addEventListener('beforeunload', (e) => {
 });
 </script>
 @endsection
-

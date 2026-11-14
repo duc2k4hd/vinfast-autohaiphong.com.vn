@@ -164,8 +164,87 @@ export function initProductThemeV1() {
     }
   };
 
-  // 2. Color Switcher
+  // 2. Color Studio Switcher with Slide-Left / Drop-Down Animation
+  const switchColorStageCar = (newSrc, altText = '') => {
+    if (!newSrc) return;
+    const stageWrapper = $('[data-color-car-wrapper]');
+    if (!stageWrapper) return;
+
+    const currentCar = stageWrapper.querySelector('.' + P + 'color-car:not(.' + P + 'color-car-exiting)');
+    if (currentCar) {
+      const curSrc = currentCar.getAttribute('src');
+      if (curSrc === newSrc || (curSrc && curSrc.endsWith(newSrc))) return;
+
+      // Xe trước đẩy sang trái và mờ dần biến mất
+      currentCar.classList.add(P + 'color-car-exiting');
+      currentCar.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+      currentCar.style.transform = 'translate3d(-150px, 0, 0) scale(1.05)';
+      currentCar.style.opacity = '0';
+      currentCar.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        currentCar.remove();
+      }, 550);
+    }
+
+    // Xe mới chạy từ trên xuống và xuất hiện mượt mà
+    const newCar = document.createElement('img');
+    newCar.className = P + 'color-car ' + P + 'color-car-entering';
+    newCar.src = newSrc;
+    newCar.alt = altText || 'Mô phỏng màu xe';
+    newCar.loading = 'eager';
+
+    newCar.style.opacity = '0';
+    newCar.style.transform = 'translate3d(0, -90px, 0) scale(1.18)';
+    newCar.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
+    newCar.style.pointerEvents = 'none';
+
+    stageWrapper.appendChild(newCar);
+
+    void newCar.offsetHeight;
+
+    requestAnimationFrame(() => {
+      newCar.style.opacity = '1';
+      newCar.style.transform = 'translate3d(0, 0, 0) scale(1.12)';
+      setTimeout(() => {
+        newCar.classList.remove(P + 'color-car-entering');
+        newCar.style.transition = '';
+        newCar.style.transform = '';
+        newCar.style.opacity = '';
+        newCar.style.pointerEvents = '';
+      }, 580);
+    });
+  };
+
+  const renderColor = (index, isInit = false) => {
+    const colorButtons = $$('[data-color]');
+    if (!colorButtons.length) return;
+
+    colorIndex = (index + colorButtons.length) % colorButtons.length;
+    const activeBtn = colorButtons[colorIndex];
+    if (!activeBtn) return;
+
+    colorButtons.forEach((btn, i) => {
+      const active = i === colorIndex;
+      btn.classList.toggle(P + 'is-active', active);
+      btn.setAttribute('aria-pressed', String(active));
+    });
+
+    const newImage = activeBtn.dataset.image;
+    const colorName = activeBtn.dataset.name;
+
+    if (!isInit && newImage) {
+      switchColorStageCar(newImage, 'Mô phỏng màu ' + (colorName || ''));
+    }
+  };
+
   const initColors = () => {
+    const colorButtons = $$('[data-color]');
+    if (colorButtons.length) {
+      renderColor(0, true);
+      return;
+    }
+
     const host = $('[data-swatches]');
     if (!host) return;
     host.replaceChildren();
@@ -174,38 +253,24 @@ export function initProductThemeV1() {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = P + 'color-dot';
-      button.style.background = color.value;
       button.dataset.color = String(i);
+      button.dataset.name = color.name;
       button.title = color.name;
       button.setAttribute('aria-label', 'Màu ' + color.name);
+
+      const circle = document.createElement('span');
+      circle.className = P + 'color-circle';
+      circle.style.backgroundColor = color.value;
+
+      const label = document.createElement('span');
+      label.className = P + 'color-label';
+      label.textContent = color.name;
+
+      button.append(circle, label);
       host.appendChild(button);
     });
 
-    renderColor(colorIndex);
-  };
-
-  const renderColor = (index) => {
-    const colors = cfg.colors || [];
-    if (!colors.length) return;
-
-    colorIndex = (index + colors.length) % colors.length;
-    const color = colors[colorIndex];
-    const car = $('[data-color-car]');
-    const label = $('[data-color-name]');
-
-    if (car) {
-      car.style.filter = color.filter;
-      car.alt = 'Mô phỏng màu ' + color.name;
-    }
-    if (label) {
-      label.textContent = color.name;
-    }
-
-    $$('[data-color]').forEach(btn => {
-      const active = Number(btn.dataset.color) === colorIndex;
-      btn.classList.toggle(P + 'is-active', active);
-      btn.setAttribute('aria-pressed', String(active));
-    });
+    renderColor(0, true);
   };
 
   // 3. Technical Specifications

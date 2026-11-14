@@ -33,6 +33,7 @@ class ProductController extends Controller
         }
 
         $variants = $this->productService->getVariants($car->id);
+        $colors = $this->productService->getColors($car->id);
         $specifications = $this->productService->getSpecifications($car->id);
         $relatedCars = $this->productService->getRelatedCars($car->category_id, $car->id, 3);
 
@@ -40,6 +41,7 @@ class ProductController extends Controller
             'car' => $car,
             'galleryImages' => $galleryImages,
             'variants' => $variants,
+            'colors' => $colors,
             'specifications' => $specifications,
             'relatedCars' => $relatedCars,
         ]);
