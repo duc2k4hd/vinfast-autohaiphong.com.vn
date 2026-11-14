@@ -22,7 +22,9 @@
         {{-- Khối 3 cam kết trạm sạc --}}
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 48px;">
             <div style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-                <div style="font-size: 2rem; margin-bottom: 12px;">⚡</div>
+                <div style="width: 44px; height: 44px; border-radius: 8px; background: #eff6ff; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--client-color-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
                 <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--client-color-heading); margin-bottom: 8px;">Công Nghệ Sạc Siêu Nhanh</h3>
                 <p style="font-size: 0.9rem; color: #475569; line-height: 1.6;">
                     Công suất trụ sạc DC từ 30kW, 60kW, 150kW đến siêu sạc 250kW, giúp nạp từ 10% lên 70% chỉ trong khoảng 20 – 30 phút.
@@ -30,7 +32,9 @@
             </div>
 
             <div style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-                <div style="font-size: 2rem; margin-bottom: 12px;">📍</div>
+                <div style="width: 44px; height: 44px; border-radius: 8px; background: #eff6ff; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--client-color-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                </div>
                 <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--client-color-heading); margin-bottom: 8px;">Phủ Sóng Rộng Khắp Hải Phòng</h3>
                 <p style="font-size: 0.9rem; color: #475569; line-height: 1.6;">
                     Có mặt tại các trung tâm thương mại Vincom, tòa nhà Vinhomes Imperia, Marina, trạm dừng nghỉ cao tốc và cây xăng liên kết.
@@ -38,7 +42,9 @@
             </div>
 
             <div style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-                <div style="font-size: 2rem; margin-bottom: 12px;">🛡️</div>
+                <div style="width: 44px; height: 44px; border-radius: 8px; background: #eff6ff; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; color: var(--client-color-primary);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
                 <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--client-color-heading); margin-bottom: 8px;">Chính Sách Pin Đỉnh Cao</h3>
                 <p style="font-size: 0.9rem; color: #475569; line-height: 1.6;">
                     VinFast cam kết bảo hành pin lên đến 10 năm không giới hạn quãng đường di chuyển cho bản mua đứt pin hoặc đổi mới khi dung lượng dưới 70%.

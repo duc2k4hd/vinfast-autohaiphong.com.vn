@@ -47,22 +47,35 @@
     <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <span>DANH SÁCH TÀI NGUYÊN MEDIA</span>
 
-        <div style="display: flex; gap: 8px;">
-            <a href="{{ route('admin.media.index') }}" class="vinfast-autohaiphong_admin_btn {{ !$currentFolder ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Tất Cả
-            </a>
-            <a href="{{ route('admin.media.index', ['folder' => 'products']) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'products' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Dòng Xe
-            </a>
-            <a href="{{ route('admin.media.index', ['folder' => 'banners']) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'banners' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Banners
-            </a>
-            <a href="{{ route('admin.media.index', ['folder' => 'business']) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'business' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Logo & Showroom
-            </a>
-            <a href="{{ route('admin.media.index', ['folder' => 'posts']) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'posts' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
-                Tin Tức
-            </a>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+            <form action="{{ route('admin.media.index') }}" method="GET" style="display: flex; gap: 6px;">
+                @if($currentFolder)
+                    <input type="hidden" name="folder" value="{{ $currentFolder }}">
+                @endif
+                <input type="text" name="search" value="{{ $currentSearch ?? '' }}" placeholder="Tìm tên ảnh, mô tả..." 
+                       style="padding: 5px 10px; border: 1px solid var(--admin-border); border-radius: 5px; font-size: 0.8rem; width: 170px;">
+                <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                    Tìm
+                </button>
+            </form>
+
+            <div style="display: flex; gap: 6px;">
+                <a href="{{ route('admin.media.index', array_filter(['search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ !$currentFolder ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Tất Cả
+                </a>
+                <a href="{{ route('admin.media.index', array_filter(['folder' => 'products', 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'products' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Dòng Xe
+                </a>
+                <a href="{{ route('admin.media.index', array_filter(['folder' => 'banners', 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'banners' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Banners
+                </a>
+                <a href="{{ route('admin.media.index', array_filter(['folder' => 'business', 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'business' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Logo
+                </a>
+                <a href="{{ route('admin.media.index', array_filter(['folder' => 'posts', 'search' => $currentSearch])) }}" class="vinfast-autohaiphong_admin_btn {{ $currentFolder === 'posts' ? 'vinfast-autohaiphong_admin_btn_primary' : 'vinfast-autohaiphong_admin_btn_outline' }}" style="padding: 4px 10px; font-size: 0.8rem;">
+                    Tin Tức
+                </a>
+            </div>
         </div>
     </div>
 

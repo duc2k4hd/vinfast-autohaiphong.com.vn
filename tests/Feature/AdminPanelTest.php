@@ -41,6 +41,9 @@ class AdminPanelTest extends TestCase
         $dashboardResponse = $this->get('/admin/dashboard');
         $dashboardResponse->assertStatus(200);
         $dashboardResponse->assertSee('TỔNG QUAN HỆ THỐNG VINFAST HẢI PHÒNG');
+        $dashboardResponse->assertSee('XU HƯỚNG HOẠT ĐỘNG 7 NGÀY GẦN NHẤT');
+        $dashboardResponse->assertSee('Yêu cầu báo giá');
+        $dashboardResponse->assertSee('Đơn đặt cọc');
     }
 
     public function test_admin_can_update_product_and_key_value_specifications(): void

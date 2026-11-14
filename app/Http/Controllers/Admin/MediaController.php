@@ -19,11 +19,12 @@ class MediaController extends Controller
     ) {}
 
     /**
-     * Thư viện ảnh tập trung Admin.
+     * Thư viện ảnh tập trung Admin kèm bộ lọc tìm kiếm.
      */
     public function index(Request $request): View
     {
         $folder = $request->query('folder');
+        $search = $request->query('search');
 
         $query = DB::table('media');
 
@@ -31,11 +32,20 @@ class MediaController extends Controller
             $query->where('path', 'like', "clients/assets/images/{$folder}/%");
         }
 
-        $mediaItems = $query->orderBy('created_at', 'desc')->paginate(24);
+        if (! empty($search)) {
+            $cleanSearch = trim($search);
+            $query->where(function ($q) use ($cleanSearch) {
+                $q->where('filename', 'like', "%{$cleanSearch}%")
+                    ->orWhere('alt_text', 'like', "%{$cleanSearch}%");
+            });
+        }
+
+        $mediaItems = $query->orderBy('created_at', 'desc')->paginate(24)->withQueryString();
 
         return view('admin.media.index', [
             'mediaItems' => $mediaItems,
             'currentFolder' => $folder,
+            'currentSearch' => $search,
         ]);
     }
 

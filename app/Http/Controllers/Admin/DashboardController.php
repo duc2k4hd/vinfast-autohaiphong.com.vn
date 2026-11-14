@@ -35,6 +35,23 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        $dailyStats = collect();
+        for ($i = 6; $i >= 0; $i--) {
+            $targetDate = now()->subDays($i);
+            $date = $targetDate->format('Y-m-d');
+            $label = $targetDate->format('d/m');
+            $ordersCount = DB::table('orders')->whereDate('created_at', $date)->count();
+            $leadsCount = DB::table('leads')->whereDate('created_at', $date)->count();
+            $dailyStats->push([
+                'date' => $date,
+                'label' => $label,
+                'orders' => $ordersCount,
+                'leads' => $leadsCount,
+            ]);
+        }
+
+        $maxDailyVal = max(1, (int) $dailyStats->max(fn ($d) => max($d['orders'], $d['leads'])));
+
         return view('admin.dashboard.index', [
             'totalCars' => $totalCars,
             'totalLeads' => $totalLeads,
@@ -44,6 +61,8 @@ class DashboardController extends Controller
             'totalOrderValue' => $totalOrderValue,
             'recentOrders' => $recentOrders,
             'recentLeads' => $recentLeads,
+            'dailyStats' => $dailyStats,
+            'maxDailyVal' => $maxDailyVal,
         ]);
     }
 }
