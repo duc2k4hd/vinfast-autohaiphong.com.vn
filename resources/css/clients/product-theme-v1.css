@@ -326,15 +326,18 @@ select:focus-visible,
 }
 /* Intro */
 .vinfast-autohaiphong_product_intro {
-    padding-bottom: 36px;
+    padding-bottom: 40px;
     padding-top: 30px;
+}
+.vinfast-autohaiphong_product_intro .vinfast-autohaiphong_product_container {
+    max-width: 1440px;
 }
 .vinfast-autohaiphong_product_intro-grid {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(24px, 4vw, 56px);
+    grid-template-columns: 1.25fr 0.85fr;
+    gap: clamp(24px, 3.5vw, 56px);
     align-items: center;
-    min-height: 500px;
+    min-height: 540px;
 }
 .vinfast-autohaiphong_product_intro-visual,
 .vinfast-autohaiphong_product_intro-visual.vinfast-autohaiphong_product_revealed {
@@ -357,6 +360,25 @@ select:focus-visible,
     z-index: 2;
     mix-blend-mode: multiply;
     filter: contrast(1.05);
+    transform: scale(1.12);
+    transform-origin: center center;
+    transition: transform 0.3s ease;
+}
+.vinfast-autohaiphong_product_intro-watermark {
+    position: absolute;
+    top: 2%;
+    left: 0;
+    font-size: clamp(160px, 20vw, 320px);
+    line-height: 0.9;
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: -14px;
+    color: #e9edf1;
+    opacity: 0.85;
+    white-space: nowrap;
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
 }
 .vinfast-autohaiphong_product_intro-info {
     padding: 10px 0 15px;
@@ -456,7 +478,6 @@ select:focus-visible,
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
-    margin-top: 20px;
 }
 .vinfast-autohaiphong_product_price-tag {
     background: #edf5ff;
@@ -1548,16 +1569,17 @@ select:focus-visible,
     .vinfast-autohaiphong_product_intro-visual.vinfast-autohaiphong_product_revealed {
         aspect-ratio: 4 / 3;
         min-height: unset;
-        margin: -8px auto 0;
-        max-width: 480px;
+        margin: 0 auto;
+        max-width: 580px;
         width: 100%;
     }
     .vinfast-autohaiphong_product_intro-car {
         aspect-ratio: 4 / 3;
         width: 100%;
-        max-width: 480px;
+        max-width: 580px;
         height: 100%;
         max-height: none;
+        transform: scale(1.08);
     }
     .vinfast-autohaiphong_product_intro-info {
         max-width: 440px;
