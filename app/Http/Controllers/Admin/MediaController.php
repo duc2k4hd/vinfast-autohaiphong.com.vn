@@ -99,14 +99,17 @@ class MediaController extends Controller
      */
     public function store(Request $request): RedirectResponse|JsonResponse
     {
+        $maxKb = MediaService::getMaxUploadSizeKb(isAdmin: true);
+        $maxMb = round($maxKb / 1024);
+
         $request->validate([
-            'file' => ['required', 'file', 'mimes:webp,png,jpg,jpeg,svg,gif,avif', 'max:5120'], // tối đa 5MB
+            'file' => ['required', 'file', 'mimes:webp,png,jpg,jpeg,svg,gif,avif', 'max:'.$maxKb], // tối đa 10MB trong admin
             'folder' => ['nullable', 'in:products,banners,business,posts'],
             'alt_text' => ['nullable', 'string', 'max:255'],
         ], [
             'file.required' => 'Vui lòng chọn một tệp ảnh để tải lên.',
             'file.mimes' => 'Định dạng ảnh được chấp nhận: webp, png, jpg, jpeg, svg, gif, avif.',
-            'file.max' => 'Dung lượng ảnh tối đa là 5MB.',
+            'file.max' => "Dung lượng ảnh tối đa là {$maxMb}MB.",
         ]);
 
         $uploadedFile = $request->file('file');

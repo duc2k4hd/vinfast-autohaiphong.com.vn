@@ -83,6 +83,12 @@ document.addEventListener('DOMContentLoaded', function () {
             `,
             images_upload_handler: function (blobInfo, progress) {
                 return new Promise(function (resolve, reject) {
+                    const MAX_ADMIN_BYTES = 10 * 1024 * 1024; // 10MB
+                    if (blobInfo.blob().size > MAX_ADMIN_BYTES) {
+                        reject('Dung lượng ảnh vượt quá giới hạn 10MB.');
+                        return;
+                    }
+
                     const xhr = new XMLHttpRequest();
                     xhr.withCredentials = false;
                     xhr.open('POST', uploadUrl);
@@ -95,7 +101,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     xhr.onload = function () {
                         if (xhr.status < 200 || xhr.status >= 300) {
-                            reject('Tải ảnh thất bại: Mã lỗi HTTP ' + xhr.status);
+                            let errMsg = 'Tải ảnh thất bại: Mã lỗi HTTP ' + xhr.status;
+                            try {
+                                const errJson = JSON.parse(xhr.responseText);
+                                errMsg = errJson.errors?.file?.[0] || errJson.message || errMsg;
+                            } catch (e) {}
+                            reject(errMsg);
                             return;
                         }
 

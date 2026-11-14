@@ -15,7 +15,7 @@
     <form action="{{ route('admin.media.store') }}" method="POST" enctype="multipart/form-data" style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
         @csrf
         <div style="flex: 1; min-width: 240px;">
-            <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">Chọn tệp ảnh (Max 5MB)</label>
+            <label style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px;">Chọn tệp ảnh (Max 10MB)</label>
             <input type="file" name="file" required accept="image/*" 
                    style="width: 100%; padding: 6px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem; background: #ffffff;">
         </div>

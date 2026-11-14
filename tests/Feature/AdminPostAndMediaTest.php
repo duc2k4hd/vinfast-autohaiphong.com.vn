@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Services\Shared\MediaService;
 use Database\Seeders\InitialAdminUserSeeder;
 use Database\Seeders\InitialPostsSeeder;
 use Database\Seeders\InitialSettingsSeeder;
@@ -98,5 +99,51 @@ class AdminPostAndMediaTest extends TestCase
         $this->assertDatabaseHas('media', [
             'alt_text' => 'Banner kiểm thử',
         ]);
+    }
+
+    public function test_admin_upload_allows_up_to_10mb(): void
+    {
+        $admin = User::first();
+
+        // 8MB file (8192 KB) should pass
+        $largeFile = UploadedFile::fake()->create('large-car-photo.jpg', 8192, 'image/jpeg');
+
+        $response = $this->actingAs($admin)->post('/admin/media', [
+            'file' => $largeFile,
+            'folder' => 'products',
+            'alt_text' => 'Ảnh 8MB hợp lệ',
+        ]);
+
+        $response->assertSessionHas('success');
+        $this->assertDatabaseHas('media', [
+            'alt_text' => 'Ảnh 8MB hợp lệ',
+        ]);
+    }
+
+    public function test_admin_upload_rejects_files_over_10mb(): void
+    {
+        $admin = User::first();
+
+        // 11MB file (11264 KB) should fail validation
+        $oversizedFile = UploadedFile::fake()->create('oversized-photo.jpg', 11264, 'image/jpeg');
+
+        $response = $this->actingAs($admin)
+            ->from('/admin/media')
+            ->post('/admin/media', [
+                'file' => $oversizedFile,
+                'folder' => 'products',
+            ]);
+
+        $response->assertSessionHasErrors(['file']);
+        $this->assertSame(
+            'Dung lượng ảnh tối đa là 10MB.',
+            session('errors')->first('file')
+        );
+    }
+
+    public function test_media_service_configured_for_10mb_admin_and_3mb_client(): void
+    {
+        $this->assertSame(10240, MediaService::getMaxUploadSizeKb(isAdmin: true));
+        $this->assertSame(3072, MediaService::getMaxUploadSizeKb(isAdmin: false));
     }
 }

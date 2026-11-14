@@ -9,6 +9,20 @@ use Illuminate\Support\Str;
 
 class MediaService
 {
+    public const MAX_ADMIN_UPLOAD_KB = 10240; // 10MB
+
+    public const MAX_CLIENT_UPLOAD_KB = 3072; // 3MB
+
+    /**
+     * Lấy giới hạn dung lượng tải tệp ảnh tính theo KB.
+     */
+    public static function getMaxUploadSizeKb(bool $isAdmin = true): int
+    {
+        return $isAdmin
+            ? (int) config('media.max_upload_size_kb.admin', self::MAX_ADMIN_UPLOAD_KB)
+            : (int) config('media.max_upload_size_kb.client', self::MAX_CLIENT_UPLOAD_KB);
+    }
+
     /**
      * Tải lên một file media và lưu vào cơ sở dữ liệu.
      *

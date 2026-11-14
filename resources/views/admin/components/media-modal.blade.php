@@ -78,7 +78,7 @@
                         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     </div>
                     <div class="vf-media-dropzone-title">Kéo thả ảnh vào đây hoặc click để chọn</div>
-                    <div class="vf-media-dropzone-subtitle">Hỗ trợ: JPG, PNG, GIF, WEBP, AVIF, SVG (tối đa 5MB / mỗi ảnh)</div>
+                    <div class="vf-media-dropzone-subtitle">Hỗ trợ: JPG, PNG, GIF, WEBP, AVIF, SVG (tối đa 10MB / mỗi ảnh)</div>
                     <div class="vf-media-dropzone-hint">⚡ Hệ thống hỗ trợ tải hàng trăm ảnh cùng lúc với công nghệ chia batch đa luồng tự động</div>
                 </div>
 
@@ -1004,10 +1004,27 @@
         }
     }
 
-    // Upload 1 file đơn lẻ
+    // Upload 1 file đơn lẻ (Giới hạn tối đa 10MB trong admin)
     function uploadSingleFile(queueItem) {
         const itemEl = document.getElementById(queueItem.id);
         const statusEl = itemEl ? itemEl.querySelector('.vf-media-queue-status') : null;
+
+        // Kiểm tra dung lượng tối đa 10MB trước khi gửi request
+        const MAX_ADMIN_BYTES = 10 * 1024 * 1024; // 10MB
+        if (queueItem.file && queueItem.file.size > MAX_ADMIN_BYTES) {
+            activeUploadsCount--;
+            finishedFilesCount++;
+            updateOverallProgress();
+
+            if (statusEl) {
+                statusEl.className = 'vf-media-queue-status error';
+                statusEl.textContent = '✕ Vượt quá 10MB (tối đa 10MB)';
+            }
+
+            processUploadQueue();
+            checkAllUploadsComplete();
+            return;
+        }
 
         if (statusEl) {
             statusEl.className = 'vf-media-queue-status uploading';
@@ -1029,8 +1046,15 @@
             },
             body: formData
         })
-        .then(res => {
-            if (!res.ok) throw new Error('Upload thất bại: ' + res.statusText);
+        .then(async res => {
+            if (!res.ok) {
+                let errMsg = 'Upload thất bại: ' + res.statusText;
+                try {
+                    const errData = await res.json();
+                    errMsg = errData.errors?.file?.[0] || errData.message || errMsg;
+                } catch (e) {}
+                throw new Error(errMsg);
+            }
             return res.json();
         })
         .then(result => {
@@ -1054,7 +1078,7 @@
 
             if (statusEl) {
                 statusEl.className = 'vf-media-queue-status error';
-                statusEl.textContent = '✕ Lỗi tải lên';
+                statusEl.textContent = '✕ ' + (err.message || 'Lỗi tải lên');
             }
 
             processUploadQueue();
