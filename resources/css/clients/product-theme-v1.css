@@ -406,6 +406,23 @@ select:focus-visible,
     justify-content: center;
     overflow: hidden;
 }
+.vinfast-autohaiphong_product_intro-watermark {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(70px, 12vw, 150px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: rgba(148, 163, 184, 0.12);
+    -webkit-text-stroke: 1.5px rgba(148, 163, 184, 0.18);
+    white-space: nowrap;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    line-height: 1;
+}
 .vinfast-autohaiphong_product_intro-car {
     aspect-ratio: 4 / 3;
     width: 100%;
@@ -630,8 +647,33 @@ select:focus-visible,
     padding: 50px 20px 40px;
     overflow: hidden;
 }
+.vinfast-autohaiphong_product_color-watermark {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    overflow: hidden;
+    line-height: 0.9;
+}
+.vinfast-autohaiphong_product_color-watermark span {
+    display: inline-block;
+    font-size: clamp(80px, 15vw, 190px);
+    font-weight: 900;
+    font-family: inherit;
+    letter-spacing: -0.03em;
+    color: rgba(100, 116, 139, 0.15);
+    -webkit-text-stroke: 1.5px rgba(100, 116, 139, 0.22);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
 .vinfast-autohaiphong_product_color-car-wrapper {
     position: relative;
+    z-index: 2;
     width: 100%;
     max-width: 980px;
     height: clamp(340px, 42vw, 480px);
@@ -2723,6 +2765,13 @@ select:focus-visible,
     }
     .vinfast-autohaiphong_product_color-stage {
         min-height: 255px;
+    }
+    .vinfast-autohaiphong_product_color-watermark {
+        top: 22%;
+    }
+    .vinfast-autohaiphong_product_color-watermark span {
+        font-size: clamp(48px, 18vw, 84px);
+        -webkit-text-stroke: 1px rgba(100, 116, 139, 0.2);
     }
     .vinfast-autohaiphong_product_color-car {
         height: 185px;

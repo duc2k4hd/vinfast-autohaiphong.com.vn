@@ -203,6 +203,7 @@ window.VINFAST_PRODUCT_DATA = {
                             : $mainCarImage;
                     @endphp
                     <div class="vinfast-autohaiphong_product_intro-visual" data-reveal>
+                        <span class="vinfast-autohaiphong_product_intro-watermark" aria-hidden="true">{{ $shortModelName }}</span>
                         <img class="vinfast-autohaiphong_product_intro-car"
                              src="{{ $initialCarImage }}"
                              alt="{{ $car->name }}"
@@ -347,6 +348,11 @@ window.VINFAST_PRODUCT_DATA = {
                     <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
                 </div>
                 <div class="vinfast-autohaiphong_product_color-stage" data-reveal>
+                    {{-- Chữ mờ Watermark thương hiệu dòng xe trên phần nền xám --}}
+                    <div class="vinfast-autohaiphong_product_color-watermark" aria-hidden="true">
+                        <span>{{ $shortModelName }}</span>
+                    </div>
+
                     {{-- Khung hiển thị xe góc ngang side-view to lớn hoành tráng --}}
                     <div class="vinfast-autohaiphong_product_color-car-wrapper" data-color-car-wrapper>
                         <img class="vinfast-autohaiphong_product_color-car"
