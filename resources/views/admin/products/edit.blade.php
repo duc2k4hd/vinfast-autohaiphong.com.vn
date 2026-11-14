@@ -295,6 +295,7 @@
     </a>
     <a href="#video-gioi-thieu-xe" class="vf-admin-quick-nav-pill">
         <span>④ Video 16:9</span>
+        <span class="vf-admin-card-badge" id="pill-count-videos">{{ $videos->count() }}</span>
     </a>
     <a href="#bo-suu-tap-mau-sac" class="vf-admin-quick-nav-pill">
         <span>⑤ Màu Sắc (Studio)</span>
@@ -613,99 +614,108 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/><path d="M19 12H5"/></svg>
                 <span>VIDEO GIỚI THIỆU XE (TỶ LỆ 16:9 FULL VIỀN)</span>
             </div>
-            <span class="vf-admin-card-badge" style="background: #eef2ff; color: #4338ca;">Tự phát khi cuộn tới</span>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <span class="vf-admin-card-badge" id="badge-count-videos">{{ $videos->count() }} video</span>
+                <button type="button" onclick="addNewVideoRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="padding: 5px 12px; font-size: 0.8rem;">
+                    + Thêm Video
+                </button>
+            </div>
         </div>
         <div class="vf-admin-card-body" style="padding: 20px;">
             <p style="font-size: 0.82rem; color: var(--admin-muted); margin-bottom: 16px;">
-                Video hiển thị 16:9 full viền ngay phía trên khối Màu sắc ngoại thất ngoài website. Khi người dùng cuộn gần tới video sẽ bắt đầu tải và tự động phát khi vào tầm nhìn (tắt tiếng). Ban đầu chỉ tải ảnh poster để tối ưu SEO.
+                Video hiển thị tỷ lệ 16:9 với độ rộng tối đa 100% (full viền) dính đuôi nhau phía trên khối Màu sắc ngoài website. Khi cuộn tới đâu video đó sẽ tự động phát (tắt tiếng) và chỉ 1 video được phát tại 1 thời điểm. Hỗ trợ tải lên video tối đa 50MB từ thư viện Media.
             </p>
 
-            <div style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 24px; align-items: start;">
-                {{-- Cột trái: Khung xem trước Video 16/9 --}}
-                <div>
-                    <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 8px;">Xem trước Video</label>
-                    <div id="video-preview-wrapper" style="position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0f172a; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--admin-border);">
+            <div id="videos-container">
+                @if(!empty($videos) && $videos->isNotEmpty())
+                    @foreach($videos as $vIdx => $video)
                         @php
-                            $currentVideoUrl = !empty($product->video_path) 
-                                ? asset('storage/' . $product->video_path) 
-                                : ($videoMedia ? asset('storage/' . $videoMedia->path) : '');
-                            $currentPosterUrl = !empty($product->video_poster_path) 
-                                ? asset('storage/' . $product->video_poster_path) 
-                                : ($videoPosterMedia ? asset('storage/' . $videoPosterMedia->path) : '');
+                            $vUrl = !empty($video->video_path) 
+                                ? (str_starts_with($video->video_path, 'http') ? $video->video_path : asset('storage/' . ltrim($video->video_path, '/')))
+                                : (!empty($video->video_media_path) ? asset('storage/' . ltrim($video->video_media_path, '/')) : '');
+                            $pUrl = !empty($video->poster_path)
+                                ? (str_starts_with($video->poster_path, 'http') ? $video->poster_path : asset('storage/' . ltrim($video->poster_path, '/')))
+                                : (!empty($video->poster_media_path) ? asset('storage/' . ltrim($video->poster_media_path, '/')) : '');
                         @endphp
-                        
-                        <video id="admin-video-player" 
-                               controls 
-                               playsinline 
-                               poster="{{ $currentPosterUrl }}"
-                               style="width: 100%; height: 100%; object-fit: contain; {{ $currentVideoUrl ? '' : 'display: none;' }}">
-                            <source id="admin-video-source" src="{{ $currentVideoUrl }}" type="video/mp4">
-                            Trình duyệt không hỗ trợ thẻ video.
-                        </video>
+                        <div class="video-row" style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+                                <span style="font-size: 0.8rem; font-weight: 700; color: #4338ca; background: #eef2ff; padding: 3px 10px; border-radius: 12px;">
+                                    Video #<span class="video-index">{{ $vIdx + 1 }}</span>
+                                </span>
+                                <button type="button" onclick="this.closest('.video-row').remove(); updateCounters(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.3rem; padding: 0 6px; line-height: 1;" title="Xóa video này">
+                                    &times;
+                                </button>
+                            </div>
 
-                        <div id="admin-video-placeholder" style="text-align: center; color: #94a3b8; padding: 20px; {{ $currentVideoUrl ? 'display: none;' : '' }}">
-                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 8px; display: block; opacity: 0.6;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            <span style="font-size: 0.85rem;">Chưa có video. Nhấn nút "Chọn video từ Media" để thêm.</span>
+                            <div style="display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 20px; align-items: start;">
+                                {{-- Preview --}}
+                                <div>
+                                    <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 6px;">Xem trước Video (16:9)</label>
+                                    <div class="video-preview-wrapper" style="position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0f172a; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--admin-border);">
+                                        <video class="admin-row-video-player"
+                                               controls
+                                               playsinline
+                                               poster="{{ $pUrl }}"
+                                               style="width: 100%; height: 100%; object-fit: contain; {{ $vUrl ? '' : 'display: none;' }}">
+                                            <source class="admin-row-video-source" src="{{ $vUrl }}" type="video/mp4">
+                                            Trình duyệt không hỗ trợ thẻ video.
+                                        </video>
+                                        <div class="admin-row-video-placeholder" style="text-align: center; color: #94a3b8; padding: 16px; {{ $vUrl ? 'display: none;' : '' }}">
+                                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 6px; display: block; opacity: 0.6;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                            <span style="font-size: 0.8rem;">Chưa chọn file video. Bấm "Chọn Media" để thêm.</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Inputs --}}
+                                <div style="display: flex; flex-direction: column; gap: 12px;">
+                                    <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+                                        <div>
+                                            <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Tiêu đề Video</label>
+                                            <input type="text" name="video_titles[]" value="{{ $video->title ?? '' }}" placeholder="VD: Video mô phỏng xe điện VinFast VF 3" class="vf-admin-input video-title-input" style="padding: 6px 10px; font-size: 0.85rem;">
+                                        </div>
+                                        <div>
+                                            <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Phụ đề / Ghi chú</label>
+                                            <input type="text" name="video_subtitles[]" value="{{ $video->subtitle ?? '' }}" placeholder="VD: Khám phá ngoại thất" class="vf-admin-input video-subtitle-input" style="padding: 6px 10px; font-size: 0.85rem;">
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Tệp Video (MP4 / WEBM - tối đa 50MB)</label>
+                                        <div style="display: flex; gap: 8px;">
+                                            <input type="text" name="video_paths[]" value="{{ $video->video_path ?? '' }}" placeholder="clients/assets/videos/..." class="vf-admin-input video-path-input" style="padding: 6px 10px; font-size: 0.85rem;" readonly>
+                                            <input type="hidden" name="video_media_ids[]" value="{{ $video->video_media_id ?? '' }}" class="video-media-id-input">
+                                            <button type="button" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="white-space: nowrap; padding: 6px 12px; font-size: 0.8rem;" onclick="chooseVideoMedia(this)">
+                                                Chọn Media
+                                            </button>
+                                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; padding: 6px 10px; font-size: 0.8rem; color: #ef4444; border-color: #fca5a5;" onclick="clearVideoMedia(this)">
+                                                Xóa
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Ảnh Bìa Video (Poster - tối ưu SEO)</label>
+                                        <div style="display: flex; gap: 8px;">
+                                            <input type="text" name="video_poster_paths[]" value="{{ $video->poster_path ?? '' }}" placeholder="Để trống sẽ dùng ảnh đại diện xe" class="vf-admin-input video-poster-path-input" style="padding: 6px 10px; font-size: 0.85rem;" readonly>
+                                            <input type="hidden" name="video_poster_media_ids[]" value="{{ $video->poster_media_id ?? '' }}" class="video-poster-media-id-input">
+                                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; padding: 6px 12px; font-size: 0.8rem;" onclick="chooseVideoPoster(this)">
+                                                Chọn ảnh bìa
+                                            </button>
+                                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; padding: 6px 10px; font-size: 0.8rem; color: #ef4444; border-color: #fca5a5;" onclick="clearVideoPoster(this)">
+                                                Xóa
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    @endforeach
+                @else
+                    <div id="no-videos-placeholder" style="text-align: center; padding: 24px; background: var(--admin-bg); border-radius: 6px; border: 1px dashed var(--admin-border); color: var(--admin-muted); font-size: 0.85rem;">
+                        Chưa có video giới thiệu nào. Bấm <strong>+ Thêm Video</strong> để thêm video mô phỏng (16:9 full viền).
                     </div>
-                </div>
-
-                {{-- Cột phải: Cấu hình Video & Poster --}}
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <div>
-                        <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 6px;">Tiêu đề Video (SEO & Trợ năng)</label>
-                        <input type="text" 
-                               name="video_title" 
-                               id="video_title_input" 
-                               class="vf-admin-input" 
-                               value="{{ old('video_title', $product->video_title ?? '') }}" 
-                               placeholder="Ví dụ: Video mô phỏng xe điện VinFast VF 3">
-                    </div>
-
-                    <div>
-                        <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 6px;">Tệp Video (MP4 / WEBM)</label>
-                        <div style="display: flex; gap: 8px;">
-                            <input type="text" 
-                                   name="video_path" 
-                                   id="video_path_input" 
-                                   class="vf-admin-input" 
-                                   value="{{ old('video_path', $product->video_path ?? '') }}" 
-                                   placeholder="clients/assets/videos/..."
-                                   readonly>
-                            <input type="hidden" name="video_media_id" id="video_media_id_input" value="{{ old('video_media_id', $product->video_media_id ?? '') }}">
-                            
-                            <button type="button" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="white-space: nowrap;" onclick="chooseProductVideo()">
-                                Chọn từ Media
-                            </button>
-                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; color: #ef4444; border-color: #fca5a5;" onclick="clearProductVideo()">
-                                Xóa
-                            </button>
-                        </div>
-                        <p style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">Hỗ trợ MP4, WEBM tải lên từ popup Media (tối đa 50MB).</p>
-                    </div>
-
-                    <div>
-                        <label class="vf-admin-label" style="font-weight: 600; margin-bottom: 6px;">Ảnh Bìa Video (Poster - Tốt cho SEO & Tốc độ tải)</label>
-                        <div style="display: flex; gap: 8px;">
-                            <input type="text" 
-                                   name="video_poster_path" 
-                                   id="video_poster_path_input" 
-                                   class="vf-admin-input" 
-                                   value="{{ old('video_poster_path', $product->video_poster_path ?? '') }}" 
-                                   placeholder="Để trống sẽ dùng ảnh thumbnail đại diện xe"
-                                   readonly>
-                            <input type="hidden" name="video_poster_media_id" id="video_poster_media_id_input" value="{{ old('video_poster_media_id', $product->video_poster_media_id ?? '') }}">
-                            
-                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap;" onclick="chooseProductVideoPoster()">
-                                Chọn ảnh bìa
-                            </button>
-                            <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; color: #ef4444; border-color: #fca5a5;" onclick="clearProductVideoPoster()">
-                                Xóa
-                            </button>
-                        </div>
-                        <p style="font-size: 0.75rem; color: var(--admin-muted); margin-top: 4px;">Ảnh hiển thị đầu tiên trước khi cuộn tới tải video, giúp tăng tốc độ tải trang và tối ưu SEO.</p>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -1590,6 +1600,7 @@ function updateCounters() {
     const vCount = document.querySelectorAll('#variants-container .variant-row').length;
     const cCount = document.querySelectorAll('#colors-container .color-row').length;
     const bCount = document.querySelectorAll('#banners-container .banner-row').length;
+    const vdCount = document.querySelectorAll('#videos-container .video-row').length;
     const iCount = document.querySelectorAll('#interiors-container .interior-row').length;
     const hCount = document.querySelectorAll('#highlights-container .highlight-row').length;
     const sCount = document.querySelectorAll('#specs-container .spec-row').length;
@@ -1597,6 +1608,7 @@ function updateCounters() {
     const elV = document.getElementById('badge-count-variants'); if (elV) elV.textContent = `${vCount} phiên bản`;
     const elC = document.getElementById('badge-count-colors'); if (elC) elC.textContent = `${cCount} màu`;
     const elB = document.getElementById('badge-count-banners'); if (elB) elB.textContent = `${bCount} banner`;
+    const elVd = document.getElementById('badge-count-videos'); if (elVd) elVd.textContent = `${vdCount} video`;
     const elI = document.getElementById('badge-count-interiors'); if (elI) elI.textContent = `${iCount} ảnh nội thất`;
     const elH = document.getElementById('badge-count-highlights'); if (elH) elH.textContent = `${hCount} thông số`;
     const elS = document.getElementById('badge-count-specs'); if (elS) elS.textContent = `${sCount} mục thông số`;
@@ -1604,6 +1616,7 @@ function updateCounters() {
     const pV = document.getElementById('pill-count-variants'); if (pV) pV.textContent = vCount;
     const pC = document.getElementById('pill-count-colors'); if (pC) pC.textContent = cCount;
     const pB = document.getElementById('pill-count-banners'); if (pB) pB.textContent = bCount;
+    const pVd = document.getElementById('pill-count-videos'); if (pVd) pVd.textContent = vdCount;
     const pI = document.getElementById('pill-count-interiors'); if (pI) pI.textContent = iCount;
     const pH = document.getElementById('pill-count-highlights'); if (pH) pH.textContent = hCount;
     const pS = document.getElementById('pill-count-specs'); if (pS) pS.textContent = sCount;
@@ -1811,18 +1824,109 @@ function removeBannerImage(btn) {
     markFormDirty();
 }
 
-// 4.1. Chọn & Xóa Video giới thiệu xe (16:9)
-function chooseProductVideo() {
+// 4.1. Quản lý danh sách Video 16:9 giới thiệu xe (Multi-video)
+function addNewVideoRow(data = {}) {
+    const placeholder = document.getElementById('no-videos-placeholder');
+    if (placeholder) placeholder.remove();
+
+    const container = document.getElementById('videos-container');
+    const div = document.createElement('div');
+    div.className = 'video-row';
+    div.style.cssText = 'background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative;';
+
+    const count = container.querySelectorAll('.video-row').length + 1;
+    const vUrl = data.video_url || '';
+    const pUrl = data.poster_url || '';
+
+    div.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+            <span style="font-size: 0.8rem; font-weight: 700; color: #4338ca; background: #eef2ff; padding: 3px 10px; border-radius: 12px;">
+                Video #<span class="video-index">${count}</span>
+            </span>
+            <button type="button" onclick="this.closest('.video-row').remove(); updateCounters(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.3rem; padding: 0 6px; line-height: 1;" title="Xóa video này">
+                &times;
+            </button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.1fr 1.3fr; gap: 20px; align-items: start;">
+            <div>
+                <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 6px;">Xem trước Video (16:9)</label>
+                <div class="video-preview-wrapper" style="position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0f172a; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--admin-border);">
+                    <video class="admin-row-video-player"
+                           controls
+                           playsinline
+                           poster="${pUrl}"
+                           style="width: 100%; height: 100%; object-fit: contain; ${vUrl ? '' : 'display: none;'}">
+                        <source class="admin-row-video-source" src="${vUrl}" type="video/mp4">
+                        Trình duyệt không hỗ trợ thẻ video.
+                    </video>
+                    <div class="admin-row-video-placeholder" style="text-align: center; color: #94a3b8; padding: 16px; ${vUrl ? 'display: none;' : ''}">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin: 0 auto 6px; display: block; opacity: 0.6;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        <span style="font-size: 0.8rem;">Chưa chọn file video. Bấm "Chọn Media" để thêm.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px;">
+                    <div>
+                        <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Tiêu đề Video</label>
+                        <input type="text" name="video_titles[]" value="${data.title || ''}" placeholder="VD: Video mô phỏng xe điện VinFast VF 3" class="vf-admin-input video-title-input" style="padding: 6px 10px; font-size: 0.85rem;">
+                    </div>
+                    <div>
+                        <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Phụ đề / Ghi chú</label>
+                        <input type="text" name="video_subtitles[]" value="${data.subtitle || ''}" placeholder="VD: Khám phá ngoại thất" class="vf-admin-input video-subtitle-input" style="padding: 6px 10px; font-size: 0.85rem;">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Tệp Video (MP4 / WEBM - tối đa 50MB)</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" name="video_paths[]" value="${data.video_path || ''}" placeholder="clients/assets/videos/..." class="vf-admin-input video-path-input" style="padding: 6px 10px; font-size: 0.85rem;" readonly>
+                        <input type="hidden" name="video_media_ids[]" value="${data.video_media_id || ''}" class="video-media-id-input">
+                        <button type="button" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="white-space: nowrap; padding: 6px 12px; font-size: 0.8rem;" onclick="chooseVideoMedia(this)">
+                            Chọn Media
+                        </button>
+                        <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; padding: 6px 10px; font-size: 0.8rem; color: #ef4444; border-color: #fca5a5;" onclick="clearVideoMedia(this)">
+                            Xóa
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="vf-admin-label" style="font-size: 0.75rem; font-weight: 600; margin-bottom: 4px;">Ảnh Bìa Video (Poster - tối ưu SEO)</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" name="video_poster_paths[]" value="${data.poster_path || ''}" placeholder="Để trống sẽ dùng ảnh đại diện xe" class="vf-admin-input video-poster-path-input" style="padding: 6px 10px; font-size: 0.85rem;" readonly>
+                        <input type="hidden" name="video_poster_media_ids[]" value="${data.poster_media_id || ''}" class="video-poster-media-id-input">
+                        <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; padding: 6px 12px; font-size: 0.8rem;" onclick="chooseVideoPoster(this)">
+                            Chọn ảnh bìa
+                        </button>
+                        <button type="button" class="vinfast-autohaiphong_admin_btn" style="white-space: nowrap; padding: 6px 10px; font-size: 0.8rem; color: #ef4444; border-color: #fca5a5;" onclick="clearVideoPoster(this)">
+                            Xóa
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    container.appendChild(div);
+    updateCounters();
+    markFormDirty();
+}
+
+function chooseVideoMedia(btn) {
+    const row = btn.closest('.video-row');
+    const inputPath = row.querySelector('.video-path-input');
+    const inputMediaId = row.querySelector('.video-media-id-input');
+    const player = row.querySelector('.admin-row-video-player');
+    const source = row.querySelector('.admin-row-video-source');
+    const placeholder = row.querySelector('.admin-row-video-placeholder');
+
     window.openMediaManager({
         mode: 'single',
         confirmText: 'Chọn video này cho xe',
         onSelect: function(media) {
-            const inputPath = document.getElementById('video_path_input');
-            const inputMediaId = document.getElementById('video_media_id_input');
-            const player = document.getElementById('admin-video-player');
-            const source = document.getElementById('admin-video-source');
-            const placeholder = document.getElementById('admin-video-placeholder');
-
             if (inputPath) inputPath.value = media.path || '';
             if (inputMediaId) inputMediaId.value = media.id || '';
 
@@ -1837,12 +1941,13 @@ function chooseProductVideo() {
     });
 }
 
-function clearProductVideo() {
-    const inputPath = document.getElementById('video_path_input');
-    const inputMediaId = document.getElementById('video_media_id_input');
-    const player = document.getElementById('admin-video-player');
-    const source = document.getElementById('admin-video-source');
-    const placeholder = document.getElementById('admin-video-placeholder');
+function clearVideoMedia(btn) {
+    const row = btn.closest('.video-row');
+    const inputPath = row.querySelector('.video-path-input');
+    const inputMediaId = row.querySelector('.video-media-id-input');
+    const player = row.querySelector('.admin-row-video-player');
+    const source = row.querySelector('.admin-row-video-source');
+    const placeholder = row.querySelector('.admin-row-video-placeholder');
 
     if (inputPath) inputPath.value = '';
     if (inputMediaId) inputMediaId.value = '';
@@ -1855,15 +1960,16 @@ function clearProductVideo() {
     markFormDirty();
 }
 
-function chooseProductVideoPoster() {
+function chooseVideoPoster(btn) {
+    const row = btn.closest('.video-row');
+    const inputPath = row.querySelector('.video-poster-path-input');
+    const inputMediaId = row.querySelector('.video-poster-media-id-input');
+    const player = row.querySelector('.admin-row-video-player');
+
     window.openMediaManager({
         mode: 'single',
         confirmText: 'Chọn ảnh bìa video',
         onSelect: function(media) {
-            const inputPath = document.getElementById('video_poster_path_input');
-            const inputMediaId = document.getElementById('video_poster_media_id_input');
-            const player = document.getElementById('admin-video-player');
-
             if (inputPath) inputPath.value = media.path || '';
             if (inputMediaId) inputMediaId.value = media.id || '';
             if (player && media.url) {
@@ -1874,10 +1980,11 @@ function chooseProductVideoPoster() {
     });
 }
 
-function clearProductVideoPoster() {
-    const inputPath = document.getElementById('video_poster_path_input');
-    const inputMediaId = document.getElementById('video_poster_media_id_input');
-    const player = document.getElementById('admin-video-player');
+function clearVideoPoster(btn) {
+    const row = btn.closest('.video-row');
+    const inputPath = row.querySelector('.video-poster-path-input');
+    const inputMediaId = row.querySelector('.video-poster-media-id-input');
+    const player = row.querySelector('.admin-row-video-player');
 
     if (inputPath) inputPath.value = '';
     if (inputMediaId) inputMediaId.value = '';

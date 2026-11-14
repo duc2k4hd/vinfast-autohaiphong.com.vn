@@ -154,4 +154,36 @@ class CatalogAndProductTest extends TestCase
         $response->assertSee('test-video.mp4');
         $response->assertSee('VideoObject');
     }
+
+    public function test_product_detail_displays_multiple_videos_seamlessly(): void
+    {
+        $productId = DB::table('products')->where('slug', 'vinfast-vf-3')->value('id');
+
+        DB::table('product_videos')->insert([
+            [
+                'product_id' => $productId,
+                'video_path' => 'clients/assets/videos/products/vf3-part1.mp4',
+                'title' => 'Video Ngoại Thất VF 3',
+                'sort_order' => 1,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => $productId,
+                'video_path' => 'clients/assets/videos/products/vf3-part2.mp4',
+                'title' => 'Video Nội Thất VF 3',
+                'sort_order' => 2,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        $response = $this->get('/xe/vinfast-vf-3');
+        $response->assertStatus(200);
+        $response->assertSee('vf3-part1.mp4');
+        $response->assertSee('vf3-part2.mp4');
+        $response->assertSee('vinfast-autohaiphong_product_video_stack', false);
+    }
 }

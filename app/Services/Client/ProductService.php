@@ -112,6 +112,82 @@ class ProductService
     }
 
     /**
+     * Lấy danh sách video giới thiệu xe (tỷ lệ 16:9 full-bleed).
+     */
+    public function getVideos(int $productId): Collection
+    {
+        $videos = DB::table('product_videos')
+            ->leftJoin('media as video_media', 'product_videos.video_media_id', '=', 'video_media.id')
+            ->leftJoin('media as poster_media', 'product_videos.poster_media_id', '=', 'poster_media.id')
+            ->where('product_videos.product_id', $productId)
+            ->where('product_videos.is_active', true)
+            ->select([
+                'product_videos.id',
+                'product_videos.title',
+                'product_videos.subtitle',
+                'product_videos.video_path as direct_video_path',
+                'video_media.path as media_video_path',
+                'product_videos.poster_path as direct_poster_path',
+                'poster_media.path as media_poster_path',
+            ])
+            ->orderBy('product_videos.sort_order', 'asc')
+            ->get()
+            ->map(function ($video) {
+                $rawVideoPath = $video->media_video_path ?: $video->direct_video_path;
+                $rawPosterPath = $video->media_poster_path ?: $video->direct_poster_path;
+
+                $videoUrl = $rawVideoPath ? (str_starts_with($rawVideoPath, 'http') ? $rawVideoPath : asset('storage/'.ltrim($rawVideoPath, '/'))) : null;
+                $posterUrl = $rawPosterPath ? (str_starts_with($rawPosterPath, 'http') ? $rawPosterPath : asset('storage/'.ltrim($rawPosterPath, '/'))) : null;
+
+                return (object) [
+                    'id' => $video->id,
+                    'title' => $video->title,
+                    'subtitle' => $video->subtitle,
+                    'video_url' => $videoUrl,
+                    'poster_url' => $posterUrl,
+                ];
+            })
+            ->filter(fn ($v) => ! empty($v->video_url))
+            ->values();
+
+        // Fallback sang video đơn lẻ trong bảng products nếu bảng product_videos trống
+        if ($videos->isEmpty()) {
+            $product = DB::table('products')
+                ->leftJoin('media as video_media', 'products.video_media_id', '=', 'video_media.id')
+                ->leftJoin('media as poster_media', 'products.video_poster_media_id', '=', 'poster_media.id')
+                ->where('products.id', $productId)
+                ->select([
+                    'products.video_path',
+                    'products.video_poster_path',
+                    'products.video_title',
+                    'video_media.path as media_video_path',
+                    'poster_media.path as media_poster_path',
+                ])
+                ->first();
+
+            if ($product) {
+                $rawVideo = $product->media_video_path ?: $product->video_path;
+                $rawPoster = $product->media_poster_path ?: $product->video_poster_path;
+
+                if (! empty($rawVideo)) {
+                    $videoUrl = str_starts_with($rawVideo, 'http') ? $rawVideo : asset('storage/'.ltrim($rawVideo, '/'));
+                    $posterUrl = $rawPoster ? (str_starts_with($rawPoster, 'http') ? $rawPoster : asset('storage/'.ltrim($rawPoster, '/'))) : null;
+
+                    $videos = collect([(object) [
+                        'id' => 0,
+                        'title' => $product->video_title,
+                        'subtitle' => null,
+                        'video_url' => $videoUrl,
+                        'poster_url' => $posterUrl,
+                    ]]);
+                }
+            }
+        }
+
+        return $videos;
+    }
+
+    /**
      * Lấy danh sách banner hero riêng của xe (tỷ lệ 16:9).
      */
     public function getBanners(int $productId): Collection

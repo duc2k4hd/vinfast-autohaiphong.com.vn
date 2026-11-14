@@ -26,23 +26,31 @@
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
-@if(!empty($car->video_path) || !empty($car->video_media_path))
 @php
-    $schemaVideoUrl = !empty($car->video_path) ? asset('storage/' . $car->video_path) : asset('storage/' . $car->video_media_path);
-    $schemaVideoPoster = !empty($car->video_poster_path) ? asset('storage/' . $car->video_poster_path) : (!empty($car->video_poster_media_path) ? asset('storage/' . $car->video_poster_media_path) : ($car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : ''));
+    $schemaVideos = (!empty($videos) && $videos->isNotEmpty()) ? $videos : collect();
+    if ($schemaVideos->isEmpty() && (!empty($car->video_path) || !empty($car->video_media_path))) {
+        $schemaVideoUrl = !empty($car->video_path) ? asset('storage/' . $car->video_path) : asset('storage/' . $car->video_media_path);
+        $schemaVideoPoster = !empty($car->video_poster_path) ? asset('storage/' . $car->video_poster_path) : (!empty($car->video_poster_media_path) ? asset('storage/' . $car->video_poster_media_path) : ($car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : ''));
+        $schemaVideos = collect([(object)[
+            'title' => $car->video_title ?: ('Video mô phỏng xe ' . $car->name),
+            'video_url' => $schemaVideoUrl,
+            'poster_url' => $schemaVideoPoster,
+        ]]);
+    }
 @endphp
+@foreach($schemaVideos as $sv)
 <script type="application/ld+json">
 {!! json_encode([
     '@context' => 'https://schema.org/',
     '@type' => 'VideoObject',
-    'name' => $car->video_title ?: ('Video mô phỏng xe ' . $car->name),
+    'name' => $sv->title ?: ('Video mô phỏng xe ' . $car->name),
     'description' => 'Xem video mô phỏng chi tiết xe điện ' . $car->name . ' chính hãng tại VinFast Minh Đạo Hải Phòng.',
-    'thumbnailUrl' => $schemaVideoPoster,
+    'thumbnailUrl' => $sv->poster_url ?: ($car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : ''),
     'uploadDate' => !empty($car->created_at) ? date('Y-m-d', strtotime($car->created_at)) : '2026-01-01',
-    'contentUrl' => $schemaVideoUrl,
+    'contentUrl' => $sv->video_url,
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
-@endif
+@endforeach
 @endpush
 
 @section('content')
@@ -359,46 +367,64 @@ window.VINFAST_PRODUCT_DATA = {
             $initialColor = $colorStudioList->first();
         @endphp
 
-        {{-- SECTION: VIDEO MÔ PHỎNG GIỚI THIỆU XE (TỶ LỆ 16:9 FULL VIỀN) --}}
+        {{-- SECTION: VIDEO MÔ PHỎNG GIỚI THIỆU XE (TỶ LỆ 16:9 FULL VIỀN 100%) --}}
         @php
-            $productVideoUrl = !empty($car->video_path) 
-                ? asset('storage/' . $car->video_path) 
-                : (!empty($car->video_media_path) ? asset('storage/' . $car->video_media_path) : null);
-            $videoPosterUrl = !empty($car->video_poster_path) 
-                ? asset('storage/' . $car->video_poster_path) 
-                : (!empty($car->video_poster_media_path) ? asset('storage/' . $car->video_poster_media_path) : $mainCarImage);
+            $displayVideos = (!empty($videos) && $videos->isNotEmpty()) ? $videos : collect();
+            if ($displayVideos->isEmpty()) {
+                $fallbackVideoUrl = !empty($car->video_path) 
+                    ? asset('storage/' . $car->video_path) 
+                    : (!empty($car->video_media_path) ? asset('storage/' . $car->video_media_path) : null);
+                $fallbackPosterUrl = !empty($car->video_poster_path) 
+                    ? asset('storage/' . $car->video_poster_path) 
+                    : (!empty($car->video_poster_media_path) ? asset('storage/' . $car->video_poster_media_path) : $mainCarImage);
+
+                if ($fallbackVideoUrl) {
+                    $displayVideos = collect([(object) [
+                        'id' => 0,
+                        'title' => $car->video_title ?: ('Video mô phỏng ' . $car->name),
+                        'subtitle' => null,
+                        'video_url' => $fallbackVideoUrl,
+                        'poster_url' => $fallbackPosterUrl,
+                    ]]);
+                }
+            }
         @endphp
 
-        @if($productVideoUrl)
-            <section class="vinfast-autohaiphong_product_video_section vinfast-autohaiphong_product_section" id="vf3-video" aria-label="Video giới thiệu xe {{ $car->name }}">
-                <div class="vinfast-autohaiphong_product_container">
-                    <div class="vinfast-autohaiphong_product_video_card" data-reveal>
-                        <div class="vinfast-autohaiphong_product_video_wrapper">
-                            <video class="vinfast-autohaiphong_product_video_player"
-                                   data-vf-lazy-video
-                                   data-src="{{ $productVideoUrl }}"
-                                   poster="{{ $videoPosterUrl }}"
-                                   playsinline
-                                   muted
-                                   loop
-                                   preload="none"
-                                   aria-label="{{ $car->video_title ?: ('Video mô phỏng ' . $car->name) }}">
-                                Trình duyệt của bạn không hỗ trợ thẻ video.
-                            </video>
+        @if($displayVideos->isNotEmpty())
+            <section class="vinfast-autohaiphong_product_video_section" id="vf3-video" aria-label="Video giới thiệu xe {{ $car->name }}">
+                <div class="vinfast-autohaiphong_product_video_stack">
+                    @foreach($displayVideos as $vIdx => $vItem)
+                        @php
+                            $vItemPoster = $vItem->poster_url ?: $mainCarImage;
+                        @endphp
+                        <div class="vinfast-autohaiphong_product_video_card" data-video-index="{{ $vIdx }}">
+                            <div class="vinfast-autohaiphong_product_video_wrapper">
+                                <video class="vinfast-autohaiphong_product_video_player"
+                                       data-vf-lazy-video
+                                       data-src="{{ $vItem->video_url }}"
+                                       poster="{{ $vItemPoster }}"
+                                       playsinline
+                                       muted
+                                       loop
+                                       preload="none"
+                                       aria-label="{{ $vItem->title ?: ('Video mô phỏng ' . $car->name . ' - Video ' . ($vIdx + 1)) }}">
+                                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                                </video>
 
-                            {{-- Nút bật / tắt âm thanh tiện ích góc dưới video --}}
-                            <div class="vinfast-autohaiphong_product_video_controls" aria-hidden="true">
-                                <button type="button" 
-                                        class="vinfast-autohaiphong_product_video_sound_btn" 
-                                        data-video-sound-toggle 
-                                        title="Bật/Tắt âm thanh"
-                                        aria-label="Bật/Tắt âm thanh">
-                                    <svg class="icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                                    <svg class="icon-unmuted" style="display: none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                                </button>
+                                {{-- Nút bật / tắt âm thanh tiện ích góc dưới video --}}
+                                <div class="vinfast-autohaiphong_product_video_controls" aria-hidden="true">
+                                    <button type="button" 
+                                            class="vinfast-autohaiphong_product_video_sound_btn" 
+                                            data-video-sound-toggle 
+                                            title="Bật/Tắt âm thanh"
+                                            aria-label="Bật/Tắt âm thanh">
+                                        <svg class="icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                                        <svg class="icon-unmuted" style="display: none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </section>
         @endif

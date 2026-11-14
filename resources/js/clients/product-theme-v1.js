@@ -674,71 +674,107 @@ export function initProductThemeV1() {
     lastFocus?.focus?.();
   };
 
-  // Lazy Load & Scroll Autoplay for 16:9 Showcase Video
+  // Lazy Load & Scroll Autoplay for 16:9 Showcase Video (Multi-video with Single Playing Lock)
   const initShowcaseVideo = () => {
-    const video = $('[data-vf-lazy-video]');
-    if (!video) return;
+    const videoElements = $$('[data-vf-lazy-video]');
+    if (!videoElements.length) return;
 
-    const videoSrc = video.dataset.src;
-    let isSourceLoaded = false;
+    // Helper: Tạm dừng toàn bộ video ngoại trừ video đang được chỉ định
+    const pauseAllExcept = (currentVideo) => {
+      videoElements.forEach(v => {
+        if (v !== currentVideo && !v.paused) {
+          v.pause();
+        }
+      });
+    };
 
-    // Phase 1: Preload video khi cuộn gần tới (rootMargin: 350px)
+    // Helper: Nạp source cho video nếu chưa nạp
+    const ensureSourceLoaded = (video) => {
+      const src = video.dataset.src;
+      if (src && !video.getAttribute('src')) {
+        video.src = src;
+        video.load();
+      }
+    };
+
+    // Khi bất kỳ video nào phát, dừng ngay các video còn lại (khóa phát 1 video duy nhất)
+    videoElements.forEach(video => {
+      video.addEventListener('play', () => {
+        pauseAllExcept(video);
+      });
+
+      // Sound toggle cho từng card video
+      const card = video.closest('.' + P + 'video_card');
+      const soundBtn = card ? card.querySelector('[data-video-sound-toggle]') : null;
+      if (soundBtn) {
+        soundBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          video.muted = !video.muted;
+          const iconMuted = soundBtn.querySelector('.icon-muted');
+          const iconUnmuted = soundBtn.querySelector('.icon-unmuted');
+          if (iconMuted && iconUnmuted) {
+            iconMuted.style.display = video.muted ? 'block' : 'none';
+            iconUnmuted.style.display = video.muted ? 'none' : 'block';
+          }
+        });
+      }
+    });
+
     if ('IntersectionObserver' in window) {
+      // Phase 1: Preload khi cuộn gần tới (rootMargin: 350px)
       const preloadObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting && !isSourceLoaded) {
-            isSourceLoaded = true;
-            if (videoSrc) {
-              video.src = videoSrc;
-              video.load();
-            }
-            observer.disconnect();
+          if (entry.isIntersecting) {
+            ensureSourceLoaded(entry.target);
+            observer.unobserve(entry.target);
           }
         });
       }, {
         rootMargin: '350px 0px 350px 0px'
       });
-      preloadObserver.observe(video);
 
-      // Phase 2: Tự động phát khi cuộn tới và tạm dừng khi cuộn qua
-      const playbackObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (!isSourceLoaded && videoSrc) {
-              isSourceLoaded = true;
-              video.src = videoSrc;
-              video.load();
-            }
-            video.play().catch(() => {});
-          } else {
-            if (!video.paused) {
-              video.pause();
-            }
+      videoElements.forEach(v => preloadObserver.observe(v));
+
+      // Phase 2: Theo dõi tỷ lệ hiển thị trong viewport để tự động phát video có tầm nhìn rõ nhất
+      const visibilityRatios = new Map();
+
+      const updateActivePlayback = () => {
+        let bestVideo = null;
+        let maxRatio = 0;
+
+        visibilityRatios.forEach((ratio, video) => {
+          if (ratio > maxRatio) {
+            maxRatio = ratio;
+            bestVideo = video;
           }
         });
-      }, {
-        threshold: 0.35
-      });
-      playbackObserver.observe(video);
-    } else {
-      if (videoSrc) {
-        video.src = videoSrc;
-        video.load();
-      }
-    }
 
-    // Toggle âm thanh (Mute / Unmute)
-    const soundBtn = $('[data-video-sound-toggle]');
-    if (soundBtn) {
-      soundBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        video.muted = !video.muted;
-        const iconMuted = soundBtn.querySelector('.icon-muted');
-        const iconUnmuted = soundBtn.querySelector('.icon-unmuted');
-        if (iconMuted && iconUnmuted) {
-          iconMuted.style.display = video.muted ? 'block' : 'none';
-          iconUnmuted.style.display = video.muted ? 'none' : 'block';
+        // Chỉ phát video khi video đó chiếm phần nhìn đáng kể (ít nhất 25% trong viewport)
+        if (bestVideo && maxRatio >= 0.25) {
+          ensureSourceLoaded(bestVideo);
+          pauseAllExcept(bestVideo);
+          if (bestVideo.paused) {
+            bestVideo.play().catch(() => {});
+          }
+        } else if (maxRatio < 0.15) {
+          // Cuộn hẳn ra ngoài vùng xem, dừng tất cả video
+          pauseAllExcept(null);
         }
+      };
+
+      const playbackObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          visibilityRatios.set(entry.target, entry.isIntersecting ? entry.intersectionRatio : 0);
+        });
+        updateActivePlayback();
+      }, {
+        threshold: [0, 0.15, 0.25, 0.4, 0.6, 0.8, 1.0]
+      });
+
+      videoElements.forEach(v => playbackObserver.observe(v));
+    } else {
+      videoElements.forEach(v => {
+        ensureSourceLoaded(v);
       });
     }
   };

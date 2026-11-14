@@ -124,6 +124,43 @@ class ProductController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
+        $videos = DB::table('product_videos')
+            ->leftJoin('media as video_media', 'product_videos.video_media_id', '=', 'video_media.id')
+            ->leftJoin('media as poster_media', 'product_videos.poster_media_id', '=', 'poster_media.id')
+            ->where('product_videos.product_id', $id)
+            ->select([
+                'product_videos.*',
+                'video_media.path as video_media_path',
+                'video_media.filename as video_media_filename',
+                'poster_media.path as poster_media_path',
+                'poster_media.filename as poster_media_filename',
+            ])
+            ->orderBy('product_videos.sort_order', 'asc')
+            ->get();
+
+        // Nếu bảng product_videos chưa có mà products đã có video cũ, chuyển đổi thành 1 video trong mảng
+        if ($videos->isEmpty() && (! empty($product->video_path) || ! empty($product->video_media_id))) {
+            $fallbackVideoMedia = ! empty($product->video_media_id) ? DB::table('media')->where('id', $product->video_media_id)->first() : null;
+            $fallbackPosterMedia = ! empty($product->video_poster_media_id) ? DB::table('media')->where('id', $product->video_poster_media_id)->first() : null;
+
+            $videos = collect([(object) [
+                'id' => 0,
+                'product_id' => $id,
+                'title' => $product->video_title,
+                'subtitle' => null,
+                'video_path' => $product->video_path,
+                'video_media_id' => $product->video_media_id,
+                'video_media_path' => $fallbackVideoMedia?->path,
+                'video_media_filename' => $fallbackVideoMedia?->filename,
+                'poster_path' => $product->video_poster_path,
+                'poster_media_id' => $product->video_poster_media_id,
+                'poster_media_path' => $fallbackPosterMedia?->path,
+                'poster_media_filename' => $fallbackPosterMedia?->filename,
+                'sort_order' => 1,
+                'is_active' => 1,
+            ]]);
+        }
+
         $videoMedia = null;
         if (! empty($product->video_media_id)) {
             $videoMedia = DB::table('media')->where('id', $product->video_media_id)->first();
@@ -140,6 +177,7 @@ class ProductController extends Controller
             'colors' => $colors,
             'banners' => $banners,
             'interiors' => $interiors,
+            'videos' => $videos,
             'specHighlights' => $specHighlights,
             'mediaList' => $mediaList,
             'categories' => $categories,
@@ -178,9 +216,12 @@ class ProductController extends Controller
             'colors' => collect(),
             'banners' => collect(),
             'interiors' => collect(),
+            'videos' => collect(),
             'specHighlights' => collect(),
             'mediaList' => $mediaList,
             'categories' => $categories,
+            'videoMedia' => null,
+            'videoPosterMedia' => null,
             'isCreate' => true,
         ]);
     }
@@ -281,6 +322,12 @@ class ProductController extends Controller
             'video_poster_path' => ['nullable', 'string', 'max:500'],
             'video_poster_media_id' => ['nullable', 'integer', 'exists:media,id'],
             'video_title' => ['nullable', 'string', 'max:255'],
+            'video_titles' => ['nullable', 'array'],
+            'video_subtitles' => ['nullable', 'array'],
+            'video_paths' => ['nullable', 'array'],
+            'video_media_ids' => ['nullable', 'array'],
+            'video_poster_paths' => ['nullable', 'array'],
+            'video_poster_media_ids' => ['nullable', 'array'],
             'specs_labels' => ['nullable', 'array'],
             'specs_values' => ['nullable', 'array'],
             'variant_names' => ['nullable', 'array'],
@@ -447,6 +494,66 @@ class ProductController extends Controller
                         ]);
                     }
                 }
+            }
+
+            // Cập nhật danh sách video giới thiệu xe 16:9 full viền (Multi-video)
+            if ($request->has('video_titles') || $request->has('video_paths') || $request->has('video_media_ids')) {
+                DB::table('product_videos')->where('product_id', $id)->delete();
+
+                $vTitles = $request->input('video_titles', []);
+                $vSubtitles = $request->input('video_subtitles', []);
+                $vMediaIds = $request->input('video_media_ids', []);
+                $vPaths = $request->input('video_paths', []);
+                $vPosterMediaIds = $request->input('video_poster_media_ids', []);
+                $vPosterPaths = $request->input('video_poster_paths', []);
+
+                $vSort = 1;
+                $firstVideoPath = null;
+                $firstVideoMediaId = null;
+                $firstPosterPath = null;
+                $firstPosterMediaId = null;
+                $firstTitle = null;
+
+                foreach ($vTitles as $vIdx => $vTitle) {
+                    $vMediaId = ! empty($vMediaIds[$vIdx]) ? (int) $vMediaIds[$vIdx] : null;
+                    $vDirectPath = ! empty($vPaths[$vIdx]) ? trim($vPaths[$vIdx]) : null;
+                    $vPosterMediaId = ! empty($vPosterMediaIds[$vIdx]) ? (int) $vPosterMediaIds[$vIdx] : null;
+                    $vPosterDirectPath = ! empty($vPosterPaths[$vIdx]) ? trim($vPosterPaths[$vIdx]) : null;
+                    $vSub = ! empty($vSubtitles[$vIdx]) ? trim($vSubtitles[$vIdx]) : null;
+
+                    if ($vMediaId || ! empty($vDirectPath) || ! empty(trim((string) $vTitle))) {
+                        DB::table('product_videos')->insert([
+                            'product_id' => $id,
+                            'title' => trim((string) $vTitle) ?: null,
+                            'subtitle' => $vSub,
+                            'video_media_id' => $vMediaId,
+                            'video_path' => $vDirectPath,
+                            'poster_media_id' => $vPosterMediaId,
+                            'poster_path' => $vPosterDirectPath,
+                            'sort_order' => $vSort++,
+                            'is_active' => true,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+
+                        if ($firstVideoPath === null && ($vMediaId || $vDirectPath)) {
+                            $firstVideoPath = $vDirectPath;
+                            $firstVideoMediaId = $vMediaId;
+                            $firstPosterPath = $vPosterDirectPath;
+                            $firstPosterMediaId = $vPosterMediaId;
+                            $firstTitle = trim((string) $vTitle) ?: null;
+                        }
+                    }
+                }
+
+                // Đồng bộ video đầu tiên vào bảng products để tương thích ngược 100%
+                DB::table('products')->where('id', $id)->update([
+                    'video_path' => $firstVideoPath,
+                    'video_media_id' => $firstVideoMediaId,
+                    'video_poster_path' => $firstPosterPath,
+                    'video_poster_media_id' => $firstPosterMediaId,
+                    'video_title' => $firstTitle,
+                ]);
             }
 
             // Cập nhật danh sách ảnh banner hero riêng của sản phẩm (Tỷ lệ 16:9)
