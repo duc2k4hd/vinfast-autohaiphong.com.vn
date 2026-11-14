@@ -84,19 +84,19 @@ export function initProductThemeV1() {
       const curSrc = currentImg.getAttribute('src');
       if (curSrc === newSrc || (curSrc && curSrc.endsWith(newSrc))) return;
 
-      // Ảnh cũ: trượt sang phải và biến mất mượt mà
+      // Ảnh cũ: đi hẳn sang bên trái và biến mất mượt mà
       currentImg.classList.add(P + 'car-exiting');
-      currentImg.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
-      currentImg.style.transform = 'translate3d(120px, 0, 0) scale(var(--vf-car-scale, 1.06))';
+      currentImg.style.transition = 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+      currentImg.style.transform = 'translate3d(-120%, 0, 0) scale(var(--vf-car-scale, 1.05))';
       currentImg.style.opacity = '0';
       currentImg.style.pointerEvents = 'none';
 
       setTimeout(() => {
         currentImg.remove();
-      }, 550);
+      }, 580);
     }
 
-    // Ảnh mới: trượt từ trên xuống và xuất hiện mượt mà
+    // Ảnh mới: rơi từ trên cao nhất xuống và xuất hiện mượt mà
     const newImg = document.createElement('img');
     newImg.className = P + 'intro-car ' + P + 'car-entering';
     newImg.src = newSrc;
@@ -104,8 +104,8 @@ export function initProductThemeV1() {
     newImg.loading = 'eager';
 
     newImg.style.opacity = '0';
-    newImg.style.transform = 'translate3d(0, -90px, 0) scale(var(--vf-car-scale, 1.18))';
-    newImg.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
+    newImg.style.transform = 'translate3d(0, -130%, 0) scale(var(--vf-car-scale, 1.18))';
+    newImg.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
     newImg.style.pointerEvents = 'none';
 
     visual.appendChild(newImg);
@@ -121,7 +121,7 @@ export function initProductThemeV1() {
         newImg.style.transform = '';
         newImg.style.opacity = '';
         newImg.style.pointerEvents = '';
-      }, 580);
+      }, 680);
     });
   };
 
@@ -175,19 +175,19 @@ export function initProductThemeV1() {
       const curSrc = currentCar.getAttribute('src');
       if (curSrc === newSrc || (curSrc && curSrc.endsWith(newSrc))) return;
 
-      // Xe trước đẩy sang trái và mờ dần biến mất
+      // Xe trước đi hẳn sang bên trái và mờ dần biến mất
       currentCar.classList.add(P + 'color-car-exiting');
-      currentCar.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
-      currentCar.style.transform = 'translate3d(-150px, 0, 0) scale(1.05)';
+      currentCar.style.transition = 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
+      currentCar.style.transform = 'translate3d(-120%, 0, 0) scale(1.05)';
       currentCar.style.opacity = '0';
       currentCar.style.pointerEvents = 'none';
 
       setTimeout(() => {
         currentCar.remove();
-      }, 550);
+      }, 580);
     }
 
-    // Xe mới chạy từ trên xuống và xuất hiện mượt mà
+    // Xe mới rơi từ trên cao nhất xuống và xuất hiện mượt mà
     const newCar = document.createElement('img');
     newCar.className = P + 'color-car ' + P + 'color-car-entering';
     newCar.src = newSrc;
@@ -195,8 +195,8 @@ export function initProductThemeV1() {
     newCar.loading = 'eager';
 
     newCar.style.opacity = '0';
-    newCar.style.transform = 'translate3d(0, -90px, 0) scale(1.18)';
-    newCar.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
+    newCar.style.transform = 'translate3d(0, -135%, 0) scale(1.15)';
+    newCar.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
     newCar.style.pointerEvents = 'none';
 
     stageWrapper.appendChild(newCar);
@@ -212,7 +212,7 @@ export function initProductThemeV1() {
         newCar.style.transform = '';
         newCar.style.opacity = '';
         newCar.style.pointerEvents = '';
-      }, 580);
+      }, 680);
     });
   };
 

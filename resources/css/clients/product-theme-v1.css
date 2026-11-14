@@ -582,7 +582,7 @@ select:focus-visible,
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow: visible;
 }
 .vinfast-autohaiphong_product_color-car {
     position: absolute;
