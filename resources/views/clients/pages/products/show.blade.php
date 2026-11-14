@@ -392,105 +392,17 @@ window.VINFAST_PRODUCT_DATA = {
         </section>
 
         {{-- SECTION 7: BÀI VIẾT GIỚI THIỆU CHI TIẾT SẢN PHẨM (PRODUCT CONTENT ARTICLE) --}}
-        <section class="vinfast-autohaiphong_product_article vinfast-autohaiphong_product_section" id="vf3-bai-viet" aria-label="Giới thiệu chi tiết {{ $car->name }}">
-            <div class="vinfast-autohaiphong_product_container">
-                <div class="vinfast-autohaiphong_product_article-card" data-reveal>
-                    <div class="vinfast-autohaiphong_product_content">
-                        @if(!empty($car->description_html))
-                            {!! $car->description_html !!}
-                        @else
-                            <h2>Thiết kế đột phá — Định hình phong cách đô thị</h2>
-                            <p>
-                                VinFast {{ $car->name }} mang trong mình triết lý thiết kế tối giản nhưng giàu cá tính, được sáng tạo nhằm tối ưu hóa trải nghiệm di chuyển linh hoạt trong các đô thị năng động. Với những đường nét hình khối vuông vức khỏe khoắn, khoảng sáng gầm vượt trội và bộ la-zăng thể thao, mẫu xe tự tin thu hút mọi ánh nhìn ngay từ lần đầu chạm mắt.
-                            </p>
-
-                            <figure>
-                                <img src="{{ asset('storage/clients/assets/images/theme-v1/style-yellow.webp') }}" alt="Thiết kế ngoại thất ấn tượng của VinFast {{ $car->name }}" loading="lazy" />
-                                <figcaption>Ngoại thất nổi bật với những đường nét góc cạnh, phong cách thời thượng và đa dạng gam màu cá tính</figcaption>
-                            </figure>
-
-                            <p>
-                                Không chỉ mang tính thẩm mỹ cao, từng chi tiết trên xe đều được tính toán kỹ lưỡng về mặt khí động học và sự thực dụng. Mặt trước nổi bật với logo chữ V mạ crôm vươn rộng liền mạch cùng cụm đèn chiếu sáng sắc sảo, tạo dấu ấn nhận diện thương hiệu VinFast đặc trưng và sang trọng.
-                            </p>
-
-                            <blockquote>
-                                "Sở hữu VinFast {{ $car->name }} không chỉ là sở hữu một phương tiện di chuyển, mà là khẳng định phong cách sống xanh, văn minh và đón đầu kỷ nguyên giao thông tương lai."
-                            </blockquote>
-
-                            <h2>Không gian nội thất tinh gọn, tiện nghi vượt trội</h2>
-                            <p>
-                                Bước vào khoang lái của VinFast {{ $car->name }}, người dùng sẽ lập tức cảm nhận được sự thoáng đãng và ngăn nắp. Triết lý thiết kế công thái học (Ergonomics) được ứng dụng thông minh giúp tối đa hóa không gian để chân và khoảng trần xe, mang đến sự dễ chịu cho cả người lái lẫn hành khách trên mọi cung đường.
-                            </p>
-
-                            <figure>
-                                <img src="{{ asset('storage/clients/assets/images/theme-v1/interior.webp') }}" alt="Khoang lái công thái học và màn hình điều khiển thông minh xe VinFast {{ $car->name }}" loading="lazy" />
-                                <figcaption>Khoang lái hiện đại với màn hình cảm ứng trung tâm sắc nét, tích hợp điều khiển thông minh và kết nối đa phương tiện</figcaption>
-                            </figure>
-
-                            <p>
-                                Các trang bị tiện ích trên xe được chăm chút để đáp ứng hoàn hảo nhu cầu sinh hoạt thường nhật:
-                            </p>
-                            <ul>
-                                <li>Màn hình giải trí cảm ứng sắc nét, giao diện tiếng Việt thân thiện, hỗ trợ kết nối thông minh không dây.</li>
-                                <li>Vô lăng thiết kế vát đáy thể thao D-cut tích hợp các phím điều khiển chức năng tiện lợi.</li>
-                                <li>Ghế ngồi bọc da êm ái, phối màu trẻ trung, hàng ghế sau có thể gập linh hoạt mở rộng khoang hành lý lên tới hàng trăm lít.</li>
-                                <li>Hệ thống điều hòa làm mát nhanh và sâu, giữ không khí trong xe luôn trong lành, dễ chịu.</li>
-                            </ul>
-
-                            <h2>Khả năng vận hành bền bỉ & An toàn vượt chuẩn</h2>
-                            <p>
-                                Được trang bị khối động cơ điện thế hệ mới kết hợp cùng hệ thống pin lithium tiên tiến, xe mang lại khả năng tăng tốc tức thì, mượt mà và hoàn toàn không có độ trễ chân ga. Vận hành êm ái tuyệt đối, không tiếng ồn động cơ và không mùi xăng dầu, biến mỗi chuyến đi thành khoảng thời gian thư thái trọn vẹn.
-                            </p>
-
-                            <figure>
-                                <img src="{{ asset('storage/clients/assets/images/theme-v1/nature-yellow.webp') }}" alt="VinFast {{ $car->name }} di chuyển linh hoạt trên mọi cung đường" loading="lazy" />
-                                <figcaption>Linh hoạt chinh phục các cung đường đô thị đông đúc lẫn những chuyến dã ngoại ngoại thành đầy hứng khởi</figcaption>
-                            </figure>
-
-                            <p>
-                                VinFast luôn đặt tiêu chuẩn an toàn của khách hàng lên hàng đầu. Xe được trang bị khung gầm cứng vững cùng hệ thống an toàn chủ động và thụ động toàn diện:
-                            </p>
-
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Hạng mục an toàn</th>
-                                        <th>Trang bị tiêu chuẩn</th>
-                                        <th>Lợi ích thực tế</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Hệ thống phanh</td>
-                                        <td>Phanh đĩa trước + ABS / EBD</td>
-                                        <td>Rút ngắn quãng đường phanh, chống bó cứng an toàn khi phanh gấp</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cân bằng & Lực kéo</td>
-                                        <td>Hệ thống kiểm soát lực kéo (TCS)</td>
-                                        <td>Chống trơn trượt hiệu quả trên đường mưa ướt, ôm cua vững vàng</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hỗ trợ đỗ xe</td>
-                                        <td>Cảm biến lùi & Camera quan sát</td>
-                                        <td>Tự tin xoay xở và lùi đỗ vào những điểm đỗ chật hẹp</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Bảo vệ pin & Khoang lái</td>
-                                        <td>Tiêu chuẩn chống nước IP67</td>
-                                        <td>An tâm di chuyển qua các tuyến phố ngập nước trong mùa mưa</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <p>
-                                Với chi phí vận hành siêu tiết kiệm chỉ bằng 1/3 xe xăng cùng chính sách hậu mãi và bảo hành chính hãng lên tới 7 năm hoặc 160.000 km, VinFast {{ $car->name }} là sự lựa chọn kinh tế, bền bỉ và đáng tin cậy hàng đầu cho mọi cá nhân và gia đình.
-                            </p>
-                        @endif
+        @if(!empty($car->description_html))
+            <section class="vinfast-autohaiphong_product_article vinfast-autohaiphong_product_section" id="vf3-bai-viet" aria-label="Giới thiệu chi tiết {{ $car->name }}">
+                <div class="vinfast-autohaiphong_product_container">
+                    <div class="vinfast-autohaiphong_product_article-card" data-reveal>
+                            <div class="vinfast-autohaiphong_product_content">
+                                {!! $car->description_html !!}
+                            </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
         {{-- SECTION 5: SHOWCASE IMAGE BANNER (SLIDER 19:6 NGHỆ THUẬT, KHÔNG CHỨA TEXT) --}}
         @php

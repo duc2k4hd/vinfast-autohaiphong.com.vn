@@ -39,6 +39,8 @@ export function initProductThemeV1() {
   let showcaseTimer = null;
   let bottomIndex = 0;
   let bottomTimer = null;
+  let isTrimAnimating = false;
+  let isColorAnimating = false;
 
   const heroSlides = $$(pref('hero-slide'));
   const showcaseSlides = $$(pref('showcase-slide'));
@@ -81,7 +83,7 @@ export function initProductThemeV1() {
   };
 
   const switchCarVariantImage = (newSrc, altText = '') => {
-    if (!newSrc) return;
+    if (!newSrc || isTrimAnimating) return;
     const visual = $('.' + P + 'intro-visual');
     if (!visual) return;
 
@@ -90,16 +92,24 @@ export function initProductThemeV1() {
       const curSrc = currentImg.getAttribute('src');
       if (curSrc === newSrc || (curSrc && curSrc.endsWith(newSrc))) return;
 
+      isTrimAnimating = true;
+      const picker = $('.' + P + 'trim-picker');
+      if (picker) picker.style.pointerEvents = 'none';
+
       // Ảnh cũ: đi hẳn sang bên trái và biến mất mượt mà
       currentImg.classList.add(P + 'car-exiting');
       currentImg.style.transition = 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
-      currentImg.style.transform = 'translate3d(-120%, 0, 0) scale(var(--vf-car-scale, 1.05))';
+      currentImg.style.transform = 'translate3d(-120%, 0, 0) scale(var(--vf-car-scale, 1.15))';
       currentImg.style.opacity = '0';
       currentImg.style.pointerEvents = 'none';
 
       setTimeout(() => {
         currentImg.remove();
       }, 580);
+    } else {
+      isTrimAnimating = true;
+      const picker = $('.' + P + 'trim-picker');
+      if (picker) picker.style.pointerEvents = 'none';
     }
 
     // Ảnh mới: rơi từ trên cao nhất xuống và xuất hiện mượt mà
@@ -110,7 +120,7 @@ export function initProductThemeV1() {
     newImg.loading = 'eager';
 
     newImg.style.opacity = '0';
-    newImg.style.transform = 'translate3d(0, -130%, 0) scale(var(--vf-car-scale, 1.18))';
+    newImg.style.transform = 'translate3d(0, -130%, 0) scale(var(--vf-car-scale, 1.25))';
     newImg.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
     newImg.style.pointerEvents = 'none';
 
@@ -120,20 +130,25 @@ export function initProductThemeV1() {
 
     requestAnimationFrame(() => {
       newImg.style.opacity = '1';
-      newImg.style.transform = 'translate3d(0, 0, 0) scale(var(--vf-car-scale, 1.12))';
+      newImg.style.transform = 'translate3d(0, 0, 0) scale(var(--vf-car-scale, 1.25))';
       setTimeout(() => {
         newImg.classList.remove(P + 'car-entering');
         newImg.style.transition = '';
         newImg.style.transform = '';
         newImg.style.opacity = '';
         newImg.style.pointerEvents = '';
+        isTrimAnimating = false;
+        const picker = $('.' + P + 'trim-picker');
+        if (picker) picker.style.pointerEvents = '';
       }, 680);
     });
   };
 
   const selectTrim = (key, isInit = false) => {
+    if (!isInit && isTrimAnimating) return;
     const btn = $(`[data-trim="${key}"]`);
     if (!btn) return;
+    if (!isInit && btn.classList.contains(P + 'is-active')) return;
 
     $$('[data-trim]').forEach(b => {
       const active = b.dataset.trim === String(key);
@@ -172,7 +187,7 @@ export function initProductThemeV1() {
 
   // 2. Color Studio Switcher with Slide-Left / Drop-Down Animation
   const switchColorStageCar = (newSrc, altText = '') => {
-    if (!newSrc) return;
+    if (!newSrc || isColorAnimating) return;
     const stageWrapper = $('[data-color-car-wrapper]');
     if (!stageWrapper) return;
 
@@ -181,16 +196,32 @@ export function initProductThemeV1() {
       const curSrc = currentCar.getAttribute('src');
       if (curSrc === newSrc || (curSrc && curSrc.endsWith(newSrc))) return;
 
+      isColorAnimating = true;
+      const switcher = $('.' + P + 'color-switcher');
+      if (switcher) switcher.style.pointerEvents = 'none';
+      const prevArrow = $('[data-action="color-prev"]');
+      if (prevArrow) prevArrow.style.pointerEvents = 'none';
+      const nextArrow = $('[data-action="color-next"]');
+      if (nextArrow) nextArrow.style.pointerEvents = 'none';
+
       // Xe trước đi hẳn sang bên trái và mờ dần biến mất
       currentCar.classList.add(P + 'color-car-exiting');
       currentCar.style.transition = 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1)';
-      currentCar.style.transform = 'translate3d(-120%, 0, 0) scale(1.05)';
+      currentCar.style.transform = 'translate3d(-120%, 0, 0) scale(1.15)';
       currentCar.style.opacity = '0';
       currentCar.style.pointerEvents = 'none';
 
       setTimeout(() => {
         currentCar.remove();
       }, 580);
+    } else {
+      isColorAnimating = true;
+      const switcher = $('.' + P + 'color-switcher');
+      if (switcher) switcher.style.pointerEvents = 'none';
+      const prevArrow = $('[data-action="color-prev"]');
+      if (prevArrow) prevArrow.style.pointerEvents = 'none';
+      const nextArrow = $('[data-action="color-next"]');
+      if (nextArrow) nextArrow.style.pointerEvents = 'none';
     }
 
     // Xe mới rơi từ trên cao nhất xuống và xuất hiện mượt mà
@@ -201,7 +232,7 @@ export function initProductThemeV1() {
     newCar.loading = 'eager';
 
     newCar.style.opacity = '0';
-    newCar.style.transform = 'translate3d(0, -135%, 0) scale(1.15)';
+    newCar.style.transform = 'translate3d(0, -135%, 0) scale(1.25)';
     newCar.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease-out';
     newCar.style.pointerEvents = 'none';
 
@@ -211,22 +242,33 @@ export function initProductThemeV1() {
 
     requestAnimationFrame(() => {
       newCar.style.opacity = '1';
-      newCar.style.transform = 'translate3d(0, 0, 0) scale(1.12)';
+      newCar.style.transform = 'translate3d(0, 0, 0) scale(1.3)';
       setTimeout(() => {
         newCar.classList.remove(P + 'color-car-entering');
         newCar.style.transition = '';
         newCar.style.transform = '';
         newCar.style.opacity = '';
         newCar.style.pointerEvents = '';
+        isColorAnimating = false;
+        const switcher = $('.' + P + 'color-switcher');
+        if (switcher) switcher.style.pointerEvents = '';
+        const prevArrow = $('[data-action="color-prev"]');
+        if (prevArrow) prevArrow.style.pointerEvents = '';
+        const nextArrow = $('[data-action="color-next"]');
+        if (nextArrow) nextArrow.style.pointerEvents = '';
       }, 680);
     });
   };
 
   const renderColor = (index, isInit = false) => {
+    if (!isInit && isColorAnimating) return;
     const colorButtons = $$('[data-color]');
     if (!colorButtons.length) return;
 
-    colorIndex = (index + colorButtons.length) % colorButtons.length;
+    const nextIndex = (index + colorButtons.length) % colorButtons.length;
+    if (!isInit && nextIndex === colorIndex) return;
+
+    colorIndex = nextIndex;
     const activeBtn = colorButtons[colorIndex];
     if (!activeBtn) return;
 
@@ -679,8 +721,12 @@ export function initProductThemeV1() {
     'showcase-next': () => { setShowcase(showcaseIndex + 1); restartShowcase(); },
     'bottom-prev': () => { setBottom(bottomIndex - 1); restartBottom(); },
     'bottom-next': () => { setBottom(bottomIndex + 1); restartBottom(); },
-    'color-prev': () => renderColor(colorIndex - 1),
-    'color-next': () => renderColor(colorIndex + 1),
+    'color-prev': () => {
+      if (!isColorAnimating) renderColor(colorIndex - 1);
+    },
+    'color-next': () => {
+      if (!isColorAnimating) renderColor(colorIndex + 1);
+    },
     'gallery-prev': () => moveGallery(-1),
     'gallery-next': () => moveGallery(1),
     'lightbox-prev': () => moveLightbox(-1),
@@ -700,13 +746,17 @@ export function initProductThemeV1() {
 
     const trim = e.target.closest('[data-trim]');
     if (trim) {
-      selectTrim(trim.dataset.trim);
+      if (!isTrimAnimating) {
+        selectTrim(trim.dataset.trim);
+      }
       return;
     }
 
     const color = e.target.closest('[data-color]');
     if (color) {
-      renderColor(Number(color.dataset.color));
+      if (!isColorAnimating) {
+        renderColor(Number(color.dataset.color));
+      }
       return;
     }
 
