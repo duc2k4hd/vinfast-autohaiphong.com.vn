@@ -24,8 +24,50 @@
         a { text-decoration: none; color: inherit; }
         
         .vinfast-autohaiphong_admin_layout { display: flex; min-height: 100vh; }
-        .vinfast-autohaiphong_admin_sidebar { width: 250px; background-color: #ffffff; border-right: 1px solid var(--admin-border); flex-shrink: 0; display: flex; flex-direction: column; }
-        .vinfast-autohaiphong_admin_sidebar_brand { padding: 20px 24px; border-bottom: 1px solid var(--admin-border); font-size: 1.05rem; font-weight: 800; color: var(--admin-primary); letter-spacing: 0.5px; }
+        .vinfast-autohaiphong_admin_sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            border-right: 1px solid var(--admin-border);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            max-height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            overscroll-behavior: contain;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+            z-index: 100;
+        }
+        .vinfast-autohaiphong_admin_sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .vinfast-autohaiphong_admin_sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .vinfast-autohaiphong_admin_sidebar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .vinfast-autohaiphong_admin_sidebar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .vinfast-autohaiphong_admin_sidebar_brand {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--admin-border);
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--admin-primary);
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 10;
+        }
         .vinfast-autohaiphong_admin_sidebar_menu { list-style: none; padding: 16px 12px; flex: 1; }
         .vinfast-autohaiphong_admin_sidebar_heading { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--admin-muted); padding: 14px 14px 6px 14px; }
         .vinfast-autohaiphong_admin_sidebar_link { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 6px; font-weight: 600; color: var(--admin-text); margin-bottom: 2px; transition: all 0.15s ease; font-size: 0.88rem; }
