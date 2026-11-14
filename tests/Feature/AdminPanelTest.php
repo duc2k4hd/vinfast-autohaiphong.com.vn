@@ -208,11 +208,13 @@ class AdminPanelTest extends TestCase
         $this->actingAs($admin)->put(route('admin.settings.update'), [
             '_method' => 'PUT',
             'site_name' => 'Tên đại lý mới',
+            'seo_title' => 'VinFast Hải Phòng - Đại Lý Số 1 Bạch Đằng',
         ])->assertRedirect();
 
         $this->assertDatabaseHas('settings', ['key' => 'site_name', 'value' => 'Tên đại lý mới']);
+        $this->assertDatabaseHas('settings', ['key' => 'seo_title', 'value' => 'VinFast Hải Phòng - Đại Lý Số 1 Bạch Đằng']);
         $this->assertDatabaseMissing('settings', ['key' => '_method']);
         $this->actingAs($admin)->get(route('admin.settings.index'))
-            ->assertOk()->assertSee('Tên đại lý mới');
+            ->assertOk()->assertSee('Tên đại lý mới')->assertSee('VinFast Hải Phòng - Đại Lý Số 1 Bạch Đằng');
     }
 }

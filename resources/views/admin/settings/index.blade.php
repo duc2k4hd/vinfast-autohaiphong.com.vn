@@ -70,6 +70,35 @@
                    style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
         </div>
 
+        {{-- Khối Cấu Hình SEO & Tìm Kiếm Toàn Trang --}}
+        <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+            <div style="font-weight: 700; color: var(--admin-heading); margin-bottom: 6px;">CẤU HÌNH SEO TRANG CHỦ & TÌM KIẾM GOOGLE:</div>
+            <p style="font-size: 0.82rem; color: var(--admin-muted); margin: 0 0 16px 0;">
+                Thông tin này sẽ hiển thị trên kết quả tìm kiếm Google, Zalo và Facebook khi chia sẻ liên kết trang chủ.
+            </p>
+
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.88rem;">Tiêu Đề SEO Trang Chủ (Meta Title)</label>
+                <input type="text" name="seo_title" value="{{ $settings['seo_title'] ?? 'VinFast Hải Phòng - Đại lý ủy quyền của VinFast Việt Nam' }}" required 
+                       style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.9rem;">
+                <span style="font-size: 0.75rem; color: var(--admin-muted);">Khuyến nghị: 50 – 65 ký tự.</span>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.88rem;">Mô Tả SEO Trang Chủ (Meta Description)</label>
+                <textarea name="seo_description" rows="3" required 
+                          style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.9rem; line-height: 1.5;">{{ $settings['seo_description'] ?? 'VinFast Hải Phòng chuyên phân phối ô tô điện VinFast chính hãng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9... Giá tốt nhất, hỗ trợ trả góp 80%.' }}</textarea>
+                <span style="font-size: 0.75rem; color: var(--admin-muted);">Khuyến nghị: 120 – 160 ký tự.</span>
+            </div>
+
+            <div>
+                <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.88rem;">Từ Khóa SEO (Keywords)</label>
+                <input type="text" name="seo_keywords" value="{{ $settings['seo_keywords'] ?? 'vinfast hải phòng, vinfast minh đạo, vf 3, vf 5, vf 6, vf 7, vf 8, vf 9, giá xe vinfast' }}" 
+                       style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.9rem;">
+                <span style="font-size: 0.75rem; color: var(--admin-muted);">Các từ khóa cách nhau bởi dấu phẩy.</span>
+            </div>
+        </div>
+
         <div style="border-top: 1px solid var(--admin-border); padding-top: 20px;">
             <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="padding: 12px 28px; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
