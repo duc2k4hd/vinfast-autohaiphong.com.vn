@@ -124,7 +124,7 @@
                                                style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
                                     </div>
                                 </div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end;">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; margin-bottom: 8px;">
                                     <div>
                                         <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Giá Niêm Yết (đ)</label>
                                         <input type="number" name="variant_regular_prices[]" value="{{ $variant->regular_price }}" placeholder="240000000" 
@@ -143,6 +143,26 @@
                                     <button type="button" onclick="this.closest('.variant-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 6px;" title="Xóa phiên bản">
                                         &times;
                                     </button>
+                                </div>
+                                <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
+                                    <div class="variant-img-preview" style="width: 52px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        @if(!empty($variant->thumbnail_path))
+                                            <img src="{{ asset('storage/' . $variant->thumbnail_path) }}" alt="{{ $variant->name }}" style="width: 100%; height: 100%; object-fit: contain;">
+                                        @else
+                                            <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>
+                                        @endif
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Ảnh Riêng Cho Phiên Bản</label>
+                                        <select name="variant_thumbnail_media_ids[]" onchange="updateVariantImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                                            <option value="" data-src="">-- Dùng ảnh chính của xe --</option>
+                                            @foreach($mediaList as $m)
+                                                <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($variant->thumbnail_media_id) && $variant->thumbnail_media_id == $m->id) ? 'selected' : '' }}>
+                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -207,6 +227,26 @@ function addNewSpecRow() {
     container.appendChild(div);
 }
 
+const mediaOptionsTemplate = `
+    <option value="" data-src="">-- Dùng ảnh chính của xe --</option>
+    @foreach($mediaList as $m)
+        <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}">{{ $m->filename }} ({{ $m->alt_text ?: 'Ảnh xe' }})</option>
+    @endforeach
+`;
+
+function updateVariantImgPreview(selectEl) {
+    const selectedOption = selectEl.options[selectEl.selectedIndex];
+    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
+    const previewBox = selectEl.closest('.variant-row').querySelector('.variant-img-preview');
+    if (previewBox) {
+        if (src) {
+            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: contain;">`;
+        } else {
+            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>`;
+        }
+    }
+}
+
 function addNewVariantRow() {
     const container = document.getElementById('variants-container');
     const div = document.createElement('div');
@@ -225,7 +265,7 @@ function addNewVariantRow() {
                        style="width: 100%; padding: 6px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
             </div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px; align-items: end; margin-bottom: 8px;">
             <div>
                 <label style="display: block; font-size: 0.75rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Giá Niêm Yết (đ)</label>
                 <input type="number" name="variant_regular_prices[]" placeholder="240000000" 
@@ -244,6 +284,17 @@ function addNewVariantRow() {
             <button type="button" onclick="this.closest('.variant-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 6px;" title="Xóa phiên bản">
                 &times;
             </button>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center; background: #fff; padding: 8px; border-radius: 4px; border: 1px solid #edf2f7;">
+            <div class="variant-img-preview" style="width: 52px; height: 38px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">Mặc định</span>
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Ảnh Riêng Cho Phiên Bản</label>
+                <select name="variant_thumbnail_media_ids[]" onchange="updateVariantImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                    ${mediaOptionsTemplate}
+                </select>
+            </div>
         </div>
     `;
     container.appendChild(div);

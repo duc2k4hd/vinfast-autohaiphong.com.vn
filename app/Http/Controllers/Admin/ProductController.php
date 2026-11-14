@@ -67,8 +67,14 @@ class ProductController extends Controller
             ->get();
 
         $variants = DB::table('product_variants')
-            ->where('product_id', $id)
-            ->orderBy('sort_order', 'asc')
+            ->leftJoin('media', 'product_variants.thumbnail_media_id', '=', 'media.id')
+            ->where('product_variants.product_id', $id)
+            ->select([
+                'product_variants.*',
+                'media.path as thumbnail_path',
+                'media.filename as thumbnail_filename',
+            ])
+            ->orderBy('product_variants.sort_order', 'asc')
             ->get();
 
         $mediaList = DB::table('media')
@@ -102,6 +108,7 @@ class ProductController extends Controller
             'variant_regular_prices' => ['nullable', 'array'],
             'variant_sale_prices' => ['nullable', 'array'],
             'variant_color_names' => ['nullable', 'array'],
+            'variant_thumbnail_media_ids' => ['nullable', 'array'],
         ]);
 
         $now = now();
@@ -152,6 +159,7 @@ class ProductController extends Controller
                 $regularPrices = $request->input('variant_regular_prices', []);
                 $salePrices = $request->input('variant_sale_prices', []);
                 $colorNames = $request->input('variant_color_names', []);
+                $thumbnailMediaIds = $request->input('variant_thumbnail_media_ids', []);
 
                 $varSort = 1;
                 foreach ($names as $idx => $vName) {
@@ -163,6 +171,7 @@ class ProductController extends Controller
                             'regular_price' => ! empty($regularPrices[$idx]) ? (int) $regularPrices[$idx] : null,
                             'sale_price' => ! empty($salePrices[$idx]) ? (int) $salePrices[$idx] : null,
                             'color_name' => ! empty($colorNames[$idx]) ? trim($colorNames[$idx]) : null,
+                            'thumbnail_media_id' => ! empty($thumbnailMediaIds[$idx]) ? (int) $thumbnailMediaIds[$idx] : null,
                             'is_available' => true,
                             'is_active' => true,
                             'sort_order' => $varSort++,

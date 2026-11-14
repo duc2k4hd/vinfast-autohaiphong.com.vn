@@ -188,22 +188,23 @@ window.VINFAST_PRODUCT_DATA = {
                     <div class="vinfast-autohaiphong_product_intro-info" data-reveal>
                         <h1 class="sr-only">{{ $car->name }}</h1>
 
-                        {{-- 1. Trim Picker (Nằm trên cùng bên phải giống hệt ảnh mẫu với hiệu ứng trượt) --}}
-                        <span class="sr-only">Chọn Phiên Bản</span>
-                        <div class="vinfast-autohaiphong_product_trim-picker-wrapper">
-                            <div class="vinfast-autohaiphong_product_trim-picker" role="group" aria-label="Phiên bản xe">
-                                <span class="vinfast-autohaiphong_product_trim-indicator" aria-hidden="true"></span>
-                                @if($variants->isNotEmpty())
+                        {{-- 1. Trim Picker (Chỉ hiển thị khi sản phẩm có các phiên bản / biến thể) --}}
+                        @if($variants->isNotEmpty())
+                            <span class="sr-only">Chọn Phiên Bản</span>
+                            <div class="vinfast-autohaiphong_product_trim-picker-wrapper">
+                                <div class="vinfast-autohaiphong_product_trim-picker" role="group" aria-label="Phiên bản xe">
+                                    <span class="vinfast-autohaiphong_product_trim-indicator" aria-hidden="true"></span>
                                     @foreach($variants as $idx => $variant)
                                         @php
                                             $variantImg = !empty($variant->thumbnail_path)
                                                 ? asset('storage/' . $variant->thumbnail_path)
-                                                : ($idx === 0 ? $mainCarImage : (file_exists(public_path('storage/clients/assets/images/products/xe-dien-vinfast-vf3-1794624468.webp')) ? asset('storage/clients/assets/images/products/xe-dien-vinfast-vf3-1794624468.webp') : $mainCarImage));
+                                                : $mainCarImage;
+                                            $variantPrice = $variant->sale_price ?: $variant->regular_price;
                                         @endphp
                                         <button type="button"
                                                 data-trim="{{ $variant->id }}"
-                                                data-price-val="{{ $variant->sale_price ?: $variant->regular_price }}"
-                                                data-price-formatted="{{ number_format($variant->sale_price ?: $variant->regular_price, 0, ',', '.') }} VNĐ"
+                                                data-price-val="{{ $variantPrice ?: ($car->sale_price ?: $car->regular_price) }}"
+                                                data-price-formatted="{{ number_format($variantPrice ?: ($car->sale_price ?: $car->regular_price), 0, ',', '.') }} VNĐ"
                                                 data-name="{{ $variant->name }}"
                                                 data-image="{{ $variantImg }}"
                                                 class="vinfast-autohaiphong_product_trim {{ $idx === 0 ? 'vinfast-autohaiphong_product_is-active' : '' }}"
@@ -211,14 +212,13 @@ window.VINFAST_PRODUCT_DATA = {
                                             {{ $variant->name }}
                                         </button>
                                     @endforeach
-                                @else
-                                    <button type="button" data-trim="standard" data-price-val="{{ $car->sale_price ?: $car->regular_price }}" data-price-formatted="{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ" data-name="{{ $car->name }} Tiêu Chuẩn" data-image="{{ $mainCarImage }}" class="vinfast-autohaiphong_product_trim vinfast-autohaiphong_product_is-active">
-                                        {{ $car->name }} Tiêu Chuẩn
-                                    </button>
-                                @endif
+                                </div>
                             </div>
-                        </div>
-                        <span id="vf-selected-variant-label" class="sr-only">{{ $variants->isNotEmpty() ? $variants->first()->name : 'Tiêu Chuẩn' }}</span>
+                            <span id="vf-selected-variant-label" class="sr-only">{{ $firstVariant->name }}</span>
+                        @else
+                            <span class="sr-only">Chọn Phiên Bản</span>
+                            <span id="vf-selected-variant-label" class="sr-only">Tiêu Chuẩn</span>
+                        @endif
 
                         {{-- 2. Spec Highlights (3 khối thanh mảnh phân cách bởi nét mờ như ảnh mẫu) --}}
                         <div class="vinfast-autohaiphong_product_spec-highlights">
@@ -251,7 +251,12 @@ window.VINFAST_PRODUCT_DATA = {
                         <div class="vinfast-autohaiphong_product_intro-actions">
                             <div class="vinfast-autohaiphong_product_price-tag">
                                 <span class="vinfast-autohaiphong_product_price-dot"></span>
-                                <span class="vinfast-autohaiphong_product_price-text">Giá bán từ: <strong data-price id="vf-car-price-display">{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ</strong></span>
+                                @php
+                                    $initialDisplayPrice = ($firstVariant && ($firstVariant->sale_price ?: $firstVariant->regular_price))
+                                        ? ($firstVariant->sale_price ?: $firstVariant->regular_price)
+                                        : ($car->sale_price ?: $car->regular_price);
+                                @endphp
+                                <span class="vinfast-autohaiphong_product_price-text">Giá bán từ: <strong data-price id="vf-car-price-display">{{ number_format($initialDisplayPrice, 0, ',', '.') }} VNĐ</strong></span>
                             </div>
 
                             <form action="{{ route('client.cart.add') }}" method="POST" style="margin: 0; display: inline-flex; flex-shrink: 0;">
