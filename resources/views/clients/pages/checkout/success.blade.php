@@ -1,7 +1,7 @@
 @extends('clients.layouts.app')
 
 @section('title', 'Đặt Hàng Thành Công — Mã: ' . $order->order_number . ' | VinFast Hải Phòng')
-@section('meta_description', 'Đăng ký đặt cọc xe VinFast thành công. Vui lòng xem hướng dẫn hoàn tất thanh toán tiền mặt tại Showroom VinFast Minh Đạo Hải Phòng.')
+@section('meta_description', 'Đăng ký đặt cọc xe VinFast thành công. Vui lòng xem hướng dẫn hoàn tất thanh toán tiền mặt tại Showroom VinFast Hải Phòng.')
 
 @section('content')
 <div class="vinfast-autohaiphong_checkout_success_section" style="padding: 50px 0 70px 0; background: #f8fafc;">
@@ -48,7 +48,7 @@
                 <ul style="list-style: none; padding-left: 0; color: #1e293b;">
                     <li style="margin-bottom: 10px; display: flex; align-items: flex-start; gap: 8px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--client-color-primary)" stroke-width="2" style="flex-shrink: 0; margin-top: 3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        <div><strong>Địa chỉ Showroom:</strong> {{ $siteSettings['site_address'] ?? 'Số 1 Bạch Đằng, Phường Thượng Lý, Quận Hồng Bàng, TP. Hải Phòng' }}</div>
+                        <div><strong>Địa chỉ Showroom:</strong> {{ $siteSettings['site_address'] ?? 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng' }}</div>
                     </li>
                     <li style="margin-bottom: 10px; display: flex; align-items: flex-start; gap: 8px;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--client-color-primary)" stroke-width="2" style="flex-shrink: 0; margin-top: 3px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>

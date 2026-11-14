@@ -37,7 +37,7 @@ class InitialPostsSeeder extends Seeder
                 'status' => 'published',
                 'featured' => true,
                 'published_at' => $now,
-                'meta_title' => 'Đánh Giá VinFast VF 3 Tại Hải Phòng | Đại Lý VinFast Minh Đạo',
+                'meta_title' => 'Đánh Giá VinFast VF 3 Tại Hải Phòng | VinFast Hải Phòng',
                 'meta_description' => 'Khám phá chi tiết VinFast VF 3: Thiết kế mini SUV, giá bán lăn bánh Hải Phòng, thông số kỹ thuật và hỗ trợ thủ tục mua xe trả góp.',
                 'created_at' => $now,
                 'updated_at' => $now,

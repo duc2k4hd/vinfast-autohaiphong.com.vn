@@ -23,7 +23,7 @@
             <div style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
                 <div style="color: #f59e0b; margin-bottom: 12px; font-size: 1.1rem;">★★★★★</div>
                 <p style="font-size: 0.95rem; color: #334155; line-height: 1.7; margin-bottom: 20px;">
-                    "Gia đình tôi chọn chiếc VinFast VF 6 sau khi đã lái thử nhiều dòng xe cùng phân khúc. Xe đầm chắc, cách âm rất tốt và đặc biệt là chi phí tiền điện tiết kiệm hơn rất nhiều so với tiền xăng trước đây. Dịch vụ tại VinFast Minh Đạo Số 1 Bạch Đằng rất tận tâm và chu đáo."
+                    "Gia đình tôi chọn chiếc VinFast VF 6 sau khi đã lái thử nhiều dòng xe cùng phân khúc. Xe đầm chắc, cách âm rất tốt và đặc biệt là chi phí tiền điện tiết kiệm hơn rất nhiều so với tiền xăng trước đây. Dịch vụ tại VinFast Hải Phòng rất tận tâm và chu đáo."
                 </p>
                 <div style="border-top: 1px solid var(--client-color-border); padding-top: 14px;">
                     <div style="font-weight: 700; color: var(--client-color-heading);">Anh Trần Hoàng Nam</div>
@@ -45,7 +45,7 @@
             <div style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
                 <div style="color: #f59e0b; margin-bottom: 12px; font-size: 1.1rem;">★★★★★</div>
                 <p style="font-size: 0.95rem; color: #334155; line-height: 1.7; margin-bottom: 20px;">
-                    "VinFast VF 8 phiên bản Plus chạy cao tốc Hải Phòng - Hà Nội êm ái tuyệt vời, tính năng trợ lái ADAS cấp độ 2 giúp tôi lái xe đường dài rất nhàn nhã và an tâm. Đội ngũ kỹ thuật viên xưởng dịch vụ Minh Đạo làm việc rất chuyên nghiệp."
+                    "VinFast VF 8 phiên bản Plus chạy cao tốc Hải Phòng - Hà Nội êm ái tuyệt vời, tính năng trợ lái ADAS cấp độ 2 giúp tôi lái xe đường dài rất nhàn nhã và an tâm. Đội ngũ kỹ thuật viên xưởng dịch vụ VinFast Hải Phòng làm việc rất chuyên nghiệp."
                 </p>
                 <div style="border-top: 1px solid var(--client-color-border); padding-top: 14px;">
                     <div style="font-weight: 700; color: var(--client-color-heading);">Bác Lê Văn Minh</div>
@@ -61,7 +61,7 @@
                 Bạn Muốn Trực Tiếp Cầm Lái & Cảm Nhận?
             </h3>
             <p style="color: #1e40af; margin-bottom: 20px; font-size: 0.95rem;">
-                Đăng ký lái thử miễn phí tận nhà hoặc tại Showroom VinFast Minh Đạo ngay hôm nay.
+                Đăng ký lái thử miễn phí tận nhà hoặc tại Showroom VinFast Hải Phòng ngay hôm nay.
             </p>
             <button type="button" onclick="openQuoteModal(null, 'Đăng ký lái thử xe VinFast')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary" style="padding: 12px 28px;">
                 Đăng Ký Lái Thử Miễn Phí

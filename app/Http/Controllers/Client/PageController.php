@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Services\Shared\SettingsService;
 use Illuminate\View\View;
 
 class PageController extends Controller
 {
+    public function __construct(
+        protected SettingsService $settingsService
+    ) {}
+
     /**
      * Trang Pin & Trạm Sạc VinFast.
      */
     public function chargingStations(): View
     {
-        return view('clients.pages.custom.charging-stations');
+        return view('clients.pages.custom.charging-stations', [
+            'settings' => $this->settingsService->getPublicSettings(),
+        ]);
     }
 
     /**

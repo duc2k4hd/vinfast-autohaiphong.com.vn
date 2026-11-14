@@ -37,9 +37,36 @@ class SitemapAndSeoTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('"@type": "AutoDealer"', false);
-        $response->assertSee('Số 1 Bạch Đằng', false);
+        $response->assertSee('Lê Hồng Phong', false);
         $response->assertSee('<meta property="og:locale" content="vi_VN">', false);
         $response->assertSee('<meta name="twitter:card" content="summary_large_image">', false);
+    }
+
+    public function test_autodealer_schema_uses_visible_settings_and_safely_encodes_script_content(): void
+    {
+        $settings = [
+            'site_name' => '</script><script>alert("name")</script>',
+            'site_phone' => '0123 456 789',
+            'site_address' => '42 Test Street & "Showroom"',
+        ];
+        view()->share('siteSettings', $settings);
+
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $html = $response->getContent();
+        $this->assertStringNotContainsString($settings['site_name'], $html);
+        $this->assertSame(1, preg_match('/<script type="application\/ld\+json">(.*?)<\/script>/s', $html, $matches));
+        $schema = json_decode($matches[1], true, 512, JSON_THROW_ON_ERROR);
+        $this->assertSame('AutoDealer', $schema['@type']);
+        $this->assertSame($settings['site_name'], $schema['name']);
+        $this->assertSame($settings['site_phone'], $schema['telephone']);
+        $this->assertSame('PostalAddress', $schema['address']['@type']);
+        $this->assertSame($settings['site_address'], $schema['address']['streetAddress']);
+        $this->assertArrayNotHasKey('priceRange', $schema);
+        $this->assertArrayNotHasKey('paymentAccepted', $schema);
+        $response->assertSee($settings['site_address']);
+        $response->assertSee($settings['site_phone']);
     }
 
     public function test_car_detail_page_contains_vehicle_json_ld_schema(): void

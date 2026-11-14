@@ -298,6 +298,39 @@
         color: #ffffff;
         border-color: var(--admin-primary);
     }
+
+/* Product specification editor */
+.vf-spec-help { margin: 2px 0 14px; line-height: 1.5; }
+.vf-spec-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+.vf-spec-toolbar .vf-admin-input { min-width: 0; height: 36px; font-size: 0.83rem; }
+.vf-spec-search { flex: 1 1 210px; }
+.vf-spec-control { display: flex; flex: 1 1 270px; gap: 6px; min-width: 0; }
+.vf-spec-control .vf-admin-input { flex: 1; width: 1px; }
+.vf-spec-toolbar .vf-spec-action, .vf-spec-add-row { white-space: nowrap; padding: 7px 10px; font-size: 0.8rem; }
+.spec-section { border: 1px solid var(--admin-border); border-radius: 8px; margin-bottom: 10px; overflow: visible; }
+.vf-spec-section-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 12px; background: #f8fafc; border-radius: 8px 8px 0 0; }
+.spec-section-title { font-size: 0.88rem; color: #334155; }
+.spec-section-rows { padding: 4px 12px; }
+.spec-section-rows:empty { padding: 0; }
+.spec-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+.spec-row + .spec-row { border-top: 1px solid #f1f5f9; }
+.spec-row > .vf-admin-input { min-width: 0; height: 36px; font-size: 0.83rem; }
+.spec-key-input { flex: 1; }
+.spec-val-input { flex: 1.3; }
+.vf-spec-move { position: relative; flex: none; font-size: 0.8rem; }
+.vf-spec-move summary { cursor: pointer; color: #475569; white-space: nowrap; padding: 7px; border-radius: 5px; }
+.vf-spec-move summary:hover { background: #f1f5f9; }
+.vf-spec-move label { position: absolute; z-index: 5; right: 0; top: 100%; width: 210px; padding: 10px; background: white; border: 1px solid var(--admin-border); border-radius: 6px; box-shadow: 0 4px 14px #0f172a1a; }
+.vf-spec-move select { margin-top: 5px; width: 100%; }
+.vf-spec-remove { border: 0; background: transparent; color: #dc2626; cursor: pointer; font-size: 1.3rem; line-height: 1; padding: 5px 8px; border-radius: 5px; }
+.vf-spec-remove:hover { background: #fef2f2; }
+@media (max-width: 640px) {
+    .vf-spec-toolbar, .vf-spec-control { width: 100%; }
+    .vf-spec-search, .vf-spec-control { flex-basis: 100%; }
+    .spec-row { flex-wrap: wrap; }
+    .spec-row > .vf-admin-input { flex: 1 1 calc(50% - 8px); }
+    .vf-spec-move { margin-left: auto; }
+}
 </style>
 @endpush
 
@@ -1025,45 +1058,94 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
                 <span>THÔNG SỐ KỸ THUẬT KEY - VALUE</span>
             </div>
-            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                <span class="vf-admin-card-badge" id="badge-count-specs">{{ $specifications->count() }} mục thông số</span>
-                {{-- Ô tìm kiếm nhanh thông số --}}
-                <div style="position: relative;">
-                    <input type="text" id="spec-search-input" placeholder="🔍 Lọc nhanh thông số (pin, động cơ, lốp...)" 
-                           oninput="filterSpecRows(this.value)"
-                           style="padding: 5px 12px; border: 1px solid var(--admin-border); border-radius: 20px; font-size: 0.8rem; width: 250px;">
-                </div>
-                <button type="button" onclick="addNewSpecRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="padding: 5px 12px; font-size: 0.8rem;">
-                    + Thêm Dòng Thông Số
-                </button>
+            <span class="vf-admin-card-badge" id="badge-count-specs">{{ $specifications->count() }} mục thông số</span>
+        </div>
+        <p class="vf-admin-helper-text vf-spec-help">Thêm thông số vào từng nhóm hoặc chuyển dòng sang nhóm khác. Nhóm mới cần ít nhất một thông số có tên để được lưu và dùng chung cho các xe.</p>
+        <div class="vf-spec-toolbar">
+            <input type="search" id="spec-search-input" class="vf-admin-input vf-spec-search" aria-label="Tìm thông số" placeholder="Tìm nhóm hoặc thông số..." oninput="filterSpecRows(this.value)">
+            <div class="vf-spec-control">
+                <select id="spec-add-group" aria-label="Chọn nhóm thông số có sẵn" class="vf-admin-input">
+                    <option value="">Chọn nhóm có sẵn</option>
+                    @foreach($specificationGroups as $group)
+                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                    @endforeach
+                    @foreach(old('new_spec_groups', []) as $key => $name)
+                        <option value="new:{{ $key }}">{{ $name }}</option>
+                    @endforeach
+                </select>
+                <button type="button" onclick="addSpecGroup()" class="vinfast-autohaiphong_admin_btn vf-spec-action">+ Thêm nhóm</button>
+            </div>
+            <div class="vf-spec-control">
+                <input id="spec-new-group-name" class="vf-admin-input" maxlength="150" aria-label="Tên nhóm mới" placeholder="Tên nhóm mới">
+                <button type="button" onclick="createSpecGroup()" class="vinfast-autohaiphong_admin_btn vf-spec-action">+ Tạo nhóm</button>
             </div>
         </div>
 
-        <p class="vf-admin-helper-text" style="margin-bottom: 14px;">
-            Các cặp <strong>Key (Tên thông số)</strong> và <strong>Value (Giá trị kỹ thuật)</strong> hiển thị tại bảng tra cứu thông số của trang chi tiết xe. Bạn có thể dùng ô tìm kiếm phía trên để lọc nhanh các thông số cần chỉnh sửa.
-        </p>
-
-        <div id="specs-container">
-            @if($specifications->isNotEmpty())
-                @foreach($specifications as $spec)
-                    <div class="spec-row" style="display: flex; gap: 10px; margin-bottom: 8px; align-items: center;">
-                        <input type="text" name="specs_labels[]" value="{{ $spec->label }}" placeholder="Tên thông số (Key) - VD: Chiều dài cơ sở, Công suất..." 
-                               class="vf-admin-input spec-key-input" style="flex: 1.2; padding: 7px 10px; font-size: 0.85rem;">
-                        <input type="text" name="specs_values[]" value="{{ $spec->value }}" placeholder="Giá trị (Value) - VD: 2.075 mm, 32 kW..." 
-                               class="vf-admin-input spec-val-input" style="flex: 1.5; padding: 7px 10px; font-size: 0.85rem;">
-                        <button type="button" onclick="this.parentElement.remove(); updateCounters(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa dòng này">
-                            &times;
-                        </button>
-                    </div>
-                @endforeach
-            @else
-                <div class="spec-row" style="display: flex; gap: 10px; margin-bottom: 8px; align-items: center;">
-                    <input type="text" name="specs_labels[]" value="Số chỗ ngồi" placeholder="Tên thông số (Key)" class="vf-admin-input spec-key-input" style="flex: 1.2; padding: 7px 10px; font-size: 0.85rem;">
-                    <input type="text" name="specs_values[]" value="4 chỗ" placeholder="Giá trị (Value)" class="vf-admin-input spec-val-input" style="flex: 1.5; padding: 7px 10px; font-size: 0.85rem;">
-                    <button type="button" onclick="this.parentElement.remove(); updateCounters(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;">&times;</button>
-                </div>
-            @endif
+        @php
+            $specRows = old('specs_labels') !== null
+                ? collect(old('specs_labels'))->map(fn ($label, $index) => (object) [
+                    'label' => $label,
+                    'value' => old("specs_values.$index"),
+                    'group_id' => old("specs_groups.$index"),
+                    'unit' => old("specs_units.$index"),
+                ])
+                : $specifications;
+        @endphp
+        <input type="hidden" name="specs_present" value="1">
+        @php
+            $rowsByGroup = $specRows->groupBy(fn ($spec) => (string) ($spec->group_id ?? ''));
+            $groupNames = $specificationGroups->keyBy('id');
+            $groupIds = $rowsByGroup->keys()->map(fn ($id) => (string) $id)->all();
+            if (! in_array('', $groupIds, true)) {
+                array_unshift($groupIds, '');
+            }
+        @endphp
+        <div id="new-spec-groups">
+            @foreach(old('new_spec_groups', []) as $key => $name)
+                <input type="hidden" name="new_spec_groups[{{ $key }}]" value="{{ $name }}">
+            @endforeach
         </div>
+        <div id="specs-container">
+            @foreach($groupIds as $groupId)
+                <section class="spec-section" data-group-id="{{ $groupId }}">
+                    <div class="vf-spec-section-header">
+                        <strong class="spec-section-title">{{ $groupId === '' ? 'Không phân nhóm' : ($groupNames->get($groupId)?->name ?? (str_starts_with($groupId, 'new:') ? old('new_spec_groups.'.substr($groupId, 4), 'Nhóm mới') : 'Nhóm không còn tồn tại (#'.$groupId.')')) }}</strong>
+                        <button type="button" onclick="addNewSpecRow(this.closest('.spec-section'))" class="vinfast-autohaiphong_admin_btn vf-spec-add-row">+ Thêm thông số</button>
+                    </div>
+                    <div class="spec-section-rows">
+                        @foreach($rowsByGroup->get($groupId, collect()) as $spec)
+                            <div class="spec-row">
+                                <input type="hidden" name="specs_groups[]" value="{{ $spec->group_id }}">
+                                <input type="hidden" name="specs_units[]" value="{{ $spec->unit }}">
+                                <input type="text" name="specs_labels[]" value="{{ $spec->label }}" aria-label="Tên thông số" placeholder="Tên thông số (Key)" class="vf-admin-input spec-key-input">
+                                <input type="text" name="specs_values[]" value="{{ $spec->value }}" aria-label="Giá trị thông số" placeholder="Giá trị (Value)" class="vf-admin-input spec-val-input">
+                                <details class="vf-spec-move"><summary>Chuyển nhóm</summary><label>Nhóm đích <select class="vf-admin-input" onchange="moveSpecRow(this)"><option value="">Không phân nhóm</option>@foreach($specificationGroups as $group)<option value="{{ $group->id }}" @selected((string) $spec->group_id === (string) $group->id)>{{ $group->name }}</option>@endforeach @foreach(old('new_spec_groups', []) as $key => $name)<option value="new:{{ $key }}" @if(isset($spec)) @selected((string) $spec->group_id === 'new:'.$key) @endif>{{ $name }}</option>@endforeach</select></label></details>
+                                <button type="button" onclick="removeSpecRow(this)" aria-label="Xóa dòng thông số" title="Xóa thông số" class="vf-spec-remove">&times;</button>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+            @endforeach
+        </div>
+        <template id="spec-row-template">
+            <div class="spec-row">
+                <input type="hidden" name="specs_groups[]" value="">
+                <input type="hidden" name="specs_units[]" value="">
+                <input type="text" name="specs_labels[]" aria-label="Tên thông số" placeholder="Tên thông số (Key)" class="vf-admin-input spec-key-input">
+                <input type="text" name="specs_values[]" aria-label="Giá trị thông số" placeholder="Giá trị (Value)" class="vf-admin-input spec-val-input">
+                <details class="vf-spec-move"><summary>Chuyển nhóm</summary><label>Nhóm đích <select class="vf-admin-input" onchange="moveSpecRow(this)"><option value="">Không phân nhóm</option>@foreach($specificationGroups as $group)<option value="{{ $group->id }}">{{ $group->name }}</option>@endforeach @foreach(old('new_spec_groups', []) as $key => $name)<option value="new:{{ $key }}">{{ $name }}</option>@endforeach</select></label></details>
+                <button type="button" onclick="removeSpecRow(this)" aria-label="Xóa dòng thông số" title="Xóa thông số" class="vf-spec-remove">&times;</button>
+            </div>
+        </template>
+        <template id="spec-section-template">
+            <section class="spec-section">
+                <div class="vf-spec-section-header">
+                    <strong class="spec-section-title"></strong>
+                    <button type="button" onclick="addNewSpecRow(this.closest('.spec-section'))" class="vinfast-autohaiphong_admin_btn vf-spec-add-row">+ Thêm thông số</button>
+                </div>
+                <div class="spec-section-rows"></div>
+            </section>
+        </template>
     </div>
 
     {{-- Khoảng trống dự phòng để nội dung không bị thanh fixed bottom che mất --}}
@@ -1487,34 +1569,95 @@ function loadDefaultVf3Highlights() {
     addNewHighlightRow({ value: '7 năm hoặc 160.000km', unit: '', subtitle: '(Tùy điều kiện nào đến trước)', label: 'Bảo hành' });
 }
 
-// Thêm dòng thông số Key - Value
-function addNewSpecRow(key = '', val = '') {
+// Các mảng đầu vào vẫn được gửi theo từng dòng.
+function ensureSpecGroup(id, name) {
     const container = document.getElementById('specs-container');
-    const div = document.createElement('div');
-    div.className = 'spec-row';
-    div.style.cssText = 'display: flex; gap: 10px; margin-bottom: 8px; align-items: center;';
-    div.innerHTML = `
-        <input type="text" name="specs_labels[]" value="${key}" placeholder="Tên thông số (Key)" class="vf-admin-input spec-key-input" style="flex: 1.2; padding: 7px 10px; font-size: 0.85rem;">
-        <input type="text" name="specs_values[]" value="${val}" placeholder="Giá trị (Value)" class="vf-admin-input spec-val-input" style="flex: 1.5; padding: 7px 10px; font-size: 0.85rem;">
-        <button type="button" onclick="this.parentElement.remove(); updateCounters(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;">&times;</button>
-    `;
-    container.appendChild(div);
-    updateCounters();
-    markFormDirty();
+    let section = Array.from(container.querySelectorAll('.spec-section')).find(item => item.dataset.groupId === id);
+    if (!section) {
+        section = document.getElementById('spec-section-template').content.firstElementChild.cloneNode(true);
+        section.dataset.groupId = id;
+        section.querySelector('.spec-section-title').textContent = name;
+        container.appendChild(section);
+    }
+    return section;
 }
 
-// Lọc thông số theo từ khóa tìm kiếm nhanh
+function createSpecGroup() {
+    const input = document.getElementById('spec-new-group-name');
+    const name = input.value.trim();
+    if (!name) {
+        input.focus();
+        return;
+    }
+    const selects = [...document.querySelectorAll('#spec-add-group, #specs-container .spec-row select'), document.getElementById('spec-row-template').content.querySelector('select')];
+    const existing = Array.from(document.getElementById('spec-add-group').options).find(option => option.value && option.textContent.trim().toLocaleLowerCase() === name.toLocaleLowerCase());
+    if (existing) {
+        ensureSpecGroup(existing.value, existing.textContent).querySelector('button').focus();
+        input.value = '';
+        return;
+    }
+    const key = 'g' + Date.now() + Math.random().toString(36).slice(2, 8);
+    const id = 'new:' + key;
+    const hidden = document.createElement('input');
+    hidden.type = 'hidden';
+    hidden.name = 'new_spec_groups[' + key + ']';
+    hidden.value = name;
+    document.getElementById('new-spec-groups').appendChild(hidden);
+    selects.forEach(select => select.add(new Option(name, id)));
+    const section = ensureSpecGroup(id, name);
+    input.value = '';
+    markFormDirty();
+    section.querySelector('button').focus();
+}
+
+function addSpecGroup() {
+    const select = document.getElementById('spec-add-group');
+    if (!select.value) return;
+    const section = ensureSpecGroup(select.value, select.selectedOptions[0].textContent);
+    select.value = '';
+    section.querySelector('button').focus();
+}
+
+function addNewSpecRow(section) {
+    const row = document.getElementById('spec-row-template').content.firstElementChild.cloneNode(true);
+    row.querySelector('[name="specs_groups[]"]').value = section.dataset.groupId;
+    row.querySelector('select').value = section.dataset.groupId;
+    section.querySelector('.spec-section-rows').appendChild(row);
+    document.getElementById('spec-search-input').value = '';
+    filterSpecRows('');
+    updateCounters();
+    markFormDirty();
+    row.querySelector('.spec-key-input').focus();
+}
+
+function removeSpecRow(button) {
+    const section = button.closest('.spec-section');
+    button.closest('.spec-row').remove();
+    updateCounters();
+    markFormDirty();
+    section.querySelector('button').focus();
+}
+
+function moveSpecRow(select) {
+    const row = select.closest('.spec-row');
+    const section = ensureSpecGroup(select.value, select.selectedOptions[0].textContent);
+    row.querySelector('[name="specs_groups[]"]').value = select.value;
+    section.querySelector('.spec-section-rows').appendChild(row);
+    row.querySelector('details').open = false;
+    filterSpecRows(document.getElementById('spec-search-input').value);
+    markFormDirty();
+    row.querySelector('summary').focus();
+}
+
 function filterSpecRows(keyword) {
     const term = (keyword || '').toLowerCase().trim();
-    const rows = document.querySelectorAll('#specs-container .spec-row');
-    rows.forEach(row => {
-        const key = (row.querySelector('.spec-key-input')?.value || '').toLowerCase();
-        const val = (row.querySelector('.spec-val-input')?.value || '').toLowerCase();
-        if (!term || key.includes(term) || val.includes(term)) {
-            row.style.display = 'flex';
-        } else {
-            row.style.display = 'none';
-        }
+    document.querySelectorAll('#specs-container .spec-section').forEach(section => {
+        const groupMatches = section.querySelector('.spec-section-title').textContent.toLowerCase().includes(term);
+        section.querySelectorAll('.spec-row').forEach(row => {
+            const key = row.querySelector('.spec-key-input').value.toLowerCase();
+            const val = row.querySelector('.spec-val-input').value.toLowerCase();
+            row.style.display = !term || groupMatches || key.includes(term) || val.includes(term) ? 'flex' : 'none';
+        });
     });
 }
 
@@ -2129,6 +2272,8 @@ function initProductArticleTinyMCE() {
         selector: '#article-editor',
         height: 'calc(100vh - 90px)',
         min_height: 550,
+        toolbar_sticky: true,
+        toolbar_sticky_offset: document.querySelector('.vf-admin-quick-nav')?.offsetHeight || 0,
         auto_focus: false,
         menubar: 'file edit view insert format tools table help',
         menu: {
@@ -2318,89 +2463,6 @@ function initProductArticleTinyMCE() {
             editor.on('init', function () {
                 syncEditorData();
 
-                const doc = editor.getDoc();
-                if (!doc) return;
-
-                const editorEl = editor.getContainer(); // .tox-tinymce
-                const headerEl = editorEl ? editorEl.querySelector('.tox-editor-header') : null;
-
-                // 1. Chống giật trang khi click/focus vào bên trong editor
-                let preventScrollJump = false;
-                doc.addEventListener('mousedown', function () {
-                    const currentY = window.scrollY;
-                    preventScrollJump = true;
-                    requestAnimationFrame(() => {
-                        if (preventScrollJump && Math.abs(window.scrollY - currentY) > 20) {
-                            window.scrollTo({ top: currentY, behavior: 'instant' });
-                        }
-                        preventScrollJump = false;
-                    });
-                }, { passive: true });
-
-                // 2. Điều phối cuộn thông minh:
-                // - Cuộn xuống: cuộn cả trang cho đến khi tox-editor-header chạm top 0.
-                // - Khi tox-editor-header chạm top 0: dính tại top 0 và cuộn nội dung trong trình soạn thảo.
-                // - Khi cuộn hết bài viết trong editor: tiếp tục cuộn cả trang xuống dưới.
-                // - Cuộn lên: cuộn ngược bài viết trong editor lên trước; chạm đỉnh editor thì cuộn tiếp cả trang lên.
-                function handleEditorWheelCoordination(e) {
-                    let deltaY = e.deltaY;
-                    if (e.deltaMode === 1) deltaY *= 33;
-                    else if (e.deltaMode === 2) deltaY *= window.innerHeight;
-
-                    if (Math.abs(deltaY) < 0.5) return;
-
-                    const scrollingEl = doc.scrollingElement || doc.documentElement || doc.body;
-                    const headerRect = headerEl ? headerEl.getBoundingClientRect() : editorEl.getBoundingClientRect();
-                    const quickNav = document.querySelector('.vf-admin-quick-nav');
-                    const navOffset = quickNav ? quickNav.offsetHeight : 0;
-                    const topThreshold = navOffset + 2; // Header chạm ngay dưới thanh vf-admin-quick-nav
-
-                    if (deltaY > 0) {
-                        // === CUỘN XUỐNG ===
-                        if (headerRect.top > topThreshold) {
-                            // tox-editor-header chưa chạm mép dưới vf-admin-quick-nav: Cuộn cả trang xuống
-                            e.preventDefault();
-                            const step = Math.min(deltaY, headerRect.top - topThreshold);
-                            window.scrollBy({ top: step, behavior: 'auto' });
-                        } else {
-                            // tox-editor-header đã chạm mép dưới: Dính lại và cuộn bên trong editor
-                            const maxScrollTop = Math.max(0, scrollingEl.scrollHeight - scrollingEl.clientHeight);
-                            const currentScrollTop = scrollingEl.scrollTop;
-
-                            if (currentScrollTop < maxScrollTop - 2) {
-                                // Chưa cuộn hết nội dung bài viết: Cuộn tiếp trong editor
-                                e.preventDefault();
-                                scrollingEl.scrollTop = Math.min(maxScrollTop, currentScrollTop + deltaY);
-                            } else {
-                                // Đã cuộn hết bài viết trong trình soạn thảo: Cuộn tiếp cả trang xuống
-                                e.preventDefault();
-                                window.scrollBy({ top: deltaY, behavior: 'auto' });
-                            }
-                        }
-                    } else {
-                        // === CUỘN LÊN ===
-                        const currentScrollTop = scrollingEl.scrollTop;
-
-                        if (headerRect.top <= topThreshold + 2 && currentScrollTop > 2) {
-                            // tox-editor-header đang ở vị trí dính và trong editor còn nội dung phía trên: Cuộn ngược editor lên
-                            e.preventDefault();
-                            scrollingEl.scrollTop = Math.max(0, currentScrollTop + deltaY);
-                        } else {
-                            // Đã ở đầu bài viết trong editor: Cuộn cả trang lên
-                            e.preventDefault();
-                            window.scrollBy({ top: deltaY, behavior: 'auto' });
-                        }
-                    }
-                }
-
-                // Gắn listener vào cả iframe doc và khung ngoài editor
-                doc.addEventListener('wheel', handleEditorWheelCoordination, { passive: false });
-                if (editorEl) {
-                    editorEl.addEventListener('wheel', function (e) {
-                        if (e.target.closest('iframe')) return;
-                        handleEditorWheelCoordination(e);
-                    }, { passive: false });
-                }
             });
             editor.on('keyup change undo redo NodeChange', function () {
                 syncEditorData();

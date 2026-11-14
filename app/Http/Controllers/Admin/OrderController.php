@@ -87,7 +87,7 @@ class OrderController extends Controller
     }
 
     /**
-     * Xác nhận đã thu tiền mặt tại Showroom VinFast Minh Đạo.
+     * Xác nhận đã thu tiền mặt tại Showroom VinFast Hải Phòng.
      */
     public function confirmCashPayment(Request $request, int $id): RedirectResponse
     {
@@ -116,7 +116,7 @@ class OrderController extends Controller
                     'status' => 'confirmed',
                     'confirmed_by' => $userId,
                     'received_at' => $now,
-                    'note' => 'Đã hoàn tất kiểm đếm và thu tiền mặt trực tiếp tại Showroom VinFast Minh Đạo (Số 1 Bạch Đằng).',
+                    'note' => 'Đã hoàn tất kiểm đếm và thu tiền mặt trực tiếp tại Showroom VinFast Hải Phòng (Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng).',
                     'updated_at' => $now,
                 ]);
         });

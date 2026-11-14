@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
 @section('title', 'Bảng Giá Các Dòng Xe Ô Tô VinFast Hải Phòng Mới Nhất')
-@section('meta_description', 'Khám phá toàn bộ các dòng xe ô tô điện VinFast chính hãng tại Hải Phòng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9, Minio, EC Van... Báo giá lăn bánh ưu đãi.')
-@section('canonical', url('/o-to-vinfast'))
+@section('meta_description', 'Khám phá các dòng ô tô VinFast tại Hải Phòng, xem thông tin giá xe và liên hệ tư vấn lựa chọn xe phù hợp.')
+@section('canonical', $cars->currentPage() > 1 ? route('client.catalog.page', ['page' => $cars->currentPage()]) : route('client.catalog.index'))
 
 @push('schema')
 {{-- ItemList Schema cho trang danh mục ô tô VinFast --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@' . 'context' => 'https://schema.org',
     '@type' => 'ItemList',
     'itemListElement' => $cars->map(function ($car, $index) {
         return [
@@ -19,13 +19,13 @@
             'image' => $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
         ];
     })->values()->all(),
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@' . 'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -41,10 +41,16 @@
             'item' => url('/o-to-vinfast')
         ]
     ]
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 @endpush
 
+@push('styles')
+<style>
+.catalog-intro{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;aspect-ratio:19 / 6;background:#101f37;color:#fff;padding:40px 0}.catalog-intro::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(9,22,41,.96) 0%,rgba(9,22,41,.82) 48%,rgba(9,22,41,.35) 100%)}.catalog-intro__background{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center}.catalog-intro span{color:#9dbdec;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}.catalog-intro h1{color:white;font-size:clamp(2rem,4vw,3.5rem);line-height:1.15;margin:12px 0 16px;max-width:760px}.catalog-intro p{color:#d4deec;max-width:650px;line-height:1.7;margin:0}.vinfast-autohaiphong_catalog_section{background:#f5f7fa}.vinfast-autohaiphong_catalog_header h1{color:#14243b}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_card{background:white;border:1px solid #e1e7ee;border-radius:14px;overflow:hidden}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_thumb{background:#edf1f5}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_body{padding:24px}.vinfast-autohaiphong_catalog_header>div:last-child>div{flex-wrap:wrap}.catalog-help{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:50px;padding:30px;background:#e8eff8;border-radius:14px}.catalog-help h2{font-size:1.3rem;margin:0 0 8px;color:#14243b}.catalog-help p{margin:0;color:#52657d}@media(max-width:600px){.catalog-intro{min-height:280px;padding:50px 0}.catalog-intro::before{background:linear-gradient(90deg,rgba(9,22,41,.94),rgba(9,22,41,.67))}.catalog-help{padding:24px}}
+.catalog-pagination{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;margin-top:40px}.catalog-pagination__item{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:44px;height:44px;padding:0 14px;border:1px solid #d6e0eb;border-radius:9px;background:#fff;color:#263d59;font-size:.9rem;font-weight:600;text-decoration:none;transition:background .2s,border-color .2s,color .2s}.catalog-pagination a:hover{border-color:#1768cf;color:#1768cf}.catalog-pagination a:focus-visible{outline:3px solid #83b7ff;outline-offset:2px}.catalog-pagination__item[aria-current="page"]{background:#1768cf;border-color:#1768cf;color:#fff}.catalog-pagination__item[aria-disabled="true"]{color:#a5b2c1;background:#f5f7fa}.catalog-pagination__dots{padding:0 3px;color:#718096}@media(max-width:480px){.catalog-pagination{gap:6px}.catalog-pagination__item{min-width:40px;height:40px;padding:0 11px}}
+</style>
+@endpush
 @section('content')
 {{-- Breadcrumb --}}
 <div class="vinfast-autohaiphong_catalog_breadcrumb_wrapper" style="background-color: var(--client-color-surface); border-bottom: 1px solid var(--client-color-border); padding: 12px 0;">
@@ -57,14 +63,15 @@
     </div>
 </div>
 
+<section class="catalog-intro">@if($catalogIntroImage)<img class="catalog-intro__background" src="{{ asset('storage/'.ltrim($catalogIntroImage, '/')) }}" alt="" aria-hidden="true">@endif<div class="vinfast-autohaiphong_layout_container"><span>VinFast Hải Phòng</span><h1>Chọn chiếc VinFast phù hợp với bạn</h1><p>Khám phá các dòng ô tô VinFast, tìm hiểu giá xe và nhận tư vấn phù hợp với nhu cầu của bạn tại Hải Phòng.</p></div></section>
 <div class="vinfast-autohaiphong_catalog_section" style="padding: 40px 0 60px 0;">
     <div class="vinfast-autohaiphong_layout_container">
         {{-- Tiêu đề trang & Thanh công cụ lọc --}}
         <div class="vinfast-autohaiphong_catalog_header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 30px; border-bottom: 1px solid var(--client-color-border); padding-bottom: 20px;">
             <div>
-                <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--client-color-heading); margin-bottom: 6px;">
-                    CÁC DÒNG XE Ô TÔ VINFAST
-                </h1>
+                <h2 style="font-size: 1.85rem; font-weight: 800; color: var(--client-color-heading); margin-bottom: 6px;">
+                    Các dòng xe ô tô VinFast
+                </h2>
                 <p style="font-size: 0.95rem; color: var(--client-color-muted); margin: 0;">
                     Hiển thị {{ $cars->total() }} mẫu xe điện thông minh chính hãng tại đại lý Hải Phòng
                 </p>
@@ -93,12 +100,12 @@
                     @if($currentCategory)
                         <input type="hidden" name="category" value="{{ $currentCategory }}">
                     @endif
-                    <select name="sort" onchange="this.form.submit()" style="padding: 7px 12px; border: 1px solid var(--client-color-border); border-radius: 4px; font-size: 0.85rem; background: #ffffff; color: var(--client-color-heading); outline: none;">
+                    <label for="catalog-sort" class="sr-only">Sắp xếp theo</label><select id="catalog-sort" name="sort" onchange="this.form.submit()" style="padding: 7px 12px; border: 1px solid var(--client-color-border); border-radius: 4px; font-size: 0.85rem; background: #ffffff; color: var(--client-color-heading); outline: none;">
                         <option value="default" {{ $currentSort === 'default' ? 'selected' : '' }}>Sắp xếp: Mặc định</option>
                         <option value="price_asc" {{ $currentSort === 'price_asc' ? 'selected' : '' }}>Giá: Thấp đến cao</option>
                         <option value="price_desc" {{ $currentSort === 'price_desc' ? 'selected' : '' }}>Giá: Cao đến thấp</option>
                         <option value="latest" {{ $currentSort === 'latest' ? 'selected' : '' }}>Mới nhất</option>
-                    </select>
+                    </select><noscript><button type="submit">Áp dụng</button></noscript>
                 </form>
             </div>
         </div>
@@ -140,12 +147,12 @@
 
                             {{-- Mô tả ngắn --}}
                             <p style="font-size: 0.85rem; color: var(--client-color-muted); line-height: 1.5; margin-bottom: 14px;">
-                                {{ Str::limit($car->short_description ?? 'Mẫu xe ô tô điện thông minh hàng đầu của VinFast.', 85) }}
+                                {{ Str::limit($car->short_description ?? '', 85) }}
                             </p>
 
                             {{-- Actions --}}
                             <div class="vinfast-autohaiphong_home_car_actions">
-                                <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
+                                <button type="button" onclick="openQuoteModal({{ $car->id }}, {{ Illuminate\Support\Js::from($car->name) }})" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
                                     Báo Giá Lăn Bánh
                                 </button>
                                 <a href="{{ url('/xe/' . $car->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_neutral">
@@ -165,11 +172,10 @@
             @endif
         </div>
 
+        <div class="catalog-help"><div><h2>Bạn cần tư vấn chọn xe?</h2><p>Liên hệ VinFast Hải Phòng để tìm hiểu thêm về dòng xe bạn quan tâm.</p></div><a href="{{ route('client.contact.index') }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">Liên hệ tư vấn</a></div>
         {{-- Phân trang (Pagination) --}}
         @if($cars->hasPages())
-            <div style="margin-top: 40px; display: flex; justify-content: center;">
-                {{ $cars->links() }}
-            </div>
+            {{ $cars->onEachSide(1)->links('clients.pages.catalog.pagination') }}
         @endif
     </div>
 </div>

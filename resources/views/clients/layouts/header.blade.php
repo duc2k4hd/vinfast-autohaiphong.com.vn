@@ -68,6 +68,16 @@
                     </button>
                     <div id="vf-cars-dropdown" class="vinfast-autohaiphong_header_dropdown" hidden>
                         <div class="vinfast-autohaiphong_header_dropdown_inner">
+                            <div class="vinfast-autohaiphong_header_dropdown_layout">
+                                <aside class="vinfast-autohaiphong_header_dropdown_sidebar" aria-label="Khám phá VinFast">
+                                    <p class="vinfast-autohaiphong_header_dropdown_sidebar_title">Khám phá VinFast</p>
+                                    <a href="{{ route('client.catalog.index') }}">Các dòng xe <span aria-hidden="true">→</span></a>
+                                    <a href="{{ route('client.pages.charging_stations') }}">Pin &amp; trạm sạc <span aria-hidden="true">→</span></a>
+                                    <p class="vinfast-autohaiphong_header_dropdown_sidebar_title">Hỗ trợ khách hàng</p>
+                                    <a href="{{ route('client.pages.warranty_policy') }}">Chính sách bảo hành <span aria-hidden="true">→</span></a>
+                                    <a href="{{ route('client.contact.index') }}">Liên hệ tư vấn <span aria-hidden="true">→</span></a>
+                                </aside>
+                                <div class="vinfast-autohaiphong_header_dropdown_content">
                             <div class="vinfast-autohaiphong_header_dropdown_heading">
                                 <span>Khám phá các dòng xe VinFast</span>
                                 <div class="vinfast-autohaiphong_header_dropdown_heading_right">
@@ -96,6 +106,8 @@
                                         @endif
                                     </a>
                                 @endforeach
+                            </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -137,7 +149,7 @@
                     </a>
                 </div>
                 <div class="vinfast-autohaiphong_header_mobile_contact_addr">
-                    <span>Số 1 Bạch Đằng, P. Thượng Lý, Q. Hồng Bàng, TP. Hải Phòng</span>
+                    <span>{{ $siteSettings['site_address'] ?? 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng' }}</span>
                 </div>
             </div>
         </nav>

@@ -6,7 +6,7 @@ Dự án **VinFast Hải Phòng V2** là bước nâng cấp toàn diện hệ t
 - **Trải nghiệm Admin:** Thiết kế giao diện như một phần mềm quản trị doanh nghiệp chuyên nghiệp (tham chiếu Stripe Dashboard, Shopify Admin, Linear), thao tác trực quan, dễ dùng cho nhân viên bán hàng và biên tập viên không có kiến thức kỹ thuật.
 - **Trình soạn thảo TinyMCE:** Tích hợp TinyMCE chính hãng sử dụng API key `APP_TINYMCE_KEY` từ `.env` qua `config/services.php`, liên kết chặt chẽ với Thư viện Media nội bộ, hỗ trợ upload ảnh, làm sạch mã nguồn (HTML sanitizer) khi dán nội dung từ Word/Web, autosave và revision preview.
 - **Học hỏi SEO từ Nobi Fashion (`E:\Project\Laravel\nobifashion.vn`):** Kế thừa kiến trúc phân tích SEO nội dung real-time (keyword density, reading time, content score), thẻ meta social mở rộng, schema JSON-LD, sitemap HTML/XML và security headers.
-- **Độ tin cậy & Chống lỗi hồi quy (Regression Prevention):** Mở rộng bộ test suite từ baseline 28 tests lên hệ thống kiểm thử toàn diện Client & Admin liên thông, bảo toàn 100% dữ liệu 15 dòng xe, thông số kỹ thuật Key-Value và cơ chế thanh toán tiền mặt duy nhất tại Showroom Số 1 Bạch Đằng, Hải Phòng.
+- **Độ tin cậy & Chống lỗi hồi quy (Regression Prevention):** Mở rộng bộ test suite từ baseline 28 tests lên hệ thống kiểm thử toàn diện Client & Admin liên thông, bảo toàn 100% dữ liệu 15 dòng xe, thông số kỹ thuật Key-Value và cơ chế thanh toán tiền mặt duy nhất tại Showroom Lê Hồng Phong, Hải Phòng.
 
 ## 2. Thông Tin Nền Tảng & Môi Trường
 - **Framework:** Laravel 13.17, PHP 8.3+ (hiện đang chạy PHP 8.4.4 CLI)

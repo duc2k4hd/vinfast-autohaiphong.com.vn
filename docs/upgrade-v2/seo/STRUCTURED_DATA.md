@@ -4,8 +4,8 @@
 Áp dụng trên Trang chủ và Trang liên hệ:
 - `@context`: `https://schema.org`
 - `@type`: `AutoDealer`
-- `name`: `VinFast Hải Phòng - Showroom VinFast Minh Đạo`
-- `address`: Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng, Hải Phòng
+- `name`: `VinFast Hải Phòng`
+- `address`: Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng
 - `telephone`: `0988 302 882`
 - `paymentAccepted`: `Cash` (Tiền mặt duy nhất)
 - `openingHours`: Giờ làm việc chi tiết T2-T7 & Chủ nhật

@@ -2,7 +2,7 @@
 
 ## Tổng quan
 Website VinFast Hải Phòng được xây dựng bằng Laravel 13, tái tạo độ trung thực cao nhất từ https://vinfast-haiphong.com/
-Đơn vị vận hành: VinFast Minh Đạo Hải Phòng (Đại lý ủy quyền chính thức của VinFast Việt Nam).
+Đơn vị vận hành: VinFast Hải Phòng (Đại lý ủy quyền chính thức của VinFast Việt Nam).
 
 ## Thông tin liên hệ chính thức (Official Contact Info)
 - **Hotline Bán hàng:** `0988 302 882`
@@ -12,7 +12,7 @@ Website VinFast Hải Phòng được xây dựng bằng Laravel 13, tái tạo 
 - **Giờ làm việc:**
   - Thứ 2 – Thứ 7: Dịch vụ (7h50 – 17h00) | Kinh doanh (7h30 – 18h00)
   - Chủ nhật: Dịch vụ & phụ tùng nghỉ | Kinh doanh (7h00 – 18h00)
-- **Fanpage Facebook:** `https://www.facebook.com/VinFastMinhDao`
+- **Fanpage Facebook:** `https://www.facebook.com/VinFastHaiPhong`
 - **Địa chỉ showroom:** Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng.
 
 ## Tài sản truyền thông cục bộ (Local Media Assets)
@@ -79,7 +79,7 @@ Mọi class HTML trong Blade template và file CSS bắt buộc phải có tiề
 ### 4.3. Giỏ Hàng & Thanh Toán Tiền Mặt Duy Nhất
 - Giỏ hàng: `/gio-hang` (tính giá lại từ database).
 - Checkout: `/thanh-toan` (phương thức thanh toán duy nhất `cash`, chống trùng lặp với `idempotency_key`, lưu `orders`, `order_items`, `payment_records`).
-- Trang thành công: `/dat-hang-thanh-cong/{order_number}` hướng dẫn chi tiết đến Showroom VinFast Minh Đạo (Số 1 Bạch Đằng) để nộp tiền mặt.
+- Trang thành công: `/dat-hang-thanh-cong/{order_number}` hướng dẫn chi tiết đến Showroom VinFast Hải Phòng (Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng) để nộp tiền mặt.
 
 ### 4.4. Hệ Thống Quản Trị Admin Panel (`/admin/`)
 - Đăng nhập: `/admin/login` (Tài khoản: `admin@vinfast-autohaiphong.com.vn`).

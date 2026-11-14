@@ -29,9 +29,10 @@ class CatalogAndProductTest extends TestCase
         $response = $this->get(route('client.catalog.index'));
 
         $response->assertStatus(200);
-        $response->assertSee('CÁC DÒNG XE Ô TÔ VINFAST');
+        $response->assertSee('Các dòng xe ô tô VinFast');
         $response->assertSee('VinFast VF 3');
         $response->assertSee('VinFast VF 5 Plus');
+        $response->assertSee('"@context": "https://schema.org"', false);
     }
 
     /**
@@ -125,7 +126,37 @@ class CatalogAndProductTest extends TestCase
         $response = $this->get('/o-to-vinfast/page/2');
 
         $response->assertStatus(200);
-        $response->assertSee('CÁC DÒNG XE Ô TÔ VINFAST');
+        $response->assertSee('Các dòng xe ô tô VinFast');
+    }
+
+    public function test_catalog_legacy_pagination_shows_second_page_and_normalized_links(): void
+    {
+        $first = $this->get('/o-to-vinfast');
+        $second = $this->get('/o-to-vinfast/page/2?sort=default');
+
+        $first->assertViewHas('cars', fn ($cars) => $cars->currentPage() === 1 && $cars->total() > 9);
+        $second->assertOk()->assertViewHas('cars', fn ($cars) => $cars->currentPage() === 2 && $cars->first()->id !== $first->viewData('cars')->first()->id);
+        $second->assertSee(route('client.catalog.page', ['page' => 2]), false);
+        $second->assertDontSee('/page/2?page=', false);
+    }
+
+    public function test_catalog_sorts_displayed_prices_and_excludes_deleted_products(): void
+    {
+        DB::table('products')->update(['status' => 'inactive']);
+        DB::table('products')->where('slug', 'vinfast-vf-2')->update(['status' => 'active', 'regular_price' => 300, 'sale_price' => null, 'price_on_request' => false]);
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update(['status' => 'active', 'regular_price' => 500, 'sale_price' => 100, 'price_on_request' => false]);
+        DB::table('products')->where('slug', 'vinfast-vf-5')->update(['status' => 'active', 'regular_price' => 1, 'sale_price' => null, 'price_on_request' => true]);
+        DB::table('products')->where('slug', 'vinfast-vf-6')->update(['status' => 'active', 'deleted_at' => now()]);
+
+        $ascending = $this->get('/o-to-vinfast?sort=price_asc');
+        $ascending->assertOk()->assertViewHas('cars', fn ($cars) => $cars->pluck('slug')->all() === ['vinfast-vf-3', 'vinfast-vf-2', 'vinfast-vf-5']);
+        $this->get('/o-to-vinfast?sort=price_desc')->assertOk()->assertViewHas('cars', fn ($cars) => $cars->pluck('slug')->all() === ['vinfast-vf-2', 'vinfast-vf-3', 'vinfast-vf-5']);
+    }
+
+    public function test_catalog_handles_invalid_filter_arrays_and_empty_category(): void
+    {
+        $this->get('/o-to-vinfast?category[]=invalid&sort[]=invalid')->assertOk();
+        $this->get('/o-to-vinfast?category=unknown')->assertOk()->assertSee('Không tìm thấy dòng xe nào phù hợp');
     }
 
     public function test_product_detail_accessible_with_active_or_coming_soon_status(): void

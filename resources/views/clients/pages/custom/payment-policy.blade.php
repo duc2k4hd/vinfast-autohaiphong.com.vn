@@ -1,7 +1,7 @@
 @extends('clients.layouts.app')
 
 @section('title', 'Chính Sách Thanh Toán Tiền Mặt | VinFast Hải Phòng')
-@section('meta_description', 'Quy định chi tiết về phương thức thanh toán tiền mặt trực tiếp khi mua xe và đặt cọc tại Đại lý VinFast Minh Đạo Hải Phòng.')
+@section('meta_description', 'Quy định chi tiết về phương thức thanh toán tiền mặt trực tiếp khi mua xe và đặt cọc tại Đại lý VinFast Hải Phòng.')
 @section('canonical', url('/chinh-sach-thanh-toan'))
 
 @section('content')
@@ -32,7 +32,7 @@
                 Quý khách hàng sau khi xác nhận đơn đặt cọc trực tuyến trên website sẽ được chuyên viên tư vấn liên hệ và gửi giấy hẹn. Khách hàng thực hiện thanh toán tiền mặt trực tiếp tại địa chỉ:
             </p>
             <p style="padding-left: 16px; border-left: 2px solid #cbd5e1; font-weight: 600; color: var(--client-color-heading);">
-                Showroom VinFast Minh Đạo — Số 1 Bạch Đằng, Phường Thượng Lý, Quận Hồng Bàng, Thành phố Hải Phòng.
+                Showroom VinFast Hải Phòng — Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng.
             </p>
 
             <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--client-color-heading); margin-top: 24px; margin-bottom: 12px;">
@@ -46,7 +46,7 @@
                     <strong>Bước 2 - Xác nhận lịch hẹn:</strong> Chuyên viên bán hàng gọi điện xác nhận màu xe, phiên bản, giá bán niêm yết và thời gian khách hàng đến showroom.
                 </li>
                 <li style="margin-bottom: 8px;">
-                    <strong>Bước 3 - Nộp tiền và nhận chứng từ:</strong> Khách hàng nộp tiền mặt tại phòng Kế toán - Thu ngân của Showroom Minh Đạo, ký hợp đồng mua bán và nhận Phiếu thu/Hóa đơn GTGT hợp lệ có đóng dấu đỏ của đại lý.
+                    <strong>Bước 3 - Nộp tiền và nhận chứng từ:</strong> Khách hàng nộp tiền mặt tại phòng Kế toán - Thu ngân của Showroom VinFast Hải Phòng, ký hợp đồng mua bán và nhận Phiếu thu/Hóa đơn GTGT hợp lệ có đóng dấu đỏ của đại lý.
                 </li>
                 <li style="margin-bottom: 8px;">
                     <strong>Bước 4 - Bàn giao xe:</strong> Tiến hành nghiệm thu xe và bàn giao hồ sơ xe, chìa khóa theo quy trình chuẩn của VinFast Việt Nam.

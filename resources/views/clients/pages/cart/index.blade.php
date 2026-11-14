@@ -1,7 +1,7 @@
 @extends('clients.layouts.app')
 
 @section('title', 'Giỏ Hàng / Danh Sách Đặt Cọc Xe | VinFast Hải Phòng')
-@section('meta_description', 'Xem lại danh sách các mẫu xe VinFast bạn đang quan tâm hoặc đăng ký đặt cọc tiền mặt tại VinFast Minh Đạo Hải Phòng.')
+@section('meta_description', 'Xem lại danh sách các mẫu xe VinFast bạn đang quan tâm hoặc đăng ký đặt cọc tiền mặt tại VinFast Hải Phòng.')
 
 @section('content')
 <div class="vinfast-autohaiphong_cart_section" style="padding: 40px 0 60px 0;">
@@ -111,7 +111,7 @@
                     </div>
 
                     <div class="vinfast-autohaiphong_checkout_cash_notice" style="font-size: 0.85rem; line-height: 1.5; margin-bottom: 20px;">
-                        <strong>Lưu ý:</strong> Phương thức thanh toán duy nhất áp dụng là <strong>Tiền mặt trực tiếp tại Showroom VinFast Minh Đạo</strong>. Bạn sẽ không bị trừ bất kỳ khoản phí trực tuyến nào khi đặt cọc online.
+                        <strong>Lưu ý:</strong> Phương thức thanh toán duy nhất áp dụng là <strong>Tiền mặt trực tiếp tại Showroom VinFast Hải Phòng</strong>. Bạn sẽ không bị trừ bất kỳ khoản phí trực tuyến nào khi đặt cọc online.
                     </div>
 
                     <a href="{{ route('client.checkout.index') }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary" style="width: 100%; padding: 13px; font-size: 1rem; text-decoration: none; text-align: center;">

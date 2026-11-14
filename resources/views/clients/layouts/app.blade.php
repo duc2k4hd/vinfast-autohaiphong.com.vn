@@ -44,16 +44,11 @@
         'telephone' => $siteSettings['site_phone'] ?? '0988 302 882',
         'address' => [
             '@type' => 'PostalAddress',
-            'streetAddress' => 'Số 1 Bạch Đằng, Phường Thượng Lý',
-            'addressLocality' => 'Quận Hồng Bàng',
-            'addressRegion' => 'Hải Phòng',
-            'addressCountry' => 'VN',
+            'streetAddress' => $siteSettings['site_address'] ?? 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng',
         ],
         'url' => url('/'),
-        'priceRange' => '$$$$',
-        'paymentAccepted' => 'Cash',
         'openingHours' => 'Mo-Sa 07:30-18:00, Su 07:00-18:00',
-    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
     </script>
 
     @stack('styles')

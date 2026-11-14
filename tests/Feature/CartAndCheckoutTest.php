@@ -71,7 +71,7 @@ class CartAndCheckoutTest extends TestCase
             'customer_name' => 'Nguyễn Văn Minh',
             'customer_phone' => '0988302882',
             'customer_email' => 'minh.nguyen@example.com',
-            'customer_note' => 'Tôi muốn nhận xe tại showroom Bạch Đằng vào sáng thứ 7',
+            'customer_note' => 'Tôi muốn nhận xe tại showroom Lê Hồng Phong vào sáng thứ 7',
             'consent_accepted' => '1',
             'idempotency_key' => 'test-idemp-key-12345',
         ]);
@@ -102,6 +102,6 @@ class CartAndCheckoutTest extends TestCase
         $successPage->assertStatus(200);
         $successPage->assertSee($order->order_number);
         $successPage->assertSee('HƯỚNG DẪN HOÀN TẤT THANH TOÁN TIỀN MẶT');
-        $successPage->assertSee('Số 1 Bạch Đằng');
+        $successPage->assertSee('Lê Hồng Phong');
     }
 }

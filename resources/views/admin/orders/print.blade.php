@@ -211,9 +211,9 @@
     {{-- Header Đại Lý --}}
     <div class="header">
         <div class="logo-box">
-            <h2>VINFAST MINH ĐẠO HẢI PHÒNG</h2>
+            <h2>VINFAST HẢI PHÒNG</h2>
             <p>Đại lý ủy quyền chính thức của VinFast Việt Nam</p>
-            <p>Địa chỉ: Số 1 Bạch Đằng, Phường Thượng Lý, Quận Hồng Bàng, TP. Hải Phòng</p>
+            <p>Địa chỉ: Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng</p>
             <p>Hotline Bán hàng: <strong>0988 302 882</strong> • Dịch vụ: 0915 286 506</p>
         </div>
         <div style="text-align: right;">
@@ -252,7 +252,7 @@
             </div>
             <div class="info-row">
                 <span class="info-label">Địa điểm thu:</span>
-                <span class="info-val">Showroom Số 1 Bạch Đằng, Hải Phòng</span>
+                <span class="info-val">Showroom VinFast Hải Phòng</span>
             </div>
             <div class="info-row">
                 <span class="info-label">Trạng thái tiền:</span>
@@ -313,7 +313,7 @@
         <div class="sig-col">
             <h4>Nhân Viên Kinh Doanh</h4>
             <p>(Ký và ghi rõ họ tên)</p>
-            <div class="sig-name">VinFast Minh Đạo</div>
+            <div class="sig-name">VinFast Hải Phòng</div>
         </div>
         <div class="sig-col">
             <h4>Thủ Quỹ Thu Tiền</h4>

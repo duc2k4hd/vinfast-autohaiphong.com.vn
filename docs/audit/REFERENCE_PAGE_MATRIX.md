@@ -4,7 +4,7 @@
 Trang chủ gồm các phần chính từ trên xuống dưới:
 1. **Top Bar / Header:**
    - Hotline: `tel:0966597282` (hoặc số cấu hình trong settings).
-   - Địa chỉ showroom: Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng, Hải Phòng.
+   - Địa chỉ showroom: Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng.
    - Logo VinFast Hải Phòng (bên trái).
    - Menu chính: Trang chủ, Ô Tô VinFast (dropdown 15 mẫu xe), Pin & Trạm Sạc, Trải Nghiệm Khách Hàng, Tin Tức, Liên Hệ.
    - Nút tìm kiếm & nút Báo giá / Hotline CTA.

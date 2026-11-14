@@ -41,7 +41,7 @@
 
             <div class="vinfast-autohaiphong_modal_form_consent" style="margin-bottom: 18px; font-size: 0.8rem; color: var(--client-color-muted); display: flex; align-items: flex-start; gap: 8px;">
                 <input type="checkbox" required id="consent-check" checked style="margin-top: 2px;">
-                <label for="consent-check">Tôi đồng ý nhận thông tin bảng giá lăn bánh và chính sách ưu đãi từ VinFast Minh Đạo Hải Phòng.</label>
+                <label for="consent-check">Tôi đồng ý nhận thông tin bảng giá lăn bánh và chính sách ưu đãi từ VinFast Hải Phòng.</label>
             </div>
 
             <button type="submit" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary" style="width: 100%; padding: 11px; font-size: 0.95rem;">

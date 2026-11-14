@@ -163,3 +163,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+const backToTopButton = document.querySelector('[data-back-to-top]');
+if (backToTopButton) {
+    const updateBackToTopVisibility = () => {
+        backToTopButton.hidden = window.scrollY <= 400;
+    };
+    window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+    backToTopButton.addEventListener('click', () => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'instant' : 'smooth' });
+    });
+    updateBackToTopVisibility();
+}

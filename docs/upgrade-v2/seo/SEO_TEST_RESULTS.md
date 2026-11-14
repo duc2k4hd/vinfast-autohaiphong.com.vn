@@ -3,7 +3,7 @@
 ## 1. Kết Quả Kiểm Thử Thực Tế
 Chạy lệnh `php artisan test --filter=SitemapAndSeoTest`:
 - `test_sitemap_xml_returns_valid_response`: **PASSED** (XML hợp lệ, có `<loc>`, chứa các xe và bài viết).
-- `test_home_page_contains_autodealer_json_ld_schema`: **PASSED** (Có schema AutoDealer, số 1 Bạch Đằng, Open Graph, Twitter Cards).
+- `test_home_page_contains_autodealer_json_ld_schema`: **PASSED** (Có schema AutoDealer, Lê Hồng Phong, Open Graph, Twitter Cards).
 - `test_car_detail_page_contains_vehicle_json_ld_schema`: **PASSED** (Có schema Car, brand VinFast, priceCurrency VND).
 - `test_robots_txt_contains_security_and_sitemap_rules`: **PASSED** (Chặn `/admin/`, chặn `/dat-hang-thanh-cong/`, chỉ thị Sitemap URL).
 

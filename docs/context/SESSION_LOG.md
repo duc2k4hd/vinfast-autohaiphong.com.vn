@@ -5,7 +5,7 @@
 ### 1. Đã hoàn thành (100% Quality Gates):
 - **Trang Liên Hệ Showroom Client (`/lien-he`):**
   - Tích hợp `ContactPage` Schema & `AutoDealer` Schema JSON-LD hỗ trợ SEO Local Google.
-  - Bổ sung khối bản đồ nhúng Google Maps định vị chính xác vị trí Showroom VinFast Minh Đạo (Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng, Hải Phòng) kèm nút mở Google Maps trực tiếp trên di động.
+  - Bổ sung khối bản đồ nhúng Google Maps định vị chính xác vị trí Showroom VinFast Hải Phòng (Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng) kèm nút mở Google Maps trực tiếp trên di động.
 - **Bộ Lọc Tìm Kiếm Khách Hàng Tiềm Năng (Leads):**
   - Nâng cấp [`LeadController@index`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Http/Controllers/Admin/LeadController.php) và [`admin/leads/index.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/leads/index.blade.php): Hỗ trợ tìm kiếm theo họ tên, số điện thoại hoặc email khách hàng kết hợp lọc theo dòng xe và trạng thái.
 - **Kiểm Thử & Đảm Bảo Chất Lượng:**
@@ -25,7 +25,7 @@
 ### 1. Đã hoàn thành (100% Quality Gates):
 - **Nghiệp Vụ In Phiếu Đặt Cọc Xe & Thu Tiền Mặt Tại Showroom:**
   - Xây dựng lớp [`CurrencyHelper.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Services/Shared/CurrencyHelper.php) chuyển đổi số tiền VNĐ thành văn bản chữ tiếng Việt chuẩn xác (VD: 322.000.000 VNĐ -> "Ba trăm hai mươi hai triệu đồng chẵn").
-  - Xây dựng giao diện in ấn chuyên nghiệp chuẩn A4 [`admin/orders/print.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/orders/print.blade.php) với logo VinFast Minh Đạo, mã đơn hàng, ngày giờ, thông tin khách hàng, chi tiết xe, phương thức tiền mặt, chữ ký 3 bên (Khách hàng, Nhân viên kinh doanh, Thủ quỹ).
+  - Xây dựng giao diện in ấn chuyên nghiệp chuẩn A4 [`admin/orders/print.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/orders/print.blade.php) với logo VinFast Hải Phòng, mã đơn hàng, ngày giờ, thông tin khách hàng, chi tiết xe, phương thức tiền mặt, chữ ký 3 bên (Khách hàng, Nhân viên kinh doanh, Thủ quỹ).
   - Tích hợp nút in phiếu đặt cọc trực tiếp tại [`admin/orders/show.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/orders/show.blade.php).
 - **Bộ Lọc Tìm Kiếm Nhanh Bằng Từ Khóa Cho Admin:**
   - Nâng cấp [`OrderController@index`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/app/Http/Controllers/Admin/OrderController.php) và [`admin/orders/index.blade.php`](file:///e:/Project/Laravel/vinfast-autohaiphong.com.vn/resources/views/admin/orders/index.blade.php): Tìm kiếm đơn cọc theo mã đơn, họ tên hoặc số điện thoại.
@@ -168,7 +168,7 @@
   - Xây dựng `CartService`, `CartController`, view `/gio-hang`.
   - Xây dựng `CheckoutService`, `CheckoutController`, view `/thanh-toan`.
   - Thực thi quy tắc thanh toán duy nhất `cash` only, chống gửi trùng bằng `idempotency_key`, lưu `orders`, `order_items`, `payment_records` trong transaction.
-  - Xây dựng view đặt hàng thành công `/dat-hang-thanh-cong/{order_number}` kèm mã đơn và hướng dẫn đến Showroom Số 1 Bạch Đằng thanh toán tiền mặt.
+  - Xây dựng view đặt hàng thành công `/dat-hang-thanh-cong/{order_number}` kèm mã đơn và hướng dẫn đến Showroom Lê Hồng Phong thanh toán tiền mặt.
 - **Hệ Thống Quản Trị Admin Panel (`/admin/`):**
   - Khởi tạo tài khoản Quản trị viên: `admin@vinfast-autohaiphong.com.vn`.
   - Xây dựng Dashboard thống kê tổng quan `/admin/dashboard`.
@@ -221,7 +221,7 @@
 ### 1. Công việc đã thực hiện
 - **Tiếp quản và thiết lập lộ trình nâng cấp hệ thống V2:**
   - Nghiêm cấm tạo dự án mới, nâng cấp trực tiếp trên nền tảng hiện có.
-  - Bảo toàn 100% dữ liệu 15 dòng xe, thông số kỹ thuật Key-Value và cơ chế thanh toán tiền mặt duy nhất tại Showroom Số 1 Bạch Đằng.
+  - Bảo toàn 100% dữ liệu 15 dòng xe, thông số kỹ thuật Key-Value và cơ chế thanh toán tiền mặt duy nhất tại Showroom Lê Hồng Phong.
 - **Thực thi trọn vẹn GATE 0 (Xác minh hiện trạng & Baseline):**
   - Chạy và ghi nhận baseline kiểm thử: `28/28 tests PASS (119 assertions, 1.57s)`.
   - Kiểm tra các bảng cơ sở dữ liệu: `users` (1), `products` (15), `product_specifications` (117), `posts` (3), `media` (18), `settings` (15), `product_variants` (0 - cần nâng cấp nạp dữ liệu).

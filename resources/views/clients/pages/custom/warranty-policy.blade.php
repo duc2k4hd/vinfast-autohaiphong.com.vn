@@ -39,7 +39,7 @@
                 3. Địa Điểm Thực Hiện Bảo Hành Tại Hải Phòng
             </h2>
             <p>
-                Xưởng dịch vụ 3S VinFast Minh Đạo: <strong>Số 1 Bạch Đằng, Phường Thượng Lý, Quận Hồng Bàng, TP. Hải Phòng</strong>.
+                Xưởng dịch vụ 3S VinFast Hải Phòng: <strong>Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng</strong>.
                 <br>Hotline Dịch vụ – Phụ tùng: <strong>0915 286 506</strong> | CSKH Dịch vụ: <strong>0843 714 333</strong>.
             </p>
         </div>

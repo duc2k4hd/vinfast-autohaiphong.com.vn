@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Database\Seeders\InitialAdminUserSeeder;
 use Database\Seeders\InitialPostsSeeder;
 use Database\Seeders\InitialSettingsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,6 +25,38 @@ class ClientContentPagesTest extends TestCase
         $response = $this->get('/pin-va-tram-sac');
         $response->assertStatus(200);
         $response->assertSee('HẠ TẦNG TRẠM SẠC VINFAST HẢI PHÒNG');
+        $response->assertSee('Ước tính chi phí');
+        $response->assertSee('battery-capacity');
+        $response->assertSee('https://vgreen.net/');
+        $response->assertSee('Chưa tính hao hụt');
+        $response->assertSee('Showroom VinFast Hải Phòng');
+        $response->assertSee('vinfastauto.com/vn/phu-kien-va-dich-vu-khac/he-thong-showroom-va-tram-sac');
+        $response->assertSee('FAQPage');
+        $response->assertSee('BreadcrumbList');
+    }
+
+    public function test_admin_can_update_charging_page_settings_and_client_reflects(): void
+    {
+        $this->seed(InitialAdminUserSeeder::class);
+        $admin = User::where('email', 'admin@vinfast-autohaiphong.com.vn')->firstOrFail();
+
+        $updatePayload = [
+            'charging_hero_title' => 'TRẠM SẠC CHÍNH HÃNG HẢI PHÒNG 2026',
+            'charging_hero_banner' => 'clients/assets/images/banners/banner-custom-hero.webp',
+            'charging_hero_desc' => 'Mạng lưới sạc xe điện thông minh hàng đầu tại Hải Phòng.',
+            'charging_img_station_minhdao' => 'clients/assets/images/stations/minh-dao-custom.webp',
+        ];
+
+        $this->actingAs($admin)
+            ->put(route('admin.settings.update'), $updatePayload)
+            ->assertRedirect();
+
+        $clientResponse = $this->get('/pin-va-tram-sac');
+        $clientResponse->assertStatus(200);
+        $clientResponse->assertSee('TRẠM SẠC CHÍNH HÃNG HẢI PHÒNG 2026');
+        $clientResponse->assertSee('banner-custom-hero.webp');
+        $clientResponse->assertSee('Mạng lưới sạc xe điện thông minh hàng đầu tại Hải Phòng.');
+        $clientResponse->assertSee('minh-dao-custom.webp');
     }
 
     public function test_can_view_customer_experience_page(): void

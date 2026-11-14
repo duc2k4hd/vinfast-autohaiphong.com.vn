@@ -1,7 +1,7 @@
 @extends('clients.layouts.app')
 
 @section('title', 'Thanh Toán Đặt Cọc Tiền Mặt | VinFast Hải Phòng')
-@section('meta_description', 'Xác nhận thông tin đặt cọc xe ô tô VinFast. Phương thức thanh toán: Tiền mặt trực tiếp tại Showroom VinFast Minh Đạo Hải Phòng.')
+@section('meta_description', 'Xác nhận thông tin đặt cọc xe ô tô VinFast. Phương thức thanh toán: Tiền mặt trực tiếp tại Showroom VinFast Hải Phòng.')
 
 @section('content')
 <div class="vinfast-autohaiphong_checkout_section" style="padding: 40px 0 60px 0;">
@@ -64,7 +64,7 @@
                             Ghi chú yêu cầu thêm (màu sắc mong muốn, thời gian nhận xe...)
                         </label>
                         <textarea name="customer_note" rows="3" 
-                                  placeholder="Ví dụ: Tôi muốn nhận xe trong tuần này tại Showroom Bạch Đằng..."
+                                  placeholder="Ví dụ: Tôi muốn nhận xe trong tuần này tại Showroom Lê Hồng Phong..."
                                   style="width: 100%; padding: 10px 14px; border: 1px solid var(--client-color-border); border-radius: 6px; font-size: 0.95rem;">{{ old('customer_note') }}</textarea>
                     </div>
 
@@ -82,7 +82,7 @@
                                 </div>
                                 <div style="font-size: 0.85rem; color: #475569; margin-top: 4px; line-height: 1.5;">
                                     Quý khách đăng ký thông tin giữ xe online miễn phí. Sau đó chuyên viên bán hàng sẽ liên hệ xác nhận lịch hẹn và quý khách sẽ tiến hành thanh toán tiền mặt trực tiếp tại:
-                                    <br><strong>Showroom VinFast Minh Đạo — Số 1 Bạch Đằng, P. Thượng Lý, Q. Hồng Bàng, TP. Hải Phòng</strong>.
+                                    <br><strong>Showroom VinFast Hải Phòng — Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng</strong>.
                                 </div>
                             </div>
                         </label>

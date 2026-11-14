@@ -21,6 +21,7 @@ class CatalogService
         $query = DB::table('products')
             ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
             ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
+            ->whereNull('products.deleted_at')
             ->whereIn('products.status', ['published', 'active', 'coming_soon'])
             ->where(function ($q) {
                 $q->whereNull('products.published_at')
@@ -47,13 +48,15 @@ class CatalogService
 
         // Sắp xếp
         match ($sort) {
-            'price_asc' => $query->orderBy('products.sale_price', 'asc'),
-            'price_desc' => $query->orderBy('products.sale_price', 'desc'),
+            'price_asc' => $query->orderByRaw('CASE WHEN products.price_on_request = 1 OR COALESCE(NULLIF(products.sale_price, 0), NULLIF(products.regular_price, 0)) IS NULL THEN 1 ELSE 0 END')->orderByRaw('COALESCE(NULLIF(products.sale_price, 0), NULLIF(products.regular_price, 0)) ASC'),
+            'price_desc' => $query->orderByRaw('CASE WHEN products.price_on_request = 1 OR COALESCE(NULLIF(products.sale_price, 0), NULLIF(products.regular_price, 0)) IS NULL THEN 1 ELSE 0 END')->orderByRaw('COALESCE(NULLIF(products.sale_price, 0), NULLIF(products.regular_price, 0)) DESC'),
             'latest' => $query->orderBy('products.id', 'desc'),
             default => $query->orderBy('products.sort_order', 'asc')->orderBy('products.id', 'asc'),
         };
 
-        return $query->paginate($perPage)->withQueryString();
+        $query->orderBy('products.id');
+
+        return $query->paginate($perPage, ['*'], 'page', $filters['page'] ?? null)->withPath(route('client.catalog.index'))->withQueryString();
     }
 
     /**

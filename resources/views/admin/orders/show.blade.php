@@ -144,7 +144,7 @@
             {{-- Nút xác nhận thu tiền mặt --}}
             <div style="margin-top: 24px;">
                 @if($order->payment_status !== 'paid')
-                    <form action="{{ route('admin.orders.confirm_cash', $order->id) }}" method="POST" data-confirm="Bạn có chắc chắn xác nhận đã kiểm đếm và thu đủ số tiền mặt {{ number_format($order->total, 0, ',', '.') }} VNĐ tại Showroom Minh Đạo?" data-confirm-title="Xác Nhận Thu Tiền Mặt" data-confirm-type="primary" data-confirm-btn="Đã Thu Đủ Tiền">
+                    <form action="{{ route('admin.orders.confirm_cash', $order->id) }}" method="POST" data-confirm="Bạn có chắc chắn xác nhận đã kiểm đếm và thu đủ số tiền mặt {{ number_format($order->total, 0, ',', '.') }} VNĐ tại Showroom VinFast Hải Phòng?" data-confirm-title="Xác Nhận Thu Tiền Mặt" data-confirm-type="primary" data-confirm-btn="Đã Thu Đủ Tiền">
                         @csrf
                         @method('PATCH')
                         <button type="submit" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="width: 100%; padding: 12px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px;">

@@ -101,7 +101,7 @@ class CheckoutService
                 'amount' => $total,
                 'method' => 'cash',
                 'status' => 'pending',
-                'note' => 'Đăng ký đặt cọc/thanh toán tiền mặt trực tiếp tại Showroom VinFast Minh Đạo Hải Phòng (Số 1 Bạch Đằng).',
+                'note' => 'Đăng ký đặt cọc/thanh toán tiền mặt trực tiếp tại Showroom VinFast Hải Phòng (Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng).',
                 'confirmed_by' => null,
                 'received_at' => null,
                 'created_at' => $now,

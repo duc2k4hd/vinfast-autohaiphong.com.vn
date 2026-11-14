@@ -80,4 +80,85 @@ class HomeTest extends TestCase
         $this->assertStringNotContainsString('/xe/vinfast-vf-6', $menu);
         $this->assertStringNotContainsString('/xe/vinfast-vf-7', $menu);
     }
+
+    public function test_homepage_displays_real_vehicle_data_and_safe_quote_controls(): void
+    {
+        $name = 'VF "Special" & O\'Brien';
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update([
+            'name' => $name,
+            'sale_price' => 123000000,
+            'price_on_request' => false,
+        ]);
+        DB::table('posts')->insert([
+            'title' => 'Tin mới từ showroom',
+            'slug' => 'tin-moi-tu-showroom',
+            'status' => 'published',
+            'published_at' => now(),
+        ]);
+
+        $response = $this->get(route('client.home'));
+
+        $response->assertOk()
+            ->assertSee('Cùng VinFast Hải Phòng tìm chiếc xe phù hợp.')
+            ->assertSee('123.000.000 VNĐ')
+            ->assertSee('Tin mới từ showroom')
+            ->assertSee('id="home-search"', false)
+            ->assertSee('id="home-sort"', false);
+
+        $document = new \DOMDocument;
+        @$document->loadHTML('<?xml encoding="utf-8" ?>'.$response->getContent());
+        $xpath = new \DOMXPath($document);
+        $headings = $xpath->query('//h1');
+        $this->assertCount(1, $headings);
+        $this->assertStringContainsString('VinFast Hải Phòng', $headings->item(0)->textContent);
+        $buttons = $xpath->query('//button[@data-car-name]');
+        $quoteButton = null;
+        foreach ($buttons as $button) {
+            if ($button->getAttribute('data-car-name') === $name) {
+                $quoteButton = $button;
+                break;
+            }
+        }
+        $this->assertNotNull($quoteButton);
+        $this->assertStringContainsString('this.dataset.carName', $quoteButton->getAttribute('onclick'));
+    }
+
+    public function test_homepage_comparison_contains_current_prices_and_product_links(): void
+    {
+        DB::table('products')->where('slug', 'vinfast-vf-3')->update([
+            'sale_price' => 123000000,
+            'price_on_request' => false,
+        ]);
+        DB::table('products')->where('slug', 'vinfast-vf-5')->update([
+            'price_on_request' => true,
+        ]);
+
+        $response = $this->get(route('client.home'))->assertOk();
+        $document = new \DOMDocument;
+        @$document->loadHTML('<?xml encoding="utf-8" ?>'.$response->getContent());
+        $xpath = new \DOMXPath($document);
+        foreach ([1, 2] as $number) {
+            $options = $xpath->query('//select[@id="home-compare-'.$number.'"]/option[@data-url]');
+            $prices = [];
+            foreach ($options as $option) {
+                $prices[$option->getAttribute('data-url')] = $option->getAttribute('data-price');
+            }
+            $this->assertSame('123.000.000 VNĐ', $prices[route('client.products.show', 'vinfast-vf-3')]);
+            $this->assertSame('Liên hệ báo giá', $prices[route('client.products.show', 'vinfast-vf-5')]);
+        }
+        $this->assertCount(1, $xpath->query('//noscript[contains(., "JavaScript")]'));
+        $this->assertCount(1, $xpath->query('//div[@id="home-comparison"][@aria-live="polite"]'));
+    }
+
+    public function test_homepage_has_honest_empty_states_when_no_vehicles_or_posts_exist(): void
+    {
+        DB::table('products')->update(['status' => 'draft']);
+        DB::table('posts')->update(['status' => 'draft']);
+
+        $this->get(route('client.home'))
+            ->assertOk()
+            ->assertSee('Thông tin dòng xe đang được cập nhật')
+            ->assertDontSee('id="home-search"', false)
+            ->assertDontSee('Thông tin mới nhất.');
+    }
 }

@@ -120,7 +120,7 @@
 
             <div style="border-top: 1px solid var(--client-color-border); margin-top: 40px; padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                 <span style="font-size: 0.875rem; color: var(--client-color-muted);">
-                    Showroom VinFast Minh Đạo — Số 1 Bạch Đằng, Hồng Bàng, Hải Phòng
+                    Showroom VinFast Hải Phòng — Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng
                 </span>
                 <a href="{{ url('/chuyen-muc/tin-tuc') }}" style="color: var(--client-color-primary); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
                     &larr; Quay lại danh sách tin tức

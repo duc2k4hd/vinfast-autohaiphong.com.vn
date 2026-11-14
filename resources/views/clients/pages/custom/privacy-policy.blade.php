@@ -1,7 +1,7 @@
 @extends('clients.layouts.app')
 
 @section('title', 'Chính Sách Bảo Mật Thông Tin | VinFast Hải Phòng')
-@section('meta_description', 'Cam kết bảo mật thông tin cá nhân khách hàng theo tiêu chuẩn pháp luật Việt Nam tại Đại lý VinFast Minh Đạo Hải Phòng.')
+@section('meta_description', 'Cam kết bảo mật thông tin cá nhân khách hàng theo tiêu chuẩn pháp luật Việt Nam tại Đại lý VinFast Hải Phòng.')
 @section('canonical', url('/chinh-sach-bao-mat'))
 
 @section('content')
@@ -42,7 +42,7 @@
                 3. Quyền Của Khách Hàng
             </h2>
             <p>
-                Quý khách có quyền yêu cầu tra cứu, điều chỉnh hoặc hủy bỏ thông tin cá nhân của mình trong cơ sở dữ liệu bất kỳ lúc nào bằng cách gọi tới Hotline CSKH: <strong>0915 286 503</strong> hoặc đến trực tiếp Showroom Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng, Hải Phòng.
+                Quý khách có quyền yêu cầu tra cứu, điều chỉnh hoặc hủy bỏ thông tin cá nhân của mình trong cơ sở dữ liệu bất kỳ lúc nào bằng cách gọi tới Hotline CSKH: <strong>0915 286 503</strong> hoặc đến trực tiếp Showroom Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng.
             </p>
         </div>
     </div>

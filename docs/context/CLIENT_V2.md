@@ -5,5 +5,5 @@
 - Khung giới hạn: Toàn bộ container chuẩn `max-width: 1200px`.
 - Header & Menu: Thanh mảnh chuẩn mẫu ảnh 2 (`VinFast Hải Phòng`, `Ô Tô VinFast ˅`, `Pin & Trạm Sạc`, `Tin Tức`, `Liên Hệ`).
 - Trang chi tiết xe: Thông số kỹ thuật Key-Value nằm ở vị trí đầu tiên để tra cứu siêu tốc.
-- Thanh toán: Duy nhất bằng tiền mặt (`cash` only) tại Showroom VinFast Minh Đạo - Số 1 Bạch Đằng, Hải Phòng.
+- Thanh toán: Duy nhất bằng tiền mặt (`cash` only) tại Showroom VinFast Hải Phòng - Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng.
 

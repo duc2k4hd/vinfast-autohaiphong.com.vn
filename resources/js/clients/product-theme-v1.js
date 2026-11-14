@@ -281,6 +281,16 @@ export function initProductThemeV1() {
     const newImage = activeBtn.dataset.image;
     const colorName = activeBtn.dataset.name;
 
+    const currentColor = $("[data-color-current]");
+    if (currentColor) currentColor.textContent = colorName || "";
+    const swatches = $('[data-swatches]');
+    if (swatches && window.matchMedia('(max-width: 767px)').matches) {
+      requestAnimationFrame(() => {
+        const bounds = swatches.getBoundingClientRect();
+        const activeBounds = activeBtn.getBoundingClientRect();
+        swatches.scrollLeft += (activeBounds.left + activeBounds.width / 2) - (bounds.left + bounds.width / 2);
+      });
+    }
     if (!isInit && newImage) {
       switchColorStageCar(newImage, 'Mô phỏng màu ' + (colorName || ''));
     }
@@ -487,7 +497,7 @@ export function initProductThemeV1() {
           });
         }
 
-        lines.push('\nNguồn: VinFast Minh Đạo Hải Phòng (vinfast-autohaiphong.com.vn)');
+        lines.push('\nNguồn: VinFast Hải Phòng (vinfast-autohaiphong.com.vn)');
         navigator.clipboard.writeText(lines.join('\n')).then(() => {
           const copyText = $('[data-spec-copy-text]');
           if (copyText) {
@@ -785,17 +795,6 @@ export function initProductThemeV1() {
     renderLightbox();
   };
 
-  // 9. Floating Buttons & Scroll
-  const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  const onScroll = () => {
-    const y = window.scrollY;
-    $(pref('float-top'))?.classList.toggle(P + 'is-visible', y > 400);
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
   // 10. Action Dispatcher
   const actions = {
     'consult': () => {
@@ -819,7 +818,6 @@ export function initProductThemeV1() {
       }
     },
     'close-lightbox': closeLightbox,
-    'top': scrollTop,
     'hero-prev': () => { setHero(heroIndex - 1); restartHero(); },
     'hero-next': () => { setHero(heroIndex + 1); restartHero(); },
     'showcase-prev': () => { setShowcase(showcaseIndex - 1); restartShowcase(); },
@@ -937,7 +935,7 @@ export function initProductThemeV1() {
           observer.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '0px 0px -30px 0px', threshold: 0.08 });
+    }, { rootMargin: '0px 0px -30px 0px', threshold: 0 });
     $$('[data-reveal]').forEach(el => observer.observe(el));
   }
 

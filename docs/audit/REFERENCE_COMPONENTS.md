@@ -48,7 +48,7 @@
   - Bảng danh sách xe đã chọn, số lượng, đơn giá tự động tính lại từ database, tổng tiền cọc tạm tính.
 - **Thanh Toán Tiền Mặt (`/thanh-toan`):**
   - Form thu thập thông tin người đặt cọc (Họ tên, Điện thoại, Địa chỉ, Ghi chú).
-  - Phương thức thanh toán duy nhất được khóa cố định: `cash` (Nộp tiền mặt trực tiếp tại Showroom VinFast Minh Đạo Hải Phòng - Số 1 Bạch Đằng).
+  - Phương thức thanh toán duy nhất được khóa cố định: `cash` (Nộp tiền mặt trực tiếp tại Showroom VinFast Hải Phòng - Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng).
   - Khóa bảo vệ idempotency key chống gửi trùng lặp đơn.
 - **Trang Đặt Hàng Thành Công (`/dat-hang-thanh-cong/{order_number}`):**
   - Hiển thị mã đơn hàng dạng `VFHP-YYYYMMDD-XXXX`, tổng tiền cọc và bản đồ/hướng dẫn đến trực tiếp showroom nộp tiền mặt.

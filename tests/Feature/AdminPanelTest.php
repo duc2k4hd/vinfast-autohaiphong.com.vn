@@ -210,14 +210,14 @@ class AdminPanelTest extends TestCase
         $this->actingAs($admin)->put(route('admin.settings.update'), [
             '_method' => 'PUT',
             'site_name' => 'Tên đại lý mới',
-            'seo_title' => 'VinFast Hải Phòng - Đại Lý Số 1 Bạch Đằng',
+            'seo_title' => 'VinFast Hải Phòng - Đại Lý Lê Hồng Phong',
         ])->assertRedirect();
 
         $this->assertDatabaseHas('settings', ['key' => 'site_name', 'value' => 'Tên đại lý mới']);
-        $this->assertDatabaseHas('settings', ['key' => 'seo_title', 'value' => 'VinFast Hải Phòng - Đại Lý Số 1 Bạch Đằng']);
+        $this->assertDatabaseHas('settings', ['key' => 'seo_title', 'value' => 'VinFast Hải Phòng - Đại Lý Lê Hồng Phong']);
         $this->assertDatabaseMissing('settings', ['key' => '_method']);
         $this->actingAs($admin)->get(route('admin.settings.index'))
-            ->assertOk()->assertSee('Tên đại lý mới')->assertSee('VinFast Hải Phòng - Đại Lý Số 1 Bạch Đằng');
+            ->assertOk()->assertSee('Tên đại lý mới')->assertSee('VinFast Hải Phòng - Đại Lý Lê Hồng Phong');
     }
 
     public function test_admin_can_fetch_media_list_via_api(): void

@@ -64,9 +64,9 @@ class AdminOrderPrintAndSearchTest extends TestCase
     {
         $orderId = DB::table('orders')->insertGetId([
             'order_number' => 'VFHP-20261114-8888',
-            'customer_name' => 'Nguyễn Minh Đạo',
+            'customer_name' => 'Nguyễn An Hải',
             'customer_phone' => '0912345678',
-            'customer_email' => 'minhdao@vinfast.vn',
+            'customer_email' => 'anhai@vinfast.vn',
             'subtotal' => 322000000,
             'total' => 322000000,
             'payment_status' => 'paid',
@@ -93,7 +93,7 @@ class AdminOrderPrintAndSearchTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('PHIẾU ĐẶT CỌC XE');
         $response->assertSee('VFHP-20261114-8888');
-        $response->assertSee('Nguyễn Minh Đạo');
+        $response->assertSee('Nguyễn An Hải');
         $response->assertSee('322.000.000 VNĐ');
         $response->assertSee('Bằng chữ:');
         $response->assertSee('Khách Hàng Đặt Cọc');

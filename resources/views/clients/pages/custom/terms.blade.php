@@ -23,7 +23,7 @@
                 1. Quyền Sở Hữu Trí Tuệ
             </h2>
             <p>
-                Toàn bộ nội dung, logo, hình ảnh sản phẩm và thông số kỹ thuật được hiển thị trên website thuộc bản quyền của VinFast Việt Nam và Đại lý VinFast Minh Đạo Hải Phòng. Nghiêm cấm sao chép, tái bản hoặc sử dụng cho mục đích thương mại trái phép khi chưa được sự đồng ý bằng văn bản.
+                Toàn bộ nội dung, logo, hình ảnh sản phẩm và thông số kỹ thuật được hiển thị trên website thuộc bản quyền của VinFast Việt Nam và VinFast Hải Phòng. Nghiêm cấm sao chép, tái bản hoặc sử dụng cho mục đích thương mại trái phép khi chưa được sự đồng ý bằng văn bản.
             </p>
 
             <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--client-color-heading); margin-top: 24px; margin-bottom: 12px;">

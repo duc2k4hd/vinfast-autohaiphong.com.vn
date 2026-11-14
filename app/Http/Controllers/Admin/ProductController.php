@@ -173,6 +173,7 @@ class ProductController extends Controller
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
+            'specificationGroups' => DB::table('product_specification_groups')->orderBy('sort_order')->orderBy('name')->get(),
             'variants' => $variants,
             'colors' => $colors,
             'banners' => $banners,
@@ -212,6 +213,7 @@ class ProductController extends Controller
         return view('admin.products.edit', [
             'product' => $dummyProduct,
             'specifications' => collect(),
+            'specificationGroups' => DB::table('product_specification_groups')->orderBy('sort_order')->orderBy('name')->get(),
             'variants' => collect(),
             'colors' => collect(),
             'banners' => collect(),
@@ -232,6 +234,25 @@ class ProductController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'specs_labels' => ['nullable', 'array'],
+            'specs_labels.*' => ['nullable', 'string', 'max:150'],
+            'specs_values' => ['nullable', 'array'],
+            'specs_values.*' => ['nullable', 'string', 'max:500'],
+            'specs_groups' => ['nullable', 'array'],
+            'specs_groups.*' => ['nullable', function (string $attribute, mixed $value, \Closure $fail) use ($request): void {
+                if (is_string($value) && str_starts_with($value, 'new:')) {
+                    $key = substr($value, 4);
+                    if (! preg_match('/^[a-zA-Z0-9_-]+$/', $key) || ! is_array($request->input('new_spec_groups')) || ! array_key_exists($key, $request->input('new_spec_groups'))) {
+                        $fail('Nhóm thông số mới không hợp lệ.');
+                    }
+                } elseif (! is_scalar($value) || ! ctype_digit((string) $value) || ! DB::table('product_specification_groups')->where('id', $value)->exists()) {
+                    $fail('Nhóm thông số không hợp lệ.');
+                }
+            }],
+            'specs_units' => ['nullable', 'array'],
+            'specs_units.*' => ['nullable', 'string', 'max:50'],
+            'new_spec_groups' => ['nullable', 'array', 'max:100'],
+            'new_spec_groups.*' => ['required', 'string', 'max:150'],
             'name' => ['required', 'string', 'max:150'],
             'slug' => ['nullable', 'string', 'max:160'],
             'sku' => ['nullable', 'string', 'max:100'],
@@ -288,6 +309,8 @@ class ProductController extends Controller
                 'updated_at' => $now,
             ]);
 
+            $this->saveSpecifications($request, $newId, $now);
+
             return $newId;
         });
 
@@ -329,7 +352,24 @@ class ProductController extends Controller
             'video_poster_paths' => ['nullable', 'array'],
             'video_poster_media_ids' => ['nullable', 'array'],
             'specs_labels' => ['nullable', 'array'],
+            'specs_labels.*' => ['nullable', 'string', 'max:150'],
             'specs_values' => ['nullable', 'array'],
+            'specs_values.*' => ['nullable', 'string', 'max:500'],
+            'specs_groups' => ['nullable', 'array'],
+            'specs_groups.*' => ['nullable', function (string $attribute, mixed $value, \Closure $fail) use ($request): void {
+                if (is_string($value) && str_starts_with($value, 'new:')) {
+                    $key = substr($value, 4);
+                    if (! preg_match('/^[a-zA-Z0-9_-]+$/', $key) || ! is_array($request->input('new_spec_groups')) || ! array_key_exists($key, $request->input('new_spec_groups'))) {
+                        $fail('Nhóm thông số mới không hợp lệ.');
+                    }
+                } elseif (! is_scalar($value) || ! ctype_digit((string) $value) || ! DB::table('product_specification_groups')->where('id', $value)->exists()) {
+                    $fail('Nhóm thông số không hợp lệ.');
+                }
+            }],
+            'specs_units' => ['nullable', 'array'],
+            'specs_units.*' => ['nullable', 'string', 'max:50'],
+            'new_spec_groups' => ['nullable', 'array', 'max:100'],
+            'new_spec_groups.*' => ['required', 'string', 'max:150'],
             'variant_names' => ['nullable', 'array'],
             'variant_skus' => ['nullable', 'array'],
             'variant_regular_prices' => ['nullable', 'array'],
@@ -414,30 +454,7 @@ class ProductController extends Controller
 
             DB::table('products')->where('id', $id)->update($productUpdate);
 
-            // Cập nhật bảng specifications Key-Value
-            if ($request->has('specs_labels') && $request->has('specs_values')) {
-                DB::table('product_specifications')->where('product_id', $id)->delete();
-
-                $labels = $request->input('specs_labels', []);
-                $values = $request->input('specs_values', []);
-
-                $sort = 1;
-                foreach ($labels as $idx => $label) {
-                    $val = $values[$idx] ?? '';
-                    if (! empty(trim($label))) {
-                        DB::table('product_specifications')->insert([
-                            'product_id' => $id,
-                            'group_id' => null,
-                            'label' => trim($label),
-                            'value' => trim($val),
-                            'unit' => null,
-                            'sort_order' => $sort++,
-                            'created_at' => $now,
-                            'updated_at' => $now,
-                        ]);
-                    }
-                }
-            }
+            $this->saveSpecifications($request, $id, $now);
 
             // Cập nhật danh sách biến thể / phiên bản xe
             if ($request->has('variant_names')) {
@@ -647,5 +664,49 @@ class ProductController extends Controller
 
         return redirect()->route('admin.products.edit', $id)
             ->with('success', 'Đã lưu cập nhật thông tin xe, biến thể phiên bản và thông số kỹ thuật thành công!');
+    }
+
+    private function saveSpecifications(Request $request, int $productId, \DateTimeInterface $now): void
+    {
+        if (! $request->has('specs_present') && ! ($request->has('specs_labels') && $request->has('specs_values'))) {
+            return;
+        }
+
+        DB::table('product_specifications')->where('product_id', $productId)->delete();
+        $resolvedGroups = [];
+        $sort = 1;
+        foreach ($request->input('specs_labels', []) as $index => $label) {
+            if (trim((string) $label) === '') {
+                continue;
+            }
+            $group = $request->input("specs_groups.$index");
+            if (is_string($group) && str_starts_with($group, 'new:')) {
+                $key = substr($group, 4);
+                if (! isset($resolvedGroups[$key])) {
+                    $name = trim($request->input("new_spec_groups.$key"));
+                    $existing = DB::table('product_specification_groups')->where('name', $name)->first();
+                    if ($existing) {
+                        $resolvedGroups[$key] = $existing->id;
+                    } else {
+                        $baseSlug = Str::slug($name) ?: 'nhom';
+                        $slug = substr($baseSlug, 0, 113).'-'.Str::uuid();
+                        $resolvedGroups[$key] = DB::table('product_specification_groups')->insertGetId([
+                            'name' => $name, 'slug' => $slug, 'created_at' => $now, 'updated_at' => $now,
+                        ]);
+                    }
+                }
+                $group = $resolvedGroups[$key];
+            }
+            DB::table('product_specifications')->insert([
+                'product_id' => $productId,
+                'group_id' => $group ?: null,
+                'label' => trim($label),
+                'value' => trim((string) $request->input("specs_values.$index", '')),
+                'unit' => $request->input("specs_units.$index") ?: null,
+                'sort_order' => $sort++,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+        }
     }
 }

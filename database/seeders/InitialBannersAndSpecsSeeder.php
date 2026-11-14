@@ -50,9 +50,9 @@ class InitialBannersAndSpecsSeeder extends Seeder
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Banner Đại Lý Minh Đạo',
+                'name' => 'Banner Đại Lý VinFast Hải Phòng',
                 'position' => 'home_hero',
-                'title' => 'Showroom VinFast Minh Đạo — Số 1 Bạch Đằng, Hải Phòng',
+                'title' => 'Showroom VinFast Hải Phòng — Lê Hồng Phong',
                 'subtitle' => 'Đại lý ủy quyền 3S chuẩn quốc tế: Bán hàng, Dịch vụ bảo dưỡng và Phụ tùng chính hãng.',
                 'cta_text' => 'Liên Hệ Showroom',
                 'cta_url' => '/lien-he',

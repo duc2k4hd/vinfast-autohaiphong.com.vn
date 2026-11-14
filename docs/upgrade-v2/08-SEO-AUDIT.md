@@ -5,7 +5,7 @@
 - **Robots.txt (`/robots.txt`):** Chặn `/admin/`, chặn `/dat-hang-thanh-cong/`, khai báo Sitemap URL đầy đủ.
 - **Thẻ Meta & Canonical:** Đầy đủ thẻ Title, Meta Description, Canonical tuyệt đối, Open Graph tiếng Việt (`vi_VN`), Twitter Card (`summary_large_image`).
 - **Structured Data JSON-LD:**
-  - Trang chủ: Schema `AutoDealer` (Số 1 Bạch Đằng, Hải Phòng, chấp nhận Cash, số hotline).
+  - Trang chủ: Schema `AutoDealer` (Lê Hồng Phong, Hải Phòng, chấp nhận Cash, số hotline).
   - Chi tiết xe: Schema `Car` (Tên xe, ảnh, hãng VinFast, giá VND).
 
 ## 2. Khoảng Cách Cần Học Hỏi Từ Nobi Fashion (`E:\Project\Laravel\nobifashion.vn`)

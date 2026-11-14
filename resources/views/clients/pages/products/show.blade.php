@@ -1,7 +1,7 @@
 @extends('clients.layouts.app')
 
 @section('title', $car->name . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng')
-@section('meta_description', 'Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết key-value, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Minh Đạo Hải Phòng.')
+@section('meta_description', 'Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết key-value, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')
 @section('canonical', url('/xe/' . $car->slug))
 
 @push('schema')
@@ -44,7 +44,7 @@
     '@context' => 'https://schema.org/',
     '@type' => 'VideoObject',
     'name' => $sv->title ?: ('Video mô phỏng xe ' . $car->name),
-    'description' => 'Xem video mô phỏng chi tiết xe điện ' . $car->name . ' chính hãng tại VinFast Minh Đạo Hải Phòng.',
+    'description' => 'Xem video mô phỏng chi tiết xe điện ' . $car->name . ' chính hãng tại VinFast Hải Phòng.',
     'thumbnailUrl' => $sv->poster_url ?: ($car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : ''),
     'uploadDate' => !empty($car->created_at) ? date('Y-m-d', strtotime($car->created_at)) : '2026-01-01',
     'contentUrl' => $sv->video_url,
@@ -341,6 +341,10 @@ window.VINFAST_PRODUCT_DATA = {
                                 </button>
                             </form>
 
+                            <nav class="vinfast-autohaiphong_product_intro-cta" aria-label="Khám phá chi tiết xe">
+                                <a href="#vf3-thong-so" class="vinfast-autohaiphong_product_detail-link">Thông số kỹ thuật <span aria-hidden="true">↗</span></a>
+                                <a href="#vf3-noi-that" class="vinfast-autohaiphong_product_detail-link">Nội thất <span aria-hidden="true">↗</span></a>
+                            </nav>
                             <button type="button" class="sr-only" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
                                 YÊU CẦU BÁO GIÁ LĂN BÁNH
                             </button>
@@ -430,15 +434,14 @@ window.VINFAST_PRODUCT_DATA = {
         @endif
 
         <section class="vinfast-autohaiphong_product_colors vinfast-autohaiphong_product_section" id="vf3-mau-xe">
+            <div class="vinfast-autohaiphong_product_section-head" data-reveal>
+                <h2>Tự do sáng tạo, tỏa sáng chất riêng</h2>
+                <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
+            </div>
             <div class="vinfast-autohaiphong_product_container">
                 {{-- Chữ mờ Watermark dòng xe đặt trực tiếp dưới cấp container, hiển thị sau xe --}}
                 <div class="vinfast-autohaiphong_product_color-watermark" aria-hidden="true">
                     <span>{{ $shortModelName }}</span>
-                </div>
-
-                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
-                    <h2>Tự do sáng tạo, tỏa sáng chất riêng</h2>
-                    <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
                 </div>
                 <div class="vinfast-autohaiphong_product_color-stage" data-reveal>
                     {{-- Khung hiển thị xe góc ngang side-view to lớn hoành tráng --}}
@@ -451,6 +454,7 @@ window.VINFAST_PRODUCT_DATA = {
                     </div>
 
                     {{-- Dải chuyển màu sắc swatches giống hệt ảnh mẫu --}}
+                    <p class="vinfast-autohaiphong_product_color-current" data-color-current aria-live="polite">{{ $initialColor['name'] }}</p>
                     <div class="vinfast-autohaiphong_product_color-bottom">
                         <div class="vinfast-autohaiphong_product_color-switcher" role="group" aria-label="Chọn màu xe">
                             <button type="button" data-action="color-prev" class="vinfast-autohaiphong_product_color-arrow" aria-label="Màu trước">‹</button>
@@ -483,7 +487,7 @@ window.VINFAST_PRODUCT_DATA = {
         @if(!empty($car->description_html))
             <section class="vinfast-autohaiphong_product_article vinfast-autohaiphong_product_section" id="vf3-bai-viet" aria-label="Giới thiệu chi tiết {{ $car->name }}">
                 <div class="vinfast-autohaiphong_product_container">
-                    <div class="vinfast-autohaiphong_product_article-card" data-reveal>
+                    <div class="vinfast-autohaiphong_product_article-card">
                             <div class="vinfast-autohaiphong_product_content">
                                 {!! $car->description_html !!}
                             </div>
@@ -1067,16 +1071,6 @@ window.VINFAST_PRODUCT_DATA = {
             </div>
         @endif
     </main>
-
-    {{-- FLOATING ACTION BUTTONS --}}
-    <div class="vinfast-autohaiphong_product_floating">
-        <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')" class="vinfast-autohaiphong_product_float-button" aria-label="Mở tư vấn báo giá">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        </button>
-        <button type="button" data-action="top" class="vinfast-autohaiphong_product_float-top" aria-label="Lên đầu trang">
-            ↑
-        </button>
-    </div>
 
     {{-- LIGHTBOX MODAL DIALOG --}}
     <div class="vinfast-autohaiphong_product_lightbox" role="presentation" data-lightbox-modal hidden>

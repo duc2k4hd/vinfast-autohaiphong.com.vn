@@ -12,7 +12,7 @@
 
 ### Journey 2: Chọn Xe & Đặt Cọc Tiền Mặt Trực Tiếp Tại Showroom
 - **Luồng thao tác:**
-  `Trang chi tiết xe (/xe/{slug})` -> `Bấm Đặt Cọc Ngay (/dat-coc-ngay?product_id=...)` -> `Form thanh toán tiền mặt (/thanh-toan)` -> `Hiển thị rõ thông báo: Hình thức thanh toán duy nhất là Tiền mặt tại Showroom VinFast Minh Đạo (Số 1 Bạch Đằng)` -> `Nhập họ tên, điện thoại, địa chỉ` -> `Bấm Hoàn Tất Đặt Cọc` -> `Chuyển sang trang thành công (/dat-hang-thanh-cong/{order_number})`.
+  `Trang chi tiết xe (/xe/{slug})` -> `Bấm Đặt Cọc Ngay (/dat-coc-ngay?product_id=...)` -> `Form thanh toán tiền mặt (/thanh-toan)` -> `Hiển thị rõ thông báo: Hình thức thanh toán duy nhất là Tiền mặt tại Showroom VinFast Hải Phòng (Lê Hồng Phong)` -> `Nhập họ tên, điện thoại, địa chỉ` -> `Bấm Hoàn Tất Đặt Cọc` -> `Chuyển sang trang thành công (/dat-hang-thanh-cong/{order_number})`.
 - **Yêu cầu nâng cấp V2:**
   - Duy trì `idempotency_key` trong form để chống bấm gửi đơn lặp lại.
   - Trang đặt cọc thành công hiển thị bản đồ chỉ đường, mã đơn cọc `VFHP-YYYYMMDD-XXXX` in đậm, số điện thoại hotline bộ phận bán hàng để khách gọi ngay khi đến showroom.

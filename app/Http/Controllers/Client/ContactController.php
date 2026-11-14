@@ -50,6 +50,6 @@ class ContactController extends Controller
             'updated_at' => $now,
         ]);
 
-        return redirect()->back()->with('success', 'Cảm ơn Quý khách! Lời nhắn của Quý khách đã được gửi tới Ban quản lý Showroom VinFast Minh Đạo. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
+        return redirect()->back()->with('success', 'Cảm ơn Quý khách! Lời nhắn của Quý khách đã được gửi tới Ban quản lý Showroom VinFast Hải Phòng. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
     }
 }

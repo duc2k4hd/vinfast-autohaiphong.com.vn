@@ -27,8 +27,8 @@ class ClientContactAndLeadSearchTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('ContactPage');
-        $response->assertSee('VinFast Minh Đạo Hải Phòng');
-        $response->assertSee('VỊ TRÍ SHOWROOM VINFAST MINH ĐẠO HẢI PHÒNG');
+        $response->assertSee('VinFast Hải Phòng');
+        $response->assertSee('VỊ TRÍ SHOWROOM VINFAST HẢI PHÒNG');
         $response->assertSee('maps.google.com');
     }
 
