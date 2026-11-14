@@ -70,7 +70,15 @@
                         <div class="vinfast-autohaiphong_header_dropdown_inner">
                             <div class="vinfast-autohaiphong_header_dropdown_heading">
                                 <span>Khám phá các dòng xe VinFast</span>
-                                <a href="{{ route('client.catalog.index') }}">Xem tất cả xe <span aria-hidden="true">→</span></a>
+                                <div class="vinfast-autohaiphong_header_dropdown_heading_right">
+                                    <a href="{{ route('client.catalog.index') }}">Xem tất cả xe <span aria-hidden="true">→</span></a>
+                                    <button type="button" class="vinfast-autohaiphong_header_dropdown_close" data-vf-cars-close aria-label="Đóng bảng danh mục xe" title="Đóng danh mục xe">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                             <div class="vinfast-autohaiphong_header_dropdown_grid">
                                 @foreach($menuCars as $menuCar)

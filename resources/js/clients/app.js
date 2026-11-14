@@ -38,6 +38,16 @@ document.addEventListener('DOMContentLoaded', () => {
             suppressHoverUntilLeave = !isClickPinned;
             setCarsMenuOpen(isClickPinned);
         });
+        const carsCloseBtn = carsDropdown.querySelector('[data-vf-cars-close]');
+        carsCloseBtn?.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            window.clearTimeout(closeTimer);
+            isClickPinned = false;
+            suppressHoverUntilLeave = true;
+            setCarsMenuOpen(false);
+            carsToggle.focus();
+        });
         carsMenu.addEventListener('mouseenter', (event) => {
             if (event.pointerType !== 'touch' && window.matchMedia('(min-width: 861px)').matches && !suppressHoverUntilLeave) {
                 window.clearTimeout(closeTimer);
