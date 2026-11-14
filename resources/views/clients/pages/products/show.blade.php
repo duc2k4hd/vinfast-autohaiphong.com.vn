@@ -245,31 +245,52 @@ window.VINFAST_PRODUCT_DATA = {
                             <span id="vf-selected-variant-label" class="sr-only">Tiêu Chuẩn</span>
                         @endif
 
-                        {{-- 2. Spec Highlights (3 khối thanh mảnh phân cách bởi nét mờ như ảnh mẫu) --}}
+                        {{-- 2. Spec Highlights (Các khối thông số nổi bật quản lý linh hoạt trong Admin) --}}
                         <div class="vinfast-autohaiphong_product_spec-highlights">
-                            <div class="vinfast-autohaiphong_product_spec-item">
-                                <div>
-                                    <span class="vinfast-autohaiphong_product_spec-number">215</span>
-                                    <span class="vinfast-autohaiphong_product_spec-unit">km/1 lần sạc (NEDC)</span>
+                            @if(isset($specHighlights) && $specHighlights->isNotEmpty())
+                                @foreach($specHighlights as $sh)
+                                    <div class="vinfast-autohaiphong_product_spec-item">
+                                        <div>
+                                            @if(is_numeric($sh->value) || strlen($sh->value) <= 6)
+                                                <span class="vinfast-autohaiphong_product_spec-number">{{ $sh->value }}</span>
+                                            @else
+                                                <span class="vinfast-autohaiphong_product_spec-title">{{ $sh->value }}</span>
+                                            @endif
+                                            @if(!empty($sh->unit))
+                                                <span class="vinfast-autohaiphong_product_spec-unit">{{ $sh->unit }}</span>
+                                            @endif
+                                        </div>
+                                        @if(!empty($sh->subtitle))
+                                            <p class="vinfast-autohaiphong_product_spec-sub">{{ $sh->subtitle }}</p>
+                                        @endif
+                                        <p class="vinfast-autohaiphong_product_spec-label">{{ $sh->label }}</p>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="vinfast-autohaiphong_product_spec-item">
+                                    <div>
+                                        <span class="vinfast-autohaiphong_product_spec-number">215</span>
+                                        <span class="vinfast-autohaiphong_product_spec-unit">km/1 lần sạc (NEDC)</span>
+                                    </div>
+                                    <p class="vinfast-autohaiphong_product_spec-label">Quãng đường di chuyển</p>
                                 </div>
-                                <p class="vinfast-autohaiphong_product_spec-label">Quãng đường di chuyển</p>
-                            </div>
 
-                            <div class="vinfast-autohaiphong_product_spec-item">
-                                <div>
-                                    <span class="vinfast-autohaiphong_product_spec-number">36</span>
-                                    <span class="vinfast-autohaiphong_product_spec-unit">phút</span>
+                                <div class="vinfast-autohaiphong_product_spec-item">
+                                    <div>
+                                        <span class="vinfast-autohaiphong_product_spec-number">36</span>
+                                        <span class="vinfast-autohaiphong_product_spec-unit">phút</span>
+                                    </div>
+                                    <p class="vinfast-autohaiphong_product_spec-label">Sạc nhanh từ 10% - 70%</p>
                                 </div>
-                                <p class="vinfast-autohaiphong_product_spec-label">Sạc nhanh từ 10% - 70%</p>
-                            </div>
 
-                            <div class="vinfast-autohaiphong_product_spec-item">
-                                <div>
-                                    <span class="vinfast-autohaiphong_product_spec-title">7 năm hoặc 160.000km</span>
+                                <div class="vinfast-autohaiphong_product_spec-item">
+                                    <div>
+                                        <span class="vinfast-autohaiphong_product_spec-title">7 năm hoặc 160.000km</span>
+                                    </div>
+                                    <p class="vinfast-autohaiphong_product_spec-sub">(Tùy điều kiện nào đến trước)</p>
+                                    <p class="vinfast-autohaiphong_product_spec-label">Bảo hành</p>
                                 </div>
-                                <p class="vinfast-autohaiphong_product_spec-sub">(Tùy điều kiện nào đến trước)</p>
-                                <p class="vinfast-autohaiphong_product_spec-label">Bảo hành</p>
-                            </div>
+                            @endif
                         </div>
 
                         {{-- 3. Bottom Row: Giá Bán & Nút Đặt Cọc Ngay --}}

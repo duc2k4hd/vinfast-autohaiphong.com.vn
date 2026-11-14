@@ -36,6 +36,7 @@ class ProductController extends Controller
         $colors = $this->productService->getColors($car->id);
         $banners = $this->productService->getBanners($car->id);
         $interiors = $this->productService->getInteriors($car->id);
+        $specHighlights = $this->productService->getSpecHighlights($car->id);
         $specifications = $this->productService->getSpecifications($car->id);
         $comparison = $this->productService->getComparisonBenchmark($car, $specifications);
         $relatedCars = $this->productService->getRelatedCars($car->category_id, $car->id, 3);
@@ -47,6 +48,7 @@ class ProductController extends Controller
             'colors' => $colors,
             'banners' => $banners,
             'interiors' => $interiors,
+            'specHighlights' => $specHighlights,
             'specifications' => $specifications,
             'comparison' => $comparison,
             'relatedCars' => $relatedCars,

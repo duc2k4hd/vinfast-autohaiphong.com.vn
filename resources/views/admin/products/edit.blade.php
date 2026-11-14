@@ -343,7 +343,45 @@
                 </div>
             </div>
 
-            {{-- 4. Bảng Thông Số Kỹ Thuật Key-Value --}}
+            {{-- 4. Thông số nổi bật đầu trang (Spec Highlights) --}}
+            <div class="vinfast-autohaiphong_admin_card">
+                <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>THÔNG SỐ NỔI BẬT ĐẦU TRANG (SPEC HIGHLIGHTS)</span>
+                    <button type="button" onclick="addNewHighlightRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
+                        + Thêm Thông Số Nổi Bật
+                    </button>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
+                    Hiển thị các khối thông số quan trọng nổi bật cạnh ảnh xe ở đầu trang (VD: Quãng đường 215 km/1 lần sạc, Sạc nhanh 36 phút, Bảo hành 7 năm hoặc 160.000km...).
+                </p>
+
+                <div id="highlights-container">
+                    @if(!empty($specHighlights) && $specHighlights->isNotEmpty())
+                        @foreach($specHighlights as $highlight)
+                            <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 12px; margin-bottom: 12px;" class="highlight-row">
+                                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                                    <input type="text" name="highlight_values[]" value="{{ $highlight->value }}" placeholder="Giá trị nổi bật (VD: 215, 36, 7 năm hoặc 160.000km)" 
+                                           style="flex: 1.2; padding: 7px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
+                                    <input type="text" name="highlight_units[]" value="{{ $highlight->unit }}" placeholder="Đơn vị (VD: km/1 lần sạc (NEDC), phút...)" 
+                                           style="flex: 1; padding: 7px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    <button type="button" onclick="this.closest('.highlight-row').remove(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa thông số này">
+                                        &times;
+                                    </button>
+                                </div>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <input type="text" name="highlight_subtitles[]" value="{{ $highlight->subtitle }}" placeholder="Phụ đề nhỏ (VD: (Tùy điều kiện nào đến trước)...)" 
+                                           style="flex: 1; padding: 6px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem; color: #64748b;">
+                                    <input type="text" name="highlight_labels[]" value="{{ $highlight->label }}" placeholder="Tên nhãn thông số (VD: Quãng đường di chuyển, Sạc nhanh từ 10% - 70%, Bảo hành)" 
+                                           style="flex: 1.2; padding: 6px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem; font-weight: 500;">
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
+            {{-- 5. Bảng Thông Số Kỹ Thuật Key-Value --}}
             <div class="vinfast-autohaiphong_admin_card">
                 <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
                     <span>THÔNG SỐ KỸ THUẬT KEY - VALUE</span>
@@ -602,6 +640,32 @@ function addNewInteriorRow() {
                 <input type="text" name="interior_image_paths[]" placeholder="clients/assets/images/... (nếu không chọn media)"
                        style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
             </div>
+        </div>
+    `;
+    container.appendChild(div);
+    formIsDirty = true;
+}
+
+function addNewHighlightRow() {
+    const container = document.getElementById('highlights-container');
+    const div = document.createElement('div');
+    div.className = 'highlight-row';
+    div.style.cssText = 'background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 12px; margin-bottom: 12px;';
+    div.innerHTML = `
+        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+            <input type="text" name="highlight_values[]" placeholder="Giá trị nổi bật (VD: 215, 36, 7 năm hoặc 160.000km)" 
+                   style="flex: 1.2; padding: 7px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
+            <input type="text" name="highlight_units[]" placeholder="Đơn vị (VD: km/1 lần sạc (NEDC), phút...)" 
+                   style="flex: 1; padding: 7px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            <button type="button" onclick="this.closest('.highlight-row').remove(); formIsDirty = true;" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa thông số này">
+                &times;
+            </button>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" name="highlight_subtitles[]" placeholder="Phụ đề nhỏ (VD: (Tùy điều kiện nào đến trước)...)" 
+                   style="flex: 1; padding: 6px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem; color: #64748b;">
+            <input type="text" name="highlight_labels[]" placeholder="Tên nhãn thông số (VD: Quãng đường di chuyển, Sạc nhanh từ 10% - 70%, Bảo hành)" 
+                   style="flex: 1.2; padding: 6px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem; font-weight: 500;">
         </div>
     `;
     container.appendChild(div);

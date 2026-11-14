@@ -114,6 +114,11 @@ class ProductController extends Controller
             ->orderBy('product_interiors.sort_order', 'asc')
             ->get();
 
+        $specHighlights = DB::table('product_spec_highlights')
+            ->where('product_id', $id)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
@@ -121,6 +126,7 @@ class ProductController extends Controller
             'colors' => $colors,
             'banners' => $banners,
             'interiors' => $interiors,
+            'specHighlights' => $specHighlights,
             'mediaList' => $mediaList,
         ]);
     }
@@ -300,6 +306,36 @@ class ProductController extends Controller
                             'image_media_id' => $mediaId,
                             'image_path' => $directPath,
                             'sort_order' => $iSort++,
+                            'is_active' => true,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+                }
+            }
+
+            // Cập nhật danh sách thông số nổi bật đầu trang (Spec Highlights)
+            if ($request->has('highlight_values') || $request->has('highlight_labels')) {
+                DB::table('product_spec_highlights')->where('product_id', $id)->delete();
+
+                $hValues = $request->input('highlight_values', []);
+                $hUnits = $request->input('highlight_units', []);
+                $hSubtitles = $request->input('highlight_subtitles', []);
+                $hLabels = $request->input('highlight_labels', []);
+
+                $hSort = 1;
+                foreach ($hValues as $hIdx => $hVal) {
+                    $val = trim($hVal);
+                    $label = ! empty($hLabels[$hIdx]) ? trim($hLabels[$hIdx]) : '';
+
+                    if ($val !== '' || $label !== '') {
+                        DB::table('product_spec_highlights')->insert([
+                            'product_id' => $id,
+                            'value' => $val,
+                            'unit' => ! empty($hUnits[$hIdx]) ? trim($hUnits[$hIdx]) : null,
+                            'subtitle' => ! empty($hSubtitles[$hIdx]) ? trim($hSubtitles[$hIdx]) : null,
+                            'label' => $label,
+                            'sort_order' => $hSort++,
                             'is_active' => true,
                             'created_at' => $now,
                             'updated_at' => $now,

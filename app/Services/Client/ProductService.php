@@ -169,6 +169,18 @@ class ProductService
     }
 
     /**
+     * Lấy danh sách thông số nổi bật đầu trang (Spec Highlights).
+     */
+    public function getSpecHighlights(int $productId): Collection
+    {
+        return DB::table('product_spec_highlights')
+            ->where('product_id', $productId)
+            ->where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
+    }
+
+    /**
      * Lấy các thông số kỹ thuật chi tiết của xe.
      */
     public function getSpecifications(int $productId): Collection
