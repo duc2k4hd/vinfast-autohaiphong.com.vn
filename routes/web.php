@@ -101,6 +101,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Quản lý Dòng xe & Specs Key-Value
         Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
+        Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
+        Route::post('/products', [AdminProductController::class, 'store'])->name('products.store');
         Route::get('/products/{id}/edit', [AdminProductController::class, 'edit'])->name('products.edit');
         Route::put('/products/{id}', [AdminProductController::class, 'update'])->name('products.update');
 

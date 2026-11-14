@@ -7,6 +7,7 @@ use App\Services\Shared\HtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -119,6 +120,10 @@ class ProductController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
 
+        $categories = DB::table('product_categories')
+            ->orderBy('sort_order', 'asc')
+            ->get();
+
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
@@ -128,7 +133,180 @@ class ProductController extends Controller
             'interiors' => $interiors,
             'specHighlights' => $specHighlights,
             'mediaList' => $mediaList,
+            'categories' => $categories,
         ]);
+    }
+
+    /**
+     * Giao diện thêm mới dòng xe ô tô.
+     */
+    public function create(): View
+    {
+        $categories = DB::table('product_categories')->orderBy('sort_order', 'asc')->get();
+        $mediaList = DB::table('media')->orderBy('created_at', 'desc')->get();
+
+        $dummyProduct = (object) [
+            'id' => null,
+            'name' => '',
+            'slug' => '',
+            'sku' => '',
+            'category_id' => $categories->first()?->id ?? null,
+            'regular_price' => null,
+            'sale_price' => null,
+            'short_description' => '',
+            'description_html' => '',
+            'status' => 'active',
+            'featured' => false,
+            'thumbnail_media_id' => null,
+        ];
+
+        return view('admin.products.edit', [
+            'product' => $dummyProduct,
+            'specifications' => collect(),
+            'variants' => collect(),
+            'colors' => collect(),
+            'banners' => collect(),
+            'interiors' => collect(),
+            'specHighlights' => collect(),
+            'mediaList' => $mediaList,
+            'categories' => $categories,
+            'isCreate' => true,
+        ]);
+    }
+
+    /**
+     * Lưu dòng xe mới tạo vào hệ thống.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:150'],
+            'sku' => ['nullable', 'string', 'max:100'],
+            'category_id' => ['nullable', 'integer'],
+            'regular_price' => ['nullable', 'numeric', 'min:0'],
+            'sale_price' => ['nullable', 'numeric', 'min:0'],
+            'short_description' => ['nullable', 'string', 'max:500'],
+            'description_html' => ['nullable', 'string'],
+            'thumbnail_media_id' => ['nullable', 'integer', 'exists:media,id'],
+        ]);
+
+        $now = now();
+        $slug = Str::slug($request->input('name'));
+        $originalSlug = $slug;
+        $count = 1;
+        while (DB::table('products')->where('slug', $slug)->exists()) {
+            $slug = $originalSlug.'-'.(++$count);
+        }
+
+        $id = DB::transaction(function () use ($request, $slug, $now) {
+            $newId = DB::table('products')->insertGetId([
+                'name' => $request->input('name'),
+                'slug' => $slug,
+                'sku' => $request->input('sku') ?: strtoupper($slug),
+                'category_id' => $request->input('category_id') ?: null,
+                'regular_price' => $request->input('regular_price'),
+                'sale_price' => $request->input('sale_price'),
+                'status' => $request->input('status', 'active'),
+                'featured' => $request->boolean('featured'),
+                'short_description' => $request->input('short_description'),
+                'description_html' => HtmlSanitizer::clean($request->input('description_html')),
+                'thumbnail_media_id' => $request->input('thumbnail_media_id'),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+
+            return $newId;
+        });
+
+        // Sau khi tạo xong xe thì chuyển sang giao diện edit để tiếp tục cấu hình đầy đủ
+        return redirect()->route('admin.products.edit', $id)
+            ->with('success', 'Đã thêm dòng xe mới thành công! Bạn có thể tiếp tục cấu hình phiên bản, màu sắc và thông số kỹ thuật.');
+    }
+
+    /**
+     * Giao diện thêm mới dòng xe ô tô.
+     */
+    public function create(): View
+    {
+        $categories = DB::table('product_categories')->orderBy('sort_order', 'asc')->get();
+        $mediaList = DB::table('media')->orderBy('created_at', 'desc')->get();
+
+        $dummyProduct = (object) [
+            'id' => null,
+            'name' => '',
+            'slug' => '',
+            'sku' => '',
+            'category_id' => $categories->first()?->id ?? null,
+            'regular_price' => null,
+            'sale_price' => null,
+            'short_description' => '',
+            'description_html' => '',
+            'status' => 'active',
+            'featured' => false,
+            'thumbnail_media_id' => null,
+        ];
+
+        return view('admin.products.edit', [
+            'product' => $dummyProduct,
+            'specifications' => collect(),
+            'variants' => collect(),
+            'colors' => collect(),
+            'banners' => collect(),
+            'interiors' => collect(),
+            'specHighlights' => collect(),
+            'mediaList' => $mediaList,
+            'categories' => $categories,
+            'isCreate' => true,
+        ]);
+    }
+
+    /**
+     * Lưu dòng xe mới tạo vào hệ thống.
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:150'],
+            'sku' => ['nullable', 'string', 'max:100'],
+            'category_id' => ['nullable', 'integer'],
+            'regular_price' => ['nullable', 'numeric', 'min:0'],
+            'sale_price' => ['nullable', 'numeric', 'min:0'],
+            'short_description' => ['nullable', 'string', 'max:500'],
+            'description_html' => ['nullable', 'string'],
+            'thumbnail_media_id' => ['nullable', 'integer', 'exists:media,id'],
+        ]);
+
+        $now = now();
+        $slug = \Illuminate\Support\Str::slug($request->input('name'));
+        $originalSlug = $slug;
+        $count = 1;
+        while (DB::table('products')->where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . (++$count);
+        }
+
+        $id = DB::transaction(function () use ($request, $slug, $now) {
+            $newId = DB::table('products')->insertGetId([
+                'name' => $request->input('name'),
+                'slug' => $slug,
+                'sku' => $request->input('sku') ?: strtoupper($slug),
+                'category_id' => $request->input('category_id') ?: null,
+                'regular_price' => $request->input('regular_price'),
+                'sale_price' => $request->input('sale_price'),
+                'status' => $request->input('status', 'active'),
+                'featured' => $request->boolean('featured'),
+                'short_description' => $request->input('short_description'),
+                'description_html' => HtmlSanitizer::clean($request->input('description_html')),
+                'thumbnail_media_id' => $request->input('thumbnail_media_id'),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]);
+
+            return $newId;
+        });
+
+        // Sau khi tạo xong xe thì chuyển sang giao diện edit để tiếp tục cấu hình đầy đủ
+        return redirect()->route('admin.products.edit', $id)
+            ->with('success', 'Đã thêm dòng xe mới thành công! Bạn có thể tiếp tục cấu hình phiên bản, màu sắc và thông số kỹ thuật.');
     }
 
     /**
@@ -138,6 +316,9 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:150'],
+            'sku' => ['nullable', 'string', 'max:100'],
+            'category_id' => ['nullable', 'integer'],
+            'status' => ['nullable', 'string', 'in:active,inactive,coming_soon'],
             'regular_price' => ['nullable', 'numeric', 'min:0'],
             'sale_price' => ['nullable', 'numeric', 'min:0'],
             'short_description' => ['nullable', 'string', 'max:500'],
@@ -164,7 +345,7 @@ class ProductController extends Controller
 
         DB::transaction(function () use ($request, $id, $now) {
             // Cập nhật bảng products
-            DB::table('products')->where('id', $id)->update([
+            $productUpdate = [
                 'name' => $request->input('name'),
                 'regular_price' => $request->input('regular_price'),
                 'sale_price' => $request->input('sale_price'),
@@ -172,7 +353,20 @@ class ProductController extends Controller
                 'description_html' => HtmlSanitizer::clean($request->input('description_html')),
                 'thumbnail_media_id' => $request->input('thumbnail_media_id'),
                 'updated_at' => $now,
-            ]);
+            ];
+
+            if ($request->filled('sku')) {
+                $productUpdate['sku'] = trim($request->input('sku'));
+            }
+            if ($request->has('category_id')) {
+                $productUpdate['category_id'] = $request->input('category_id') ?: null;
+            }
+            if ($request->filled('status')) {
+                $productUpdate['status'] = $request->input('status');
+            }
+            $productUpdate['featured'] = $request->boolean('featured');
+
+            DB::table('products')->where('id', $id)->update($productUpdate);
 
             // Cập nhật bảng specifications Key-Value
             if ($request->has('specs_labels') && $request->has('specs_values')) {

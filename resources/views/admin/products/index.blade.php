@@ -10,7 +10,12 @@
 @section('content')
 <div class="vinfast-autohaiphong_admin_card">
     <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-        <span>DANH SÁCH DÒNG XE TRÊN HỆ THỐNG</span>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span>DANH SÁCH DÒNG XE TRÊN HỆ THỐNG</span>
+            <a href="{{ route('admin.products.create') }}" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_primary" style="padding: 5px 12px; font-size: 0.8rem;">
+                + Thêm Dòng Xe Mới
+            </a>
+        </div>
 
         <form action="{{ route('admin.products.index') }}" method="GET" style="display: flex; gap: 6px;">
             <input type="text" name="search" value="{{ $currentSearch ?? '' }}" placeholder="Tìm theo tên xe, SKU..." 
