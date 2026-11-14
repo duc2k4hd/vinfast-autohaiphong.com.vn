@@ -124,41 +124,67 @@ window.VINFAST_PRODUCT_DATA = {
 {{-- Container Giao Diện Theme V1 --}}
 <div class="vinfast-autohaiphong_product_app" data-car-id="{{ $car->id }}" data-car-name="{{ $car->name }}">
     <main>
-        {{-- SECTION 1: HERO BANNER SLIDER --}}
-        <section class="vinfast-autohaiphong_product_hero" id="dau-trang" aria-label="VinFast {{ $car->name }}" data-vf-product-gallery>
+        {{-- SECTION 1: HERO BANNER SLIDER (TỶ LỆ CHUẨN 16:9) --}}
+        @php
+            $heroBanners = (!empty($banners) && $banners->isNotEmpty()) ? $banners : collect([
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/hero.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' - Đột phá phong cách đô thị',
+                    'title' => 'VINFAST ' . Str::upper($car->name),
+                    'subtitle' => 'Mẫu xe điện thông minh, định hình phong cách di chuyển đô thị tương lai',
+                ],
+                (object)[
+                    'image_url' => asset('storage/clients/assets/images/theme-v1/nature-yellow.webp'),
+                    'alt_text' => 'VinFast ' . $car->name . ' - Tự do khám phá',
+                    'title' => 'TỰ DO TỎA SÁNG CHẤT RIÊNG',
+                    'subtitle' => 'Khởi đầu mỗi hành trình với sự linh hoạt, bền bỉ và tiết kiệm vượt trội',
+                ],
+            ]);
+        @endphp
+
+        <section class="vinfast-autohaiphong_product_hero" id="dau-trang" aria-label="VinFast {{ $car->name }}">
             <div class="vinfast-autohaiphong_product_hero-slider" data-hero-slider>
-                @foreach($gallerySlides as $index => $slide)
-                    <div class="vinfast-autohaiphong_product_hero-slide {{ $index === 0 ? 'vinfast-autohaiphong_product_hero-slide-active' : '' }}"
-                         data-vf-gallery-slide="{{ $index }}"
-                         aria-hidden="{{ $index === 0 ? 'false' : 'true' }}">
-                        <img src="{{ $slide['src'] }}" 
-                             alt="{{ $slide['alt'] }}"
-                             @if($index === 0) fetchpriority="high" @else loading="lazy" @endif />
+                @foreach($heroBanners as $bIndex => $banner)
+                    <div class="vinfast-autohaiphong_product_hero-slide {{ $bIndex === 0 ? 'vinfast-autohaiphong_product_hero-slide-active' : '' }}"
+                         data-hero-slide="{{ $bIndex }}"
+                         aria-hidden="{{ $bIndex === 0 ? 'false' : 'true' }}">
+                        <img src="{{ $banner->image_url }}"
+                             alt="{{ $banner->alt_text }}"
+                             {{ $bIndex === 0 ? 'fetchpriority=high' : 'loading=lazy' }} />
+
+                        {{-- Tiêu đề và mô tả ngắn hiển thị ở khoảng trên ở giữa banner --}}
+                        @if(!empty($banner->title) || !empty($banner->subtitle))
+                            <div class="vinfast-autohaiphong_product_hero-caption">
+                                @if(!empty($banner->title))
+                                    <h1 class="vinfast-autohaiphong_product_hero-title">{{ $banner->title }}</h1>
+                                @endif
+                                @if(!empty($banner->subtitle))
+                                    <p class="vinfast-autohaiphong_product_hero-subtitle">{{ $banner->subtitle }}</p>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 @endforeach
 
-                @if($gallerySlides->count() > 1)
-                    <button class="vinfast-autohaiphong_product_hero-arrow vinfast-autohaiphong_product_hero-prev is-previous"
+                @if($heroBanners->count() > 1)
+                    <button class="vinfast-autohaiphong_product_hero-arrow vinfast-autohaiphong_product_hero-prev"
                             type="button"
                             data-action="hero-prev"
-                            data-vf-gallery-previous
-                            aria-label="Ảnh trước">
+                            aria-label="Ảnh banner trước">
                         ‹
                     </button>
-                    <button class="vinfast-autohaiphong_product_hero-arrow vinfast-autohaiphong_product_hero-next is-next"
+                    <button class="vinfast-autohaiphong_product_hero-arrow vinfast-autohaiphong_product_hero-next"
                             type="button"
                             data-action="hero-next"
-                            data-vf-gallery-next
-                            aria-label="Ảnh tiếp">
+                            aria-label="Ảnh banner tiếp">
                         ›
                     </button>
                     <div class="vinfast-autohaiphong_product_hero-pagination" aria-label="Chọn banner">
-                        @foreach($gallerySlides as $index => $slide)
+                        @foreach($heroBanners as $bIndex => $banner)
                             <button type="button"
-                                    class="vinfast-autohaiphong_product_hero-dot {{ $index === 0 ? 'vinfast-autohaiphong_product_is-active is-active' : '' }}"
-                                    data-hero-dot="{{ $index }}"
-                                    data-vf-gallery-thumbnail="{{ $index }}"
-                                    aria-label="Banner {{ $index + 1 }}"></button>
+                                    class="vinfast-autohaiphong_product_hero-dot {{ $bIndex === 0 ? 'vinfast-autohaiphong_product_is-active' : '' }}"
+                                    data-hero-dot="{{ $bIndex }}"
+                                    aria-label="Banner {{ $bIndex + 1 }}"></button>
                         @endforeach
                     </div>
                 @endif
@@ -409,74 +435,104 @@ window.VINFAST_PRODUCT_DATA = {
             <span aria-hidden="true">{{ $shortModelName }}</span>
         </section>
 
-        {{-- SECTION 6: DESIGN HIGHLIGHTS & GALLERY --}}
-        <section class="vinfast-autohaiphong_product_design vinfast-autohaiphong_product_section" id="vf3-thiet-ke">
+        {{-- SECTION 7: BÀI VIẾT GIỚI THIỆU CHI TIẾT SẢN PHẨM (PRODUCT CONTENT ARTICLE) --}}
+        <section class="vinfast-autohaiphong_product_article vinfast-autohaiphong_product_section" id="vf3-bai-viet" aria-label="Giới thiệu chi tiết {{ $car->name }}">
             <div class="vinfast-autohaiphong_product_container">
-                <div class="vinfast-autohaiphong_product_design-head" data-reveal>
-                    <div>
-                        <h2>Định hình phong cách di chuyển đô thị</h2>
-                        <p>Ngôn ngữ thiết kế khác biệt giúp xe luôn thu hút ánh nhìn ở bất cứ nơi đâu.</p>
-                    </div>
-                    <div>
-                        <h3>Tìm hiểu về {{ $car->name }}</h3>
-                        <div class="vinfast-autohaiphong_product_design-tabs" role="tablist" aria-label="Thông tin nổi bật">
-                            <button class="vinfast-autohaiphong_product_is-active" type="button" role="tab" aria-selected="true" data-design-tab="0">
-                                Bán kính quay
-                            </button>
-                            <button type="button" role="tab" aria-selected="false" data-design-tab="1">
-                                Chiều dài cơ sở
-                            </button>
-                            <button type="button" role="tab" aria-selected="false" data-design-tab="2">
-                                La-zăng
-                            </button>
-                        </div>
-                        <p class="vinfast-autohaiphong_product_design-description" data-design-description>
-                            Dễ dàng quay đầu xe trong không gian đô thị với bán kính quay tối thiểu khoảng 4,5m.
-                        </p>
-                        <button type="button" class="vinfast-autohaiphong_product_text-cta" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
-                            Đăng ký tư vấn ngay <span aria-hidden="true">→</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+                <div class="vinfast-autohaiphong_product_article-card" data-reveal>
+                    <div class="vinfast-autohaiphong_product_content">
+                        @if(!empty($car->description_html))
+                            {!! $car->description_html !!}
+                        @else
+                            <h2>Thiết kế đột phá — Định hình phong cách đô thị</h2>
+                            <p>
+                                VinFast {{ $car->name }} mang trong mình triết lý thiết kế tối giản nhưng giàu cá tính, được sáng tạo nhằm tối ưu hóa trải nghiệm di chuyển linh hoạt trong các đô thị năng động. Với những đường nét hình khối vuông vức khỏe khoắn, khoảng sáng gầm vượt trội và bộ la-zăng thể thao, mẫu xe tự tin thu hút mọi ánh nhìn ngay từ lần đầu chạm mắt.
+                            </p>
 
-            <div class="vinfast-autohaiphong_product_design-gallery" data-reveal>
-                <button type="button" class="vinfast-autohaiphong_product_gallery-arrow vinfast-autohaiphong_product_gallery-left" data-action="gallery-prev" aria-label="Ảnh trước">‹</button>
-                <div class="vinfast-autohaiphong_product_design-track" data-design-track>
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/city-red.webp') }}" alt="{{ $car->name }} - Khung cảnh đô thị" loading="lazy" />
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/cyber-yellow.webp') }}" alt="{{ $car->name }} - Phong cách hiện đại" loading="lazy" />
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/nature-yellow.webp') }}" alt="{{ $car->name }} - Khám phá thiên nhiên" loading="lazy" />
-                </div>
-                <button type="button" class="vinfast-autohaiphong_product_gallery-arrow vinfast-autohaiphong_product_gallery-right" data-action="gallery-next" aria-label="Ảnh sau">›</button>
-            </div>
-        </section>
+                            <figure>
+                                <img src="{{ asset('storage/clients/assets/images/theme-v1/style-yellow.webp') }}" alt="Thiết kế ngoại thất ấn tượng của VinFast {{ $car->name }}" loading="lazy" />
+                                <figcaption>Ngoại thất nổi bật với những đường nét góc cạnh, phong cách thời thượng và đa dạng gam màu cá tính</figcaption>
+                            </figure>
 
-        {{-- SECTION 7: NGOẠI THẤT MOSAIC GRID (LIGHTBOX TRIGGERS) --}}
-        <section class="vinfast-autohaiphong_product_mosaic" id="vf3-ngoai-that" aria-label="Hình ảnh ngoại thất {{ $car->name }}">
-            <div class="vinfast-autohaiphong_product_mosaic-main vinfast-autohaiphong_product_lightbox-trigger" tabindex="0" role="button" aria-label="Xem ảnh ngoại thất lớn" data-lightbox="0">
-                <img src="{{ asset('storage/clients/assets/images/theme-v1/cyber-yellow.webp') }}" alt="{{ $car->name }} - Góc nhìn tổng quan" loading="lazy" />
-            </div>
-            <div class="vinfast-autohaiphong_product_mosaic-row">
-                <div class="vinfast-autohaiphong_product_lightbox-trigger" tabindex="0" role="button" aria-label="Xem chi tiết đầu xe" data-lightbox="1">
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/front-detail.webp') }}" alt="{{ $car->name }} - Chi tiết mặt ca-lăng và đèn pha" loading="lazy" />
+                            <p>
+                                Không chỉ mang tính thẩm mỹ cao, từng chi tiết trên xe đều được tính toán kỹ lưỡng về mặt khí động học và sự thực dụng. Mặt trước nổi bật với logo chữ V mạ crôm vươn rộng liền mạch cùng cụm đèn chiếu sáng sắc sảo, tạo dấu ấn nhận diện thương hiệu VinFast đặc trưng và sang trọng.
+                            </p>
+
+                            <blockquote>
+                                "Sở hữu VinFast {{ $car->name }} không chỉ là sở hữu một phương tiện di chuyển, mà là khẳng định phong cách sống xanh, văn minh và đón đầu kỷ nguyên giao thông tương lai."
+                            </blockquote>
+
+                            <h2>Không gian nội thất tinh gọn, tiện nghi vượt trội</h2>
+                            <p>
+                                Bước vào khoang lái của VinFast {{ $car->name }}, người dùng sẽ lập tức cảm nhận được sự thoáng đãng và ngăn nắp. Triết lý thiết kế công thái học (Ergonomics) được ứng dụng thông minh giúp tối đa hóa không gian để chân và khoảng trần xe, mang đến sự dễ chịu cho cả người lái lẫn hành khách trên mọi cung đường.
+                            </p>
+
+                            <figure>
+                                <img src="{{ asset('storage/clients/assets/images/theme-v1/interior.webp') }}" alt="Khoang lái công thái học và màn hình điều khiển thông minh xe VinFast {{ $car->name }}" loading="lazy" />
+                                <figcaption>Khoang lái hiện đại với màn hình cảm ứng trung tâm sắc nét, tích hợp điều khiển thông minh và kết nối đa phương tiện</figcaption>
+                            </figure>
+
+                            <p>
+                                Các trang bị tiện ích trên xe được chăm chút để đáp ứng hoàn hảo nhu cầu sinh hoạt thường nhật:
+                            </p>
+                            <ul>
+                                <li>Màn hình giải trí cảm ứng sắc nét, giao diện tiếng Việt thân thiện, hỗ trợ kết nối thông minh không dây.</li>
+                                <li>Vô lăng thiết kế vát đáy thể thao D-cut tích hợp các phím điều khiển chức năng tiện lợi.</li>
+                                <li>Ghế ngồi bọc da êm ái, phối màu trẻ trung, hàng ghế sau có thể gập linh hoạt mở rộng khoang hành lý lên tới hàng trăm lít.</li>
+                                <li>Hệ thống điều hòa làm mát nhanh và sâu, giữ không khí trong xe luôn trong lành, dễ chịu.</li>
+                            </ul>
+
+                            <h2>Khả năng vận hành bền bỉ & An toàn vượt chuẩn</h2>
+                            <p>
+                                Được trang bị khối động cơ điện thế hệ mới kết hợp cùng hệ thống pin lithium tiên tiến, xe mang lại khả năng tăng tốc tức thì, mượt mà và hoàn toàn không có độ trễ chân ga. Vận hành êm ái tuyệt đối, không tiếng ồn động cơ và không mùi xăng dầu, biến mỗi chuyến đi thành khoảng thời gian thư thái trọn vẹn.
+                            </p>
+
+                            <figure>
+                                <img src="{{ asset('storage/clients/assets/images/theme-v1/nature-yellow.webp') }}" alt="VinFast {{ $car->name }} di chuyển linh hoạt trên mọi cung đường" loading="lazy" />
+                                <figcaption>Linh hoạt chinh phục các cung đường đô thị đông đúc lẫn những chuyến dã ngoại ngoại thành đầy hứng khởi</figcaption>
+                            </figure>
+
+                            <p>
+                                VinFast luôn đặt tiêu chuẩn an toàn của khách hàng lên hàng đầu. Xe được trang bị khung gầm cứng vững cùng hệ thống an toàn chủ động và thụ động toàn diện:
+                            </p>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Hạng mục an toàn</th>
+                                        <th>Trang bị tiêu chuẩn</th>
+                                        <th>Lợi ích thực tế</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Hệ thống phanh</td>
+                                        <td>Phanh đĩa trước + ABS / EBD</td>
+                                        <td>Rút ngắn quãng đường phanh, chống bó cứng an toàn khi phanh gấp</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cân bằng & Lực kéo</td>
+                                        <td>Hệ thống kiểm soát lực kéo (TCS)</td>
+                                        <td>Chống trơn trượt hiệu quả trên đường mưa ướt, ôm cua vững vàng</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Hỗ trợ đỗ xe</td>
+                                        <td>Cảm biến lùi & Camera quan sát</td>
+                                        <td>Tự tin xoay xở và lùi đỗ vào những điểm đỗ chật hẹp</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bảo vệ pin & Khoang lái</td>
+                                        <td>Tiêu chuẩn chống nước IP67</td>
+                                        <td>An tâm di chuyển qua các tuyến phố ngập nước trong mùa mưa</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p>
+                                Với chi phí vận hành siêu tiết kiệm chỉ bằng 1/3 xe xăng cùng chính sách hậu mãi và bảo hành chính hãng lên tới 7 năm hoặc 160.000 km, VinFast {{ $car->name }} là sự lựa chọn kinh tế, bền bỉ và đáng tin cậy hàng đầu cho mọi cá nhân và gia đình.
+                            </p>
+                        @endif
+                    </div>
                 </div>
-                <div class="vinfast-autohaiphong_product_lightbox-trigger" tabindex="0" role="button" aria-label="Xem xe hòa cùng thiên nhiên" data-lightbox="2">
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/nature-yellow.webp') }}" alt="{{ $car->name }} - Trên cung đường ven biển" loading="lazy" />
-                </div>
-            </div>
-            <div class="vinfast-autohaiphong_product_mosaic-thumbs">
-                <button type="button" data-lightbox="3">
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/red-thumb.webp') }}" alt="{{ $car->name }} sắc đỏ" loading="lazy" />
-                    <span>Phong cách cá tính</span>
-                </button>
-                <button type="button" data-lightbox="4">
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/yellow-thumb.webp') }}" alt="{{ $car->name }} sắc vàng" loading="lazy" />
-                    <span>Thiết kế linh hoạt</span>
-                </button>
-                <button type="button" data-lightbox="5">
-                    <img src="{{ asset('storage/clients/assets/images/theme-v1/wheel-thumb.webp') }}" alt="Chi tiết la-zăng {{ $car->name }}" loading="lazy" />
-                    <span>Ấn tượng trong từng chi tiết</span>
-                </button>
             </div>
         </section>
 
@@ -626,6 +682,23 @@ window.VINFAST_PRODUCT_DATA = {
                     </div>
                 </div>
             </section>
+        @endif
+
+        {{-- THƯ VIỆN ẢNH SẢN PHẨM (INTERACTIVE PRODUCT GALLERY CHO GALLERY IMAGES) --}}
+        @if($galleryImages->isNotEmpty())
+            <div class="sr-only" data-vf-product-gallery aria-hidden="true" style="display: none;">
+                @foreach($galleryImages as $gIdx => $gImg)
+                    <div data-vf-gallery-slide class="{{ $gIdx === 0 ? 'is-active' : '' }}">
+                        <img src="{{ asset('storage/' . $gImg->path) }}" alt="{{ $gImg->alt_text ?: $car->name }}">
+                    </div>
+                    <button type="button" data-vf-gallery-thumbnail="{{ $gIdx }}" class="{{ $gIdx === 0 ? 'is-active' : '' }}">
+                        <img src="{{ asset('storage/' . $gImg->path) }}" alt="{{ $gImg->alt_text ?: $car->name }}">
+                    </button>
+                @endforeach
+                <button type="button" data-vf-gallery-previous>‹</button>
+                <button type="button" data-vf-gallery-next>›</button>
+                <span data-vf-gallery-counter>1 / {{ $galleryImages->count() }}</span>
+            </div>
         @endif
     </main>
 

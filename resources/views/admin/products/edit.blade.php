@@ -225,6 +225,66 @@
                 </div>
             </div>
 
+            {{-- 2.5. Bộ Sưu Tập Ảnh Banner Hero Riêng (Tỷ Lệ 16:9) --}}
+            <div class="vinfast-autohaiphong_admin_card">
+                <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>BANNER HERO SẢN PHẨM (TỶ LỆ 16:9)</span>
+                    <button type="button" onclick="addNewBannerRow()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 4px 10px; font-size: 0.8rem;">
+                        + Thêm Banner Hero
+                    </button>
+                </div>
+
+                <p style="font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 16px;">
+                    Các ảnh slider kích thước lớn hiển thị ở đầu trang chi tiết xe (chuẩn tỷ lệ 16:9). Tiêu đề và mô tả ngắn sẽ hiển thị ở <strong>khoảng trên chính giữa</strong> của từng ảnh banner.
+                </p>
+
+                <div id="banners-container">
+                    @if(!empty($banners) && $banners->isNotEmpty())
+                        @foreach($banners as $banner)
+                            <div style="background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 14px; margin-bottom: 14px;" class="banner-row">
+                                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                                    <input type="text" name="banner_titles[]" value="{{ $banner->title }}" placeholder="Tiêu đề Banner (VD: VINFAST VF 3)" 
+                                           style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
+                                    <input type="text" name="banner_subtitles[]" value="{{ $banner->subtitle }}" placeholder="Mô tả ngắn (VD: Khởi đầu xu hướng xe điện đô thị tương lai...)" 
+                                           style="flex: 2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+                                    <button type="button" onclick="this.closest('.banner-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa banner này">
+                                        &times;
+                                    </button>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+                                    <div class="banner-img-preview" style="width: 80px; height: 45px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        @php
+                                            $bImgPath = $banner->media_path ?: $banner->image_path;
+                                        @endphp
+                                        @if(!empty($bImgPath))
+                                            <img src="{{ asset('storage/' . ltrim($bImgPath, '/')) }}" alt="{{ $banner->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                        @else
+                                            <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9</span>
+                                        @endif
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Chọn từ thư viện Media</label>
+                                        <select name="banner_image_media_ids[]" onchange="updateBannerImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                                            <option value="" data-src="">-- Chọn ảnh banner tỷ lệ 16:9 --</option>
+                                            @foreach($mediaList as $m)
+                                                <option value="{{ $m->id }}" data-src="{{ asset('storage/' . $m->path) }}" {{ (!empty($banner->image_media_id) && $banner->image_media_id == $m->id) ? 'selected' : '' }}>
+                                                    {{ $m->filename }} ({{ $m->alt_text ?: 'Banner 16:9' }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Hoặc đường dẫn ảnh trực tiếp</label>
+                                        <input type="text" name="banner_image_paths[]" value="{{ $banner->image_path }}" placeholder="clients/assets/images/... (nếu không chọn media)"
+                                               style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
+
             {{-- 3. Bảng Thông Số Kỹ Thuật Key-Value --}}
             <div class="vinfast-autohaiphong_admin_card">
                 <div class="vinfast-autohaiphong_admin_card_title" style="display: flex; justify-content: space-between; align-items: center;">
@@ -385,6 +445,55 @@ function addNewVariantRow() {
                 <select name="variant_thumbnail_media_ids[]" onchange="updateVariantImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
                     ${mediaOptionsTemplate}
                 </select>
+            </div>
+        </div>
+    `;
+    container.appendChild(div);
+    formIsDirty = true;
+}
+
+function updateBannerImgPreview(selectEl) {
+    const selectedOption = selectEl.options[selectEl.selectedIndex];
+    const src = selectedOption ? selectedOption.getAttribute('data-src') : '';
+    const previewBox = selectEl.closest('.banner-row').querySelector('.banner-img-preview');
+    if (previewBox) {
+        if (src) {
+            previewBox.innerHTML = `<img src="${src}" style="width: 100%; height: 100%; object-fit: cover;">`;
+        } else {
+            previewBox.innerHTML = `<span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9</span>`;
+        }
+    }
+}
+
+function addNewBannerRow() {
+    const container = document.getElementById('banners-container');
+    const div = document.createElement('div');
+    div.className = 'banner-row';
+    div.style.cssText = 'background: #f8fafc; border: 1px solid var(--admin-border); border-radius: 6px; padding: 14px; margin-bottom: 14px;';
+    div.innerHTML = `
+        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+            <input type="text" name="banner_titles[]" placeholder="Tiêu đề Banner (VD: VINFAST VF 3)" 
+                   style="flex: 1.2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
+            <input type="text" name="banner_subtitles[]" placeholder="Mô tả ngắn (VD: Khởi đầu xu hướng xe điện đô thị tương lai...)" 
+                   style="flex: 2; padding: 8px 10px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.85rem;">
+            <button type="button" onclick="this.closest('.banner-row').remove()" style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.2rem; padding: 0 4px;" title="Xóa banner này">
+                &times;
+            </button>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center; background: #fff; padding: 10px; border-radius: 4px; border: 1px solid #edf2f7;">
+            <div class="banner-img-preview" style="width: 80px; height: 45px; border-radius: 4px; border: 1px dashed var(--admin-border); overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <span style="font-size: 0.65rem; color: var(--admin-muted); text-align: center;">16:9</span>
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Chọn từ thư viện Media</label>
+                <select name="banner_image_media_ids[]" onchange="updateBannerImgPreview(this)" style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
+                    ${mediaOptionsTemplate}
+                </select>
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-size: 0.72rem; font-weight: 600; color: var(--admin-muted); margin-bottom: 2px;">Hoặc đường dẫn ảnh trực tiếp</label>
+                <input type="text" name="banner_image_paths[]" placeholder="clients/assets/images/... (nếu không chọn media)"
+                       style="width: 100%; padding: 5px 8px; border: 1px solid var(--admin-border); border-radius: 4px; font-size: 0.82rem;">
             </div>
         </div>
     `;

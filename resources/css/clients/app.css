@@ -137,7 +137,6 @@ button, input, select, textarea {
     transform: rotate(180deg);
 }
 .vinfast-autohaiphong_header_nav_link_brand {
-    color: var(--client-color-primary) !important;
     font-weight: 600;
 }
 .vinfast-autohaiphong_header_nav_link:hover, 

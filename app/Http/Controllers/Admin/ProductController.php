@@ -92,11 +92,23 @@ class ProductController extends Controller
             ->orderBy('product_colors.sort_order', 'asc')
             ->get();
 
+        $banners = DB::table('product_banners')
+            ->leftJoin('media', 'product_banners.image_media_id', '=', 'media.id')
+            ->where('product_banners.product_id', $id)
+            ->select([
+                'product_banners.*',
+                'media.path as media_path',
+                'media.filename as media_filename',
+            ])
+            ->orderBy('product_banners.sort_order', 'asc')
+            ->get();
+
         return view('admin.products.edit', [
             'product' => $product,
             'specifications' => $specifications,
             'variants' => $variants,
             'colors' => $colors,
+            'banners' => $banners,
             'mediaList' => $mediaList,
         ]);
     }
@@ -124,6 +136,10 @@ class ProductController extends Controller
             'color_names' => ['nullable', 'array'],
             'color_codes' => ['nullable', 'array'],
             'color_image_media_ids' => ['nullable', 'array'],
+            'banner_titles' => ['nullable', 'array'],
+            'banner_subtitles' => ['nullable', 'array'],
+            'banner_image_media_ids' => ['nullable', 'array'],
+            'banner_image_paths' => ['nullable', 'array'],
         ]);
 
         $now = now();
@@ -214,6 +230,36 @@ class ProductController extends Controller
                             'color_code' => ! empty($colCodes[$cIdx]) ? trim($colCodes[$cIdx]) : '#1464fa',
                             'image_media_id' => ! empty($colMediaIds[$cIdx]) ? (int) $colMediaIds[$cIdx] : null,
                             'sort_order' => $colSort++,
+                            'is_active' => true,
+                            'created_at' => $now,
+                            'updated_at' => $now,
+                        ]);
+                    }
+                }
+            }
+
+            // Cập nhật danh sách ảnh banner hero riêng của sản phẩm (Tỷ lệ 16:9)
+            if ($request->has('banner_titles') || $request->has('banner_image_media_ids') || $request->has('banner_image_paths')) {
+                DB::table('product_banners')->where('product_id', $id)->delete();
+
+                $bTitles = $request->input('banner_titles', []);
+                $bSubtitles = $request->input('banner_subtitles', []);
+                $bMediaIds = $request->input('banner_image_media_ids', []);
+                $bPaths = $request->input('banner_image_paths', []);
+
+                $bSort = 1;
+                foreach ($bTitles as $bIdx => $bTitle) {
+                    $mediaId = ! empty($bMediaIds[$bIdx]) ? (int) $bMediaIds[$bIdx] : null;
+                    $directPath = ! empty($bPaths[$bIdx]) ? trim($bPaths[$bIdx]) : null;
+
+                    if (! empty(trim($bTitle)) || $mediaId || ! empty($directPath)) {
+                        DB::table('product_banners')->insert([
+                            'product_id' => $id,
+                            'title' => trim($bTitle),
+                            'subtitle' => ! empty($bSubtitles[$bIdx]) ? trim($bSubtitles[$bIdx]) : null,
+                            'image_media_id' => $mediaId,
+                            'image_path' => $directPath,
+                            'sort_order' => $bSort++,
                             'is_active' => true,
                             'created_at' => $now,
                             'updated_at' => $now,
