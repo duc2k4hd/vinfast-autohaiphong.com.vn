@@ -1,0 +1,2706 @@
+/* ==========================================================================
+   VINFAST VF 3 PRODUCT PAGE - PURE CSS (100% EXACT REPLICA)
+   Prefix: vinfast-autohaiphong_product_
+   ========================================================================== */
+
+:root {
+  --vf-blue: #1464F4;
+  --vf-blue-hover: #0d50cc;
+  --vf-dark: #0B0B0B;
+  --vf-text: #1F2125;
+  --vf-gray: #6B7280;
+  --vf-muted: #8A8A8A;
+  --vf-border: #E5E7EB;
+  --vf-bg-light: #F7F8FA;
+  --vf-bg-blue-soft: #EEF4FE;
+  --vf-white: #FFFFFF;
+  --vf-danger: #DC2626;
+  --vf-success: #16A34A;
+  --vf-radius-sm: 4px;
+  --vf-radius-md: 8px;
+  --vf-radius-lg: 12px;
+  --vf-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --vf-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.10);
+  --vf-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.16);
+  --vf-transition: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Mulish', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--vf-text);
+  background-color: var(--vf-white);
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--vf-transition), background-color var(--vf-transition), opacity var(--vf-transition);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+[hidden],
+.vinfast-autohaiphong_product_hidden,
+.vinfast-autohaiphong_product_d-none {
+  display: none !important;
+}
+
+.vinfast-autohaiphong_product_d-block {
+  display: block !important;
+}
+
+.vinfast-autohaiphong_product_d-flex {
+  display: flex !important;
+}
+
+.vinfast-autohaiphong_product_justify-content-between {
+  justify-content: space-between !important;
+}
+
+.vinfast-autohaiphong_product_justify-content-center {
+  justify-content: center !important;
+}
+
+.vinfast-autohaiphong_product_text-center {
+  text-align: center !important;
+}
+
+.vinfast-autohaiphong_product_w-100 {
+  width: 100% !important;
+}
+
+.vinfast-autohaiphong_product_m-0 {
+  margin: 0 !important;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_d-lg-none {
+    display: none !important;
+  }
+  .vinfast-autohaiphong_product_d-lg-block {
+    display: block !important;
+  }
+  .vinfast-autohaiphong_product_d-lg-flex {
+    display: flex !important;
+  }
+}
+
+/* ==========================================================================
+   1. HEADER & MEGA MENU
+   ========================================================================== */
+#header,
+.vinfast-autohaiphong_product_site-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--vf-white);
+  border-bottom: 1px solid var(--vf-border);
+  z-index: 1000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vinfast-autohaiphong_product_header-body {
+  position: relative;
+  width: 100%;
+}
+
+.vinfast-autohaiphong_product_header-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.vinfast-autohaiphong_product_header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.vinfast-autohaiphong_product_header-mobile-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vinfast-autohaiphong_product_header-mobile-menu .vinfast-autohaiphong_product_account {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  text-transform: uppercase;
+}
+
+.vinfast-autohaiphong_product_pc-header {
+  width: 100%;
+}
+
+.vinfast-autohaiphong_product_header-nav-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 24px;
+}
+
+.vinfast-autohaiphong_product_header-nav-main__brand .vinfast-autohaiphong_product_logo-main {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+}
+
+.vinfast-autohaiphong_product_header-nav-main__menu {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.vinfast-autohaiphong_product_mega-menu-scroll-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+}
+
+.vinfast-autohaiphong_product_mega-menu-scroll-arrow {
+  display: none;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  color: var(--vf-dark);
+  border-radius: 50%;
+  background: var(--vf-bg-light);
+}
+
+.vinfast-autohaiphong_product_mega-menu-scroll-container {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.vinfast-autohaiphong_product_mega-menu-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.vinfast-autohaiphong_product_mega_menu_header.mega-main-menu {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.vinfast-autohaiphong_product_mega_main > a {
+  display: inline-flex;
+  align-items: center;
+  height: 72px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vf-dark);
+  white-space: nowrap;
+  position: relative;
+  cursor: pointer;
+}
+
+.vinfast-autohaiphong_product_mega_main > a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--vf-blue);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+}
+
+.vinfast-autohaiphong_product_mega_main:hover > a,
+.vinfast-autohaiphong_product_mega_main.is-open > a,
+.vinfast-autohaiphong_product_mega_main > a.is-active {
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_mega_main:hover > a::after,
+.vinfast-autohaiphong_product_mega_main.is-open > a::after,
+.vinfast-autohaiphong_product_mega_main > a.is-active::after {
+  transform: scaleX(1);
+}
+
+.vinfast-autohaiphong_product_header-nav-main__actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.vinfast-autohaiphong_product_header-nav-main__actions > .vinfast-autohaiphong_product_account {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--vf-dark);
+  letter-spacing: 0.02em;
+}
+
+.vinfast-autohaiphong_product_header-nav-main__actions > .vinfast-autohaiphong_product_account:hover {
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_button--primary,
+.vinfast-autohaiphong_product_button-register-drive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 20px;
+  background-color: var(--vf-blue);
+  color: var(--vf-white);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  transition: background-color var(--vf-transition), transform 0.2s ease;
+}
+
+.vinfast-autohaiphong_product_button--primary:hover,
+.vinfast-autohaiphong_product_button-register-drive:hover {
+  background-color: var(--vf-blue-hover);
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_we-mega-menu-li {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.vinfast-autohaiphong_product_we-mega-menu-li:hover {
+  background-color: var(--vf-bg-light);
+}
+
+/* Mega Dropdowns */
+.vinfast-autohaiphong_product_mega-dropdown.mega_menu {
+  position: fixed;
+  top: 72px;
+  left: 0;
+  width: 100%;
+  background: var(--vf-white);
+  box-shadow: var(--vf-shadow-lg);
+  border-top: 1px solid var(--vf-border);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+  z-index: 999;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.vinfast-autohaiphong_product_mega_main.is-open > .vinfast-autohaiphong_product_mega-dropdown.mega_menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.vinfast-autohaiphong_product_mega_menu_container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__panel {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 32px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-right: 1px solid var(--vf-border);
+  padding-right: 24px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vf-text);
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tab:hover,
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tab.is-active {
+  background-color: var(--vf-bg-blue-soft);
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tools-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--vf-muted);
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tools-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tool {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vf-text);
+  padding: 6px 0;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tool:hover {
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tool-icon img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__sidebar-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  background: var(--vf-blue);
+  color: var(--vf-white);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tab-pane {
+  display: none;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__tab-pane.is-active {
+  display: block;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--vf-bg-light);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--vf-shadow-sm);
+  background: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__image-wrap {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__image {
+  max-height: 84px;
+  width: auto;
+  object-fit: contain;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  margin-bottom: 4px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__subtitle {
+  font-size: 12px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__metrics {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__metric + .vinfast-autohaiphong_product_vehicle-megamenu-v2__metric::before {
+  content: '•';
+  margin-right: 8px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.vinfast-autohaiphong_product_vehicle-megamenu-v2__close {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vf-gray);
+  padding: 6px 14px;
+  border: 1px solid var(--vf-border);
+  border-radius: 4px;
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__grid {
+  display: grid;
+  grid-template-columns: 200px 240px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__vehicles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__vehicle-btn {
+  padding: 10px;
+  border: 1px solid var(--vf-border);
+  border-radius: 8px;
+  background: var(--vf-bg-light);
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__vehicle-btn.is-active {
+  border-color: var(--vf-blue);
+  background: var(--vf-bg-blue-soft);
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__link-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__link-list a {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__link-list a:hover {
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__ctas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__cta-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  display: block;
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__cta-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.vinfast-autohaiphong_product_dvhm-mega-menu__cta-label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  color: var(--vf-white);
+  font-weight: 700;
+  font-size: 14px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.vinfast-autohaiphong_product_battery-menu-flex {
+  gap: 32px;
+}
+
+.vinfast-autohaiphong_product_battery-menu-flex .vinfast-autohaiphong_product_img {
+  text-align: center;
+  max-width: 280px;
+}
+
+.vinfast-autohaiphong_product_battery-menu-flex .vinfast-autohaiphong_product_img-mega-menu {
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.vinfast-autohaiphong_product_battery-menu-flex .vinfast-autohaiphong_product_item_name {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ==========================================================================
+   2. SECONDARY STICKY NAVBAR & SCROLL TOP
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-secondary-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--vf-border);
+  box-shadow: var(--vf-shadow-sm);
+  z-index: 1050;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-secondary-navbar.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-secondary-navbar__mobile-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-secondary-navbar__mobile-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-secondary-navbar__mobile-select {
+  appearance: none;
+  padding: 6px 28px 6px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--vf-border);
+  border-radius: 4px;
+  background-color: var(--vf-white);
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-secondary-navbar__mobile-select-icon {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  display: flex;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-scroll-top {
+  position: fixed;
+  right: 24px;
+  bottom: 84px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--vf-white);
+  border: 1px solid var(--vf-border);
+  box-shadow: var(--vf-shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 980;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: all 0.3s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-scroll-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-scroll-top:hover {
+  background: var(--vf-bg-light);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   3. COMMON PDP SECTIONS & BUTTONS
+   ========================================================================== */
+.vinfast-autohaiphong_product_main-container-full {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2__section {
+  position: relative;
+  width: 100%;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.vinfast-autohaiphong_product_btn--animated {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 28px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.vinfast-autohaiphong_product_btn--primary--blue {
+  background-color: var(--vf-blue);
+  color: var(--vf-white);
+  border: 1px solid var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_btn--primary--blue:hover {
+  background-color: var(--vf-blue-hover);
+  border-color: var(--vf-blue-hover);
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_btn--primary--white {
+  background-color: var(--vf-white);
+  color: var(--vf-blue);
+  border: 1px solid var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_btn--primary--white:hover {
+  background-color: var(--vf-bg-blue-soft);
+}
+
+/* ==========================================================================
+   4. SECTION 1 & 12: HERO V2 & FOOTER HERO
+   ========================================================================== */
+.vinfast-autohaiphong_product_pdp-hero-v2 {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #dbe4eb;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__background {
+  width: 100%;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__bg-image {
+  width: 100%;
+  height: clamp(500px, 56vw, 820px);
+  object-fit: cover;
+  object-position: center;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.05) 45%, rgba(0, 0, 0, 0.45) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(32px, 5vw, 64px) 24px;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__content {
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__title {
+  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__subtitle {
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__actions {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2__price {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 22px;
+  background: rgba(11, 11, 11, 0.65);
+  backdrop-filter: blur(6px);
+  color: var(--vf-white);
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Footer Hero specific */
+.vinfast-autohaiphong_product_pdp-hero-v2--footer {
+  position: relative;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2--footer .vinfast-autohaiphong_product_pdp-hero-v2__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+  padding-top: clamp(36px, 5vw, 68px);
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2--footer .vinfast-autohaiphong_product_pdp-hero-v2__title {
+  margin-bottom: 20px;
+}
+
+.vinfast-autohaiphong_product_pdp-hero-v2--footer .vinfast-autohaiphong_product_pdp-hero-v2__actions {
+  margin-top: 0;
+}
+
+/* ==========================================================================
+   5. SECTION 2: PRODUCT SUMMARY (Xe nhỏ - Giá trị lớn)
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary {
+  padding: clamp(56px, 7vw, 96px) 0;
+  background-color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-responsive--mobile {
+  display: block;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-responsive--desktop {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-responsive--mobile {
+    display: none;
+  }
+  .vinfast-autohaiphong_product_car-pdp-v2-responsive--desktop {
+    display: block;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary__header {
+  text-align: center;
+  margin-bottom: clamp(32px, 4vw, 56px);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary__title {
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 800;
+  color: var(--vf-dark);
+  margin-bottom: 8px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary__subtitle {
+  font-size: clamp(14px, 1.2vw, 17px);
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant {
+  display: none;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant.is-active {
+  display: grid;
+  animation: vfFadeIn 0.4s ease;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant {
+    grid-template-columns: 1.25fr 1fr;
+    gap: 56px;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__media {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__image {
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  object-fit: contain;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary__variant-selectors {
+  display: inline-flex;
+  background-color: var(--vf-bg-light);
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--vf-border);
+  gap: 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__selector {
+  display: none;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary__tab-btn {
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 4px;
+  color: var(--vf-gray);
+  transition: all 0.25s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary__tab-btn.is-active {
+  background-color: var(--vf-white);
+  color: var(--vf-blue);
+  box-shadow: var(--vf-shadow-sm);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__features {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-top: 1px solid var(--vf-border);
+  border-bottom: 1px solid var(--vf-border);
+  padding: 24px 0;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__feature {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__feature-value {
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 800;
+  color: var(--vf-dark);
+  line-height: 1.2;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__feature-value span {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vf-text);
+  margin-left: 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__feature-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background-color: var(--vf-bg-blue-soft);
+  padding: 12px 16px;
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__price {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__price-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__price-label--desktop {
+  display: none;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__price-label--mobile {
+  display: inline;
+}
+
+@media (min-width: 768px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__price-label--desktop {
+    display: inline;
+  }
+  .vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__price-label--mobile {
+    display: none;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 24px;
+  background-color: var(--vf-blue);
+  color: var(--vf-white);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-product-summary-variant__cta:hover {
+  background-color: var(--vf-blue-hover);
+}
+
+/* ==========================================================================
+   6. SECTION 3: COLOR CUSTOMIZER (Tự do sáng tạo, tỏa sáng chất riêng)
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-customizer {
+  padding: clamp(48px, 6vw, 84px) 0;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F4F6F9 65%, #FFFFFF 100%);
+  text-align: center;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__title {
+  font-size: clamp(24px, 2.8vw, 38px);
+  font-weight: 800;
+  color: var(--vf-dark);
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__stage {
+  max-width: 860px;
+  margin: 0 auto 28px;
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__image {
+  width: 100%;
+  max-height: 440px;
+  object-fit: contain;
+  transition: opacity 0.25s ease, transform 0.3s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__image.is-switching {
+  opacity: 0.35;
+  transform: scale(0.985);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__options-shell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 100%;
+  padding: 8px 16px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__wheel-nav {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--vf-border);
+  background: var(--vf-white);
+  color: var(--vf-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__wheel-nav:hover {
+  border-color: var(--vf-blue);
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__wheel-nav svg {
+  width: 18px;
+  height: 18px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__options-track {
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 6px 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__options-track::-webkit-scrollbar {
+  display: none;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__options {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__option.is-active {
+  padding: 4px 16px 4px 6px;
+  background: var(--vf-white);
+  border-color: var(--vf-border);
+  box-shadow: var(--vf-shadow-sm);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__swatch-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__option-label {
+  display: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  white-space: nowrap;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__option.is-active .vinfast-autohaiphong_product_car-pdp-v2-customizer__option-label {
+  display: inline-block;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-customizer__selected-label {
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vf-gray);
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-customizer__option.is-active {
+    padding: 4px;
+  }
+  .vinfast-autohaiphong_product_car-pdp-v2-customizer__option.is-active .vinfast-autohaiphong_product_car-pdp-v2-customizer__option-label {
+    display: none;
+  }
+  .vinfast-autohaiphong_product_car-pdp-v2-customizer__selected-label {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   7. SECTION 4: FUEL COST COMPARISON
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-fuel-cost-comparison {
+  padding: clamp(48px, 6vw, 84px) 0;
+  background-color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_fcc-title {
+  text-align: center;
+  font-size: clamp(22px, 2.5vw, 34px);
+  font-weight: 800;
+  color: var(--vf-dark);
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.vinfast-autohaiphong_product_fcc-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_fcc-layout {
+    grid-template-columns: 1fr 1.1fr;
+    gap: 48px;
+  }
+}
+
+.vinfast-autohaiphong_product_fcc-form-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.vinfast-autohaiphong_product_fcc-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.vinfast-autohaiphong_product_fcc-switch__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.vinfast-autohaiphong_product_fcc-switch__track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background-color: #CBD5E1;
+  border-radius: 999px;
+  transition: background-color 0.25s ease;
+  flex-shrink: 0;
+}
+
+.vinfast-autohaiphong_product_fcc-switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--vf-white);
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.vinfast-autohaiphong_product_fcc-switch__input:checked + .vinfast-autohaiphong_product_fcc-switch__track {
+  background-color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_fcc-switch__input:checked + .vinfast-autohaiphong_product_fcc-switch__track .vinfast-autohaiphong_product_fcc-switch__thumb {
+  transform: translateX(20px);
+}
+
+.vinfast-autohaiphong_product_fcc-switch__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_fcc-note-mark {
+  color: var(--vf-blue);
+  margin-left: 2px;
+}
+
+.vinfast-autohaiphong_product_fcc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vinfast-autohaiphong_product_fcc-field--version,
+.vinfast-autohaiphong_product_fcc-field--fuel-type {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.vinfast-autohaiphong_product_fcc-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vf-text);
+}
+
+.vinfast-autohaiphong_product_fcc-label__short {
+  display: none;
+}
+
+.vinfast-autohaiphong_product_fcc-tabs {
+  display: inline-flex;
+  background-color: var(--vf-bg-light);
+  border: 1px solid var(--vf-border);
+  border-radius: 6px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.vinfast-autohaiphong_product_fcc-tab {
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 4px;
+  color: var(--vf-gray);
+  transition: all 0.2s ease;
+}
+
+.vinfast-autohaiphong_product_fcc-tab.is-active {
+  background-color: var(--vf-white);
+  color: var(--vf-blue);
+  box-shadow: var(--vf-shadow-sm);
+}
+
+.vinfast-autohaiphong_product_fcc-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.vinfast-autohaiphong_product_fcc-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 48px 0 14px;
+  border: 1px solid var(--vf-border);
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.vinfast-autohaiphong_product_fcc-input:focus {
+  border-color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_fcc-unit {
+  position: absolute;
+  right: 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vf-gray);
+  pointer-events: none;
+}
+
+.vinfast-autohaiphong_product_fcc-field-error {
+  font-size: 12px;
+  color: var(--vf-danger);
+  min-height: 16px;
+}
+
+.vinfast-autohaiphong_product_fcc-form-intro {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  margin-top: 4px;
+}
+
+.vinfast-autohaiphong_product_fcc-hint {
+  font-size: 12px;
+  color: var(--vf-gray);
+  line-height: 1.4;
+}
+
+.vinfast-autohaiphong_product_fcc-btn-compare {
+  align-self: flex-start;
+  height: 42px;
+  padding: 0 32px;
+  background-color: var(--vf-blue);
+  color: var(--vf-white);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 4px;
+  margin-top: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.vinfast-autohaiphong_product_fcc-btn-compare:hover {
+  background-color: var(--vf-blue-hover);
+}
+
+.vinfast-autohaiphong_product_fcc-result-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vinfast-autohaiphong_product_fcc-result-card {
+  background: linear-gradient(135deg, #F0F6FF 0%, #E6F0FF 100%);
+  border-radius: 12px;
+  padding: 28px 24px;
+  position: relative;
+  border: 1px solid rgba(20, 100, 244, 0.12);
+}
+
+.vinfast-autohaiphong_product_fcc-result-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  position: relative;
+  padding-right: 130px;
+}
+
+.vinfast-autohaiphong_product_fcc-result-header__text {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_fcc-car-img {
+  position: absolute;
+  right: 0;
+  top: -36px;
+  width: 130px;
+  height: auto;
+  object-fit: contain;
+}
+
+.vinfast-autohaiphong_product_fcc-result-placeholder-msg {
+  font-size: 14px;
+  color: var(--vf-gray);
+  padding: 16px 0 8px;
+}
+
+.vinfast-autohaiphong_product_fcc-result-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.vinfast-autohaiphong_product_fcc-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(20, 100, 244, 0.2);
+}
+
+.vinfast-autohaiphong_product_fcc-result-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.vinfast-autohaiphong_product_fcc-result-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vf-text);
+  display: flex;
+  flex-direction: column;
+}
+
+.vinfast-autohaiphong_product_fcc-result-sublabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_fcc-result-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--vf-dark);
+  white-space: nowrap;
+}
+
+.vinfast-autohaiphong_product_fcc-result-value--highlight {
+  color: var(--vf-blue);
+  font-size: 20px;
+}
+
+.vinfast-autohaiphong_product_fcc-footer-notes {
+  font-size: 12px;
+  color: var(--vf-gray);
+  line-height: 1.6;
+}
+
+.vinfast-autohaiphong_product_fcc-footer-notes__list {
+  list-style: disc;
+  padding-left: 18px;
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   8. SECTION 5: IMAGE INTRODUCE (Expand on Scroll)
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce {
+  padding: 24px 0;
+  overflow: hidden;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce .vinfast-autohaiphong_product_car-pdp-v2__container {
+  max-width: 100%;
+  padding: 0;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce__frame {
+  position: relative;
+  width: 92%;
+  max-width: 1360px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1), max-width 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-radius 0.6s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce.is-expanded .vinfast-autohaiphong_product_car-pdp-v2-image-introduce__frame {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce__image,
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce__expanded-image {
+  width: 100%;
+  height: clamp(360px, 52vw, 760px);
+  object-fit: cover;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce__picture--expanded {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-introduce.is-expanded .vinfast-autohaiphong_product_car-pdp-v2-image-introduce__picture--expanded {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   9. SECTION 6: GALLERY INTRODUCE & INLINE LEAD FORM
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce {
+  padding: clamp(48px, 6vw, 84px) 0;
+  background-color: var(--vf-white);
+  overflow: hidden;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__header--lead {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__header--lead {
+    grid-template-columns: 1fr 1.35fr;
+    gap: 40px;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__title {
+  font-size: clamp(24px, 2.8vw, 38px);
+  font-weight: 800;
+  color: var(--vf-dark);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__description {
+  font-size: 15px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_lead-pdp-popup-wrapper--inline {
+  background: var(--vf-white);
+  border: 1px solid var(--vf-border);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--vf-shadow-sm);
+}
+
+.vinfast-autohaiphong_product_lead-pdp-popup-wrapper--inline .vinfast-autohaiphong_product_form-header {
+  text-align: left !important;
+  margin-bottom: 12px;
+}
+
+.vinfast-autohaiphong_product_lead-pdp-popup-wrapper--inline .vinfast-autohaiphong_product_form-header .vinfast-autohaiphong_product_title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_form-row-inline {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .vinfast-autohaiphong_product_form-row-inline {
+    grid-template-columns: 1fr 1fr 1fr auto;
+  }
+}
+
+.vinfast-autohaiphong_product_lead-pdp-popup-wrapper--inline .vinfast-autohaiphong_product_form-label {
+  display: none;
+}
+
+.vinfast-autohaiphong_product_form-control {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--vf-border);
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: var(--vf-white);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.vinfast-autohaiphong_product_form-control:focus {
+  border-color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_form-error {
+  font-size: 11px;
+  color: var(--vf-danger);
+  margin-top: 3px;
+}
+
+.vinfast-autohaiphong_product_form-submit {
+  height: 40px;
+  padding: 0 20px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.vinfast-autohaiphong_product_form-submit.is-disabled,
+.vinfast-autohaiphong_product_form-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.vinfast-autohaiphong_product_form-item-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--vf-gray);
+  line-height: 1.45;
+}
+
+.vinfast-autohaiphong_product_form-item-terms input[type="checkbox"] {
+  margin-top: 2px;
+  accent-color: var(--vf-blue);
+  flex-shrink: 0;
+}
+
+.vinfast-autohaiphong_product_form-item-terms a {
+  color: var(--vf-blue);
+  font-weight: 600;
+}
+
+.vinfast-autohaiphong_product_form-success-msg {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background-color: #DCFCE7;
+  color: var(--vf-success);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Gallery Introduce Swiper */
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__swiper {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.vinfast-autohaiphong_product_swiper-wrapper {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  gap: 20px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__slide {
+  flex: 0 0 82%;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0.65;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__slide {
+    flex: 0 0 76%;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__slide.is-active {
+  opacity: 1;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__image {
+  width: 100%;
+  height: clamp(240px, 44vw, 560px);
+  object-fit: cover;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__nav {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  right: 16px;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__arrow {
+  pointer-events: auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--vf-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--vf-shadow-md);
+  transition: all 0.2s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__arrow:hover {
+  background: var(--vf-blue);
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-introduce__pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.vinfast-autohaiphong_product_swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: #CBD5E1;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.vinfast-autohaiphong_product_swiper-pagination-bullet.is-active {
+  width: 28px;
+  background-color: var(--vf-blue);
+}
+
+/* ==========================================================================
+   10. SECTION 7: VIDEO INTRODUCE
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-video-introduce {
+  padding: 0;
+  background-color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-video-introduce .vinfast-autohaiphong_product_car-pdp-v2__container {
+  max-width: 100%;
+  padding: 0;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-video-introduce__video {
+  width: 100%;
+  height: clamp(320px, 54vw, 780px);
+  object-fit: cover;
+  display: block;
+}
+
+/* ==========================================================================
+   11. SECTION 8: MULTI-IMAGE EXTERIOR CARDS (Ngoại thất)
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-multi-image {
+  padding-bottom: clamp(48px, 6vw, 84px);
+  background-color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-multi-image__stage {
+  width: 100%;
+  margin-bottom: 28px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-multi-image__backdrop-image {
+  width: 100%;
+  height: clamp(320px, 48vw, 680px);
+  object-fit: cover;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-multi-image__cards {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-multi-image__cards > .vinfast-autohaiphong_product_field__items {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-multi-image__cards > .vinfast-autohaiphong_product_field__items {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-card {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--vf-dark);
+  box-shadow: var(--vf-shadow-sm);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-card__image {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-card:hover .vinfast-autohaiphong_product_car-pdp-v2-image-card__image {
+  transform: scale(1.04);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-card__body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 18px 18px;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.82) 100%);
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-card__title {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-image-card__description {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ==========================================================================
+   12. SECTION 9: GALLERY INTERIOR (Luôn đủ chỗ cho mọi người)
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-gallery {
+  padding: clamp(48px, 6vw, 84px) 0;
+  background-color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery__header {
+  max-width: 820px;
+  margin: 0 auto clamp(28px, 3.5vw, 44px);
+  padding: 0 24px;
+  text-align: center;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery__title {
+  font-size: clamp(24px, 2.8vw, 38px);
+  font-weight: 800;
+  color: var(--vf-dark);
+  margin-bottom: 8px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery__description {
+  font-size: 15px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery__hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-mode__media {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--vf-shadow-md);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery-mode__image {
+  width: 100%;
+  height: clamp(280px, 48vw, 640px);
+  object-fit: cover;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-gallery__mode-selector {
+  display: none;
+}
+
+/* ==========================================================================
+   13. SECTION 10: SPECS V2 (Thông số kỹ thuật - Dark Mode)
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-specs {
+  padding: clamp(56px, 7vw, 96px) 0;
+  background-color: #16181D;
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__header {
+  text-align: center;
+  margin-bottom: clamp(32px, 4vw, 52px);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__title {
+  font-size: clamp(24px, 2.8vw, 38px);
+  font-weight: 800;
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-bottom: 36px;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-specs__layout {
+    grid-template-columns: 320px 1fr;
+    gap: 56px;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__groups {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__group-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: left;
+  transition: all 0.25s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__group-trigger:hover,
+.vinfast-autohaiphong_product_car-pdp-v2-specs__group-trigger.is-active {
+  color: var(--vf-white);
+  background: rgba(255, 255, 255, 0.04);
+  padding-left: 18px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__panel {
+  background: #22252C;
+  border-radius: 10px;
+  padding: clamp(24px, 3vw, 36px);
+  animation: vfFadeIn 0.35s ease;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__panel-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--vf-white);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__rows > .vinfast-autohaiphong_product_field__items {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__rows > .vinfast-autohaiphong_product_field__items > .vinfast-autohaiphong_product_field__item:last-child .vinfast-autohaiphong_product_car-pdp-v2-specs__row {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__row-title {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__row-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__note {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 24px;
+  margin-bottom: 32px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__note-label {
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__note-list {
+  list-style: disc;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__ctas {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 32px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__cta--primary {
+  background-color: var(--vf-blue);
+  color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__cta--primary:hover {
+  background-color: var(--vf-blue-hover);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__cta--default {
+  background-color: var(--vf-white);
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-specs__cta--default:hover {
+  background-color: #E5E7EB;
+}
+
+/* ==========================================================================
+   14. SECTION 11: MAP CTA (Hệ sinh thái toàn diện)
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta {
+  padding: clamp(56px, 7vw, 96px) 0;
+  background-color: var(--vf-white);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-map-cta__container {
+    grid-template-columns: 1fr 1.25fr;
+    gap: 56px;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__header {
+  margin-bottom: 28px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__title {
+  font-size: clamp(24px, 2.8vw, 38px);
+  font-weight: 800;
+  color: var(--vf-dark);
+  margin-bottom: 10px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__description {
+  font-size: 15px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__stats {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__stat {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--vf-border);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__stat:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__stat-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__stat-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__stat-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__stat-description {
+  font-size: 14px;
+  color: var(--vf-gray);
+  padding-left: 40px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__cta--primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 28px;
+  background-color: var(--vf-blue);
+  color: var(--vf-white);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__cta--primary:hover {
+  background-color: var(--vf-blue-hover);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-map-cta__image {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   15. CONSULTATION MODAL DIALOG & MOBILE STICKY BUTTON
+   ========================================================================== */
+.vinfast-autohaiphong_product_car-pdp-v2-lead-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(92vw, 520px);
+  max-height: 90vh;
+  border: none;
+  border-radius: 12px;
+  padding: 28px 24px;
+  background: var(--vf-white);
+  box-shadow: var(--vf-shadow-lg);
+  z-index: 2000;
+  overflow-y: auto;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-lead-dialog::backdrop {
+  background: rgba(11, 11, 11, 0.65);
+  backdrop-filter: blur(3px);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-lead-dialog__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-lead-dialog__close:hover {
+  background: var(--vf-bg-light);
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_form-header {
+  margin-bottom: 20px;
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_form-header .vinfast-autohaiphong_product_title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--vf-dark);
+  margin-bottom: 6px;
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_form-header .vinfast-autohaiphong_product_desc {
+  font-size: 14px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_form-group {
+  margin-bottom: 14px;
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_form-label,
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_select-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  margin-bottom: 6px;
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_required {
+  color: var(--vf-danger);
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_form-textarea {
+  height: auto;
+  padding: 10px 12px;
+}
+
+.vinfast-autohaiphong_product_lead-pdp-footer-form .vinfast-autohaiphong_product_char-counter {
+  text-align: right;
+  font-size: 11px;
+  color: var(--vf-gray);
+  margin-top: 4px;
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-mobile-consult {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 16px;
+  background: var(--vf-white);
+  border-top: 1px solid var(--vf-border);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+  z-index: 950;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_car-pdp-v2-mobile-consult {
+    display: none;
+  }
+}
+
+.vinfast-autohaiphong_product_car-pdp-v2-mobile-consult__button {
+  width: 100%;
+  height: 44px;
+  background: var(--vf-blue);
+  color: var(--vf-white);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   16. FOOTER
+   ========================================================================== */
+#footer-wrapper,
+.vinfast-autohaiphong_product_site-footer {
+  background-color: #F7F8FA;
+  border-top: 1px solid var(--vf-border);
+  padding: 56px 0 80px;
+  font-size: 13px;
+  color: var(--vf-text);
+}
+
+@media (min-width: 1024px) {
+  #footer-wrapper,
+  .vinfast-autohaiphong_product_site-footer {
+    padding: 64px 0 48px;
+  }
+}
+
+.vinfast-autohaiphong_product_footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.vinfast-autohaiphong_product_footer-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+}
+
+@media (min-width: 1024px) {
+  .vinfast-autohaiphong_product_footer-row {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+.vinfast-autohaiphong_product_footer-col-info .vinfast-autohaiphong_product_logo img {
+  height: 36px;
+  width: auto;
+  margin-bottom: 20px;
+}
+
+.vinfast-autohaiphong_product_footer-col-info .vinfast-autohaiphong_product_info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #4B5563;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.vinfast-autohaiphong_product_footer-col-info .vinfast-autohaiphong_product_info > p {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_ecosystem {
+  margin-bottom: 24px;
+}
+
+.vinfast-autohaiphong_product_ecosystem-content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.vinfast-autohaiphong_product_ecosystem-content .vinfast-autohaiphong_product_menu {
+  display: flex;
+  gap: 16px;
+}
+
+.vinfast-autohaiphong_product_ecosystem-content .vinfast-autohaiphong_product_menu a {
+  font-weight: 600;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_ecosystem-content .vinfast-autohaiphong_product_menu a:hover {
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_bct-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vinfast-autohaiphong_product_bct-wrapper img {
+  height: 38px;
+  width: auto;
+}
+
+.vinfast-autohaiphong_product_copy-right {
+  font-size: 12px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_site-mode {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--vf-muted);
+}
+
+.vinfast-autohaiphong_product_menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_menu-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  text-transform: uppercase;
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_chervon-down {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--vf-dark);
+  border-bottom: 2px solid var(--vf-dark);
+  transform: rotate(45deg);
+  transition: transform 0.25s ease;
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_menu-item.is-open .vinfast-autohaiphong_product_chervon-down {
+  transform: rotate(-135deg);
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_sub-menu {
+  padding-top: 10px;
+  padding-left: 12px;
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_sub-menu .vinfast-autohaiphong_product_menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_sub-menu a {
+  color: var(--vf-gray);
+  font-size: 13px;
+}
+
+.vinfast-autohaiphong_product_menu-footer .vinfast-autohaiphong_product_sub-menu a:hover {
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_cskh {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.vinfast-autohaiphong_product_hotline-title,
+.vinfast-autohaiphong_product_connect-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.vinfast-autohaiphong_product_hotline a,
+.vinfast-autohaiphong_product_email a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--vf-blue);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.vinfast-autohaiphong_product_social {
+  display: flex;
+  gap: 12px;
+}
+
+.vinfast-autohaiphong_product_social-item {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--vf-white);
+  border: 1px solid var(--vf-border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinfast-autohaiphong_product_social-item:hover {
+  border-color: var(--vf-blue);
+}
+
+/* ==========================================================================
+   17. HAMBURGER MENU V2 MODAL (Right Drawer)
+   ========================================================================== */
+.vinfast-autohaiphong_product_hamburger-menu-v2-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: none;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2-modal.is-open {
+  display: block;
+}
+
+.vinfast-autohaiphong_product_modal-backdrop-layer {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 11, 11, 0.55);
+  backdrop-filter: blur(2px);
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2-modal .vinfast-autohaiphong_product_modal-dialog {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(90vw, 420px);
+  height: 100%;
+  background: var(--vf-white);
+  box-shadow: var(--vf-shadow-lg);
+  display: flex;
+  flex-direction: column;
+  animation: vfSlideLeft 0.3s ease;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2 .vinfast-autohaiphong_product_modal-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--vf-border);
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2 .vinfast-autohaiphong_product_modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__desktop-block {
+  margin-bottom: 24px;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__desktop-submenu-title {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--vf-muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__desktop-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__desktop-link-item a {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vf-dark);
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__desktop-link-item a:hover {
+  color: var(--vf-blue);
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__mobile-link,
+.vinfast-autohaiphong_product_hamburger-menu-v2__accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--vf-dark);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--vf-border);
+  cursor: pointer;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__vehicle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__vehicle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 6px;
+  background: var(--vf-bg-light);
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__vehicle-image {
+  width: 64px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__vehicle-name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2__vehicle-metrics {
+  font-size: 12px;
+  color: var(--vf-gray);
+}
+
+.vinfast-autohaiphong_product_hamburger-menu-v2 .vinfast-autohaiphong_product_modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--vf-border);
+}
+
+.vinfast-autohaiphong_product_localeLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.vinfast-autohaiphong_product_blue-color {
+  color: var(--vf-blue);
+  font-weight: 700;
+}
+
+@keyframes vfFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vfSlideLeft {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
