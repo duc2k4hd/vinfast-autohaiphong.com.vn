@@ -620,17 +620,29 @@ window.VINFAST_PRODUCT_DATA = {
                     <p>Thiết kế công thái học tối ưu hoá từng centimet, mang lại trải nghiệm tiện nghi, trẻ trung và hiện đại</p>
                 </div>
 
-                {{-- Khối Bento Grid hình chữ nhật dài kết hợp nhiều hình dạng ảnh nội thất --}}
+                {{-- Khối Bento Grid to dài, xếp tầng xếp lớp nghệ thuật kết hợp nhiều hình dạng ảnh nội thất --}}
                 <div class="vinfast-autohaiphong_product_interior-bento" data-reveal>
+                    @php
+                        $totalItems = $interiorList->count();
+                    @endphp
                     @foreach($interiorList as $idx => $item)
                         @php
                             $shapeClass = 'vinfast-autohaiphong_product_interior-bento-item';
-                            if ($idx % 5 === 0) {
-                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-hero';
-                            } elseif ($idx % 5 === 1) {
-                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-wide';
+                            if ($totalItems === 1) {
+                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-full';
+                            } elseif ($totalItems === 2) {
+                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-half';
                             } else {
-                                $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-small';
+                                $mod = $idx % 6;
+                                if ($mod === 0) {
+                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-hero';
+                                } elseif ($mod === 1 || $mod === 2) {
+                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-stacked';
+                                } elseif ($mod === 3 || $mod === 4) {
+                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-half';
+                                } else {
+                                    $shapeClass .= ' vinfast-autohaiphong_product_interior-bento-full';
+                                }
                             }
                         @endphp
                         <div class="{{ $shapeClass }} vinfast-autohaiphong_product_lightbox-trigger"
