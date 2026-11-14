@@ -1529,79 +1529,211 @@ select:focus-visible,
 }
 /* Technical */
 .vinfast-autohaiphong_product_technical {
-    background: #202020;
-    color: #fff;
-    padding: 83px 0 84px;
+    background: #f8fafc;
+    color: #0f172a;
+    padding: 95px 0 100px;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    position: relative;
+}
+.vinfast-autohaiphong_product_technical-header {
+    text-align: center;
+    max-width: 860px;
+    margin: 0 auto 50px;
 }
 .vinfast-autohaiphong_product_technical h2 {
-    font-size: clamp(27px, 2.6vw, 39px);
-    font-weight: 400;
+    font-size: clamp(28px, 2.7vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    margin: 0 0 14px;
     text-align: center;
-    margin: 0 0 50px;
+}
+.vinfast-autohaiphong_product_technical-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
 }
 .vinfast-autohaiphong_product_technical-grid {
     display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    gap: 50px;
-    min-height: 290px;
+    grid-template-columns: 330px 1fr;
+    gap: 36px;
+    align-items: start;
+    min-height: 480px;
+}
+.vinfast-autohaiphong_product_technical-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
 }
 .vinfast-autohaiphong_product_technical-tabs button {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 0;
-    border-bottom: 1px solid #444;
-    color: #979797;
-    font-size: 18px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: #475569;
+    font-size: 15px;
+    font-weight: 500;
     background: transparent;
     text-align: left;
-    padding: 18px 10px;
+    padding: 13px 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.vinfast-autohaiphong_product_technical-tabs button:hover {
+    background: #f8fafc;
+    color: #0072bc;
+    border-color: #e2e8f0;
 }
 .vinfast-autohaiphong_product_technical-tabs
     button.vinfast-autohaiphong_product_is-active {
-    color: #fff;
+    background: #f0f7ff;
+    color: #0072bc;
+    border-color: #bae6fd;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 114, 188, 0.08);
 }
-.vinfast-autohaiphong_product_technical-tabs button span {
-    font-size: 25px;
+.vinfast-autohaiphong_product_spec-tab-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 8px;
+}
+.vinfast-autohaiphong_product_spec-tab-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.vinfast-autohaiphong_product_spec-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 9999px;
+    background: #e2e8f0;
+    color: #475569;
+    transition: all 0.2s ease;
+}
+.vinfast-autohaiphong_product_technical-tabs
+    button.vinfast-autohaiphong_product_is-active
+    .vinfast-autohaiphong_product_spec-tab-count {
+    background: #0072bc;
+    color: #ffffff;
+}
+.vinfast-autohaiphong_product_spec-tab-arrow {
+    font-size: 18px;
+    line-height: 1;
+    color: #94a3b8;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+.vinfast-autohaiphong_product_technical-tabs
+    button.vinfast-autohaiphong_product_is-active
+    .vinfast-autohaiphong_product_spec-tab-arrow {
+    color: #0072bc;
+    transform: translateX(2px);
 }
 .vinfast-autohaiphong_product_technical-panel {
-    background: #2e2e2e;
-    padding: 22px 24px;
-    min-height: 285px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 36px 40px;
+    box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.05);
+    min-height: 480px;
 }
-.vinfast-autohaiphong_product_technical-panel h3 {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 12px;
-}
-.vinfast-autohaiphong_product_spec-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    border-top: 1px solid #454545;
-    padding: 12px 0;
-    color: #dadada;
-    font-size: 13px;
-}
-.vinfast-autohaiphong_product_spec-row span:last-child {
-    font-weight: 600;
-    color: #fff;
-}
-.vinfast-autohaiphong_product_technical-note {
-    border-top: 1px solid #414141;
-    margin-top: 40px;
-    padding-top: 22px;
+.vinfast-autohaiphong_product_technical-panel-head {
     display: flex;
     justify-content: space-between;
-    align-items: end;
-    gap: 30px;
+    align-items: center;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 20px;
+    margin-bottom: 12px;
+}
+.vinfast-autohaiphong_product_technical-panel h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+.vinfast-autohaiphong_product_spec-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 14px;
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+.vinfast-autohaiphong_product_spec-list {
+    display: flex;
+    flex-direction: column;
+}
+.vinfast-autohaiphong_product_spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 16px 8px;
+    color: #334155;
+    font-size: 15px;
+    gap: 24px;
+    transition: background 0.15s ease;
+}
+.vinfast-autohaiphong_product_spec-row:last-child {
+    border-bottom: none;
+}
+.vinfast-autohaiphong_product_spec-row:hover {
+    background: #f8fafc;
+    border-radius: 6px;
+}
+.vinfast-autohaiphong_product_spec-row span:first-child,
+.vinfast-autohaiphong_product_spec-label {
+    font-weight: 450;
+    color: #475569;
+    flex: 1;
+    line-height: 1.5;
+}
+.vinfast-autohaiphong_product_spec-row span:last-child,
+.vinfast-autohaiphong_product_spec-val {
+    font-weight: 600;
+    color: #0f172a;
+    text-align: right;
+    flex-shrink: 0;
+    max-width: 60%;
+    line-height: 1.5;
+}
+.vinfast-autohaiphong_product_technical-note {
+    border-top: 1px solid #e2e8f0;
+    margin-top: 48px;
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
 }
 .vinfast-autohaiphong_product_technical-note p {
-    max-width: 780px;
-    color: #a9a9a9;
-    line-height: 1.8;
-    font-size: 11px;
+    max-width: 760px;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 13px;
     margin: 0;
 }
 .vinfast-autohaiphong_product_technical-note > div {
@@ -2521,52 +2653,80 @@ select:focus-visible,
         font-size: 12px;
     }
     .vinfast-autohaiphong_product_technical {
-        padding: 62px 0;
+        padding: 56px 0;
+    }
+    .vinfast-autohaiphong_product_technical-header {
+        margin-bottom: 28px;
     }
     .vinfast-autohaiphong_product_technical h2 {
-        margin-bottom: 28px;
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+    .vinfast-autohaiphong_product_technical-subtitle {
+        font-size: 13.5px;
     }
     .vinfast-autohaiphong_product_technical-grid {
         grid-template-columns: 1fr;
         gap: 20px;
     }
     .vinfast-autohaiphong_product_technical-tabs {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 6px;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 8px;
+        gap: 8px;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
     }
     .vinfast-autohaiphong_product_technical-tabs button {
-        font-size: 12px;
+        white-space: nowrap;
+        padding: 10px 14px;
+        font-size: 13.5px;
+        flex-shrink: 0;
+        width: auto;
         justify-content: center;
-        text-align: center;
-        padding: 10px 5px;
-        border: 1px solid #444;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
     }
-    .vinfast-autohaiphong_product_technical-tabs button span {
+    .vinfast-autohaiphong_product_technical-tabs button.vinfast-autohaiphong_product_is-active {
+        background: #f0f7ff;
+        border-color: #bae6fd;
+    }
+    .vinfast-autohaiphong_product_spec-tab-arrow {
         display: none;
     }
-    .vinfast-autohaiphong_product_technical-tabs
-        button.vinfast-autohaiphong_product_is-active {
-        border-color: #fff;
-    }
     .vinfast-autohaiphong_product_technical-panel {
-        padding: 17px;
+        padding: 22px 18px;
+        border-radius: 14px;
+        min-height: auto;
+    }
+    .vinfast-autohaiphong_product_technical-panel h3 {
+        font-size: 18px;
     }
     .vinfast-autohaiphong_product_spec-row {
-        font-size: 12px;
-        gap: 10px;
+        font-size: 14px;
+        padding: 12px 4px;
+        gap: 12px;
     }
     .vinfast-autohaiphong_product_technical-note {
-        margin-top: 26px;
+        margin-top: 28px;
+        padding-top: 20px;
         display: block;
     }
     .vinfast-autohaiphong_product_technical-note > div {
-        margin-top: 20px;
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
     .vinfast-autohaiphong_product_technical-note
         .vinfast-autohaiphong_product_btn {
-        padding: 10px 15px;
-        font-size: 11px;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 13.5px;
     }
     .vinfast-autohaiphong_product_ecosystem-grid {
         grid-template-columns: 1fr;

@@ -519,64 +519,90 @@ window.VINFAST_PRODUCT_DATA = {
             @endif
         </section>
 
-        {{-- SECTION 4: SO SÁNH CHI PHÍ VẬN HÀNH (EV VS ICE) --}}
-        <section class="vinfast-autohaiphong_product_compare vinfast-autohaiphong_product_section" 
-                 id="vf3-so-sanh"
-                 data-calc-ev-rate="{{ $comparison['ev_consumption'] }}"
-                 data-calc-ice-rate="{{ $comparison['ice_consumption'] }}">
+        {{-- SECTION 9: BẢNG THÔNG SỐ KỸ THUẬT (TECHNICAL SPECIFICATIONS) --}}
+        <section class="vinfast-autohaiphong_product_technical" id="vf3-thong-so">
             <div class="vinfast-autohaiphong_product_container">
-                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
-                    <h2>So sánh kinh tế giữa VinFast <strong>"{{ $car->name }}"</strong> và xe xăng cùng phân khúc</h2>
-                    <p>Định mức tiêu hao thực tế theo phân khúc {{ $comparison['segment_name'] }} giúp ước tính chính xác hiệu quả tiết kiệm chi phí</p>
+                <div class="vinfast-autohaiphong_product_technical-header" data-reveal>
+                    <h2>
+                        BẢNG THÔNG SỐ KỸ THUẬT XE {{ Str::upper($car->name) }}
+                    </h2>
+                    <p class="vinfast-autohaiphong_product_technical-subtitle">
+                        Chi tiết các thông số kích thước, hệ thống truyền động, trang bị tiện nghi và tính năng an toàn tiêu chuẩn
+                    </p>
                 </div>
-                <div class="vinfast-autohaiphong_product_compare-grid" data-reveal>
-                    <div class="vinfast-autohaiphong_product_compare-form">
-                        <h3>Ước tính chi phí năng lượng di chuyển hằng năm</h3>
-                        <p class="vinfast-autohaiphong_product_muted">
-                            Dựa trên định mức tiêu chuẩn của VinFast <strong>"{{ $car->name }}"</strong> và dòng xe động cơ đốt trong tương đương (chưa bao gồm chi phí bảo dưỡng và khấu hao).
-                        </p>
-                        <label class="vinfast-autohaiphong_product_field">
-                            <span>Quãng đường di chuyển mỗi năm</span>
-                            <input type="range" min="3000" max="35000" step="1000" value="{{ $comparison['default_distance'] }}" data-calc="distance" />
-                            <output data-calc-label="distance">{{ number_format($comparison['default_distance'], 0, ',', '.') }} km</output>
-                        </label>
-                        <label class="vinfast-autohaiphong_product_field">
-                            <span>Giá điện sinh hoạt / trụ sạc (VNĐ/kWh)</span>
-                            <input type="number" min="0" step="100" value="{{ $comparison['default_electricity_price'] }}" data-calc="electricity" />
-                        </label>
-                        <label class="vinfast-autohaiphong_product_field">
-                            <span>Giá xăng RON 95 tham chiếu (VNĐ/lít)</span>
-                            <input type="number" min="0" step="100" value="{{ $comparison['default_petrol_price'] }}" data-calc="petrol" />
-                        </label>
-                        <div class="vinfast-autohaiphong_product_compare-results">
-                            <div>
-                                <span>VinFast {{ $car->name }} · {{ $comparison['ev_consumption'] }} kWh/100km</span>
-                                <strong data-calc-result="electric">{{ number_format($comparison['initial_ev_cost'], 0, ',', '.') }} ₫</strong>
-                            </div>
-                            <div>
-                                <span>{{ $comparison['ice_label'] }} · {{ $comparison['ice_consumption'] }} lít/100km</span>
-                                <strong data-calc-result="petrol">{{ number_format($comparison['initial_ice_cost'], 0, ',', '.') }} ₫</strong>
-                            </div>
-                        </div>
-                        <p class="vinfast-autohaiphong_product_saving">
-                            <span>Tiết kiệm chi phí năng lượng mỗi năm:</span>
-                            <strong data-calc-result="saving">{{ number_format($comparison['initial_saving'], 0, ',', '.') }} ₫/năm</strong>
-                        </p>
+
+                <div class="vinfast-autohaiphong_product_technical-grid">
+                    <div class="vinfast-autohaiphong_product_technical-tabs" role="tablist" aria-label="Nhóm thông số">
+                        @if($specGroups->isNotEmpty())
+                            @foreach($specGroups as $gName => $gSpecs)
+                                @php $gSlug = Str::slug($gName); @endphp
+                                <button class="{{ $loop->first ? 'vinfast-autohaiphong_product_is-active' : '' }}"
+                                        type="button"
+                                        role="tab"
+                                        aria-selected="{{ $loop->first ? 'true' : 'false' }}"
+                                        data-spec-tab="{{ $gSlug }}">
+                                    <span class="vinfast-autohaiphong_product_spec-tab-title">{{ $gName }}</span>
+                                    <span class="vinfast-autohaiphong_product_spec-tab-meta">
+                                        <span class="vinfast-autohaiphong_product_spec-tab-count">{{ $gSpecs->count() }}</span>
+                                        <span class="vinfast-autohaiphong_product_spec-tab-arrow">›</span>
+                                    </span>
+                                </button>
+                            @endforeach
+                        @else
+                            <button class="vinfast-autohaiphong_product_is-active" type="button" role="tab" aria-selected="true" data-spec-tab="general">
+                                <span class="vinfast-autohaiphong_product_spec-tab-title">Thông số tổng quan</span>
+                                <span class="vinfast-autohaiphong_product_spec-tab-meta">
+                                    <span class="vinfast-autohaiphong_product_spec-tab-arrow">›</span>
+                                </span>
+                            </button>
+                        @endif
                     </div>
 
-                    <div class="vinfast-autohaiphong_product_compare-story">
-                        <div class="vinfast-autohaiphong_product_compare-story-top">
-                            <span class="vinfast-autohaiphong_product_leaf">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-                                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-                                </svg>
-                            </span>
-                            <h3>Lựa chọn di chuyển xanh · {{ $comparison['segment_name'] }}</h3>
-                            <p>Không phát thải khí nhà kính từ ống xả, chi phí nhiên liệu chỉ bằng khoảng 1/3 đến 1/4 so với xe xăng cùng phân khúc, vận hành êm ái vượt bậc.</p>
+                    <div class="vinfast-autohaiphong_product_technical-panel" role="tabpanel">
+                        <div class="vinfast-autohaiphong_product_technical-panel-head">
+                            <h3 data-spec-title>
+                                {{ $specGroups->isNotEmpty() ? $specGroups->keys()->first() : 'Thông số kỹ thuật' }}
+                            </h3>
+                            <span class="vinfast-autohaiphong_product_spec-badge">Chính hãng VinFast</span>
                         </div>
-                        <img src="{{ $mainCarImage }}" alt="{{ $car->name }}" loading="lazy" />
-                        <p>Thông số so sánh thực tế theo phân khúc {{ $comparison['segment_name'] }}, minh chứng lợi thế tài chính lâu dài của xe điện VinFast.</p>
+
+                        <div data-spec-content class="vinfast-autohaiphong_product_spec-list">
+                            @if($specGroups->isNotEmpty())
+                                @foreach($specGroups->first() as $sp)
+                                    <div class="vinfast-autohaiphong_product_spec-row">
+                                        <span class="vinfast-autohaiphong_product_spec-label">{{ $sp->label }}</span>
+                                        <span class="vinfast-autohaiphong_product_spec-val">{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</span>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="vinfast-autohaiphong_product_spec-row">
+                                    <span class="vinfast-autohaiphong_product_spec-label">Tên dòng xe</span>
+                                    <span class="vinfast-autohaiphong_product_spec-val">{{ $car->name }}</span>
+                                </div>
+                                <div class="vinfast-autohaiphong_product_spec-row">
+                                    <span class="vinfast-autohaiphong_product_spec-label">Mã định danh (SKU)</span>
+                                    <span class="vinfast-autohaiphong_product_spec-val">{{ $car->sku ?? 'VF-MODEL' }}</span>
+                                </div>
+                                <div class="vinfast-autohaiphong_product_spec-row">
+                                    <span class="vinfast-autohaiphong_product_spec-label">Phân khúc</span>
+                                    <span class="vinfast-autohaiphong_product_spec-val">{{ $car->category_name ?? 'Ô tô điện thông minh' }}</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vinfast-autohaiphong_product_technical-note">
+                    <p>
+                        (*) Thông số và chính sách bán hàng có thể thay đổi theo thông báo chính thức của VinFast Việt Nam tại từng thời điểm. Quý khách vui lòng liên hệ trực tiếp Showroom VinFast Minh Đạo Hải Phòng để nhận thông tin cập nhật mới nhất.
+                    </p>
+                    <div>
+                        <a href="#vf3-so-sanh" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-primary">
+                            So sánh chi phí xe
+                        </a>
+                        <button type="button" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-outline" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
+                            Yêu cầu tư vấn kỹ thuật
+                        </button>
                     </div>
                 </div>
             </div>
@@ -733,74 +759,64 @@ window.VINFAST_PRODUCT_DATA = {
             </div>
         </section>
 
-        {{-- SECTION 9: BẢNG THÔNG SỐ KỸ THUẬT (TECHNICAL SPECIFICATIONS) --}}
-        <section class="vinfast-autohaiphong_product_technical" id="vf3-thong-so">
+        {{-- SECTION 4: SO SÁNH CHI PHÍ VẬN HÀNH (EV VS ICE) --}}
+        <section class="vinfast-autohaiphong_product_compare vinfast-autohaiphong_product_section" 
+                 id="vf3-so-sanh"
+                 data-calc-ev-rate="{{ $comparison['ev_consumption'] }}"
+                 data-calc-ice-rate="{{ $comparison['ice_consumption'] }}">
             <div class="vinfast-autohaiphong_product_container">
-                <h2 data-reveal style="color: #ffffff; margin-bottom: 24px;">
-                    BẢNG THÔNG SỐ KỸ THUẬT XE {{ Str::upper($car->name) }}
-                </h2>
-
-                <div class="vinfast-autohaiphong_product_technical-grid">
-                    <div class="vinfast-autohaiphong_product_technical-tabs" role="tablist" aria-label="Nhóm thông số">
-                        @if($specGroups->isNotEmpty())
-                            @foreach($specGroups as $gName => $gSpecs)
-                                @php $gSlug = Str::slug($gName); @endphp
-                                <button class="{{ $loop->first ? 'vinfast-autohaiphong_product_is-active' : '' }}"
-                                        type="button"
-                                        role="tab"
-                                        aria-selected="{{ $loop->first ? 'true' : 'false' }}"
-                                        data-spec-tab="{{ $gSlug }}">
-                                    {{ $gName }} <span>›</span>
-                                </button>
-                            @endforeach
-                        @else
-                            <button class="vinfast-autohaiphong_product_is-active" type="button" role="tab" aria-selected="true" data-spec-tab="general">
-                                Thông số tổng quan <span>›</span>
-                            </button>
-                        @endif
-                    </div>
-
-                    <div class="vinfast-autohaiphong_product_technical-panel" role="tabpanel">
-                        <h3 data-spec-title style="color: #ffffff;">
-                            {{ $specGroups->isNotEmpty() ? $specGroups->keys()->first() : 'Thông số kỹ thuật' }}
-                        </h3>
-                        <div data-spec-content>
-                            @if($specGroups->isNotEmpty())
-                                @foreach($specGroups->first() as $sp)
-                                    <div class="vinfast-autohaiphong_product_spec-row">
-                                        <span>{{ $sp->label }}</span>
-                                        <span>{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</span>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="vinfast-autohaiphong_product_spec-row">
-                                    <span>Tên dòng xe</span>
-                                    <span>{{ $car->name }}</span>
-                                </div>
-                                <div class="vinfast-autohaiphong_product_spec-row">
-                                    <span>Mã định danh (SKU)</span>
-                                    <span>{{ $car->sku ?? 'VF-MODEL' }}</span>
-                                </div>
-                                <div class="vinfast-autohaiphong_product_spec-row">
-                                    <span>Phân khúc</span>
-                                    <span>{{ $car->category_name ?? 'Ô tô điện thông minh' }}</span>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
+                    <h2>So sánh kinh tế giữa VinFast <strong>"{{ $car->name }}"</strong> và xe xăng cùng phân khúc</h2>
+                    <p>Định mức tiêu hao thực tế theo phân khúc {{ $comparison['segment_name'] }} giúp ước tính chính xác hiệu quả tiết kiệm chi phí</p>
                 </div>
+                <div class="vinfast-autohaiphong_product_compare-grid" data-reveal>
+                    <div class="vinfast-autohaiphong_product_compare-form">
+                        <h3>Ước tính chi phí năng lượng di chuyển hằng năm</h3>
+                        <p class="vinfast-autohaiphong_product_muted">
+                            Dựa trên định mức tiêu chuẩn của VinFast <strong>"{{ $car->name }}"</strong> và dòng xe động cơ đốt trong tương đương (chưa bao gồm chi phí bảo dưỡng và khấu hao).
+                        </p>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Quãng đường di chuyển mỗi năm</span>
+                            <input type="range" min="3000" max="35000" step="1000" value="{{ $comparison['default_distance'] }}" data-calc="distance" />
+                            <output data-calc-label="distance">{{ number_format($comparison['default_distance'], 0, ',', '.') }} km</output>
+                        </label>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Giá điện sinh hoạt / trụ sạc (VNĐ/kWh)</span>
+                            <input type="number" min="0" step="100" value="{{ $comparison['default_electricity_price'] }}" data-calc="electricity" />
+                        </label>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Giá xăng RON 95 tham chiếu (VNĐ/lít)</span>
+                            <input type="number" min="0" step="100" value="{{ $comparison['default_petrol_price'] }}" data-calc="petrol" />
+                        </label>
+                        <div class="vinfast-autohaiphong_product_compare-results">
+                            <div>
+                                <span>VinFast {{ $car->name }} · {{ $comparison['ev_consumption'] }} kWh/100km</span>
+                                <strong data-calc-result="electric">{{ number_format($comparison['initial_ev_cost'], 0, ',', '.') }} ₫</strong>
+                            </div>
+                            <div>
+                                <span>{{ $comparison['ice_label'] }} · {{ $comparison['ice_consumption'] }} lít/100km</span>
+                                <strong data-calc-result="petrol">{{ number_format($comparison['initial_ice_cost'], 0, ',', '.') }} ₫</strong>
+                            </div>
+                        </div>
+                        <p class="vinfast-autohaiphong_product_saving">
+                            <span>Tiết kiệm chi phí năng lượng mỗi năm:</span>
+                            <strong data-calc-result="saving">{{ number_format($comparison['initial_saving'], 0, ',', '.') }} ₫/năm</strong>
+                        </p>
+                    </div>
 
-                <div class="vinfast-autohaiphong_product_technical-note">
-                    <p>
-                        (*) Thông số và chính sách bán hàng có thể thay đổi theo thông báo chính thức của VinFast Việt Nam tại từng thời điểm. Quý khách vui lòng liên hệ trực tiếp Showroom VinFast Minh Đạo Hải Phòng để nhận thông tin cập nhật mới nhất.
-                    </p>
-                    <div>
-                        <a href="#vf3-so-sanh" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-light">
-                            So sánh chi phí xe
-                        </a>
-                        <button type="button" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-primary" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
-                            Yêu cầu tư vấn kỹ thuật
-                        </button>
+                    <div class="vinfast-autohaiphong_product_compare-story">
+                        <div class="vinfast-autohaiphong_product_compare-story-top">
+                            <span class="vinfast-autohaiphong_product_leaf">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                                    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+                                </svg>
+                            </span>
+                            <h3>Lựa chọn di chuyển xanh · {{ $comparison['segment_name'] }}</h3>
+                            <p>Không phát thải khí nhà kính từ ống xả, chi phí nhiên liệu chỉ bằng khoảng 1/3 đến 1/4 so với xe xăng cùng phân khúc, vận hành êm ái vượt bậc.</p>
+                        </div>
+                        <img src="{{ $mainCarImage }}" alt="{{ $car->name }}" loading="lazy" />
+                        <p>Thông số so sánh thực tế theo phân khúc {{ $comparison['segment_name'] }}, minh chứng lợi thế tài chính lâu dài của xe điện VinFast.</p>
                     </div>
                 </div>
             </div>

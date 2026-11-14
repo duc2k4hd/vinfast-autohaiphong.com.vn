@@ -303,6 +303,8 @@ export function initProductThemeV1() {
           row.className = P + 'spec-row';
           const left = document.createElement('span');
           const right = document.createElement('span');
+          left.className = P + 'spec-label';
+          right.className = P + 'spec-val';
           left.textContent = name;
           right.textContent = value;
           row.append(left, right);

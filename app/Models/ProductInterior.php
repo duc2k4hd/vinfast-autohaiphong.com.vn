@@ -57,4 +57,3 @@ class ProductInterior extends Model
         return $this->belongsTo(Media::class, 'image_media_id');
     }
 }
-
