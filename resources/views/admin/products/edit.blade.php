@@ -198,57 +198,78 @@
         gap: 10px;
     }
 
-    /* Quick Anchor Nav */
+    /* Quick Anchor Nav - Gọn gàng, chuyên nghiệp, không thanh scroll, ít bo tròn, ít padding */
     .vf-admin-quick-nav {
         position: sticky;
         top: 0;
         z-index: 50;
         display: flex;
-        gap: 8px;
+        gap: 6px;
+        align-items: center;
         overflow-x: auto;
-        padding: 10px 28px 12px 28px;
-        margin: 0 -28px 20px -28px;
-        background: rgba(248, 250, 252, 0.95);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        padding: 7px 20px;
+        margin: -6px -28px 16px -28px;
+        background: #ffffff;
         border-bottom: 1px solid var(--admin-border);
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-        scrollbar-width: thin;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        
+        /* Ẩn hoàn toàn thanh cuộn ngang */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .vf-admin-quick-nav::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
     }
     .vf-admin-quick-nav-pill {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 6px 14px;
-        background: #ffffff;
-        border: 1px solid var(--admin-border);
-        border-radius: 20px;
-        font-size: 0.8rem;
+        gap: 5px;
+        padding: 4px 9px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        font-size: 0.77rem;
         font-weight: 600;
-        color: var(--admin-text);
+        color: #475569;
         white-space: nowrap;
         cursor: pointer;
-        transition: all 0.15s ease;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        transition: all 0.12s ease;
+        line-height: 1.25;
     }
     .vf-admin-quick-nav-pill:hover {
-        background: #eff6ff;
+        background: #f1f5f9;
         color: var(--admin-primary);
-        border-color: #bfdbfe;
+        border-color: #cbd5e1;
     }
     .vf-admin-quick-nav-pill.active {
         background: var(--admin-primary);
         color: #ffffff;
         border-color: var(--admin-primary);
-        box-shadow: 0 2px 6px rgba(20, 100, 244, 0.25);
+        box-shadow: 0 1px 3px rgba(20, 100, 244, 0.25);
     }
     .vf-admin-quick-nav-pill.active span {
         color: #ffffff;
     }
+    .vf-admin-quick-nav-pill .vf-admin-card-badge {
+        font-size: 0.68rem;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 3px;
+        line-height: 1.1;
+        background: #e2e8f0;
+        color: #475569;
+        border: none;
+    }
+    .vf-admin-quick-nav-pill:hover .vf-admin-card-badge {
+        background: #dbeafe;
+        color: #1e40af;
+    }
     .vf-admin-quick-nav-pill.active .vf-admin-card-badge {
-        background: rgba(255, 255, 255, 0.28);
+        background: rgba(255, 255, 255, 0.25);
         color: #ffffff;
-        border-color: rgba(255, 255, 255, 0.4);
+        border: none;
     }
 
     /* Scroll Margin for smooth jump navigation */
@@ -257,7 +278,7 @@
     }
     .vinfast-autohaiphong_admin_card,
     .vf-admin-section-grid {
-        scroll-margin-top: 75px;
+        scroll-margin-top: 55px;
     }
 
     /* Preview items */
@@ -2393,6 +2414,17 @@ function initQuickNavScrollSpy() {
     const navPills = Array.from(document.querySelectorAll('.vf-admin-quick-nav-pill'));
     if (!navPills.length) return;
 
+    const quickNav = document.querySelector('.vf-admin-quick-nav');
+    if (quickNav) {
+        // Hỗ trợ cuộn ngang mượt mà khi lăn chuột con lăn mà không cần thanh cuộn hiển thị
+        quickNav.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0 && quickNav.scrollWidth > quickNav.clientWidth) {
+                e.preventDefault();
+                quickNav.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+    }
+
     const sections = navPills.map(pill => {
         const hash = pill.getAttribute('href');
         if (hash && hash.startsWith('#')) {
@@ -2420,9 +2452,8 @@ function initQuickNavScrollSpy() {
     function onScrollSpy() {
         if (isClickScrolling) return;
 
-        const quickNav = document.querySelector('.vf-admin-quick-nav');
-        const navHeight = quickNav ? quickNav.offsetHeight : 50;
-        const scrollPos = window.scrollY + navHeight + 80;
+        const navHeight = quickNav ? quickNav.offsetHeight : 45;
+        const scrollPos = window.scrollY + navHeight + 60;
 
         let activeIndex = -1;
 
