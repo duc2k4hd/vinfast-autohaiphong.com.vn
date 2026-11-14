@@ -1,4 +1,5 @@
 @import "./variables.css";
+@import "./product-theme-v1.css";
 
 /* Reset cơ bản */
 *, *::before, *::after {

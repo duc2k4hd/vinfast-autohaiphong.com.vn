@@ -1,8 +1,11 @@
 /**
  * VinFast Hải Phòng — Client JavaScript Module
  */
+import { initProductThemeV1 } from './product-theme-v1';
 
 document.addEventListener('DOMContentLoaded', () => {
+    initProductThemeV1();
+
     // 1. Mobile Menu Toggle
     const mobileMenuBtn = document.querySelector('[data-vf-mobile-toggle]');
     const mobileMenu = document.querySelector('[data-vf-mobile-menu]');

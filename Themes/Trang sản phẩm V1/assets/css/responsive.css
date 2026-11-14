@@ -1,5 +1,442 @@
-@media(max-width:1199px){.vinfast-autohaiphong_product_nav-shell{padding:0 22px}.vinfast-autohaiphong_product_nav{gap:13px}.vinfast-autohaiphong_product_nav a{font-size:12px}.vinfast-autohaiphong_product_header-actions{gap:9px}.vinfast-autohaiphong_product_intro-grid{gap:3%}.vinfast-autohaiphong_product_intro-car{width:98%}.vinfast-autohaiphong_product_footer-grid{gap:24px}}
-@media(max-width:900px){.vinfast-autohaiphong_product_nav{display:none}.vinfast-autohaiphong_product_nav-shell{justify-content:space-between}.vinfast-autohaiphong_product_header-link{display:none}.vinfast-autohaiphong_product_menu-toggle{display:flex}.vinfast-autohaiphong_product_mobile-nav{position:absolute;left:0;right:0;top:100%;background:#fff;box-shadow:0 8px 20px #0002;display:grid;padding:9px 24px 24px;gap:0}.vinfast-autohaiphong_product_mobile-nav a,.vinfast-autohaiphong_product_mobile-nav button{background:none;border:0;border-bottom:1px solid #edf0f3;font-size:14px;text-align:left;padding:14px 4px}.vinfast-autohaiphong_product_mobile-nav button{color:var(--vf-blue);font-weight:700}.vinfast-autohaiphong_product_intro-grid{grid-template-columns:1fr 1fr;gap:10px}.vinfast-autohaiphong_product_intro-watermark{letter-spacing:-12px;font-size:clamp(90px,17vw,175px)}.vinfast-autohaiphong_product_intro-visual{min-height:380px}.vinfast-autohaiphong_product_intro-cta{gap:8px}.vinfast-autohaiphong_product_intro-cta .vinfast-autohaiphong_product_btn{width:100%}.vinfast-autohaiphong_product_technical-grid{gap:30px}.vinfast-autohaiphong_product_ecosystem-grid{gap:3%}}
-@media(max-width:767px){html{scroll-padding-top:60px}.vinfast-autohaiphong_product_header{height:58px}.vinfast-autohaiphong_product_nav-shell{padding:0 15px}.vinfast-autohaiphong_product_brand{font-size:14px;letter-spacing:1.4px}.vinfast-autohaiphong_product_brand-mark{width:23px}.vinfast-autohaiphong_product_header-deposit{padding:7px 9px;min-height:33px;font-size:11px}.vinfast-autohaiphong_product_container{padding:0 19px}.vinfast-autohaiphong_product_section{padding:63px 0}.vinfast-autohaiphong_product_section-head{margin-bottom:30px}.vinfast-autohaiphong_product_section-head h1,.vinfast-autohaiphong_product_section-head h2{font-size:27px;letter-spacing:-.6px}.vinfast-autohaiphong_product_section-head p{font-size:13px}.vinfast-autohaiphong_product_hero-slider{height:60vw;min-height:245px;max-height:410px}.vinfast-autohaiphong_product_hero-slide img{object-position:50% 50%}.vinfast-autohaiphong_product_hero-arrow{opacity:1;background:#0001;width:27px;height:43px;font-size:30px}.vinfast-autohaiphong_product_intro{padding-top:50px}.vinfast-autohaiphong_product_intro-grid{grid-template-columns:1fr;gap:0;min-height:unset}.vinfast-autohaiphong_product_intro-visual{min-height:300px;margin:-8px auto 0;max-width:450px;width:100%}.vinfast-autohaiphong_product_intro-watermark{top:7px;font-size:clamp(125px,29vw,210px);letter-spacing:-16px}.vinfast-autohaiphong_product_intro-car{width:100%;max-width:430px;max-height:270px}.vinfast-autohaiphong_product_intro-info{max-width:440px;margin:0 auto;width:100%}.vinfast-autohaiphong_product_spec-highlights{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.vinfast-autohaiphong_product_spec-highlights strong{font-size:15px;line-height:1.3;display:block}.vinfast-autohaiphong_product_spec-highlights strong small{font-size:10px}.vinfast-autohaiphong_product_spec-highlights p{font-size:11px}.vinfast-autohaiphong_product_intro-price{margin:16px 0}.vinfast-autohaiphong_product_intro-price strong{font-size:20px}.vinfast-autohaiphong_product_intro-cta{display:grid;grid-template-columns:1fr 1fr}.vinfast-autohaiphong_product_intro-cta .vinfast-autohaiphong_product_btn{white-space:normal;font-size:11px;padding:11px 6px}.vinfast-autohaiphong_product_colors{padding:55px 0 55px}.vinfast-autohaiphong_product_color-stage{min-height:255px}.vinfast-autohaiphong_product_color-car{height:185px;width:96%}.vinfast-autohaiphong_product_color-switcher{gap:8px}.vinfast-autohaiphong_product_swatches{gap:8px}.vinfast-autohaiphong_product_color-dot{width:19px;height:19px}.vinfast-autohaiphong_product_color-notice{font-size:10px}.vinfast-autohaiphong_product_compare{padding-top:65px}.vinfast-autohaiphong_product_compare-grid{grid-template-columns:1fr;gap:46px}.vinfast-autohaiphong_product_compare-results{gap:8px}.vinfast-autohaiphong_product_compare-results strong{font-size:18px}.vinfast-autohaiphong_product_compare-story img{width:130px;height:82px;top:-22px}.vinfast-autohaiphong_product_compare-story-top{padding:24px 18px}.vinfast-autohaiphong_product_image-banner{height:54vw;min-height:235px}.vinfast-autohaiphong_product_image-banner>span{font-size:90px;bottom:-32px}.vinfast-autohaiphong_product_design{padding:64px 0 40px}.vinfast-autohaiphong_product_design-head{grid-template-columns:1fr;gap:28px;margin-bottom:26px}.vinfast-autohaiphong_product_design-head h2{font-size:26px}.vinfast-autohaiphong_product_design-gallery{height:260px}.vinfast-autohaiphong_product_gallery-arrow{height:37px;width:37px;font-size:28px}.vinfast-autohaiphong_product_mosaic-main{height:280px}.vinfast-autohaiphong_product_mosaic-row>div{height:210px}.vinfast-autohaiphong_product_mosaic-thumbs{gap:7px;padding:25px 12px 10px}.vinfast-autohaiphong_product_mosaic-thumbs button{height:135px}.vinfast-autohaiphong_product_mosaic-thumbs span{font-size:9px;bottom:8px;left:7px;line-height:1.3}.vinfast-autohaiphong_product_interior-image{height:280px}.vinfast-autohaiphong_product_interior-label{right:10px;bottom:10px;font-size:12px}.vinfast-autohaiphong_product_technical{padding:62px 0}.vinfast-autohaiphong_product_technical h2{margin-bottom:28px}.vinfast-autohaiphong_product_technical-grid{grid-template-columns:1fr;gap:20px}.vinfast-autohaiphong_product_technical-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.vinfast-autohaiphong_product_technical-tabs button{font-size:12px;justify-content:center;text-align:center;padding:10px 5px;border:1px solid #444}.vinfast-autohaiphong_product_technical-tabs button span{display:none}.vinfast-autohaiphong_product_technical-tabs button.vinfast-autohaiphong_product_is-active{border-color:#fff}.vinfast-autohaiphong_product_technical-panel{padding:17px}.vinfast-autohaiphong_product_spec-row{font-size:12px;gap:10px}.vinfast-autohaiphong_product_technical-note{margin-top:26px;display:block}.vinfast-autohaiphong_product_technical-note>div{margin-top:20px}.vinfast-autohaiphong_product_technical-note .vinfast-autohaiphong_product_btn{padding:10px 15px;font-size:11px}.vinfast-autohaiphong_product_ecosystem-grid{grid-template-columns:1fr;gap:32px}.vinfast-autohaiphong_product_ecosystem-map{min-height:300px}.vinfast-autohaiphong_product_ecosystem-map img{height:300px}.vinfast-autohaiphong_product_bottom-hero{height:330px}.vinfast-autohaiphong_product_bottom-overlay{top:11%}.vinfast-autohaiphong_product_bottom-overlay h2{font-size:39px}.vinfast-autohaiphong_product_bottom-overlay .vinfast-autohaiphong_product_btn{font-size:11px;padding:9px 11px}.vinfast-autohaiphong_product_footer-grid{grid-template-columns:1fr 1fr;gap:27px}.vinfast-autohaiphong_product_footer-grid>div:first-child{grid-column:1/-1}.vinfast-autohaiphong_product_floating{right:11px;bottom:20px}.vinfast-autohaiphong_product_float-button{width:43px;height:43px}.vinfast-autohaiphong_product_footer-bottom{flex-wrap:wrap;gap:10px}.vinfast-autohaiphong_product_modal-dialog{padding:28px 23px}}
-@media(max-width:380px){.vinfast-autohaiphong_product_brand{font-size:12px}.vinfast-autohaiphong_product_header-deposit{font-size:10px;padding:7px}.vinfast-autohaiphong_product_intro-visual{min-height:245px}.vinfast-autohaiphong_product_intro-car{max-height:220px}.vinfast-autohaiphong_product_intro-watermark{letter-spacing:-10px}.vinfast-autohaiphong_product_spec-highlights strong{font-size:13px}.vinfast-autohaiphong_product_color-dot{width:17px;height:17px}.vinfast-autohaiphong_product_swatches{gap:6px}.vinfast-autohaiphong_product_color-switcher{gap:7px}.vinfast-autohaiphong_product_compare-results strong{font-size:15px}.vinfast-autohaiphong_product_mosaic-thumbs button{height:112px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.vinfast-autohaiphong_product_js-reveal [data-reveal]{opacity:1!important;transform:none!important}}
+@media (max-width: 1199px) {
+    .vinfast-autohaiphong_product_nav-shell {
+        padding: 0 22px;
+    }
+    .vinfast-autohaiphong_product_nav {
+        gap: 13px;
+    }
+    .vinfast-autohaiphong_product_nav a {
+        font-size: 12px;
+    }
+    .vinfast-autohaiphong_product_header-actions {
+        gap: 9px;
+    }
+    .vinfast-autohaiphong_product_intro-grid {
+        gap: 3%;
+    }
+    .vinfast-autohaiphong_product_intro-car {
+        width: 98%;
+    }
+    .vinfast-autohaiphong_product_footer-grid {
+        gap: 24px;
+    }
+}
+@media (max-width: 900px) {
+    .vinfast-autohaiphong_product_nav {
+        display: none;
+    }
+    .vinfast-autohaiphong_product_nav-shell {
+        justify-content: space-between;
+    }
+    .vinfast-autohaiphong_product_header-link {
+        display: none;
+    }
+    .vinfast-autohaiphong_product_menu-toggle {
+        display: flex;
+    }
+    .vinfast-autohaiphong_product_mobile-nav {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        background: #fff;
+        box-shadow: 0 8px 20px #0002;
+        display: grid;
+        padding: 9px 24px 24px;
+        gap: 0;
+    }
+    .vinfast-autohaiphong_product_mobile-nav a,
+    .vinfast-autohaiphong_product_mobile-nav button {
+        background: none;
+        border: 0;
+        border-bottom: 1px solid #edf0f3;
+        font-size: 14px;
+        text-align: left;
+        padding: 14px 4px;
+    }
+    .vinfast-autohaiphong_product_mobile-nav button {
+        color: var(--vf-blue);
+        font-weight: 700;
+    }
+    .vinfast-autohaiphong_product_intro-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .vinfast-autohaiphong_product_intro-watermark {
+        letter-spacing: -12px;
+        font-size: clamp(90px, 17vw, 175px);
+    }
+    .vinfast-autohaiphong_product_intro-visual {
+        min-height: 380px;
+    }
+    .vinfast-autohaiphong_product_intro-cta {
+        gap: 8px;
+    }
+    .vinfast-autohaiphong_product_intro-cta .vinfast-autohaiphong_product_btn {
+        width: 100%;
+    }
+    .vinfast-autohaiphong_product_technical-grid {
+        gap: 30px;
+    }
+    .vinfast-autohaiphong_product_ecosystem-grid {
+        gap: 3%;
+    }
+}
+@media (max-width: 767px) {
+    html {
+        scroll-padding-top: 60px;
+    }
+    .vinfast-autohaiphong_product_header {
+        height: 58px;
+    }
+    .vinfast-autohaiphong_product_nav-shell {
+        padding: 0 15px;
+    }
+    .vinfast-autohaiphong_product_brand {
+        font-size: 14px;
+        letter-spacing: 1.4px;
+    }
+    .vinfast-autohaiphong_product_brand-mark {
+        width: 23px;
+    }
+    .vinfast-autohaiphong_product_header-deposit {
+        padding: 7px 9px;
+        min-height: 33px;
+        font-size: 11px;
+    }
+    .vinfast-autohaiphong_product_container {
+        padding: 0 19px;
+    }
+    .vinfast-autohaiphong_product_section {
+        padding: 63px 0;
+    }
+    .vinfast-autohaiphong_product_section-head {
+        margin-bottom: 30px;
+    }
+    .vinfast-autohaiphong_product_section-head h1,
+    .vinfast-autohaiphong_product_section-head h2 {
+        font-size: 27px;
+        letter-spacing: -0.6px;
+    }
+    .vinfast-autohaiphong_product_section-head p {
+        font-size: 13px;
+    }
+    .vinfast-autohaiphong_product_hero-slider {
+        height: 60vw;
+        min-height: 245px;
+        max-height: 410px;
+    }
+    .vinfast-autohaiphong_product_hero-slide img {
+        object-position: 50% 50%;
+    }
+    .vinfast-autohaiphong_product_hero-arrow {
+        opacity: 1;
+        background: #0001;
+        width: 27px;
+        height: 43px;
+        font-size: 30px;
+    }
+    .vinfast-autohaiphong_product_intro {
+        padding-top: 50px;
+    }
+    .vinfast-autohaiphong_product_intro-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+        min-height: unset;
+    }
+    .vinfast-autohaiphong_product_intro-visual {
+        min-height: 300px;
+        margin: -8px auto 0;
+        max-width: 450px;
+        width: 100%;
+    }
+    .vinfast-autohaiphong_product_intro-watermark {
+        top: 7px;
+        font-size: clamp(125px, 29vw, 210px);
+        letter-spacing: -16px;
+    }
+    .vinfast-autohaiphong_product_intro-car {
+        width: 100%;
+        max-width: 430px;
+        max-height: 270px;
+    }
+    .vinfast-autohaiphong_product_intro-info {
+        max-width: 440px;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .vinfast-autohaiphong_product_spec-highlights {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+    }
+    .vinfast-autohaiphong_product_spec-highlights strong {
+        font-size: 15px;
+        line-height: 1.3;
+        display: block;
+    }
+    .vinfast-autohaiphong_product_spec-highlights strong small {
+        font-size: 10px;
+    }
+    .vinfast-autohaiphong_product_spec-highlights p {
+        font-size: 11px;
+    }
+    .vinfast-autohaiphong_product_intro-price {
+        margin: 16px 0;
+    }
+    .vinfast-autohaiphong_product_intro-price strong {
+        font-size: 20px;
+    }
+    .vinfast-autohaiphong_product_intro-cta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    .vinfast-autohaiphong_product_intro-cta .vinfast-autohaiphong_product_btn {
+        white-space: normal;
+        font-size: 11px;
+        padding: 11px 6px;
+    }
+    .vinfast-autohaiphong_product_colors {
+        padding: 55px 0 55px;
+    }
+    .vinfast-autohaiphong_product_color-stage {
+        min-height: 255px;
+    }
+    .vinfast-autohaiphong_product_color-car {
+        height: 185px;
+        width: 96%;
+    }
+    .vinfast-autohaiphong_product_color-switcher {
+        gap: 8px;
+    }
+    .vinfast-autohaiphong_product_swatches {
+        gap: 8px;
+    }
+    .vinfast-autohaiphong_product_color-dot {
+        width: 19px;
+        height: 19px;
+    }
+    .vinfast-autohaiphong_product_color-notice {
+        font-size: 10px;
+    }
+    .vinfast-autohaiphong_product_compare {
+        padding-top: 65px;
+    }
+    .vinfast-autohaiphong_product_compare-grid {
+        grid-template-columns: 1fr;
+        gap: 46px;
+    }
+    .vinfast-autohaiphong_product_compare-results {
+        gap: 8px;
+    }
+    .vinfast-autohaiphong_product_compare-results strong {
+        font-size: 18px;
+    }
+    .vinfast-autohaiphong_product_compare-story img {
+        width: 130px;
+        height: 82px;
+        top: -22px;
+    }
+    .vinfast-autohaiphong_product_compare-story-top {
+        padding: 24px 18px;
+    }
+    .vinfast-autohaiphong_product_image-banner {
+        height: 54vw;
+        min-height: 235px;
+    }
+    .vinfast-autohaiphong_product_image-banner > span {
+        font-size: 90px;
+        bottom: -32px;
+    }
+    .vinfast-autohaiphong_product_design {
+        padding: 64px 0 40px;
+    }
+    .vinfast-autohaiphong_product_design-head {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        margin-bottom: 26px;
+    }
+    .vinfast-autohaiphong_product_design-head h2 {
+        font-size: 26px;
+    }
+    .vinfast-autohaiphong_product_design-gallery {
+        height: 260px;
+    }
+    .vinfast-autohaiphong_product_gallery-arrow {
+        height: 37px;
+        width: 37px;
+        font-size: 28px;
+    }
+    .vinfast-autohaiphong_product_mosaic-main {
+        height: 280px;
+    }
+    .vinfast-autohaiphong_product_mosaic-row > div {
+        height: 210px;
+    }
+    .vinfast-autohaiphong_product_mosaic-thumbs {
+        gap: 7px;
+        padding: 25px 12px 10px;
+    }
+    .vinfast-autohaiphong_product_mosaic-thumbs button {
+        height: 135px;
+    }
+    .vinfast-autohaiphong_product_mosaic-thumbs span {
+        font-size: 9px;
+        bottom: 8px;
+        left: 7px;
+        line-height: 1.3;
+    }
+    .vinfast-autohaiphong_product_interior-image {
+        height: 280px;
+    }
+    .vinfast-autohaiphong_product_interior-label {
+        right: 10px;
+        bottom: 10px;
+        font-size: 12px;
+    }
+    .vinfast-autohaiphong_product_technical {
+        padding: 62px 0;
+    }
+    .vinfast-autohaiphong_product_technical h2 {
+        margin-bottom: 28px;
+    }
+    .vinfast-autohaiphong_product_technical-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .vinfast-autohaiphong_product_technical-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+    .vinfast-autohaiphong_product_technical-tabs button {
+        font-size: 12px;
+        justify-content: center;
+        text-align: center;
+        padding: 10px 5px;
+        border: 1px solid #444;
+    }
+    .vinfast-autohaiphong_product_technical-tabs button span {
+        display: none;
+    }
+    .vinfast-autohaiphong_product_technical-tabs
+        button.vinfast-autohaiphong_product_is-active {
+        border-color: #fff;
+    }
+    .vinfast-autohaiphong_product_technical-panel {
+        padding: 17px;
+    }
+    .vinfast-autohaiphong_product_spec-row {
+        font-size: 12px;
+        gap: 10px;
+    }
+    .vinfast-autohaiphong_product_technical-note {
+        margin-top: 26px;
+        display: block;
+    }
+    .vinfast-autohaiphong_product_technical-note > div {
+        margin-top: 20px;
+    }
+    .vinfast-autohaiphong_product_technical-note
+        .vinfast-autohaiphong_product_btn {
+        padding: 10px 15px;
+        font-size: 11px;
+    }
+    .vinfast-autohaiphong_product_ecosystem-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .vinfast-autohaiphong_product_ecosystem-map {
+        min-height: 300px;
+    }
+    .vinfast-autohaiphong_product_ecosystem-map img {
+        height: 300px;
+    }
+    .vinfast-autohaiphong_product_bottom-hero {
+        height: 330px;
+    }
+    .vinfast-autohaiphong_product_bottom-overlay {
+        top: 11%;
+    }
+    .vinfast-autohaiphong_product_bottom-overlay h2 {
+        font-size: 39px;
+    }
+    .vinfast-autohaiphong_product_bottom-overlay
+        .vinfast-autohaiphong_product_btn {
+        font-size: 11px;
+        padding: 9px 11px;
+    }
+    .vinfast-autohaiphong_product_footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 27px;
+    }
+    .vinfast-autohaiphong_product_footer-grid > div:first-child {
+        grid-column: 1/-1;
+    }
+    .vinfast-autohaiphong_product_floating {
+        right: 11px;
+        bottom: 20px;
+    }
+    .vinfast-autohaiphong_product_float-button {
+        width: 43px;
+        height: 43px;
+    }
+    .vinfast-autohaiphong_product_footer-bottom {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .vinfast-autohaiphong_product_modal-dialog {
+        padding: 28px 23px;
+    }
+}
+@media (max-width: 380px) {
+    .vinfast-autohaiphong_product_brand {
+        font-size: 12px;
+    }
+    .vinfast-autohaiphong_product_header-deposit {
+        font-size: 10px;
+        padding: 7px;
+    }
+    .vinfast-autohaiphong_product_intro-visual {
+        min-height: 245px;
+    }
+    .vinfast-autohaiphong_product_intro-car {
+        max-height: 220px;
+    }
+    .vinfast-autohaiphong_product_intro-watermark {
+        letter-spacing: -10px;
+    }
+    .vinfast-autohaiphong_product_spec-highlights strong {
+        font-size: 13px;
+    }
+    .vinfast-autohaiphong_product_color-dot {
+        width: 17px;
+        height: 17px;
+    }
+    .vinfast-autohaiphong_product_swatches {
+        gap: 6px;
+    }
+    .vinfast-autohaiphong_product_color-switcher {
+        gap: 7px;
+    }
+    .vinfast-autohaiphong_product_compare-results strong {
+        font-size: 15px;
+    }
+    .vinfast-autohaiphong_product_mosaic-thumbs button {
+        height: 112px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+    .vinfast-autohaiphong_product_js-reveal [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

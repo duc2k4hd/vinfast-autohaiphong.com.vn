@@ -29,294 +29,573 @@
 @endpush
 
 @section('content')
-{{-- Breadcrumb --}}
-<div class="vinfast-autohaiphong_product_breadcrumb_wrapper" style="background-color: var(--client-color-surface); border-bottom: 1px solid var(--client-color-border); padding: 12px 0;">
-    <div class="vinfast-autohaiphong_layout_container">
-        <nav style="font-size: 0.85rem; color: var(--client-color-muted);">
-            <a href="{{ route('client.home') }}" style="color: var(--client-color-text);">Trang chủ</a>
-            <span style="margin: 0 6px;">/</span>
-            <a href="{{ url('/o-to-vinfast') }}" style="color: var(--client-color-text);">Ô Tô VinFast</a>
-            <span style="margin: 0 6px;">/</span>
-            <span style="color: var(--client-color-primary); font-weight: 600;">{{ $car->name }}</span>
+@php
+    $shortModelName = trim(Str::upper(Str::replace(['VinFast ', 'vinfast '], '', $car->name)));
+    $mainCarImage = $car->thumbnail_path 
+        ? asset('storage/' . $car->thumbnail_path) 
+        : asset('storage/clients/assets/images/theme-v1/product.webp');
+
+    $gallerySlides = $galleryImages->map(function ($img) use ($car) {
+        return [
+            'src' => asset('storage/' . $img->path),
+            'alt' => $img->alt_text ?: $car->name,
+        ];
+    })->values();
+
+    if ($gallerySlides->isEmpty()) {
+        $gallerySlides = collect([
+            ['src' => asset('storage/clients/assets/images/theme-v1/hero.webp'), 'alt' => $car->name . ' - Ngoại thất'],
+            ['src' => asset('storage/clients/assets/images/theme-v1/nature-yellow.webp'), 'alt' => $car->name . ' - Vận hành'],
+        ]);
+    }
+
+    $specGroups = $specifications->groupBy(function ($spec) {
+        return $spec->group_name ?: 'Thông số chung';
+    });
+
+    // Trích xuất 3 thông số nổi bật (Quãng đường, Sạc nhanh, Bảo hành)
+    $rangeSpec = $specifications->first(function ($s) {
+        return Str::contains(Str::lower($s->label), ['quãng đường', 'tầm hoạt động', 'nedc', 'wltp']);
+    })?->value ?? '215 km/1 lần sạc (NEDC)';
+
+    $chargeSpec = $specifications->first(function ($s) {
+        return Str::contains(Str::lower($s->label), ['sạc nhanh', 'thời gian sạc', 'sạc']);
+    })?->value ?? '36 phút (10% - 70%)';
+
+    $warrantySpec = '7 - 10 năm hoặc 160.000 - 200.000 km';
+
+    // Cấu trúc dữ liệu client JSON
+    $jsonTrims = [];
+    foreach ($variants as $v) {
+        $jsonTrims[$v->id] = [
+            'name' => $v->name,
+            'price' => (int) ($v->sale_price ?: $v->regular_price ?: 0),
+            'sku' => $v->sku,
+        ];
+    }
+
+    $jsonSpecGroups = [];
+    foreach ($specGroups as $gName => $gSpecs) {
+        $slugKey = Str::slug($gName);
+        $jsonSpecGroups[$slugKey] = [
+            'title' => $gName,
+            'rows' => $gSpecs->map(fn ($sp) => [$sp->label, trim($sp->value . ' ' . ($sp->unit ?? ''))])->values()->all(),
+        ];
+    }
+@endphp
+
+{{-- Dữ liệu JavaScript cho Theme V1 --}}
+<script>
+window.VINFAST_PRODUCT_DATA = {
+    model: @json($car->name),
+    basePrice: {{ (int) ($car->sale_price ?: $car->regular_price ?: 0) }},
+    trims: @json($jsonTrims),
+    specGroups: @json($jsonSpecGroups),
+    colors: [
+        { name: 'Sky Blue', value: '#8de0e7', filter: 'hue-rotate(102deg) saturate(1.0)' },
+        { name: 'Rose Pink', value: '#efafce', filter: 'hue-rotate(242deg) saturate(.55) brightness(1.09)' },
+        { name: 'Urban Mint', value: '#829b87', filter: 'hue-rotate(58deg) saturate(.62) brightness(.83)' },
+        { name: 'Infinity Blanc', value: '#e3e3e3', filter: 'grayscale(1) brightness(1.62) contrast(.86)' },
+        { name: 'Zenith Grey', value: '#8f9293', filter: 'grayscale(1) brightness(.93)' },
+        { name: 'Solar Ruby', value: '#be2030', filter: 'hue-rotate(300deg) saturate(2.2) brightness(.92)' },
+        { name: 'Summer Yellow', value: '#ffd21f', filter: 'none' }
+    ],
+    designHighlights: [
+        'Dễ dàng quay đầu xe trong không gian đô thị với bán kính quay tối thiểu khoảng 4,5m.',
+        'Chiều dài cơ sở tối ưu giúp khoang cabin rộng rãi, tự tin di chuyển trong nội đô và đường trường.',
+        'La-zăng thể thao tạo nên diện mạo trẻ trung, cá tính và đậm chất công nghệ thế hệ mới.'
+    ]
+};
+</script>
+
+{{-- Breadcrumb Navigation --}}
+<div class="vinfast-autohaiphong_product_breadcrumb_wrapper" style="background-color: var(--vf-bg); border-bottom: 1px solid var(--vf-border); padding: 12px 0;">
+    <div class="vinfast-autohaiphong_product_container">
+        <nav style="font-size: 0.85rem; color: var(--vf-muted); display: flex; align-items: center; gap: 8px;">
+            <a href="{{ route('client.home') }}" style="color: var(--vf-text);">Trang chủ</a>
+            <span>/</span>
+            <a href="{{ url('/o-to-vinfast') }}" style="color: var(--vf-text);">Ô Tô VinFast</a>
+            <span>/</span>
+            <span style="color: var(--vf-blue); font-weight: 600;">{{ $car->name }}</span>
         </nav>
     </div>
 </div>
 
-<div class="vinfast-autohaiphong_product_section">
-    <div class="vinfast-autohaiphong_layout_container">
-        {{-- Khối thông tin xe chính (Gallery & Giá) --}}
-        <div class="vinfast-autohaiphong_product_hero">
-            <div class="vinfast-autohaiphong_product_gallery">
-                {{-- Gallery ảnh 16:9 với thumbnail điều hướng --}}
-                @php
-                    $gallerySlides = $galleryImages->map(fn ($image) => [
-                        'src' => asset('storage/' . $image->path),
-                        'alt' => $image->alt_text ?: $car->name,
-                    ])->values();
-                @endphp
-                <div class="vinfast-autohaiphong_product_gallery_viewer" data-vf-product-gallery data-slide-count="{{ $gallerySlides->count() }}">
-                    <div class="vinfast-autohaiphong_product_main_image" aria-live="polite">
-                        @if($gallerySlides->isNotEmpty())
-                            @foreach($gallerySlides as $index => $slide)
-                                <img src="{{ $slide['src'] }}"
-                                     alt="{{ $slide['alt'] }}"
-                                     class="vinfast-autohaiphong_product_main_image_asset {{ $index === 0 ? 'is-active' : '' }}"
-                                     data-vf-gallery-slide="{{ $index }}"
-                                     @if($index > 0) loading="lazy" @endif>
+{{-- Container Giao Diện Theme V1 --}}
+<div class="vinfast-autohaiphong_product_app" data-car-id="{{ $car->id }}" data-car-name="{{ $car->name }}">
+    <main>
+        {{-- SECTION 1: HERO BANNER SLIDER --}}
+        <section class="vinfast-autohaiphong_product_hero" id="dau-trang" aria-label="VinFast {{ $car->name }}" data-vf-product-gallery>
+            <div class="vinfast-autohaiphong_product_hero-slider" data-hero-slider>
+                @foreach($gallerySlides as $index => $slide)
+                    <div class="vinfast-autohaiphong_product_hero-slide {{ $index === 0 ? 'vinfast-autohaiphong_product_hero-slide-active' : '' }}"
+                         data-vf-gallery-slide="{{ $index }}"
+                         aria-hidden="{{ $index === 0 ? 'false' : 'true' }}">
+                        <img src="{{ $slide['src'] }}" 
+                             alt="{{ $slide['alt'] }}"
+                             @if($index === 0) fetchpriority="high" @else loading="lazy" @endif />
+                    </div>
+                @endforeach
+
+                @if($gallerySlides->count() > 1)
+                    <button class="vinfast-autohaiphong_product_hero-arrow vinfast-autohaiphong_product_hero-prev is-previous"
+                            type="button"
+                            data-action="hero-prev"
+                            data-vf-gallery-previous
+                            aria-label="Ảnh trước">
+                        ‹
+                    </button>
+                    <button class="vinfast-autohaiphong_product_hero-arrow vinfast-autohaiphong_product_hero-next is-next"
+                            type="button"
+                            data-action="hero-next"
+                            data-vf-gallery-next
+                            aria-label="Ảnh tiếp">
+                        ›
+                    </button>
+                    <div class="vinfast-autohaiphong_product_hero-pagination" aria-label="Chọn banner">
+                        @foreach($gallerySlides as $index => $slide)
+                            <button type="button"
+                                    class="vinfast-autohaiphong_product_hero-dot {{ $index === 0 ? 'vinfast-autohaiphong_product_is-active is-active' : '' }}"
+                                    data-hero-dot="{{ $index }}"
+                                    data-vf-gallery-thumbnail="{{ $index }}"
+                                    aria-label="Banner {{ $index + 1 }}"></button>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </section>
+
+        {{-- SECTION 2: INTRO & VARIANTS & HIGHLIGHTS --}}
+        <section class="vinfast-autohaiphong_product_intro vinfast-autohaiphong_product_section" id="vf3-gioi-thieu">
+            <div class="vinfast-autohaiphong_product_container">
+                <div class="vinfast-autohaiphong_product_intro-grid">
+                    <div class="vinfast-autohaiphong_product_intro-visual" data-reveal>
+                        <span class="vinfast-autohaiphong_product_intro-watermark">{{ $shortModelName }}</span>
+                        <img class="vinfast-autohaiphong_product_intro-car"
+                             src="{{ $mainCarImage }}"
+                             alt="{{ $car->name }}"
+                             loading="lazy" />
+                    </div>
+
+                    <div class="vinfast-autohaiphong_product_intro-info" data-reveal>
+                        {{-- Tiêu đề xe & Phân khúc --}}
+                        <div style="margin-bottom: 12px;">
+                            <span style="font-size: 0.82rem; font-weight: 700; color: var(--vf-blue); text-transform: uppercase; letter-spacing: 0.5px;">
+                                {{ $car->category_name ?? 'DÒNG XE Ô TÔ ĐIỆN VINFAST' }}
+                            </span>
+                            <h1 style="font-size: clamp(26px, 2.8vw, 36px); font-weight: 700; color: var(--vf-text); margin: 4px 0 8px 0; line-height: 1.2;">
+                                {{ $car->name }}
+                            </h1>
+                        </div>
+
+                        {{-- Chọn Phiên Bản (Variants) --}}
+                        <div class="vinfast-autohaiphong_product_trim-container" style="margin-bottom: 20px;">
+                            <div style="font-size: 0.85rem; font-weight: 700; color: var(--vf-muted); margin-bottom: 8px; text-transform: uppercase;">
+                                Chọn Phiên Bản:
+                            </div>
+                            <div class="vinfast-autohaiphong_product_trim-picker" role="group" aria-label="Phiên bản xe">
+                                @if($variants->isNotEmpty())
+                                    @foreach($variants as $idx => $variant)
+                                        <button type="button"
+                                                data-trim="{{ $variant->id }}"
+                                                data-price-val="{{ $variant->sale_price ?: $variant->regular_price }}"
+                                                data-price-formatted="{{ number_format($variant->sale_price ?: $variant->regular_price, 0, ',', '.') }} VNĐ"
+                                                data-name="{{ $variant->name }}"
+                                                class="vinfast-autohaiphong_product_trim {{ $idx === 0 ? 'vinfast-autohaiphong_product_is-active' : '' }}"
+                                                aria-pressed="{{ $idx === 0 ? 'true' : 'false' }}">
+                                            {{ $variant->name }}
+                                        </button>
+                                    @endforeach
+                                @else
+                                    <button type="button" data-trim="standard" data-price-val="{{ $car->sale_price ?: $car->regular_price }}" data-price-formatted="{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ" data-name="{{ $car->name }} Tiêu Chuẩn" class="vinfast-autohaiphong_product_trim vinfast-autohaiphong_product_is-active">
+                                        Bản Tiêu Chuẩn
+                                    </button>
+                                @endif
+                            </div>
+
+                            <div style="font-size: 0.85rem; color: var(--vf-muted); margin-top: 8px;">
+                                Đang chọn: <strong id="vf-selected-variant-label" style="color: var(--vf-blue);">{{ $variants->isNotEmpty() ? $variants->first()->name : 'Tiêu Chuẩn' }}</strong>
+                            </div>
+                        </div>
+
+                        {{-- 3 Thông Số Nổi Bật --}}
+                        <div class="vinfast-autohaiphong_product_spec-highlights">
+                            <div>
+                                <strong>{{ $rangeSpec }}</strong>
+                                <p>Quãng đường di chuyển</p>
+                            </div>
+                            <div>
+                                <strong>{{ $chargeSpec }}</strong>
+                                <p>Sạc pin siêu nhanh</p>
+                            </div>
+                            <div>
+                                <strong>{{ $warrantySpec }}</strong>
+                                <p>Bảo hành xe chính hãng</p>
+                            </div>
+                        </div>
+
+                        {{-- Giá Bán --}}
+                        <div class="vinfast-autohaiphong_product_intro-price">
+                            <span>Giá bán từ</span>
+                            <strong data-price id="vf-car-price-display">{{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ</strong>
+                        </div>
+
+                        {{-- CTAs Hành Động --}}
+                        <div class="vinfast-autohaiphong_product_intro-cta">
+                            <a class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-outline" href="#vf3-thong-so">
+                                <span aria-hidden="true">◈</span> Khám phá thông số kỹ thuật
+                            </a>
+
+                            {{-- Form Thêm Xe / Đặt Cọc Tiền Mặt --}}
+                            <form action="{{ route('client.cart.add') }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                <input type="hidden" name="product_id" value="{{ $car->id }}">
+                                <input type="hidden" name="variant_id" id="vf-cart-variant-id" value="{{ $variants->first()?->id }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-primary">
+                                    Đặt cọc ngay ↗
+                                </button>
+                            </form>
+
+                            <button type="button" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-light" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
+                                YÊU CẦU BÁO GIÁ LĂN BÁNH
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- SECTION 3: BỘ SƯU TẬP MÀU SẮC (COLOR STUDIO) --}}
+        <section class="vinfast-autohaiphong_product_colors vinfast-autohaiphong_product_section" id="vf3-mau-xe">
+            <div class="vinfast-autohaiphong_product_container">
+                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
+                    <h2>Tự do sáng tạo, tỏa sáng chất riêng</h2>
+                    <p>Lựa chọn màu sắc phù hợp với phong cách và cá tính của bạn</p>
+                </div>
+                <div class="vinfast-autohaiphong_product_color-stage" data-reveal>
+                    <img class="vinfast-autohaiphong_product_color-car"
+                         data-color-car
+                         src="{{ asset('storage/clients/assets/images/theme-v1/product-white.webp') }}"
+                         alt="Mô phỏng {{ $car->name }} theo màu được chọn"
+                         loading="lazy" />
+                    <div class="vinfast-autohaiphong_product_color-bottom">
+                        <div class="vinfast-autohaiphong_product_color-switcher" role="group" aria-label="Chọn màu xe">
+                            <button type="button" data-action="color-prev" class="vinfast-autohaiphong_product_color-arrow" aria-label="Màu trước">‹</button>
+                            <div class="vinfast-autohaiphong_product_swatches" data-swatches></div>
+                            <button type="button" data-action="color-next" class="vinfast-autohaiphong_product_color-arrow" aria-label="Màu tiếp">›</button>
+                        </div>
+                        <p class="vinfast-autohaiphong_product_color-name" data-color-name>Infinity Blanc</p>
+                    </div>
+                </div>
+                <p class="vinfast-autohaiphong_product_color-notice">
+                    Hình phối màu mang tính minh họa. Màu sơn thực tế có thể khác do màn hình và điều kiện ánh sáng.
+                </p>
+            </div>
+        </section>
+
+        {{-- SECTION 4: SO SÁNH CHI PHÍ VẬN HÀNH (EV VS ICE) --}}
+        <section class="vinfast-autohaiphong_product_compare vinfast-autohaiphong_product_section" id="vf3-so-sanh">
+            <div class="vinfast-autohaiphong_product_container">
+                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
+                    <h2>So sánh giữa xe VinFast {{ $car->name }} và xe động cơ đốt trong</h2>
+                    <p>Khám phá lợi ích vượt trội về kinh tế và môi trường của xe điện trong sử dụng hằng ngày</p>
+                </div>
+                <div class="vinfast-autohaiphong_product_compare-grid" data-reveal>
+                    <div class="vinfast-autohaiphong_product_compare-form">
+                        <h3>Ước tính chi phí di chuyển hằng năm</h3>
+                        <p class="vinfast-autohaiphong_product_muted">
+                            Nhập giả định để tự so sánh chi phí năng lượng (không bao gồm phí mua xe và bảo dưỡng).
+                        </p>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Quãng đường mỗi năm</span>
+                            <input type="range" min="3000" max="35000" step="1000" value="12000" data-calc="distance" />
+                            <output data-calc-label="distance">12.000 km</output>
+                        </label>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Giá điện giả định (VNĐ/kWh)</span>
+                            <input type="number" min="0" step="500" value="3000" data-calc="electricity" />
+                        </label>
+                        <label class="vinfast-autohaiphong_product_field">
+                            <span>Giá xăng giả định (VNĐ/lít)</span>
+                            <input type="number" min="0" step="500" value="24000" data-calc="petrol" />
+                        </label>
+                        <div class="vinfast-autohaiphong_product_compare-results">
+                            <div>
+                                <span>Xe điện · 12 kWh/100km (giả định)</span>
+                                <strong data-calc-result="electric">4.320.000 ₫</strong>
+                            </div>
+                            <div>
+                                <span>Xe xăng · 6 lít/100km (giả định)</span>
+                                <strong data-calc-result="petrol">17.280.000 ₫</strong>
+                            </div>
+                        </div>
+                        <p class="vinfast-autohaiphong_product_saving">
+                            Chênh lệch chi phí giả định: <strong data-calc-result="saving">12.960.000 ₫/năm</strong>
+                        </p>
+                    </div>
+
+                    <div class="vinfast-autohaiphong_product_compare-story">
+                        <div class="vinfast-autohaiphong_product_compare-story-top">
+                            <span class="vinfast-autohaiphong_product_leaf">❧</span>
+                            <h3>Lựa chọn di chuyển xanh</h3>
+                            <p>Không phát thải trực tiếp từ ống xả, vận hành êm ái và linh hoạt trên mọi cung đường.</p>
+                        </div>
+                        <img src="{{ $mainCarImage }}" alt="{{ $car->name }}" loading="lazy" />
+                        <p>Ví dụ minh họa dùng thông số tiêu thụ do người dùng giả định, giúp hình dung khả năng tiết kiệm chi phí.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- SECTION 5: SHOWCASE IMAGE BANNER --}}
+        <section class="vinfast-autohaiphong_product_image-banner vinfast-autohaiphong_product_showcase" aria-label="VinFast {{ $car->name }}">
+            <img src="{{ asset('storage/clients/assets/images/theme-v1/style-yellow.webp') }}"
+                 alt="{{ $car->name }} - Ngoại thất và kiến trúc nổi bật"
+                 loading="lazy" />
+            <span aria-hidden="true">{{ $shortModelName }}</span>
+        </section>
+
+        {{-- SECTION 6: DESIGN HIGHLIGHTS & GALLERY --}}
+        <section class="vinfast-autohaiphong_product_design vinfast-autohaiphong_product_section" id="vf3-thiet-ke">
+            <div class="vinfast-autohaiphong_product_container">
+                <div class="vinfast-autohaiphong_product_design-head" data-reveal>
+                    <div>
+                        <h2>Định hình phong cách di chuyển đô thị</h2>
+                        <p>Ngôn ngữ thiết kế khác biệt giúp xe luôn thu hút ánh nhìn ở bất cứ nơi đâu.</p>
+                    </div>
+                    <div>
+                        <h3>Tìm hiểu về {{ $car->name }}</h3>
+                        <div class="vinfast-autohaiphong_product_design-tabs" role="tablist" aria-label="Thông tin nổi bật">
+                            <button class="vinfast-autohaiphong_product_is-active" type="button" role="tab" aria-selected="true" data-design-tab="0">
+                                Bán kính quay
+                            </button>
+                            <button type="button" role="tab" aria-selected="false" data-design-tab="1">
+                                Chiều dài cơ sở
+                            </button>
+                            <button type="button" role="tab" aria-selected="false" data-design-tab="2">
+                                La-zăng
+                            </button>
+                        </div>
+                        <p class="vinfast-autohaiphong_product_design-description" data-design-description>
+                            Dễ dàng quay đầu xe trong không gian đô thị với bán kính quay tối thiểu khoảng 4,5m.
+                        </p>
+                        <button type="button" class="vinfast-autohaiphong_product_text-cta" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
+                            Đăng ký tư vấn ngay <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vinfast-autohaiphong_product_design-gallery" data-reveal>
+                <button type="button" class="vinfast-autohaiphong_product_gallery-arrow vinfast-autohaiphong_product_gallery-left" data-action="gallery-prev" aria-label="Ảnh trước">‹</button>
+                <div class="vinfast-autohaiphong_product_design-track" data-design-track>
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/city-red.webp') }}" alt="{{ $car->name }} - Khung cảnh đô thị" loading="lazy" />
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/cyber-yellow.webp') }}" alt="{{ $car->name }} - Phong cách hiện đại" loading="lazy" />
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/nature-yellow.webp') }}" alt="{{ $car->name }} - Khám phá thiên nhiên" loading="lazy" />
+                </div>
+                <button type="button" class="vinfast-autohaiphong_product_gallery-arrow vinfast-autohaiphong_product_gallery-right" data-action="gallery-next" aria-label="Ảnh sau">›</button>
+            </div>
+        </section>
+
+        {{-- SECTION 7: NGOẠI THẤT MOSAIC GRID (LIGHTBOX TRIGGERS) --}}
+        <section class="vinfast-autohaiphong_product_mosaic" id="vf3-ngoai-that" aria-label="Hình ảnh ngoại thất {{ $car->name }}">
+            <div class="vinfast-autohaiphong_product_mosaic-main vinfast-autohaiphong_product_lightbox-trigger" tabindex="0" role="button" aria-label="Xem ảnh ngoại thất lớn" data-lightbox="0">
+                <img src="{{ asset('storage/clients/assets/images/theme-v1/cyber-yellow.webp') }}" alt="{{ $car->name }} - Góc nhìn tổng quan" loading="lazy" />
+            </div>
+            <div class="vinfast-autohaiphong_product_mosaic-row">
+                <div class="vinfast-autohaiphong_product_lightbox-trigger" tabindex="0" role="button" aria-label="Xem chi tiết đầu xe" data-lightbox="1">
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/front-detail.webp') }}" alt="{{ $car->name }} - Chi tiết mặt ca-lăng và đèn pha" loading="lazy" />
+                </div>
+                <div class="vinfast-autohaiphong_product_lightbox-trigger" tabindex="0" role="button" aria-label="Xem xe hòa cùng thiên nhiên" data-lightbox="2">
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/nature-yellow.webp') }}" alt="{{ $car->name }} - Trên cung đường ven biển" loading="lazy" />
+                </div>
+            </div>
+            <div class="vinfast-autohaiphong_product_mosaic-thumbs">
+                <button type="button" data-lightbox="3">
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/red-thumb.webp') }}" alt="{{ $car->name }} sắc đỏ" loading="lazy" />
+                    <span>Phong cách cá tính</span>
+                </button>
+                <button type="button" data-lightbox="4">
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/yellow-thumb.webp') }}" alt="{{ $car->name }} sắc vàng" loading="lazy" />
+                    <span>Thiết kế linh hoạt</span>
+                </button>
+                <button type="button" data-lightbox="5">
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/wheel-thumb.webp') }}" alt="Chi tiết la-zăng {{ $car->name }}" loading="lazy" />
+                    <span>Ấn tượng trong từng chi tiết</span>
+                </button>
+            </div>
+        </section>
+
+        {{-- SECTION 8: NỘI THẤT XE --}}
+        <section class="vinfast-autohaiphong_product_interior vinfast-autohaiphong_product_section" id="vf3-noi-that">
+            <div class="vinfast-autohaiphong_product_container">
+                <div class="vinfast-autohaiphong_product_section-head" data-reveal>
+                    <h2>Luôn đủ chỗ cho mọi người</h2>
+                    <p>Không gian được tối ưu để mỗi hành trình đều thoải mái cho bạn và những người đồng hành.</p>
+                </div>
+                <div class="vinfast-autohaiphong_product_interior-image vinfast-autohaiphong_product_lightbox-trigger" role="button" tabindex="0" data-lightbox="6" aria-label="Xem chi tiết nội thất">
+                    <img src="{{ asset('storage/clients/assets/images/theme-v1/interior.webp') }}" alt="Không gian nội thất xe {{ $car->name }}, ghế ngồi và màn hình giải trí" loading="lazy" />
+                    <span class="vinfast-autohaiphong_product_interior-label">Nội thất <span>↗</span></span>
+                </div>
+            </div>
+        </section>
+
+        {{-- SECTION 9: BẢNG THÔNG SỐ KỸ THUẬT (TECHNICAL SPECIFICATIONS) --}}
+        <section class="vinfast-autohaiphong_product_technical" id="vf3-thong-so">
+            <div class="vinfast-autohaiphong_product_container">
+                <h2 data-reveal style="color: #ffffff; margin-bottom: 24px;">
+                    BẢNG THÔNG SỐ KỸ THUẬT XE {{ Str::upper($car->name) }}
+                </h2>
+
+                <div class="vinfast-autohaiphong_product_technical-grid">
+                    <div class="vinfast-autohaiphong_product_technical-tabs" role="tablist" aria-label="Nhóm thông số">
+                        @if($specGroups->isNotEmpty())
+                            @foreach($specGroups as $gName => $gSpecs)
+                                @php $gSlug = Str::slug($gName); @endphp
+                                <button class="{{ $loop->first ? 'vinfast-autohaiphong_product_is-active' : '' }}"
+                                        type="button"
+                                        role="tab"
+                                        aria-selected="{{ $loop->first ? 'true' : 'false' }}"
+                                        data-spec-tab="{{ $gSlug }}">
+                                    {{ $gName }} <span>›</span>
+                                </button>
                             @endforeach
                         @else
-                            <img src="{{ asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}"
-                                 alt="{{ $car->name }}"
-                                 class="vinfast-autohaiphong_product_main_image_asset is-active">
-                        @endif
-                        @if($gallerySlides->count() > 1)
-                            <button type="button" class="vinfast-autohaiphong_product_gallery_arrow is-previous" data-vf-gallery-previous aria-label="Ảnh trước">‹</button>
-                            <button type="button" class="vinfast-autohaiphong_product_gallery_arrow is-next" data-vf-gallery-next aria-label="Ảnh tiếp theo">›</button>
-                            <span class="vinfast-autohaiphong_product_gallery_counter" data-vf-gallery-counter aria-live="polite">1 / {{ $gallerySlides->count() }}</span>
+                            <button class="vinfast-autohaiphong_product_is-active" type="button" role="tab" aria-selected="true" data-spec-tab="general">
+                                Thông số tổng quan <span>›</span>
+                            </button>
                         @endif
                     </div>
-                    @if($gallerySlides->count() > 1)
-                        <div class="vinfast-autohaiphong_product_thumbnails" role="tablist" aria-label="Ảnh sản phẩm">
-                            @foreach($gallerySlides as $index => $slide)
-                                <button type="button"
-                                        class="vinfast-autohaiphong_product_thumbnail {{ $index === 0 ? 'is-active' : '' }}"
-                                        data-vf-gallery-thumbnail="{{ $index }}"
-                                        role="tab"
-                                        aria-label="Xem ảnh {{ $index + 1 }}: {{ $slide['alt'] }}"
-                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
-                                    <img src="{{ $slide['src'] }}" alt="" loading="lazy" class="vinfast-autohaiphong_product_thumbnail_asset">
-                                </button>
-                            @endforeach
-                        </div>
-                    @endif
-                </div>
-            </div>
 
-            {{-- Cột Phải: Thông tin giá & Mua hàng --}}
-            <div class="vinfast-autohaiphong_product_information">
-                <span class="vinfast-autohaiphong_product_category">
-                    {{ $car->category_name ?? 'Ô tô điện' }}
-                </span>
-                <h1 class="vinfast-autohaiphong_product_title">
-                    {{ $car->name }}
-                </h1>
-
-                {{-- Hộp giá niêm yết --}}
-                <div class="vinfast-autohaiphong_product_price_panel">
-                    <div class="vinfast-autohaiphong_product_price_heading">
-                        <span class="vinfast-autohaiphong_product_price_caption">Giá niêm yết chính hãng:</span>
-                        <span id="vf-selected-variant-label" class="vinfast-autohaiphong_product_variant_label"></span>
-                    </div>
-                    @if($car->price_on_request || (!$car->sale_price && !$car->regular_price))
-                        <div id="vf-car-price-display" class="vinfast-autohaiphong_product_price">Liên hệ nhận giá ưu đãi</div>
-                    @else
-                        <div id="vf-car-price-display" class="vinfast-autohaiphong_product_price">
-                            {{ number_format($car->sale_price ?: $car->regular_price, 0, ',', '.') }} VNĐ
-                        </div>
-                    @endif
-                    <div class="vinfast-autohaiphong_product_price_note">
-                        * Giá đã bao gồm VAT. Ưu đãi miễn 100% lệ phí trước bạ theo chính sách Nhà nước.
-                    </div>
-                </div>
-
-                {{-- Mô tả ngắn --}}
-                <p class="vinfast-autohaiphong_product_short_description">
-                    {{ $car->short_description ?? 'Mẫu xe ô tô điện thông minh hàng đầu của VinFast với động cơ mạnh mẽ, trang bị công nghệ an toàn hiện đại và nội thất tiện nghi vượt trội.' }}
-                </p>
-
-                {{-- Danh sách phiên bản tương tác động --}}
-                @if($variants->isNotEmpty())
-                    <div class="vinfast-autohaiphong_product_variants">
-                        <label class="vinfast-autohaiphong_product_variants_label">
-                            Chọn Phiên Bản & Mức Giá:
-                        </label>
-                        <div id="vf-variant-buttons-container" class="vinfast-autohaiphong_product_variant_buttons">
-                            @foreach($variants as $idx => $variant)
-                                @php
-                                    $vPrice = $variant->sale_price ?: $variant->regular_price;
-                                @endphp
-                                <button type="button"
-                                        class="vinfast-autohaiphong_btn vf-variant-btn vinfast-autohaiphong_product_variant_button {{ $idx === 0 ? 'vinfast-autohaiphong_btn_primary' : 'vinfast-autohaiphong_btn_outline' }}"
-                                        data-price="{{ $vPrice }}"
-                                        data-name="{{ $variant->name }}"
-                                        data-sku="{{ $variant->sku }}"
-                                        onclick="selectCarVariant(this)">
-                                    {{ $variant->name }} - {{ number_format($vPrice, 0, ',', '.') }} đ
-                                </button>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-
-                {{-- Cam kết showroom 3S Hải Phòng --}}
-                <div class="vinfast-autohaiphong_product_benefits">
-                    <div class="vinfast-autohaiphong_product_benefits_heading">ĐẶC QUYỀN KHI MUA XE TẠI ĐẠI LÝ HẢI PHÒNG:</div>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li>✓ Bảo hành chính hãng lên đến 7 – 10 năm hoặc 200.000 km.</li>
-                        <li>✓ Hỗ trợ vay trả góp ngân hàng tới 80% giá trị xe, thủ tục duyệt nhanh.</li>
-                        <li>✓ Sẵn xe, đủ màu, hỗ trợ giao xe tận nhà theo yêu cầu.</li>
-                        <li>✓ <strong>Phương thức thanh toán:</strong> Duy nhất tiền mặt trực tiếp tại Showroom VinFast Minh Đạo Hải Phòng.</li>
-                    </ul>
-                </div>
-
-                {{-- Nút hành động --}}
-                <div class="vinfast-autohaiphong_product_actions">
-                    <a href="{{ route('client.checkout.direct', ['product_id' => $car->id]) }}" 
-                       class="vinfast-autohaiphong_product_action vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary">
-                        Đặt Cọc Xe (Tiền Mặt)
-                    </a>
-                    <button type="button" 
-                            onclick="openQuoteModal({{ $car->id }}, '{{ addslashes($car->name) }}')" 
-                            class="vinfast-autohaiphong_product_action vinfast-autohaiphong_btn vinfast-autohaiphong_btn_secondary">
-                        Nhận Báo Giá
-                    </button>
-                    <a href="tel:{{ preg_replace('/[^0-9]/', '', $siteSettings['site_phone'] ?? '0988302882') }}" 
-                       class="vinfast-autohaiphong_product_action vinfast-autohaiphong_btn vinfast-autohaiphong_btn_outline">
-                        {{ $siteSettings['site_phone'] ?? '0988 302 882' }}
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        {{-- 
-            YÊU CẦU QUAN TRỌNG: 
-            Ở PHẦN CONTENT SẢN PHẨM THÌ THÔNG SỐ SẼ Ở ĐẦU TIÊN VÀ MỚI ĐẾN MÔ TẢ CHI TIẾT.
-            THÔNG SỐ LÀ CÁC KEY VÀ VALUE ĐỂ TRÍCH XUẤT CỰC NHANH CỰC MƯỢT.
-        --}}
-
-        {{-- 1. THÔNG SỐ KỸ THUẬT (Ở VỊ TRÍ ĐẦU TIÊN) --}}
-        <div class="vinfast-autohaiphong_product_specs_box">
-            <h2 class="vinfast-autohaiphong_product_specs_heading">
-                BẢNG THÔNG SỐ KỸ THUẬT XE {{ mb_strtoupper($car->name, 'UTF-8') }}
-            </h2>
-
-            @if($specifications->isNotEmpty())
-                <div class="vinfast-autohaiphong_product_specs_grid">
-                    @foreach($specifications as $spec)
-                        <div class="vinfast-autohaiphong_product_specs_row">
-                            <span class="vinfast-autohaiphong_product_specs_key">{{ $spec->label }}</span>
-                            <span class="vinfast-autohaiphong_product_specs_value">
-                                {{ $spec->value }}{{ $spec->unit ? ' ' . $spec->unit : '' }}
-                            </span>
-                        </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="vinfast-autohaiphong_product_specs_grid">
-                    <div class="vinfast-autohaiphong_product_specs_row">
-                        <span class="vinfast-autohaiphong_product_specs_key">Dòng xe</span>
-                        <span class="vinfast-autohaiphong_product_specs_value">Ô tô điện thông minh</span>
-                    </div>
-                    <div class="vinfast-autohaiphong_product_specs_row">
-                        <span class="vinfast-autohaiphong_product_specs_key">Động cơ</span>
-                        <span class="vinfast-autohaiphong_product_specs_value">100% Thuần Điện</span>
-                    </div>
-                    <div class="vinfast-autohaiphong_product_specs_row">
-                        <span class="vinfast-autohaiphong_product_specs_key">Bảo hành chính hãng</span>
-                        <span class="vinfast-autohaiphong_product_specs_value">7 – 10 năm</span>
-                    </div>
-                    <div class="vinfast-autohaiphong_product_specs_row">
-                        <span class="vinfast-autohaiphong_product_specs_key">Hình thức thanh toán</span>
-                        <span class="vinfast-autohaiphong_product_specs_value">Tiền mặt tại showroom</span>
-                    </div>
-                </div>
-            @endif
-        </div>
-
-        {{-- 2. MÔ TẢ CHI TIẾT SẢN PHẨM (NẰM PHÍA DƯỚI THÔNG SỐ KỸ THUẬT) --}}
-        <div class="vinfast-autohaiphong_product_detail_box">
-            <h2 style="font-size: 1.3rem; font-weight: 700; color: var(--client-color-heading); margin-bottom: 16px; border-bottom: 2px solid var(--client-color-primary); padding-bottom: 8px; display: inline-block;">
-                GIỚI THIỆU CHI TIẾT {{ mb_strtoupper($car->name, 'UTF-8') }}
-            </h2>
-
-            <div class="vinfast-autohaiphong_product_detail_content">
-                @if(!empty($car->description_html))
-                    {!! $car->description_html !!}
-                @else
-                    <p>
-                        <strong>{{ $car->name }}</strong> là mẫu xe điện được nghiên cứu và phát triển bởi VinFast – thương hiệu ô tô quốc gia Việt Nam. Xe sở hữu phong cách thiết kế hiện đại, ngôn ngữ tạo hình năng động, tối ưu hóa khí động học giúp xe vận hành thanh thoát và tiết kiệm năng lượng tối đa.
-                    </p>
-                    <h3 style="font-size: 1.15rem; color: var(--client-color-heading); margin-top: 20px;">1. Thiết Kế Sang Trọng & Không Gian Rộng Rãi</h3>
-                    <p>
-                        Khoang cabin của xe được bố trí khoa học, vật liệu hoàn thiện cao cấp mang lại cảm giác dễ chịu cho mọi hành khách trên các hành trình dài. Màn hình điều khiển trung tâm tích hợp toàn bộ các tính năng giải trí, định vị dẫn đường và điều khiển các tiện ích trên xe chỉ bằng những thao tác chạm nhẹ hoặc ra lệnh giọng nói tiếng Việt mượt mà.
-                    </p>
-                    <h3 style="font-size: 1.15rem; color: var(--client-color-heading); margin-top: 20px;">2. Công Nghệ An Toàn & Hệ Thống Trợ Lái ADAS</h3>
-                    <p>
-                        Xe được trang bị các tính năng an toàn tiêu chuẩn quốc tế như hệ thống chống bó cứng phanh (ABS), phân phối lực phanh điện tử (EBD), cân bằng điện tử (ESC), hỗ trợ khởi hành ngang dốc (HSA), cùng gói trợ lái nâng cao ADAS với cảnh báo lệch làn, phanh khẩn cấp tự động và camera sắc nét.
-                    </p>
-                    <h3 style="font-size: 1.15rem; color: var(--client-color-heading); margin-top: 20px;">3. Hạ Tầng Trạm Sạc & Ưu Đãi Tại VinFast Hải Phòng</h3>
-                    <p>
-                        Quý khách hàng mua xe tại Showroom VinFast Minh Đạo Hải Phòng (Số 1 Bạch Đằng, Thượng Lý, Hồng Bàng) hoàn toàn yên tâm về mạng lưới trạm sạc phủ kín các tuyến phố, trung tâm thương mại và quốc lộ trên toàn địa bàn Hải Phòng cũng như toàn quốc. Đặc biệt, đại lý hỗ trợ chính sách thanh toán tiền mặt trực tiếp, giao xe nhanh và hướng dẫn sử dụng tận tình.
-                    </p>
-                @endif
-            </div>
-        </div>
-
-        {{-- 3. CÁC DÒNG XE LIÊN QUAN --}}
-        @if($relatedCars->isNotEmpty())
-            <div>
-                <h2 style="font-size: 1.3rem; font-weight: 700; color: var(--client-color-heading); margin-bottom: 24px; text-align: center;">
-                    CÁC DÒNG XE VINFAST KHÁC BẠN CÓ THỂ QUAN TÂM
-                </h2>
-                <div class="vinfast-autohaiphong_home_grid">
-                    @foreach($relatedCars as $rel)
-                        <div class="vinfast-autohaiphong_home_car_card">
-                            <div class="vinfast-autohaiphong_home_car_thumb">
-                                <img src="{{ $rel->thumbnail_path ? asset('storage/' . $rel->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}" 
-                                     alt="{{ $rel->name }}" 
-                                     loading="lazy" 
-                                     width="600" 
-                                     height="338">
-                            </div>
-                            <div class="vinfast-autohaiphong_home_car_body">
-                                <h3 class="vinfast-autohaiphong_home_car_name" style="font-size: 1.15rem;">
-                                    <a href="{{ url('/xe/' . $rel->slug) }}">{{ $rel->name }}</a>
-                                </h3>
-                                <div class="vinfast-autohaiphong_home_car_price_box">
-                                    <span class="vinfast-autohaiphong_home_car_price_label">Giá từ:</span>
-                                    <span class="vinfast-autohaiphong_home_car_price" style="font-size: 1.15rem;">
-                                        {{ number_format($rel->sale_price ?: $rel->regular_price, 0, ',', '.') }} VNĐ
-                                    </span>
+                    <div class="vinfast-autohaiphong_product_technical-panel" role="tabpanel">
+                        <h3 data-spec-title style="color: #ffffff;">
+                            {{ $specGroups->isNotEmpty() ? $specGroups->keys()->first() : 'Thông số kỹ thuật' }}
+                        </h3>
+                        <div data-spec-content>
+                            @if($specGroups->isNotEmpty())
+                                @foreach($specGroups->first() as $sp)
+                                    <div class="vinfast-autohaiphong_product_spec-row">
+                                        <span>{{ $sp->label }}</span>
+                                        <span>{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</span>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="vinfast-autohaiphong_product_spec-row">
+                                    <span>Tên dòng xe</span>
+                                    <span>{{ $car->name }}</span>
                                 </div>
-                                <div class="vinfast-autohaiphong_home_car_actions">
-                                    <a href="{{ url('/xe/' . $rel->slug) }}" class="vinfast-autohaiphong_btn vinfast-autohaiphong_btn_primary" style="width: 100%; text-decoration: none;">
-                                        Xem Chi Tiết
+                                <div class="vinfast-autohaiphong_product_spec-row">
+                                    <span>Mã định danh (SKU)</span>
+                                    <span>{{ $car->sku ?? 'VF-MODEL' }}</span>
+                                </div>
+                                <div class="vinfast-autohaiphong_product_spec-row">
+                                    <span>Phân khúc</span>
+                                    <span>{{ $car->category_name ?? 'Ô tô điện thông minh' }}</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vinfast-autohaiphong_product_technical-note">
+                    <p>
+                        (*) Thông số và chính sách bán hàng có thể thay đổi theo thông báo chính thức của VinFast Việt Nam tại từng thời điểm. Quý khách vui lòng liên hệ trực tiếp Showroom VinFast Minh Đạo Hải Phòng để nhận thông tin cập nhật mới nhất.
+                    </p>
+                    <div>
+                        <a href="#vf3-so-sanh" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-light">
+                            So sánh chi phí xe
+                        </a>
+                        <button type="button" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-primary" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
+                            Yêu cầu tư vấn kỹ thuật
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- SECTION 10: BOTTOM HERO CTA --}}
+        <section class="vinfast-autohaiphong_product_bottom-hero" aria-label="Khám phá VinFast {{ $car->name }}">
+            <img src="{{ asset('storage/clients/assets/images/theme-v1/footer-car.webp') }}" alt="{{ $car->name }} trên cung đường" loading="lazy" />
+            <div class="vinfast-autohaiphong_product_bottom-overlay">
+                <h2>{{ $shortModelName }}</h2>
+                <p>Nhỏ gọn. Cá tính. Sẵn sàng cùng bạn trên mọi hành trình.</p>
+                <div>
+                    <form action="{{ route('client.cart.add') }}" method="POST" style="display: inline-block;">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $car->id }}">
+                        <input type="hidden" name="variant_id" value="{{ $variants->first()?->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-primary">
+                            Đặt cọc ngay ↗
+                        </button>
+                    </form>
+                    <button class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-white" type="button" onclick="openQuoteModal({{ $car->id }}, 'Đăng ký lái thử {{ $car->name }}')">
+                        Đăng ký lái thử
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        {{-- SECTION 11: CÁC DÒNG XE CÙNG PHÂN KHÚC (RELATED CARS) --}}
+        @if($relatedCars->isNotEmpty())
+            <section class="vinfast-autohaiphong_product_section" style="background-color: var(--vf-bg); border-top: 1px solid var(--vf-border); padding: 60px 0;">
+                <div class="vinfast-autohaiphong_product_container">
+                    <div class="vinfast-autohaiphong_product_section-head" style="margin-bottom: 36px;">
+                        <h2>Các Dòng Xe VinFast Khác</h2>
+                        <p>Khám phá thêm các dòng ô tô điện thông minh phù hợp cho gia đình và công việc</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                        @foreach($relatedCars as $rel)
+                            <div style="background: #ffffff; border: 1px solid var(--vf-border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s;">
+                                <a href="{{ route('client.products.show', $rel->slug) }}" style="display: block; aspect-ratio: 16/9; overflow: hidden; background: #f8fafc;">
+                                    @if($rel->thumbnail_path)
+                                        <img src="{{ asset('storage/' . $rel->thumbnail_path) }}" alt="{{ $rel->thumbnail_alt ?: $rel->name }}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                                    @else
+                                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--vf-muted); font-weight: 600;">VinFast</div>
+                                    @endif
+                                </a>
+                                <div style="padding: 20px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                                    <div>
+                                        <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; color: var(--vf-text);">
+                                            <a href="{{ route('client.products.show', $rel->slug) }}">{{ $rel->name }}</a>
+                                        </h3>
+                                        <div style="font-size: 0.95rem; font-weight: 700; color: var(--vf-blue); margin-bottom: 12px;">
+                                            {{ $rel->price_on_request ? 'Liên hệ báo giá' : number_format($rel->sale_price ?: $rel->regular_price, 0, ',', '.') . ' VNĐ' }}
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('client.products.show', $rel->slug) }}" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-outline" style="width: 100%;">
+                                        Xem Chi Tiết Xe →
                                     </a>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
+            </section>
         @endif
+    </main>
+
+    {{-- FLOATING ACTION BUTTONS --}}
+    <div class="vinfast-autohaiphong_product_floating">
+        <button type="button" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')" class="vinfast-autohaiphong_product_float-button" aria-label="Mở tư vấn báo giá">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </button>
+        <button type="button" data-action="top" class="vinfast-autohaiphong_product_float-top" aria-label="Lên đầu trang">
+            ↑
+        </button>
+    </div>
+
+    {{-- LIGHTBOX MODAL DIALOG --}}
+    <div class="vinfast-autohaiphong_product_lightbox" role="presentation" data-lightbox-modal hidden>
+        <div class="vinfast-autohaiphong_product_lightbox-shade" data-action="close-lightbox"></div>
+        <div class="vinfast-autohaiphong_product_lightbox-content" role="dialog" aria-modal="true" aria-label="Thư viện ảnh {{ $car->name }}">
+            <button type="button" class="vinfast-autohaiphong_product_lightbox-close" data-action="close-lightbox" aria-label="Đóng ảnh">×</button>
+            <button type="button" class="vinfast-autohaiphong_product_lightbox-nav" data-action="lightbox-prev" aria-label="Ảnh trước">‹</button>
+            <img data-lightbox-image alt="Hình ảnh {{ $car->name }}" />
+            <button type="button" class="vinfast-autohaiphong_product_lightbox-nav" data-action="lightbox-next" aria-label="Ảnh tiếp">›</button>
+            <div class="vinfast-autohaiphong_product_lightbox-count" data-lightbox-count>1 / 7</div>
+        </div>
     </div>
 </div>
-
-<script>
-function selectCarVariant(btn) {
-    if (!btn) return;
-    const price = btn.getAttribute('data-price');
-    const name = btn.getAttribute('data-name');
-    const display = document.getElementById('vf-car-price-display');
-    const variantLabel = document.getElementById('vf-selected-variant-label');
-
-    if (price && display) {
-        const formatted = new Intl.NumberFormat('vi-VN').format(price);
-        display.textContent = formatted + ' VNĐ';
-    }
-
-    if (variantLabel && name) {
-        variantLabel.textContent = name;
-        variantLabel.style.display = 'inline-block';
-    }
-
-    document.querySelectorAll('.vf-variant-btn').forEach(function(el) {
-        el.classList.remove('vinfast-autohaiphong_btn_primary');
-        el.classList.add('vinfast-autohaiphong_btn_outline');
-    });
-
-    btn.classList.remove('vinfast-autohaiphong_btn_outline');
-    btn.classList.add('vinfast-autohaiphong_btn_primary');
-}
-</script>
 @endsection

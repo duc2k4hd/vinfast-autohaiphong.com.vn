@@ -1,31 +1,1291 @@
 /* VinFast VF 3 — giao diện tham khảo độc lập. Mọi class có tiền tố cố định. */
-:root{--vf-blue:#1464fa;--vf-blue-dark:#0047ce;--vf-text:#17191d;--vf-muted:#6c727d;--vf-border:#e7eaee;--vf-bg:#fff;--vf-dark:#202020;--vf-max:1360px;--vf-prefix:vinfast-autohaiphong_product_}
-*,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}body{margin:0;background:var(--vf-bg);color:var(--vf-text);font-family:Inter,Arial,sans-serif;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}img{display:block;max-width:100%}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid #76aafa;outline-offset:3px}[hidden]{display:none!important}body{overflow-x:hidden}.vinfast-autohaiphong_product_app{min-width:280px;overflow:clip}.vinfast-autohaiphong_product_container{max-width:var(--vf-max);margin:auto;padding:0 35px}.vinfast-autohaiphong_product_section{padding:90px 0}.vinfast-autohaiphong_product_section-head{text-align:center;margin-bottom:52px}.vinfast-autohaiphong_product_section-head h1,.vinfast-autohaiphong_product_section-head h2{font-size:clamp(28px,2.6vw,39px);line-height:1.25;font-weight:500;letter-spacing:-1px;margin:0 0 10px}.vinfast-autohaiphong_product_section-head p{font-size:15px;color:var(--vf-muted);margin:0}.vinfast-autohaiphong_product_btn{display:inline-flex;min-height:42px;align-items:center;justify-content:center;gap:9px;border:1px solid transparent;padding:12px 21px;font-size:13px;font-weight:600;line-height:1.3;text-align:center;white-space:nowrap;transition:background .22s,color .22s,transform .22s,border-color .22s}.vinfast-autohaiphong_product_btn:hover{transform:translateY(-2px)}.vinfast-autohaiphong_product_btn-primary{background:var(--vf-blue);color:#fff;border-color:var(--vf-blue)}.vinfast-autohaiphong_product_btn-primary:hover{background:var(--vf-blue-dark)}.vinfast-autohaiphong_product_btn-outline{background:#eef5ff;color:var(--vf-blue);border-color:#e3edff}.vinfast-autohaiphong_product_btn-light{background:#fff;color:#1b1b1b;border-color:#ddd}.vinfast-autohaiphong_product_btn-white{background:#fff;color:#202020}.vinfast-autohaiphong_product_muted{color:var(--vf-muted)}
+:root {
+    --vf-blue: #1464fa;
+    --vf-blue-dark: #0047ce;
+    --vf-text: #17191d;
+    --vf-muted: #6c727d;
+    --vf-border: #e7eaee;
+    --vf-bg: #fff;
+    --vf-dark: #202020;
+    --vf-max: 1360px;
+    --vf-prefix: vinfast-autohaiphong_product_;
+}
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 76px;
+}
+body {
+    margin: 0;
+    background: var(--vf-bg);
+    color: var(--vf-text);
+    font-family: Inter, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+img {
+    display: block;
+    max-width: 100%;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+button,
+input,
+select {
+    font: inherit;
+}
+button {
+    cursor: pointer;
+}
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid #76aafa;
+    outline-offset: 3px;
+}
+[hidden] {
+    display: none !important;
+}
+body {
+    overflow-x: hidden;
+}
+.vinfast-autohaiphong_product_app {
+    min-width: 280px;
+    overflow: clip;
+}
+.vinfast-autohaiphong_product_container {
+    max-width: var(--vf-max);
+    margin: auto;
+    padding: 0 35px;
+}
+.vinfast-autohaiphong_product_section {
+    padding: 90px 0;
+}
+.vinfast-autohaiphong_product_section-head {
+    text-align: center;
+    margin-bottom: 52px;
+}
+.vinfast-autohaiphong_product_section-head h1,
+.vinfast-autohaiphong_product_section-head h2 {
+    font-size: clamp(28px, 2.6vw, 39px);
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: -1px;
+    margin: 0 0 10px;
+}
+.vinfast-autohaiphong_product_section-head p {
+    font-size: 15px;
+    color: var(--vf-muted);
+    margin: 0;
+}
+.vinfast-autohaiphong_product_btn {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: 1px solid transparent;
+    padding: 12px 21px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+    white-space: nowrap;
+    transition:
+        background 0.22s,
+        color 0.22s,
+        transform 0.22s,
+        border-color 0.22s;
+}
+.vinfast-autohaiphong_product_btn:hover {
+    transform: translateY(-2px);
+}
+.vinfast-autohaiphong_product_btn-primary {
+    background: var(--vf-blue);
+    color: #fff;
+    border-color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_btn-primary:hover {
+    background: var(--vf-blue-dark);
+}
+.vinfast-autohaiphong_product_btn-outline {
+    background: #eef5ff;
+    color: var(--vf-blue);
+    border-color: #e3edff;
+}
+.vinfast-autohaiphong_product_btn-light {
+    background: #fff;
+    color: #1b1b1b;
+    border-color: #ddd;
+}
+.vinfast-autohaiphong_product_btn-white {
+    background: #fff;
+    color: #202020;
+}
+.vinfast-autohaiphong_product_muted {
+    color: var(--vf-muted);
+}
 /* Header */
-.vinfast-autohaiphong_product_header{height:66px;position:sticky;top:0;z-index:80;background:#fff;border-bottom:1px solid #ebedf0;transition:box-shadow .25s}.vinfast-autohaiphong_product_header.vinfast-autohaiphong_product_header-scrolled{box-shadow:0 3px 18px #0000000b}.vinfast-autohaiphong_product_nav-shell{max-width:1640px;margin:auto;height:100%;display:flex;align-items:center;gap:24px;padding:0 38px}.vinfast-autohaiphong_product_brand{display:flex;align-items:center;gap:7px;flex:none;font-weight:800;letter-spacing:2px;font-size:17px;line-height:1;color:#0a0a0a}.vinfast-autohaiphong_product_brand-mark{width:27px;height:26px}.vinfast-autohaiphong_product_nav{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,30px);flex:1}.vinfast-autohaiphong_product_nav a{font-size:13px;font-weight:500;color:#464b53;white-space:nowrap;transition:color .2s}.vinfast-autohaiphong_product_nav a:hover{color:var(--vf-blue)}.vinfast-autohaiphong_product_header-actions{display:flex;align-items:center;gap:15px}.vinfast-autohaiphong_product_header-link{border:0;background:none;color:#28282d;font-size:13px;font-weight:600;padding:5px}.vinfast-autohaiphong_product_header-deposit{min-height:36px;padding:8px 16px;font-size:12px}.vinfast-autohaiphong_product_menu-toggle{display:none;width:38px;height:38px;flex-direction:column;align-items:center;justify-content:center;gap:5px;border:0;background:transparent}.vinfast-autohaiphong_product_menu-toggle span{width:21px;height:2px;background:#222;transition:transform .2s}.vinfast-autohaiphong_product_mobile-nav{display:none}
+.vinfast-autohaiphong_product_header {
+    height: 66px;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    background: #fff;
+    border-bottom: 1px solid #ebedf0;
+    transition: box-shadow 0.25s;
+}
+.vinfast-autohaiphong_product_header.vinfast-autohaiphong_product_header-scrolled {
+    box-shadow: 0 3px 18px #0000000b;
+}
+.vinfast-autohaiphong_product_nav-shell {
+    max-width: 1640px;
+    margin: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 38px;
+}
+.vinfast-autohaiphong_product_brand {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: none;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 17px;
+    line-height: 1;
+    color: #0a0a0a;
+}
+.vinfast-autohaiphong_product_brand-mark {
+    width: 27px;
+    height: 26px;
+}
+.vinfast-autohaiphong_product_nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 2vw, 30px);
+    flex: 1;
+}
+.vinfast-autohaiphong_product_nav a {
+    font-size: 13px;
+    font-weight: 500;
+    color: #464b53;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+.vinfast-autohaiphong_product_nav a:hover {
+    color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.vinfast-autohaiphong_product_header-link {
+    border: 0;
+    background: none;
+    color: #28282d;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px;
+}
+.vinfast-autohaiphong_product_header-deposit {
+    min-height: 36px;
+    padding: 8px 16px;
+    font-size: 12px;
+}
+.vinfast-autohaiphong_product_menu-toggle {
+    display: none;
+    width: 38px;
+    height: 38px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 0;
+    background: transparent;
+}
+.vinfast-autohaiphong_product_menu-toggle span {
+    width: 21px;
+    height: 2px;
+    background: #222;
+    transition: transform 0.2s;
+}
+.vinfast-autohaiphong_product_mobile-nav {
+    display: none;
+}
 /* Hero */
-.vinfast-autohaiphong_product_hero{position:relative;background:#e0eef7}.vinfast-autohaiphong_product_hero-slider{position:relative;height:clamp(325px,39vw,625px);overflow:hidden}.vinfast-autohaiphong_product_hero-slide{position:absolute;inset:0;opacity:0;transform:scale(1.045);transition:opacity .9s ease,transform 4.5s ease;pointer-events:none}.vinfast-autohaiphong_product_hero-slide.vinfast-autohaiphong_product_hero-slide-active{opacity:1;transform:scale(1);pointer-events:auto}.vinfast-autohaiphong_product_hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center}.vinfast-autohaiphong_product_hero-arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:70px;display:grid;place-items:center;border:0;background:#ffffff0b;color:#fff;font-size:45px;text-shadow:0 1px 7px #0007;opacity:0;transition:opacity .2s,background .2s}.vinfast-autohaiphong_product_hero-slider:hover .vinfast-autohaiphong_product_hero-arrow,.vinfast-autohaiphong_product_hero-arrow:focus-visible{opacity:1}.vinfast-autohaiphong_product_hero-arrow:hover{background:#0004}.vinfast-autohaiphong_product_hero-prev{left:0}.vinfast-autohaiphong_product_hero-next{right:0}.vinfast-autohaiphong_product_hero-pagination{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px}.vinfast-autohaiphong_product_hero-dot{width:8px;height:8px;border:1px solid #fff;background:#ffffff90;border-radius:50%;padding:0;box-shadow:0 1px 5px #0006}.vinfast-autohaiphong_product_hero-dot.vinfast-autohaiphong_product_is-active{width:27px;border-radius:8px;background:#fff}
+.vinfast-autohaiphong_product_hero {
+    position: relative;
+    background: #e0eef7;
+}
+.vinfast-autohaiphong_product_hero-slider {
+    position: relative;
+    height: clamp(325px, 39vw, 625px);
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: scale(1.045);
+    transition:
+        opacity 0.9s ease,
+        transform 4.5s ease;
+    pointer-events: none;
+}
+.vinfast-autohaiphong_product_hero-slide.vinfast-autohaiphong_product_hero-slide-active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+.vinfast-autohaiphong_product_hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.vinfast-autohaiphong_product_hero-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 70px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: #ffffff0b;
+    color: #fff;
+    font-size: 45px;
+    text-shadow: 0 1px 7px #0007;
+    opacity: 0;
+    transition:
+        opacity 0.2s,
+        background 0.2s;
+}
+.vinfast-autohaiphong_product_hero-slider:hover
+    .vinfast-autohaiphong_product_hero-arrow,
+.vinfast-autohaiphong_product_hero-arrow:focus-visible {
+    opacity: 1;
+}
+.vinfast-autohaiphong_product_hero-arrow:hover {
+    background: #0004;
+}
+.vinfast-autohaiphong_product_hero-prev {
+    left: 0;
+}
+.vinfast-autohaiphong_product_hero-next {
+    right: 0;
+}
+.vinfast-autohaiphong_product_hero-pagination {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.vinfast-autohaiphong_product_hero-dot {
+    width: 8px;
+    height: 8px;
+    border: 1px solid #fff;
+    background: #ffffff90;
+    border-radius: 50%;
+    padding: 0;
+    box-shadow: 0 1px 5px #0006;
+}
+.vinfast-autohaiphong_product_hero-dot.vinfast-autohaiphong_product_is-active {
+    width: 27px;
+    border-radius: 8px;
+    background: #fff;
+}
 /* Intro */
-.vinfast-autohaiphong_product_intro{padding-bottom:80px}.vinfast-autohaiphong_product_intro-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:5%;align-items:center;min-height:480px}.vinfast-autohaiphong_product_intro-visual{min-height:445px;position:relative;display:flex;align-items:center;justify-content:center}.vinfast-autohaiphong_product_intro-watermark{position:absolute;top:13px;left:3%;font-size:clamp(150px,20vw,290px);line-height:1;font-style:italic;font-weight:800;letter-spacing:-22px;color:#e8e8e8;opacity:.9;white-space:nowrap}.vinfast-autohaiphong_product_intro-car{width:95%;max-height:360px;object-fit:contain;position:relative;z-index:2;mix-blend-mode:multiply;filter:contrast(1.05)}.vinfast-autohaiphong_product_intro-info{padding:12px 0 15px}.vinfast-autohaiphong_product_trim-picker{display:flex;align-items:center;gap:4px;margin-bottom:25px}.vinfast-autohaiphong_product_trim{border:1px solid #dfe4ee;background:#fff;color:#9ba2ad;font-size:14px;font-weight:600;padding:9px 17px;min-width:110px}.vinfast-autohaiphong_product_trim.vinfast-autohaiphong_product_is-active{color:var(--vf-blue);border-color:var(--vf-blue);background:#f7fbff}.vinfast-autohaiphong_product_spec-highlights{display:grid;grid-template-columns:1fr;gap:13px}.vinfast-autohaiphong_product_spec-highlights>div{padding:4px 0}.vinfast-autohaiphong_product_spec-highlights strong{font-size:20px;font-weight:700;letter-spacing:-.4px}.vinfast-autohaiphong_product_spec-highlights strong small{font-size:13px;font-weight:500}.vinfast-autohaiphong_product_spec-highlights p{margin:2px 0 0;color:#7d838e;font-size:13px}.vinfast-autohaiphong_product_intro-price{margin:20px 0 22px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.vinfast-autohaiphong_product_intro-price span{font-size:13px;color:#777}.vinfast-autohaiphong_product_intro-price strong{font-weight:700;font-size:24px}.vinfast-autohaiphong_product_intro-cta{display:flex;flex-wrap:wrap;gap:10px}
+.vinfast-autohaiphong_product_intro {
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.vinfast-autohaiphong_product_intro-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5%;
+    align-items: center;
+    min-height: 480px;
+}
+.vinfast-autohaiphong_product_intro-visual {
+    min-height: 445px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.vinfast-autohaiphong_product_intro-watermark {
+    position: absolute;
+    top: 13px;
+    left: 3%;
+    font-size: clamp(150px, 20vw, 290px);
+    line-height: 1;
+    font-style: italic;
+    font-weight: 800;
+    letter-spacing: -22px;
+    color: #e8e8e8;
+    opacity: 0.9;
+    white-space: nowrap;
+}
+.vinfast-autohaiphong_product_intro-car {
+    width: 95%;
+    max-height: 360px;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    mix-blend-mode: multiply;
+    filter: contrast(1.05);
+}
+.vinfast-autohaiphong_product_intro-info {
+    padding: 12px 0 15px;
+}
+.vinfast-autohaiphong_product_trim-picker {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 25px;
+}
+.vinfast-autohaiphong_product_trim {
+    border: 1px solid #dfe4ee;
+    background: #fff;
+    color: #9ba2ad;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 9px 17px;
+    min-width: 110px;
+}
+.vinfast-autohaiphong_product_trim.vinfast-autohaiphong_product_is-active {
+    color: var(--vf-blue);
+    border-color: var(--vf-blue);
+    background: #f7fbff;
+}
+.vinfast-autohaiphong_product_spec-highlights {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 13px;
+}
+.vinfast-autohaiphong_product_spec-highlights > div {
+    padding: 4px 0;
+}
+.vinfast-autohaiphong_product_spec-highlights strong {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+}
+.vinfast-autohaiphong_product_spec-highlights strong small {
+    font-size: 13px;
+    font-weight: 500;
+}
+.vinfast-autohaiphong_product_spec-highlights p {
+    margin: 2px 0 0;
+    color: #7d838e;
+    font-size: 13px;
+}
+.vinfast-autohaiphong_product_intro-price {
+    margin: 20px 0 22px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.vinfast-autohaiphong_product_intro-price span {
+    font-size: 13px;
+    color: #777;
+}
+.vinfast-autohaiphong_product_intro-price strong {
+    font-weight: 700;
+    font-size: 24px;
+}
+.vinfast-autohaiphong_product_intro-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
 /* Colors */
-.vinfast-autohaiphong_product_colors{padding:45px 0 75px;background:linear-gradient(#fff,#f9fafa 67%,#fff)}.vinfast-autohaiphong_product_colors .vinfast-autohaiphong_product_section-head{margin-bottom:20px}.vinfast-autohaiphong_product_color-stage{position:relative;min-height:430px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}.vinfast-autohaiphong_product_color-car{width:min(720px,78vw);height:320px;object-fit:contain;mix-blend-mode:multiply;transition:filter .38s ease,opacity .25s ease}.vinfast-autohaiphong_product_color-bottom{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:15px 0 2px}.vinfast-autohaiphong_product_color-switcher{display:flex;align-items:center;justify-content:center;gap:16px}.vinfast-autohaiphong_product_swatches{display:flex;align-items:center;gap:13px}.vinfast-autohaiphong_product_color-dot{width:25px;height:25px;border-radius:50%;border:2px solid #f4f4f4;box-shadow:0 1px 3px #0002;transition:transform .2s,outline-color .2s}.vinfast-autohaiphong_product_color-dot:hover{transform:scale(1.1)}.vinfast-autohaiphong_product_color-dot.vinfast-autohaiphong_product_is-active{outline:2px solid #aaa;outline-offset:3px}.vinfast-autohaiphong_product_color-arrow{width:26px;height:26px;border:1px solid #dfe3e7;border-radius:50%;background:#fff;color:#9fa5af;font-size:23px;line-height:18px}.vinfast-autohaiphong_product_color-name{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#7d8187;margin:10px 0}.vinfast-autohaiphong_product_color-notice{font-size:11px;text-align:center;color:#a7aab1;margin:12px 0 0}
+.vinfast-autohaiphong_product_colors {
+    padding: 45px 0 75px;
+    background: linear-gradient(#fff, #f9fafa 67%, #fff);
+}
+.vinfast-autohaiphong_product_colors
+    .vinfast-autohaiphong_product_section-head {
+    margin-bottom: 20px;
+}
+.vinfast-autohaiphong_product_color-stage {
+    position: relative;
+    min-height: 430px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+.vinfast-autohaiphong_product_color-car {
+    width: min(720px, 78vw);
+    height: 320px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition:
+        filter 0.38s ease,
+        opacity 0.25s ease;
+}
+.vinfast-autohaiphong_product_color-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    padding: 15px 0 2px;
+}
+.vinfast-autohaiphong_product_color-switcher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+.vinfast-autohaiphong_product_swatches {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+.vinfast-autohaiphong_product_color-dot {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border: 2px solid #f4f4f4;
+    box-shadow: 0 1px 3px #0002;
+    transition:
+        transform 0.2s,
+        outline-color 0.2s;
+}
+.vinfast-autohaiphong_product_color-dot:hover {
+    transform: scale(1.1);
+}
+.vinfast-autohaiphong_product_color-dot.vinfast-autohaiphong_product_is-active {
+    outline: 2px solid #aaa;
+    outline-offset: 3px;
+}
+.vinfast-autohaiphong_product_color-arrow {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #dfe3e7;
+    border-radius: 50%;
+    background: #fff;
+    color: #9fa5af;
+    font-size: 23px;
+    line-height: 18px;
+}
+.vinfast-autohaiphong_product_color-name {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #7d8187;
+    margin: 10px 0;
+}
+.vinfast-autohaiphong_product_color-notice {
+    font-size: 11px;
+    text-align: center;
+    color: #a7aab1;
+    margin: 12px 0 0;
+}
 /* Compare */
-.vinfast-autohaiphong_product_compare{padding:75px 0 100px}.vinfast-autohaiphong_product_compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:54px;align-items:start}.vinfast-autohaiphong_product_compare-form h3,.vinfast-autohaiphong_product_compare-story h3{margin:0 0 10px;font-size:19px;font-weight:600}.vinfast-autohaiphong_product_compare-form>.vinfast-autohaiphong_product_muted{font-size:13px;line-height:1.7}.vinfast-autohaiphong_product_field{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:18px;align-items:center;font-size:13px;color:#535d6b}.vinfast-autohaiphong_product_field input[type=range]{grid-column:1/3;width:100%;accent-color:var(--vf-blue)}.vinfast-autohaiphong_product_field input[type=number]{width:140px;border:1px solid #d6dbe4;border-radius:3px;padding:8px 10px;background:#fff}.vinfast-autohaiphong_product_field output{color:var(--vf-blue);font-weight:700}.vinfast-autohaiphong_product_compare-results{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 14px}.vinfast-autohaiphong_product_compare-results>div{padding:15px 14px;background:#f6f9fc;border:1px solid #e5eef7;border-radius:4px;display:flex;flex-direction:column;gap:6px}.vinfast-autohaiphong_product_compare-results span{font-size:11px;color:#667180}.vinfast-autohaiphong_product_compare-results strong{font-size:20px;font-weight:700;white-space:nowrap}.vinfast-autohaiphong_product_saving{padding:13px;background:#e9f4ff;margin:0;font-size:13px}.vinfast-autohaiphong_product_saving strong{font-size:16px;color:var(--vf-blue)}.vinfast-autohaiphong_product_compare-story{position:relative}.vinfast-autohaiphong_product_compare-story-top{background:#e7f4f9;border-radius:3px;padding:27px 30px 25px;min-height:175px}.vinfast-autohaiphong_product_leaf{font-size:36px;color:var(--vf-blue);float:left;margin-right:16px;margin-top:-8px}.vinfast-autohaiphong_product_compare-story-top h3{color:#202f42}.vinfast-autohaiphong_product_compare-story-top p{font-size:14px;color:#65717c}.vinfast-autohaiphong_product_compare-story img{width:170px;height:105px;object-fit:contain;position:absolute;right:0;top:-50px;mix-blend-mode:multiply}.vinfast-autohaiphong_product_compare-story>p{font-size:13px;line-height:1.9;color:#697381;padding:18px 5px}.vinfast-autohaiphong_product_image-banner{position:relative;height:clamp(320px,43vw,640px);overflow:hidden;background:#bfcfd9}.vinfast-autohaiphong_product_image-banner img{width:100%;height:100%;object-fit:cover;object-position:center}.vinfast-autohaiphong_product_image-banner>span{position:absolute;bottom:-66px;left:50%;transform:translateX(-50%);font-weight:800;font-style:italic;letter-spacing:-7px;font-size:clamp(110px,16vw,270px);color:#ffffff8a;pointer-events:none}
+.vinfast-autohaiphong_product_compare {
+    padding: 75px 0 100px;
+}
+.vinfast-autohaiphong_product_compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 54px;
+    align-items: start;
+}
+.vinfast-autohaiphong_product_compare-form h3,
+.vinfast-autohaiphong_product_compare-story h3 {
+    margin: 0 0 10px;
+    font-size: 19px;
+    font-weight: 600;
+}
+.vinfast-autohaiphong_product_compare-form
+    > .vinfast-autohaiphong_product_muted {
+    font-size: 13px;
+    line-height: 1.7;
+}
+.vinfast-autohaiphong_product_field {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    margin-top: 18px;
+    align-items: center;
+    font-size: 13px;
+    color: #535d6b;
+}
+.vinfast-autohaiphong_product_field input[type="range"] {
+    grid-column: 1/3;
+    width: 100%;
+    accent-color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_field input[type="number"] {
+    width: 140px;
+    border: 1px solid #d6dbe4;
+    border-radius: 3px;
+    padding: 8px 10px;
+    background: #fff;
+}
+.vinfast-autohaiphong_product_field output {
+    color: var(--vf-blue);
+    font-weight: 700;
+}
+.vinfast-autohaiphong_product_compare-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0 14px;
+}
+.vinfast-autohaiphong_product_compare-results > div {
+    padding: 15px 14px;
+    background: #f6f9fc;
+    border: 1px solid #e5eef7;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.vinfast-autohaiphong_product_compare-results span {
+    font-size: 11px;
+    color: #667180;
+}
+.vinfast-autohaiphong_product_compare-results strong {
+    font-size: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.vinfast-autohaiphong_product_saving {
+    padding: 13px;
+    background: #e9f4ff;
+    margin: 0;
+    font-size: 13px;
+}
+.vinfast-autohaiphong_product_saving strong {
+    font-size: 16px;
+    color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_compare-story {
+    position: relative;
+}
+.vinfast-autohaiphong_product_compare-story-top {
+    background: #e7f4f9;
+    border-radius: 3px;
+    padding: 27px 30px 25px;
+    min-height: 175px;
+}
+.vinfast-autohaiphong_product_leaf {
+    font-size: 36px;
+    color: var(--vf-blue);
+    float: left;
+    margin-right: 16px;
+    margin-top: -8px;
+}
+.vinfast-autohaiphong_product_compare-story-top h3 {
+    color: #202f42;
+}
+.vinfast-autohaiphong_product_compare-story-top p {
+    font-size: 14px;
+    color: #65717c;
+}
+.vinfast-autohaiphong_product_compare-story img {
+    width: 170px;
+    height: 105px;
+    object-fit: contain;
+    position: absolute;
+    right: 0;
+    top: -50px;
+    mix-blend-mode: multiply;
+}
+.vinfast-autohaiphong_product_compare-story > p {
+    font-size: 13px;
+    line-height: 1.9;
+    color: #697381;
+    padding: 18px 5px;
+}
+.vinfast-autohaiphong_product_image-banner {
+    position: relative;
+    height: clamp(320px, 43vw, 640px);
+    overflow: hidden;
+    background: #bfcfd9;
+}
+.vinfast-autohaiphong_product_image-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.vinfast-autohaiphong_product_image-banner > span {
+    position: absolute;
+    bottom: -66px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: -7px;
+    font-size: clamp(110px, 16vw, 270px);
+    color: #ffffff8a;
+    pointer-events: none;
+}
 /* Design */
-.vinfast-autohaiphong_product_design{padding:100px 0 60px}.vinfast-autohaiphong_product_design-head{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-bottom:52px}.vinfast-autohaiphong_product_design-head h2{font-size:clamp(26px,2.5vw,37px);line-height:1.35;font-weight:500;margin:0 0 13px}.vinfast-autohaiphong_product_design-head p{color:#81848c;margin:0;font-size:14px}.vinfast-autohaiphong_product_design-head h3{font-size:17px;font-weight:700;margin:3px 0 14px}.vinfast-autohaiphong_product_design-tabs{display:flex;gap:16px;border-bottom:1px solid #e0e0e0}.vinfast-autohaiphong_product_design-tabs button{border:0;border-bottom:2px solid transparent;padding:8px 2px;color:#8a9097;font-size:13px;background:none}.vinfast-autohaiphong_product_design-tabs button.vinfast-autohaiphong_product_is-active{border-color:var(--vf-blue);color:var(--vf-blue)}.vinfast-autohaiphong_product_design-head .vinfast-autohaiphong_product_design-description{margin:15px 0;font-size:13px;min-height:38px}.vinfast-autohaiphong_product_text-cta{border:0;background:transparent;color:var(--vf-blue);font-size:13px;font-weight:700;padding:0}.vinfast-autohaiphong_product_design-gallery{height:clamp(280px,36vw,575px);position:relative;overflow:hidden;background:#eee}.vinfast-autohaiphong_product_design-track{display:flex;height:100%;transition:transform .65s cubic-bezier(.22,.7,.25,1)}.vinfast-autohaiphong_product_design-track img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;object-position:center}.vinfast-autohaiphong_product_gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:47px;height:47px;background:#fffd;border:0;color:#222;font-size:32px;box-shadow:0 2px 18px #0002}.vinfast-autohaiphong_product_gallery-left{left:4%}.vinfast-autohaiphong_product_gallery-right{right:4%}
+.vinfast-autohaiphong_product_design {
+    padding: 100px 0 60px;
+}
+.vinfast-autohaiphong_product_design-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 52px;
+}
+.vinfast-autohaiphong_product_design-head h2 {
+    font-size: clamp(26px, 2.5vw, 37px);
+    line-height: 1.35;
+    font-weight: 500;
+    margin: 0 0 13px;
+}
+.vinfast-autohaiphong_product_design-head p {
+    color: #81848c;
+    margin: 0;
+    font-size: 14px;
+}
+.vinfast-autohaiphong_product_design-head h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin: 3px 0 14px;
+}
+.vinfast-autohaiphong_product_design-tabs {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.vinfast-autohaiphong_product_design-tabs button {
+    border: 0;
+    border-bottom: 2px solid transparent;
+    padding: 8px 2px;
+    color: #8a9097;
+    font-size: 13px;
+    background: none;
+}
+.vinfast-autohaiphong_product_design-tabs
+    button.vinfast-autohaiphong_product_is-active {
+    border-color: var(--vf-blue);
+    color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_design-head
+    .vinfast-autohaiphong_product_design-description {
+    margin: 15px 0;
+    font-size: 13px;
+    min-height: 38px;
+}
+.vinfast-autohaiphong_product_text-cta {
+    border: 0;
+    background: transparent;
+    color: var(--vf-blue);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0;
+}
+.vinfast-autohaiphong_product_design-gallery {
+    height: clamp(280px, 36vw, 575px);
+    position: relative;
+    overflow: hidden;
+    background: #eee;
+}
+.vinfast-autohaiphong_product_design-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.65s cubic-bezier(0.22, 0.7, 0.25, 1);
+}
+.vinfast-autohaiphong_product_design-track img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.vinfast-autohaiphong_product_gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 47px;
+    height: 47px;
+    background: #fffd;
+    border: 0;
+    color: #222;
+    font-size: 32px;
+    box-shadow: 0 2px 18px #0002;
+}
+.vinfast-autohaiphong_product_gallery-left {
+    left: 4%;
+}
+.vinfast-autohaiphong_product_gallery-right {
+    right: 4%;
+}
 /* Mosaic */
-.vinfast-autohaiphong_product_mosaic{display:grid;grid-template-columns:1fr;gap:0}.vinfast-autohaiphong_product_mosaic-main{height:clamp(320px,37vw,590px);overflow:hidden;background:#353334}.vinfast-autohaiphong_product_mosaic-main img{width:100%;height:100%;object-fit:cover;object-position:50% 44%}.vinfast-autohaiphong_product_mosaic-row{display:grid;grid-template-columns:1fr 1fr;gap:0}.vinfast-autohaiphong_product_mosaic-row>div{height:clamp(270px,30vw,470px);overflow:hidden}.vinfast-autohaiphong_product_mosaic-row img{width:100%;height:100%;object-fit:cover}.vinfast-autohaiphong_product_mosaic-thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;max-width:var(--vf-max);padding:44px 35px 30px;margin:auto;width:100%}.vinfast-autohaiphong_product_mosaic-thumbs button{border:0;padding:0;position:relative;overflow:hidden;height:190px;text-align:left;color:#fff;background:#333}.vinfast-autohaiphong_product_mosaic-thumbs img{width:100%;height:100%;object-fit:cover;transition:transform .35s}.vinfast-autohaiphong_product_mosaic-thumbs button:hover img{transform:scale(1.045)}.vinfast-autohaiphong_product_mosaic-thumbs button:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#000b)}.vinfast-autohaiphong_product_mosaic-thumbs span{position:absolute;bottom:15px;left:16px;z-index:2;font-size:13px;font-weight:600}.vinfast-autohaiphong_product_lightbox-trigger{cursor:zoom-in}
+.vinfast-autohaiphong_product_mosaic {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+.vinfast-autohaiphong_product_mosaic-main {
+    height: clamp(320px, 37vw, 590px);
+    overflow: hidden;
+    background: #353334;
+}
+.vinfast-autohaiphong_product_mosaic-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 44%;
+}
+.vinfast-autohaiphong_product_mosaic-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+.vinfast-autohaiphong_product_mosaic-row > div {
+    height: clamp(270px, 30vw, 470px);
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_mosaic-row img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.vinfast-autohaiphong_product_mosaic-thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    max-width: var(--vf-max);
+    padding: 44px 35px 30px;
+    margin: auto;
+    width: 100%;
+}
+.vinfast-autohaiphong_product_mosaic-thumbs button {
+    border: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    height: 190px;
+    text-align: left;
+    color: #fff;
+    background: #333;
+}
+.vinfast-autohaiphong_product_mosaic-thumbs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s;
+}
+.vinfast-autohaiphong_product_mosaic-thumbs button:hover img {
+    transform: scale(1.045);
+}
+.vinfast-autohaiphong_product_mosaic-thumbs button:after {
+    content: "";
+    position: absolute;
+    inset: 35% 0 0;
+    background: linear-gradient(transparent, #000b);
+}
+.vinfast-autohaiphong_product_mosaic-thumbs span {
+    position: absolute;
+    bottom: 15px;
+    left: 16px;
+    z-index: 2;
+    font-size: 13px;
+    font-weight: 600;
+}
+.vinfast-autohaiphong_product_lightbox-trigger {
+    cursor: zoom-in;
+}
 /* Interior */
-.vinfast-autohaiphong_product_interior{padding:95px 0 88px}.vinfast-autohaiphong_product_interior-image{position:relative;width:100%;height:clamp(325px,40vw,560px);overflow:hidden;background:#f5f5f5}.vinfast-autohaiphong_product_interior-image img{width:100%;height:100%;object-fit:cover;object-position:center}.vinfast-autohaiphong_product_interior-label{position:absolute;right:25px;bottom:22px;padding:8px 17px;background:#fff;border:1px solid #ddd;font-size:13px;color:#444}.vinfast-autohaiphong_product_interior-label span{margin-left:12px}
+.vinfast-autohaiphong_product_interior {
+    padding: 95px 0 88px;
+}
+.vinfast-autohaiphong_product_interior-image {
+    position: relative;
+    width: 100%;
+    height: clamp(325px, 40vw, 560px);
+    overflow: hidden;
+    background: #f5f5f5;
+}
+.vinfast-autohaiphong_product_interior-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.vinfast-autohaiphong_product_interior-label {
+    position: absolute;
+    right: 25px;
+    bottom: 22px;
+    padding: 8px 17px;
+    background: #fff;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    color: #444;
+}
+.vinfast-autohaiphong_product_interior-label span {
+    margin-left: 12px;
+}
 /* Technical */
-.vinfast-autohaiphong_product_technical{background:#202020;color:#fff;padding:83px 0 84px}.vinfast-autohaiphong_product_technical h2{font-size:clamp(27px,2.6vw,39px);font-weight:400;text-align:center;margin:0 0 50px}.vinfast-autohaiphong_product_technical-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:50px;min-height:290px}.vinfast-autohaiphong_product_technical-tabs button{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;border-bottom:1px solid #444;color:#979797;font-size:18px;background:transparent;text-align:left;padding:18px 10px}.vinfast-autohaiphong_product_technical-tabs button.vinfast-autohaiphong_product_is-active{color:#fff}.vinfast-autohaiphong_product_technical-tabs button span{font-size:25px}.vinfast-autohaiphong_product_technical-panel{background:#2e2e2e;padding:22px 24px;min-height:285px}.vinfast-autohaiphong_product_technical-panel h3{font-size:18px;font-weight:600;margin:0 0 12px}.vinfast-autohaiphong_product_spec-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid #454545;padding:12px 0;color:#dadada;font-size:13px}.vinfast-autohaiphong_product_spec-row span:last-child{font-weight:600;color:#fff}.vinfast-autohaiphong_product_technical-note{border-top:1px solid #414141;margin-top:40px;padding-top:22px;display:flex;justify-content:space-between;align-items:end;gap:30px}.vinfast-autohaiphong_product_technical-note p{max-width:780px;color:#a9a9a9;line-height:1.8;font-size:11px;margin:0}.vinfast-autohaiphong_product_technical-note>div{display:flex;gap:12px;flex:none}
+.vinfast-autohaiphong_product_technical {
+    background: #202020;
+    color: #fff;
+    padding: 83px 0 84px;
+}
+.vinfast-autohaiphong_product_technical h2 {
+    font-size: clamp(27px, 2.6vw, 39px);
+    font-weight: 400;
+    text-align: center;
+    margin: 0 0 50px;
+}
+.vinfast-autohaiphong_product_technical-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 50px;
+    min-height: 290px;
+}
+.vinfast-autohaiphong_product_technical-tabs button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 0;
+    border-bottom: 1px solid #444;
+    color: #979797;
+    font-size: 18px;
+    background: transparent;
+    text-align: left;
+    padding: 18px 10px;
+}
+.vinfast-autohaiphong_product_technical-tabs
+    button.vinfast-autohaiphong_product_is-active {
+    color: #fff;
+}
+.vinfast-autohaiphong_product_technical-tabs button span {
+    font-size: 25px;
+}
+.vinfast-autohaiphong_product_technical-panel {
+    background: #2e2e2e;
+    padding: 22px 24px;
+    min-height: 285px;
+}
+.vinfast-autohaiphong_product_technical-panel h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px;
+}
+.vinfast-autohaiphong_product_spec-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    border-top: 1px solid #454545;
+    padding: 12px 0;
+    color: #dadada;
+    font-size: 13px;
+}
+.vinfast-autohaiphong_product_spec-row span:last-child {
+    font-weight: 600;
+    color: #fff;
+}
+.vinfast-autohaiphong_product_technical-note {
+    border-top: 1px solid #414141;
+    margin-top: 40px;
+    padding-top: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+}
+.vinfast-autohaiphong_product_technical-note p {
+    max-width: 780px;
+    color: #a9a9a9;
+    line-height: 1.8;
+    font-size: 11px;
+    margin: 0;
+}
+.vinfast-autohaiphong_product_technical-note > div {
+    display: flex;
+    gap: 12px;
+    flex: none;
+}
 /* Ecosystem */
-.vinfast-autohaiphong_product_ecosystem{padding:105px 0}.vinfast-autohaiphong_product_ecosystem-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:6%;align-items:center}.vinfast-autohaiphong_product_ecosystem h2{font-size:clamp(28px,2.6vw,38px);font-weight:500;line-height:1.25;margin:0 0 10px}.vinfast-autohaiphong_product_ecosystem-grid>div>p{color:#8b9096;font-size:14px;margin:0 0 32px}.vinfast-autohaiphong_product_ecosystem-benefits{display:flex;flex-direction:column;gap:23px;margin:0 0 30px}.vinfast-autohaiphong_product_ecosystem-benefits>div{display:flex;gap:14px;align-items:flex-start}.vinfast-autohaiphong_product_ecosystem-benefits>div>span{font-size:19px;letter-spacing:-2px;font-weight:700;color:var(--vf-blue)}.vinfast-autohaiphong_product_ecosystem-benefits strong{font-size:17px}.vinfast-autohaiphong_product_ecosystem-benefits p{color:#9299a0;font-size:13px;margin:2px 0}.vinfast-autohaiphong_product_ecosystem-map{position:relative;min-height:420px;background:#f4f5f7;overflow:hidden}.vinfast-autohaiphong_product_ecosystem-map img{width:100%;height:420px;object-fit:cover;filter:grayscale(.2)}.vinfast-autohaiphong_product_ecosystem-map span{position:absolute;bottom:0;left:0;right:0;background:#ffffffe8;font-size:11px;padding:7px 12px;color:#626a76;text-align:center}
+.vinfast-autohaiphong_product_ecosystem {
+    padding: 105px 0;
+}
+.vinfast-autohaiphong_product_ecosystem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 6%;
+    align-items: center;
+}
+.vinfast-autohaiphong_product_ecosystem h2 {
+    font-size: clamp(28px, 2.6vw, 38px);
+    font-weight: 500;
+    line-height: 1.25;
+    margin: 0 0 10px;
+}
+.vinfast-autohaiphong_product_ecosystem-grid > div > p {
+    color: #8b9096;
+    font-size: 14px;
+    margin: 0 0 32px;
+}
+.vinfast-autohaiphong_product_ecosystem-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 23px;
+    margin: 0 0 30px;
+}
+.vinfast-autohaiphong_product_ecosystem-benefits > div {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+.vinfast-autohaiphong_product_ecosystem-benefits > div > span {
+    font-size: 19px;
+    letter-spacing: -2px;
+    font-weight: 700;
+    color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_ecosystem-benefits strong {
+    font-size: 17px;
+}
+.vinfast-autohaiphong_product_ecosystem-benefits p {
+    color: #9299a0;
+    font-size: 13px;
+    margin: 2px 0;
+}
+.vinfast-autohaiphong_product_ecosystem-map {
+    position: relative;
+    min-height: 420px;
+    background: #f4f5f7;
+    overflow: hidden;
+}
+.vinfast-autohaiphong_product_ecosystem-map img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    filter: grayscale(0.2);
+}
+.vinfast-autohaiphong_product_ecosystem-map span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffffe8;
+    font-size: 11px;
+    padding: 7px 12px;
+    color: #626a76;
+    text-align: center;
+}
 /* Bottom CTA and footer */
-.vinfast-autohaiphong_product_bottom-hero{height:clamp(300px,32vw,540px);position:relative;background:#b1bec8}.vinfast-autohaiphong_product_bottom-hero>img{width:100%;height:100%;object-fit:cover;object-position:center}.vinfast-autohaiphong_product_bottom-overlay{position:absolute;top:17%;left:50%;transform:translateX(-50%);text-align:center;width:min(560px,94%);color:#161a1d;text-shadow:0 1px 7px #fff8}.vinfast-autohaiphong_product_bottom-overlay h2{margin:0;font-size:48px;font-weight:600;line-height:1.1}.vinfast-autohaiphong_product_bottom-overlay p{font-size:14px}.vinfast-autohaiphong_product_bottom-overlay>div{display:flex;gap:12px;justify-content:center}.vinfast-autohaiphong_product_footer{background:#f9fafb;padding:50px 0 26px}.vinfast-autohaiphong_product_footer-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1.3fr;gap:50px}.vinfast-autohaiphong_product_footer-logo{font-weight:800;letter-spacing:2px;font-size:20px}.vinfast-autohaiphong_product_footer-logo>span{margin-left:5px}.vinfast-autohaiphong_product_footer-grid p{max-width:330px;font-size:11px;color:#717982;line-height:1.8}.vinfast-autohaiphong_product_footer-grid>div:not(:first-child){display:flex;flex-direction:column;align-items:flex-start;gap:12px}.vinfast-autohaiphong_product_footer-grid strong{font-size:13px;margin-bottom:6px}.vinfast-autohaiphong_product_footer-grid a,.vinfast-autohaiphong_product_footer-grid button{font-size:12px;color:#727984;background:none;border:0;padding:0;text-align:left}.vinfast-autohaiphong_product_footer-grid a:hover,.vinfast-autohaiphong_product_footer-grid button:hover{color:var(--vf-blue)}.vinfast-autohaiphong_product_footer-bottom{border-top:1px solid #e3e6e9;margin-top:34px;padding-top:18px;display:flex;justify-content:space-between;color:#8d9299;font-size:11px}
+.vinfast-autohaiphong_product_bottom-hero {
+    height: clamp(300px, 32vw, 540px);
+    position: relative;
+    background: #b1bec8;
+}
+.vinfast-autohaiphong_product_bottom-hero > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.vinfast-autohaiphong_product_bottom-overlay {
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: min(560px, 94%);
+    color: #161a1d;
+    text-shadow: 0 1px 7px #fff8;
+}
+.vinfast-autohaiphong_product_bottom-overlay h2 {
+    margin: 0;
+    font-size: 48px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+.vinfast-autohaiphong_product_bottom-overlay p {
+    font-size: 14px;
+}
+.vinfast-autohaiphong_product_bottom-overlay > div {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+.vinfast-autohaiphong_product_footer {
+    background: #f9fafb;
+    padding: 50px 0 26px;
+}
+.vinfast-autohaiphong_product_footer-grid {
+    display: grid;
+    grid-template-columns: 2.2fr 1fr 1fr 1.3fr;
+    gap: 50px;
+}
+.vinfast-autohaiphong_product_footer-logo {
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 20px;
+}
+.vinfast-autohaiphong_product_footer-logo > span {
+    margin-left: 5px;
+}
+.vinfast-autohaiphong_product_footer-grid p {
+    max-width: 330px;
+    font-size: 11px;
+    color: #717982;
+    line-height: 1.8;
+}
+.vinfast-autohaiphong_product_footer-grid > div:not(:first-child) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+.vinfast-autohaiphong_product_footer-grid strong {
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+.vinfast-autohaiphong_product_footer-grid a,
+.vinfast-autohaiphong_product_footer-grid button {
+    font-size: 12px;
+    color: #727984;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+}
+.vinfast-autohaiphong_product_footer-grid a:hover,
+.vinfast-autohaiphong_product_footer-grid button:hover {
+    color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_footer-bottom {
+    border-top: 1px solid #e3e6e9;
+    margin-top: 34px;
+    padding-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    color: #8d9299;
+    font-size: 11px;
+}
 /* Float */
-.vinfast-autohaiphong_product_floating{position:fixed;bottom:25px;right:20px;z-index:65;display:flex;flex-direction:column;align-items:center;gap:11px}.vinfast-autohaiphong_product_float-button,.vinfast-autohaiphong_product_float-top{border:0;border-radius:50%;width:47px;height:47px;display:grid;place-items:center;color:#fff;background:#1881ff;box-shadow:0 3px 15px #0457c650;font-size:22px;transition:transform .2s}.vinfast-autohaiphong_product_float-top{font-size:19px;width:38px;height:38px;background:#242b34;opacity:0;pointer-events:none;transform:translateY(10px)}.vinfast-autohaiphong_product_float-top.vinfast-autohaiphong_product_is-visible{opacity:1;pointer-events:auto;transform:translateY(0)}.vinfast-autohaiphong_product_float-button:hover{transform:scale(1.08)}
+.vinfast-autohaiphong_product_floating {
+    position: fixed;
+    bottom: 25px;
+    right: 20px;
+    z-index: 65;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 11px;
+}
+.vinfast-autohaiphong_product_float-button,
+.vinfast-autohaiphong_product_float-top {
+    border: 0;
+    border-radius: 50%;
+    width: 47px;
+    height: 47px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: #1881ff;
+    box-shadow: 0 3px 15px #0457c650;
+    font-size: 22px;
+    transition: transform 0.2s;
+}
+.vinfast-autohaiphong_product_float-top {
+    font-size: 19px;
+    width: 38px;
+    height: 38px;
+    background: #242b34;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+}
+.vinfast-autohaiphong_product_float-top.vinfast-autohaiphong_product_is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+.vinfast-autohaiphong_product_float-button:hover {
+    transform: scale(1.08);
+}
 /* Dialog */
-.vinfast-autohaiphong_product_modal,.vinfast-autohaiphong_product_lightbox{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px}.vinfast-autohaiphong_product_modal-backdrop,.vinfast-autohaiphong_product_lightbox-shade{position:absolute;inset:0;background:#0a1329b8;backdrop-filter:blur(5px)}.vinfast-autohaiphong_product_modal-dialog{position:relative;z-index:1;width:min(480px,100%);max-height:92vh;overflow-y:auto;background:#fff;padding:36px 38px;box-shadow:0 25px 90px #0004}.vinfast-autohaiphong_product_modal-close,.vinfast-autohaiphong_product_lightbox-close{position:absolute;right:12px;top:8px;background:none;border:0;font-size:31px;line-height:1;color:#606974;z-index:2}.vinfast-autohaiphong_product_modal-eyebrow{color:var(--vf-blue);font-size:10px;font-weight:700;letter-spacing:2.2px}.vinfast-autohaiphong_product_modal-title{margin:10px 0;font-size:27px;font-weight:600}.vinfast-autohaiphong_product_modal-dialog>p{font-size:13px;color:#787e88}.vinfast-autohaiphong_product_modal-form{display:grid;gap:15px;margin-top:24px}.vinfast-autohaiphong_product_modal-form>label{display:grid;gap:5px;font-size:13px;font-weight:600;color:#3c4755}.vinfast-autohaiphong_product_modal-form>label>span{color:#df3434}.vinfast-autohaiphong_product_modal-form input:not([type=checkbox]),.vinfast-autohaiphong_product_modal-form select{width:100%;border:1px solid #d6dce4;border-radius:3px;padding:10px 12px;background:#fff;color:#20272d;font-size:14px}.vinfast-autohaiphong_product_modal-form .vinfast-autohaiphong_product_modal-consent{display:flex;gap:9px;align-items:flex-start;font-size:12px;font-weight:400;color:#687480}.vinfast-autohaiphong_product_modal-consent input{margin-top:3px;accent-color:var(--vf-blue)}.vinfast-autohaiphong_product_modal-status{margin:0;font-size:12px;color:#176d39}.vinfast-autohaiphong_product_lightbox{background:#000e}.vinfast-autohaiphong_product_lightbox-shade{background:#000e}.vinfast-autohaiphong_product_lightbox-content{position:relative;z-index:1;width:min(1150px,100%);max-height:92vh;display:flex;align-items:center;justify-content:center;gap:12px}.vinfast-autohaiphong_product_lightbox-content>img{max-width:calc(100% - 95px);max-height:78vh;object-fit:contain;border-radius:3px}.vinfast-autohaiphong_product_lightbox-nav{width:42px;height:42px;border-radius:50%;background:#fff2;border:1px solid #fff5;color:#fff;font-size:30px;flex:none}.vinfast-autohaiphong_product_lightbox-close{right:-5px;top:-30px;color:#fff}.vinfast-autohaiphong_product_lightbox-count{position:absolute;bottom:-31px;left:50%;transform:translateX(-50%);color:#ddd;font-size:12px}
+.vinfast-autohaiphong_product_modal,
+.vinfast-autohaiphong_product_lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+}
+.vinfast-autohaiphong_product_modal-backdrop,
+.vinfast-autohaiphong_product_lightbox-shade {
+    position: absolute;
+    inset: 0;
+    background: #0a1329b8;
+    backdrop-filter: blur(5px);
+}
+.vinfast-autohaiphong_product_modal-dialog {
+    position: relative;
+    z-index: 1;
+    width: min(480px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: #fff;
+    padding: 36px 38px;
+    box-shadow: 0 25px 90px #0004;
+}
+.vinfast-autohaiphong_product_modal-close,
+.vinfast-autohaiphong_product_lightbox-close {
+    position: absolute;
+    right: 12px;
+    top: 8px;
+    background: none;
+    border: 0;
+    font-size: 31px;
+    line-height: 1;
+    color: #606974;
+    z-index: 2;
+}
+.vinfast-autohaiphong_product_modal-eyebrow {
+    color: var(--vf-blue);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.2px;
+}
+.vinfast-autohaiphong_product_modal-title {
+    margin: 10px 0;
+    font-size: 27px;
+    font-weight: 600;
+}
+.vinfast-autohaiphong_product_modal-dialog > p {
+    font-size: 13px;
+    color: #787e88;
+}
+.vinfast-autohaiphong_product_modal-form {
+    display: grid;
+    gap: 15px;
+    margin-top: 24px;
+}
+.vinfast-autohaiphong_product_modal-form > label {
+    display: grid;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #3c4755;
+}
+.vinfast-autohaiphong_product_modal-form > label > span {
+    color: #df3434;
+}
+.vinfast-autohaiphong_product_modal-form input:not([type="checkbox"]),
+.vinfast-autohaiphong_product_modal-form select {
+    width: 100%;
+    border: 1px solid #d6dce4;
+    border-radius: 3px;
+    padding: 10px 12px;
+    background: #fff;
+    color: #20272d;
+    font-size: 14px;
+}
+.vinfast-autohaiphong_product_modal-form
+    .vinfast-autohaiphong_product_modal-consent {
+    display: flex;
+    gap: 9px;
+    align-items: flex-start;
+    font-size: 12px;
+    font-weight: 400;
+    color: #687480;
+}
+.vinfast-autohaiphong_product_modal-consent input {
+    margin-top: 3px;
+    accent-color: var(--vf-blue);
+}
+.vinfast-autohaiphong_product_modal-status {
+    margin: 0;
+    font-size: 12px;
+    color: #176d39;
+}
+.vinfast-autohaiphong_product_lightbox {
+    background: #000e;
+}
+.vinfast-autohaiphong_product_lightbox-shade {
+    background: #000e;
+}
+.vinfast-autohaiphong_product_lightbox-content {
+    position: relative;
+    z-index: 1;
+    width: min(1150px, 100%);
+    max-height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+.vinfast-autohaiphong_product_lightbox-content > img {
+    max-width: calc(100% - 95px);
+    max-height: 78vh;
+    object-fit: contain;
+    border-radius: 3px;
+}
+.vinfast-autohaiphong_product_lightbox-nav {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff2;
+    border: 1px solid #fff5;
+    color: #fff;
+    font-size: 30px;
+    flex: none;
+}
+.vinfast-autohaiphong_product_lightbox-close {
+    right: -5px;
+    top: -30px;
+    color: #fff;
+}
+.vinfast-autohaiphong_product_lightbox-count {
+    position: absolute;
+    bottom: -31px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ddd;
+    font-size: 12px;
+}
 /* Intersection reveal — only set hidden after JS opts in */
-.vinfast-autohaiphong_product_js-reveal [data-reveal]{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}.vinfast-autohaiphong_product_js-reveal [data-reveal].vinfast-autohaiphong_product_revealed{opacity:1;transform:none}
+.vinfast-autohaiphong_product_js-reveal [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+.vinfast-autohaiphong_product_js-reveal
+    [data-reveal].vinfast-autohaiphong_product_revealed {
+    opacity: 1;
+    transform: none;
+}
