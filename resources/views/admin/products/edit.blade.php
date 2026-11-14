@@ -96,6 +96,70 @@
         line-height: 1.4;
     }
 
+    /* Box Bài Viết Giới Thiệu & Sticky Scroll Architecture */
+    .vf-editor-anchor-wrapper {
+        min-height: 1050px;
+        height: fit-content;
+        margin-bottom: 24px;
+        position: relative;
+    }
+    #bai-viet-gioi-thieu {
+        min-height: 1000px;
+        height: fit-content;
+        position: sticky;
+        top: 15px;
+        z-index: 30;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    #bai-viet-gioi-thieu.is-stuck-top {
+        height: calc(100vh - 95px) !important;
+        max-height: calc(100vh - 95px) !important;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(20, 100, 244, 0.2);
+        border-color: #93c5fd;
+    }
+    #bai-viet-gioi-thieu .tox-tinymce {
+        min-height: 850px;
+        height: fit-content;
+        border-radius: 6px;
+        border: 1px solid var(--admin-border);
+    }
+    #bai-viet-gioi-thieu.is-stuck-top .tox-tinymce {
+        flex: 1;
+        min-height: 0 !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    #bai-viet-gioi-thieu.is-stuck-top .tox-editor-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+    }
+    #bai-viet-gioi-thieu.is-stuck-top .tox-sidebar-wrap {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        overflow: hidden;
+    }
+    #bai-viet-gioi-thieu.is-stuck-top .tox-edit-area {
+        flex: 1;
+        min-height: 0 !important;
+        height: 100% !important;
+        overflow: hidden;
+    }
+    #bai-viet-gioi-thieu.is-stuck-top .tox-edit-area iframe {
+        height: 100% !important;
+        min-height: 0 !important;
+    }
+
     /* Fixed Bottom Action Bar */
     .vf-admin-bottom-bar-spacer {
         height: 80px;
@@ -440,43 +504,47 @@
     {{-- ========================================================================= --}}
     {{-- HÀNG 2: [BÀI VIẾT GIỚI THIỆU XE] (Full 100% Width)                         --}}
     {{-- ========================================================================= --}}
-    <div class="vinfast-autohaiphong_admin_card" id="bai-viet-gioi-thieu">
-        <div class="vf-admin-card-header">
-            <div class="vf-admin-card-title-text">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                <span>BÀI VIẾT GIỚI THIỆU XE (CHI TIẾT ĐÁNH GIÁ & TÍNH NĂNG)</span>
+    <div id="bai-viet-gioi-thieu-anchor" class="vf-editor-anchor-wrapper">
+        <div class="vinfast-autohaiphong_admin_card" id="bai-viet-gioi-thieu">
+            <div class="vf-admin-card-header">
+                <div class="vf-admin-card-title-text">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    <span>BÀI VIẾT GIỚI THIỆU XE (CHI TIẾT ĐÁNH GIÁ & TÍNH NĂNG)</span>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <span id="word-count-badge" class="vf-admin-card-badge">0 từ</span>
+                    <button type="button" onclick="openArticleLivePreview()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 12px; font-size: 0.8rem;">
+                        👁 Xem Trước Bài Viết
+                    </button>
+                </div>
             </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <span id="word-count-badge" class="vf-admin-card-badge">0 từ</span>
-                <button type="button" onclick="openArticleLivePreview()" class="vinfast-autohaiphong_admin_btn vinfast-autohaiphong_admin_btn_outline" style="padding: 5px 12px; font-size: 0.8rem;">
-                    👁 Xem Trước Bài Viết
+
+            {{-- Thanh công cụ chèn nội dung nhanh --}}
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding: 8px 12px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--admin-border); align-items: center;">
+                <span style="font-size: 0.75rem; font-weight: 700; color: var(--admin-muted); margin-right: 4px;">CHÈN NHANH:</span>
+                <button type="button" class="vf-admin-preset-btn" onclick="openArticleMediaPicker()" style="background: #eff6ff; color: #1464f4; border-color: #bfdbfe; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    🖼 Chèn Ảnh & Chú Thích (Figcaption)
                 </button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('h2')">+ Tiêu đề H2</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('h3')">+ Tiêu đề H3</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('p')">+ Đoạn văn</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('strong')">Bôi đậm</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('ul')">+ Danh sách điểm mạnh</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('table')">+ Bảng so sánh</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('callout')">+ Hộp ưu đãi VinFast</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('quote')">+ Trích dẫn đánh giá</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('accordion')">+ Hỏi đáp FAQ</button>
+                <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('cta')">+ Nút Đặt cọc</button>
             </div>
-        </div>
 
-        {{-- Thanh công cụ chèn nội dung nhanh --}}
-        <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; padding: 8px 12px; background: #f8fafc; border-radius: 6px; border: 1px solid var(--admin-border); align-items: center;">
-            <span style="font-size: 0.75rem; font-weight: 700; color: var(--admin-muted); margin-right: 4px;">CHÈN NHANH:</span>
-            <button type="button" class="vf-admin-preset-btn" onclick="openArticleMediaPicker()" style="background: #eff6ff; color: #1464f4; border-color: #bfdbfe; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                🖼 Chèn Ảnh từ Thư Viện
-            </button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('h2')">+ Tiêu đề H2</button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('h3')">+ Tiêu đề H3</button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('p')">+ Đoạn văn</button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('strong')">Bôi đậm</button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('ul')">+ Danh sách điểm mạnh</button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('table')">+ Bảng so sánh</button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('callout')">+ Hộp thông báo VinFast</button>
-            <button type="button" class="vf-admin-preset-btn" onclick="insertArticleSnippet('cta')">+ Nút Đặt cọc</button>
-        </div>
-
-        <textarea name="description_html" id="article-editor" rows="12" class="vf-admin-textarea" 
-                  style="font-family: Consolas, Monaco, 'Courier New', monospace; font-size: 0.88rem; line-height: 1.6;"
-                  placeholder="Nhập nội dung HTML bài viết giới thiệu chi tiết, đánh giá vận hành, thiết kế, pin và bảng giá ưu đãi xe..."
-                  oninput="updateArticleWordCount()">{{ old('description_html', $product->description_html) }}</textarea>
-        <div class="vf-admin-helper-text">
-            Nội dung hiển thị trọn vẹn tại mục Bài Viết Giới Thiệu của trang xe. Hệ thống tự động lọc thẻ HTML an toàn chuẩn bảo mật.
+            <textarea name="description_html" id="article-editor" rows="12" class="vf-admin-textarea" 
+                      style="font-family: Consolas, Monaco, 'Courier New', monospace; font-size: 0.88rem; line-height: 1.6;"
+                      placeholder="Nhập nội dung HTML bài viết giới thiệu chi tiết, đánh giá vận hành, thiết kế, pin và bảng giá ưu đãi xe..."
+                      oninput="updateArticleWordCount()">{{ old('description_html', $product->description_html) }}</textarea>
+            <div class="vf-admin-helper-text">
+                Nội dung hiển thị trọn vẹn tại mục Bài Viết Giới Thiệu của trang xe. Hệ thống tự động lọc thẻ HTML an toàn chuẩn bảo mật.
+            </div>
         </div>
     </div>
 
@@ -1288,36 +1356,53 @@ function filterSpecRows(keyword) {
 
 // Chèn nhanh đoạn mẫu HTML vào bài viết giới thiệu
 function insertArticleSnippet(type) {
-    const editor = document.getElementById('article-editor');
-    if (!editor) return;
+    const tiny = window.tinymce ? tinymce.get('article-editor') : null;
 
     let snippet = '';
     switch (type) {
         case 'h2':
-            snippet = '\n<h2>ĐỘT PHÁ THIẾT KẾ ĐÔ THỊ TƯƠNG LAI</h2>\n';
+            snippet = '<h2>ĐỘT PHÁ THIẾT KẾ ĐÔ THỊ TƯƠNG LAI</h2>';
             break;
         case 'h3':
-            snippet = '\n<h3>Không gian tối ưu từng centimet</h3>\n';
+            snippet = '<h3>Không gian tối ưu từng centimet</h3>';
             break;
         case 'p':
-            snippet = '\n<p>Mẫu xe điện thông minh mang lại trải nghiệm tiện nghi, trẻ trung và hiện đại cho mọi gia đình đô thị.</p>\n';
+            snippet = '<p>Mẫu xe điện thông minh mang lại trải nghiệm tiện nghi, trẻ trung và hiện đại cho mọi gia đình đô thị.</p>';
             break;
         case 'strong':
-            snippet = '<strong>bền bỉ, tiết kiệm vượt trội</strong>';
+            snippet = '<strong>bền bỉ, tiết kiệm vượt trội</strong> ';
             break;
         case 'ul':
-            snippet = '\n<ul>\n    <li>Khả năng di chuyển linh hoạt trên mọi cung đường phố hẹp.</li>\n    <li>Tiết kiệm chi phí vận hành tối đa chỉ bằng 1/3 xe xăng.</li>\n    <li>Bảo hành chính hãng vượt trội lên đến 7-10 năm.</li>\n</ul>\n';
+            snippet = '<ul><li>Khả năng di chuyển linh hoạt trên mọi cung đường phố hẹp.</li><li>Tiết kiệm chi phí vận hành tối đa chỉ bằng 1/3 xe xăng.</li><li>Bảo hành chính hãng vượt trội lên đến 7–10 năm.</li></ul>';
             break;
         case 'table':
-            snippet = '\n<table style="width: 100%; border-collapse: collapse; margin: 16px 0;">\n    <thead>\n        <tr style="background: #f1f5f9;"><th style="padding: 10px; border: 1px solid #cbd5e1;">Phiên bản</th><th style="padding: 10px; border: 1px solid #cbd5e1;">Giá niêm yết</th></tr>\n    </thead>\n    <tbody>\n        <tr><td style="padding: 10px; border: 1px solid #cbd5e1;">Thuê Pin</td><td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold; color: #1464f4;">240.000.000 VNĐ</td></tr>\n        <tr><td style="padding: 10px; border: 1px solid #cbd5e1;">Kèm Pin</td><td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold; color: #1464f4;">322.000.000 VNĐ</td></tr>\n    </tbody>\n</table>\n';
+            snippet = '<table style="width: 100%; border-collapse: collapse; margin: 20px 0;" border="1"><thead><tr style="background: #f1f5f9;"><th style="padding: 10px; border: 1px solid #cbd5e1;">Phiên bản</th><th style="padding: 10px; border: 1px solid #cbd5e1;">Giá niêm yết</th><th style="padding: 10px; border: 1px solid #cbd5e1;">Ưu đãi đặc quyền</th></tr></thead><tbody><tr><td style="padding: 10px; border: 1px solid #cbd5e1;">Thuê Pin</td><td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold; color: #1464f4;">240.000.000 VNĐ</td><td style="padding: 10px; border: 1px solid #cbd5e1;">Miễn phí sạc 1 năm</td></tr><tr><td style="padding: 10px; border: 1px solid #cbd5e1;">Kèm Pin</td><td style="padding: 10px; border: 1px solid #cbd5e1; font-weight: bold; color: #1464f4;">322.000.000 VNĐ</td><td style="padding: 10px; border: 1px solid #cbd5e1;">Tặng sạc tại nhà 2.2kW</td></tr></tbody></table>';
             break;
         case 'callout':
-            snippet = '\n<div style="background: #eff6ff; border-left: 4px solid #1464f4; padding: 14px 18px; border-radius: 4px; margin: 16px 0;">\n    <p style="margin: 0; font-weight: 600; color: #1e3a8a;">Ưu đãi đặc quyền: Miễn phí sạc pin 1 năm tại tất cả các trạm sạc V-GREEN trên toàn quốc!</p>\n</div>\n';
+            snippet = '<div style="background: #eff6ff; border-left: 4px solid #1464f4; padding: 14px 18px; border-radius: 6px; margin: 18px 0;"><p style="margin: 0; font-weight: 600; color: #1e3a8a;">🎉 Ưu đãi đặc quyền: Miễn phí sạc pin 1 năm tại tất cả các trạm sạc V-GREEN trên toàn quốc!</p></div>';
             break;
         case 'cta':
-            snippet = '\n<div style="text-align: center; margin: 24px 0;">\n    <a href="#dau-trang" style="display: inline-block; background: #1464f4; color: #fff; padding: 12px 28px; border-radius: 6px; font-weight: bold; text-decoration: none;">ĐẶT CỌC NGAY CHỈ VỚI 15 TRIỆU</a>\n</div>\n';
+            snippet = '<div style="text-align: center; margin: 28px 0;"><a href="#dau-trang" style="display: inline-block; background: #1464f4; color: #ffffff; padding: 12px 28px; border-radius: 6px; font-weight: bold; text-decoration: none; box-shadow: 0 4px 12px rgba(20, 100, 244, 0.3);">🚗 ĐẶT CỌC NGAY CHỈ VỚI 15 TRIỆU ĐỒNG</a></div>';
+            break;
+        case 'quote':
+            snippet = '<blockquote style="border-left: 4px solid #1464f4; padding: 12px 18px; color: #475569; font-style: italic; background: #f8fafc; border-radius: 0 6px 6px 0; margin: 18px 0;">"Mẫu ô tô điện quốc dân dẫn đầu xu hướng sống xanh và thông minh tại đô thị Việt Nam." — Đánh giá chuyên gia xe</blockquote>';
+            break;
+        case 'accordion':
+            snippet = '<details class="mce-accordion" style="border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 16px; margin: 12px 0;"><summary style="font-weight: 700; cursor: pointer; color: #0f172a;">Thời gian sạc đầy pin xe mất bao lâu?</summary><p style="margin-top: 10px; color: #475569;">Với trụ sạc nhanh siêu tốc DC, xe chỉ mất 36 phút để sạc từ 10% đến 70% dung lượng pin.</p></details>';
             break;
     }
+
+    if (tiny) {
+        tiny.insertContent(snippet);
+        tiny.save();
+        updateArticleWordCount();
+        markFormDirty();
+        return;
+    }
+
+    // Fallback nếu TinyMCE chưa tải xong
+    const editor = document.getElementById('article-editor');
+    if (!editor) return;
 
     const startPos = editor.selectionStart;
     const endPos = editor.selectionEnd;
@@ -1333,9 +1418,19 @@ function insertArticleSnippet(type) {
 
 // Đếm số từ của bài viết
 function updateArticleWordCount() {
-    const editor = document.getElementById('article-editor');
+    const tiny = window.tinymce ? tinymce.get('article-editor') : null;
     const badge = document.getElementById('word-count-badge');
-    if (!editor || !badge) return;
+    if (!badge) return;
+
+    if (tiny) {
+        const wordCountPlugin = tiny.plugins.wordcount;
+        const words = wordCountPlugin ? wordCountPlugin.getCount() : (tiny.getContent({ format: 'text' }).trim() ? tiny.getContent({ format: 'text' }).trim().split(/\s+/).length : 0);
+        badge.textContent = `${words} từ`;
+        return;
+    }
+
+    const editor = document.getElementById('article-editor');
+    if (!editor) return;
     const text = editor.value.replace(/<[^>]*>/g, ' ').trim();
     const words = text ? text.split(/\s+/).length : 0;
     badge.textContent = `${words} từ`;
@@ -1344,11 +1439,12 @@ updateArticleWordCount();
 
 // Modal Live Preview bài viết
 function openArticleLivePreview() {
-    const editor = document.getElementById('article-editor');
+    const tiny = window.tinymce ? tinymce.get('article-editor') : null;
+    const content = tiny ? tiny.getContent() : (document.getElementById('article-editor')?.value || '');
     const modal = document.getElementById('article-preview-modal');
-    const content = document.getElementById('article-preview-content');
-    if (!editor || !modal || !content) return;
-    content.innerHTML = editor.value || '<p style="color: #94a3b8; text-align: center;">Chưa có nội dung bài viết để xem trước.</p>';
+    const container = document.getElementById('article-preview-content');
+    if (!modal || !container) return;
+    container.innerHTML = content || '<p style="color: #94a3b8; text-align: center;">Chưa có nội dung bài viết để xem trước.</p>';
     modal.style.display = 'flex';
 }
 function closeArticleLivePreview() {
@@ -1397,6 +1493,9 @@ if (productForm) {
     productForm.addEventListener('input', markFormDirty);
     productForm.addEventListener('change', markFormDirty);
     productForm.addEventListener('submit', () => {
+        if (window.tinymce) {
+            tinymce.triggerSave();
+        }
         formIsDirty = false;
         const btn = document.getElementById('btn-save-product');
         const text = document.getElementById('save-btn-text');
@@ -1412,6 +1511,9 @@ if (productForm) {
 window.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
         e.preventDefault();
+        if (window.tinymce) {
+            tinymce.triggerSave();
+        }
         const form = document.getElementById('vf-product-form');
         if (form) form.requestSubmit();
     }
@@ -1542,26 +1644,38 @@ function batchAddInteriorsFromMedia() {
     });
 }
 
-// 7. Chèn một hoặc nhiều ảnh vào bài viết giới thiệu
+// 7. Chèn một hoặc nhiều ảnh vào bài viết giới thiệu (Tự động tạo figure & figcaption cho TinyMCE)
 function openArticleMediaPicker() {
     window.openMediaManager({
         mode: 'multiple',
         confirmText: 'Chèn vào bài viết',
         onSelect: function(selected) {
             const items = Array.isArray(selected) ? selected : [selected];
-            const editor = document.getElementById('article-editor');
-            if (!editor) return;
+            if (items.length === 0) return;
 
-            let htmlToInsert = '\n';
+            let htmlToInsert = '';
             items.forEach(img => {
                 const alt = img.alt_text || img.filename || 'Ảnh minh họa VinFast';
+                const caption = img.alt_text || img.original_filename || img.filename.replace(/\.[^/.]+$/, "");
                 htmlToInsert += `
-<figure style="text-align: center; margin: 24px 0;">
-    <img src="${img.url}" alt="${alt}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);" />
-    <figcaption style="font-size: 0.85rem; color: #64748b; margin-top: 8px; font-style: italic;">${alt}</figcaption>
-</figure>\n`;
+<figure class="image" style="display: table; margin: 24px auto; text-align: center; max-width: 100%;">
+    <img src="${img.url}" alt="${alt}" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08);" />
+    <figcaption style="display: table-caption; caption-side: bottom; font-size: 0.85rem; color: #64748b; margin-top: 8px; font-style: italic;">${caption}</figcaption>
+</figure><p></p>`;
             });
 
+            const tiny = window.tinymce ? tinymce.get('article-editor') : null;
+            if (tiny) {
+                tiny.insertContent(htmlToInsert);
+                tiny.save();
+                updateArticleWordCount();
+                markFormDirty();
+                return;
+            }
+
+            // Fallback nếu TinyMCE chưa bật
+            const editor = document.getElementById('article-editor');
+            if (!editor) return;
             const startPos = editor.selectionStart;
             const endPos = editor.selectionEnd;
             const currentVal = editor.value;
@@ -1576,5 +1690,245 @@ function openArticleMediaPicker() {
         }
     });
 }
+
+// Khởi tạo TinyMCE 7 Full Chức Năng Free cho Bài Viết Giới Thiệu Xe
+function initProductArticleTinyMCE() {
+    if (!window.tinymce) {
+        console.warn('TinyMCE CDN chưa sẵn sàng.');
+        return;
+    }
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+    const uploadUrl = '{{ route("admin.media.store") }}';
+
+    tinymce.init({
+        selector: '#article-editor',
+        min_height: 1000,
+        autoresize_bottom_margin: 30,
+        autoresize_overflow_padding: 20,
+        menubar: 'file edit view insert format tools table help',
+        menu: {
+            insert: {
+                title: 'Chèn',
+                items: 'mediaManager | image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor | insertdatetime'
+            }
+        },
+        plugins: [
+            'autoresize', 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'wordcount', 'accordion', 'emoticons',
+            'directionality', 'quickbars'
+        ],
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | ' +
+                 'alignleft aligncenter alignright alignjustify | ' +
+                 'mediaManager image media link table | bullist numlist accordion | ' +
+                 'forecolor backcolor removeformat | charmap emoticons | code fullscreen preview',
+        quickbars_selection_toolbar: 'bold italic underline | quicklink h2 h3 blockquote',
+        quickbars_insert_toolbar: 'mediaManager image table',
+        branding: false,
+        promotion: false,
+        convert_urls: false,
+        relative_urls: false,
+        image_caption: true,
+        image_advtab: true,
+        image_title: true,
+        table_responsive_width: true,
+        table_default_attributes: {
+            border: '1'
+        },
+        table_default_styles: {
+            'border-collapse': 'collapse',
+            'width': '100%'
+        },
+        block_formats: 'Đoạn văn=p; Tiêu đề lớn (H2)=h2; Tiêu đề vừa (H3)=h3; Tiêu đề nhỏ (H4)=h4; Tiêu đề phụ (H5)=h5; Trích dẫn khối=blockquote; Khối mã=pre',
+        font_family_formats: 'Open Sans=Open Sans,sans-serif; Arial=arial,helvetica,sans-serif; Segoe UI=Segoe UI,sans-serif; Roboto=Roboto,sans-serif; Times New Roman=times new roman,times; Courier New=courier new,courier;',
+        font_size_formats: '12px 13px 14px 15px 16px 18px 20px 24px 28px 32px 36px',
+        content_style: `
+            body {
+                font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                font-size: 15px;
+                line-height: 1.8;
+                color: #334155;
+                padding: 18px 24px;
+                max-width: 100%;
+            }
+            figure.image {
+                display: table;
+                margin: 24px auto;
+                text-align: center;
+                max-width: 100%;
+            }
+            figure.image img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                display: block;
+                margin: 0 auto;
+            }
+            figure.image figcaption {
+                display: table-caption;
+                caption-side: bottom;
+                font-size: 0.85rem;
+                color: #64748b;
+                margin-top: 8px;
+                font-style: italic;
+                padding: 4px 8px;
+                cursor: text;
+            }
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+            }
+            h2 { font-size: 1.6rem; font-weight: 700; color: #0f172a; margin-top: 28px; margin-bottom: 12px; line-height: 1.3; }
+            h3 { font-size: 1.3rem; font-weight: 600; color: #0f172a; margin-top: 22px; margin-bottom: 10px; line-height: 1.35; }
+            h4 { font-size: 1.15rem; font-weight: 600; color: #0f172a; margin-top: 18px; margin-bottom: 8px; }
+            p { margin-bottom: 14px; }
+            table { border-collapse: collapse; width: 100%; margin: 20px 0; border: 1px solid #cbd5e1; }
+            th, td { border: 1px solid #cbd5e1; padding: 10px 14px; }
+            th { background-color: #f8fafc; font-weight: 700; color: #1e293b; }
+            blockquote { border-left: 4px solid #1464f4; padding: 12px 18px; color: #475569; font-style: italic; background: #f8fafc; border-radius: 0 6px 6px 0; margin: 18px 0; }
+        `,
+        images_upload_handler: function (blobInfo, progress) {
+            return new Promise(function (resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', uploadUrl);
+                xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+                xhr.setRequestHeader('Accept', 'application/json');
+
+                xhr.upload.onprogress = function (e) {
+                    progress(e.loaded / e.total * 100);
+                };
+
+                xhr.onload = function () {
+                    if (xhr.status < 200 || xhr.status >= 300) {
+                        reject('Tải ảnh thất bại: HTTP ' + xhr.status);
+                        return;
+                    }
+                    let json;
+                    try {
+                        json = JSON.parse(xhr.responseText);
+                    } catch (err) {
+                        reject('Phản hồi server không hợp lệ');
+                        return;
+                    }
+                    if (!json || (!json.location && !json.url)) {
+                        reject('Không tìm thấy đường dẫn ảnh trong phản hồi');
+                        return;
+                    }
+                    resolve(json.location || json.url);
+                };
+
+                xhr.onerror = function () {
+                    reject('Lỗi mạng khi tải ảnh lên.');
+                };
+
+                const formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                formData.append('folder', 'products');
+                xhr.send(formData);
+            });
+        },
+        setup: function (editor) {
+            // Nút custom mở Popup Thư viện Media Manager
+            editor.ui.registry.addButton('mediaManager', {
+                icon: 'gallery',
+                text: 'Thư viện ảnh',
+                tooltip: 'Mở Thư viện Media Manager để chèn ảnh có figure & chú thích tự động',
+                onAction: function () {
+                    openArticleMediaPicker();
+                }
+            });
+
+            // Menu item mở Thư viện Media
+            editor.ui.registry.addMenuItem('mediaManager', {
+                icon: 'gallery',
+                text: '🖼 Thư viện ảnh VinFast (Tự động chú thích)',
+                onAction: function () {
+                    openArticleMediaPicker();
+                }
+            });
+
+            // Tự động đồng bộ số từ & trạng thái dirty & chiều cao Anchor
+            function syncEditorData() {
+                const badge = document.getElementById('word-count-badge');
+                if (badge) {
+                    const wordCountPlugin = editor.plugins.wordcount;
+                    const words = wordCountPlugin ? wordCountPlugin.getCount() : (editor.getContent({ format: 'text' }).trim() ? editor.getContent({ format: 'text' }).trim().split(/\s+/).length : 0);
+                    badge.textContent = `${words} từ`;
+                }
+                syncEditorAnchorHeight();
+            }
+
+            editor.on('init', function () {
+                syncEditorData();
+                setTimeout(syncEditorAnchorHeight, 300);
+            });
+            editor.on('keyup change undo redo NodeChange', function () {
+                syncEditorData();
+                markFormDirty();
+                editor.save();
+            });
+        }
+    });
+}
+
+// =========================================================================
+// KIẾN TRÚC STICKY & CUỘN NỘI BỘ TRÌNH SOẠN THẢO KHI CHẠM TOP
+// =========================================================================
+
+// Đồng bộ chiều cao thẻ Anchor để tránh hiện tượng giật trang khi sticky
+function syncEditorAnchorHeight() {
+    const card = document.getElementById('bai-viet-gioi-thieu');
+    const anchor = document.getElementById('bai-viet-gioi-thieu-anchor');
+    if (!card || !anchor) return;
+
+    if (!card.classList.contains('is-stuck-top')) {
+        const measuredHeight = Math.max(1050, card.offsetHeight);
+        anchor.style.minHeight = measuredHeight + 'px';
+        anchor.style.height = measuredHeight + 'px';
+    }
+}
+
+// Kiểm tra khi cuộn trang: box chạm top thì neo lại và bắt đầu cuộn bên trong
+function updateEditorStickyState() {
+    const card = document.getElementById('bai-viet-gioi-thieu');
+    const anchor = document.getElementById('bai-viet-gioi-thieu-anchor');
+    if (!card || !anchor) return;
+
+    const anchorRect = anchor.getBoundingClientRect();
+    const topThreshold = 16; // Chạm mép top 16px
+
+    // Khi đỉnh của anchor chạm top và chưa trôi qua hết phạm vi anchor
+    const shouldStick = anchorRect.top <= topThreshold && (anchorRect.bottom - card.offsetHeight) > 0;
+
+    if (shouldStick) {
+        if (!card.classList.contains('is-stuck-top')) {
+            card.classList.add('is-stuck-top');
+        }
+    } else {
+        if (card.classList.contains('is-stuck-top')) {
+            card.classList.remove('is-stuck-top');
+            syncEditorAnchorHeight();
+        }
+    }
+}
+
+window.addEventListener('scroll', updateEditorStickyState, { passive: true });
+window.addEventListener('resize', function () {
+    syncEditorAnchorHeight();
+    updateEditorStickyState();
+}, { passive: true });
 </script>
+
+@push('scripts')
+<script src="https://cdn.tiny.cloud/1/{{ config('services.tinymce.key', 'no-api-key') }}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initProductArticleTinyMCE();
+});
+</script>
+@endpush
 @endsection
