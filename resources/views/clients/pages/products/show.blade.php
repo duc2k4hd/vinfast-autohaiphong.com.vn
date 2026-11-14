@@ -519,19 +519,56 @@ window.VINFAST_PRODUCT_DATA = {
             @endif
         </section>
 
-        {{-- SECTION 9: BẢNG THÔNG SỐ KỸ THUẬT (TECHNICAL SPECIFICATIONS) --}}
+        {{-- SECTION 9: BẢNG THÔNG SỐ KỸ THUẬT (TECHNICAL DATA SHEET) --}}
         <section class="vinfast-autohaiphong_product_technical" id="vf3-thong-so">
             <div class="vinfast-autohaiphong_product_container">
+                {{-- HEADER PHONG CÁCH KỸ THUẬT Ô TÔ CHUYÊN NGHIỆP --}}
                 <div class="vinfast-autohaiphong_product_technical-header" data-reveal>
-                    <h2>
-                        BẢNG THÔNG SỐ KỸ THUẬT XE {{ Str::upper($car->name) }}
-                    </h2>
+                    <span class="vinfast-autohaiphong_product_technical-code">SPECIFICATION SHEET &bull; {{ Str::upper($car->sku ?? 'VF-3') }}</span>
+                    <h2>BẢNG THÔNG SỐ KỸ THUẬT XE {{ Str::upper($car->name) }}</h2>
                     <p class="vinfast-autohaiphong_product_technical-subtitle">
-                        Chi tiết các thông số kích thước, hệ thống truyền động, trang bị tiện nghi và tính năng an toàn tiêu chuẩn
+                        Số liệu kỹ thuật tiêu chuẩn được kiểm định và công bố bởi VinFast Việt Nam
                     </p>
                 </div>
 
-                <div class="vinfast-autohaiphong_product_technical-grid">
+                {{-- THANH CÔNG CỤ KỸ THUẬT (SEARCH, VIEW MODES, COPY & PRINT) --}}
+                <div class="vinfast-autohaiphong_product_technical-toolbar">
+                    <div class="vinfast-autohaiphong_product_technical-search">
+                        <svg class="vinfast-autohaiphong_product_search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text"
+                               data-spec-search
+                               placeholder="Tìm nhanh thông số (pin, công suất, kích thước, túi khí, camera...)"
+                               aria-label="Tìm nhanh thông số kỹ thuật">
+                        <button type="button" data-spec-search-clear class="vinfast-autohaiphong_product_search-clear" style="display: none;" title="Xóa tìm kiếm">✕</button>
+                    </div>
+
+                    <div class="vinfast-autohaiphong_product_technical-actions">
+                        <div class="vinfast-autohaiphong_product_view-modes" role="group" aria-label="Chế độ hiển thị">
+                            <button type="button" data-spec-mode="tabs" class="vinfast-autohaiphong_product_mode-btn vinfast-autohaiphong_product_is-active">
+                                Phân nhóm
+                            </button>
+                            <button type="button" data-spec-mode="all" class="vinfast-autohaiphong_product_mode-btn">
+                                Toàn bộ thông số ({{ $specifications->count() }})
+                            </button>
+                        </div>
+
+                        <button type="button" data-spec-action="copy" class="vinfast-autohaiphong_product_tool-btn" title="Sao chép bảng thông số">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            <span data-spec-copy-text>Sao chép</span>
+                        </button>
+
+                        <button type="button" data-spec-action="print" class="vinfast-autohaiphong_product_tool-btn" title="In bảng thông số">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                            <span>In bảng</span>
+                        </button>
+                    </div>
+                </div>
+
+                {{-- STATUS BAR CHO LIVE SEARCH --}}
+                <div data-spec-search-status class="vinfast-autohaiphong_product_spec-search-status" style="display: none;"></div>
+
+                {{-- VIEW 1: CHẾ ĐỘ PHÂN NHÓM (TABBED VIEW) --}}
+                <div data-spec-view-tabs class="vinfast-autohaiphong_product_technical-grid">
                     <div class="vinfast-autohaiphong_product_technical-tabs" role="tablist" aria-label="Nhóm thông số">
                         @if($specGroups->isNotEmpty())
                             @foreach($specGroups as $gName => $gSpecs)
@@ -541,67 +578,118 @@ window.VINFAST_PRODUCT_DATA = {
                                         role="tab"
                                         aria-selected="{{ $loop->first ? 'true' : 'false' }}"
                                         data-spec-tab="{{ $gSlug }}">
+                                    <span class="vinfast-autohaiphong_product_spec-tab-num">{{ sprintf('%02d', $loop->iteration) }}</span>
                                     <span class="vinfast-autohaiphong_product_spec-tab-title">{{ $gName }}</span>
-                                    <span class="vinfast-autohaiphong_product_spec-tab-meta">
-                                        <span class="vinfast-autohaiphong_product_spec-tab-count">{{ $gSpecs->count() }}</span>
-                                        <span class="vinfast-autohaiphong_product_spec-tab-arrow">›</span>
-                                    </span>
+                                    <span class="vinfast-autohaiphong_product_spec-tab-count">{{ $gSpecs->count() }}</span>
                                 </button>
                             @endforeach
                         @else
                             <button class="vinfast-autohaiphong_product_is-active" type="button" role="tab" aria-selected="true" data-spec-tab="general">
+                                <span class="vinfast-autohaiphong_product_spec-tab-num">01</span>
                                 <span class="vinfast-autohaiphong_product_spec-tab-title">Thông số tổng quan</span>
-                                <span class="vinfast-autohaiphong_product_spec-tab-meta">
-                                    <span class="vinfast-autohaiphong_product_spec-tab-arrow">›</span>
-                                </span>
+                                <span class="vinfast-autohaiphong_product_spec-tab-count">3</span>
                             </button>
                         @endif
                     </div>
 
                     <div class="vinfast-autohaiphong_product_technical-panel" role="tabpanel">
                         <div class="vinfast-autohaiphong_product_technical-panel-head">
-                            <h3 data-spec-title>
-                                {{ $specGroups->isNotEmpty() ? $specGroups->keys()->first() : 'Thông số kỹ thuật' }}
-                            </h3>
-                            <span class="vinfast-autohaiphong_product_spec-badge">Chính hãng VinFast</span>
+                            <div>
+                                <span class="vinfast-autohaiphong_product_panel-caption">DANH MỤC THÔNG SỐ KỸ THUẬT</span>
+                                <h3 data-spec-title>{{ $specGroups->isNotEmpty() ? $specGroups->keys()->first() : 'Thông số kỹ thuật' }}</h3>
+                            </div>
+                            <span class="vinfast-autohaiphong_product_spec-panel-stamp">{{ Str::upper($car->name) }}</span>
                         </div>
 
-                        <div data-spec-content class="vinfast-autohaiphong_product_spec-list">
-                            @if($specGroups->isNotEmpty())
-                                @foreach($specGroups->first() as $sp)
-                                    <div class="vinfast-autohaiphong_product_spec-row">
-                                        <span class="vinfast-autohaiphong_product_spec-label">{{ $sp->label }}</span>
-                                        <span class="vinfast-autohaiphong_product_spec-val">{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</span>
-                                    </div>
-                                @endforeach
-                            @else
-                                <div class="vinfast-autohaiphong_product_spec-row">
-                                    <span class="vinfast-autohaiphong_product_spec-label">Tên dòng xe</span>
-                                    <span class="vinfast-autohaiphong_product_spec-val">{{ $car->name }}</span>
-                                </div>
-                                <div class="vinfast-autohaiphong_product_spec-row">
-                                    <span class="vinfast-autohaiphong_product_spec-label">Mã định danh (SKU)</span>
-                                    <span class="vinfast-autohaiphong_product_spec-val">{{ $car->sku ?? 'VF-MODEL' }}</span>
-                                </div>
-                                <div class="vinfast-autohaiphong_product_spec-row">
-                                    <span class="vinfast-autohaiphong_product_spec-label">Phân khúc</span>
-                                    <span class="vinfast-autohaiphong_product_spec-val">{{ $car->category_name ?? 'Ô tô điện thông minh' }}</span>
-                                </div>
-                            @endif
+                        <div class="vinfast-autohaiphong_product_table-wrap">
+                            <table class="vinfast-autohaiphong_product_spec-table" aria-label="Bảng thông số chi tiết">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="width: 55%;">HẠNG MỤC / NỘI DUNG</th>
+                                        <th scope="col" style="width: 45%; text-align: right;">THÔNG SỐ TIÊU CHUẨN</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-spec-content>
+                                    @if($specGroups->isNotEmpty())
+                                        @foreach($specGroups->first() as $sp)
+                                            <tr>
+                                                <td class="vinfast-autohaiphong_product_cell-label">{{ $sp->label }}</td>
+                                                <td class="vinfast-autohaiphong_product_cell-value">{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td class="vinfast-autohaiphong_product_cell-label">Tên dòng xe</td>
+                                            <td class="vinfast-autohaiphong_product_cell-value">{{ $car->name }}</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
 
+                {{-- VIEW 2: CHẾ ĐỘ XEM TOÀN BỘ (FULL SPECIFICATION SHEET) --}}
+                <div data-spec-view-all class="vinfast-autohaiphong_product_spec-all-view" style="display: none;">
+                    @if($specGroups->isNotEmpty())
+                        @foreach($specGroups as $gName => $gSpecs)
+                            <div class="vinfast-autohaiphong_product_spec-group-block">
+                                <div class="vinfast-autohaiphong_product_spec-group-head">
+                                    <span class="vinfast-autohaiphong_product_spec-group-num">{{ sprintf('%02d', $loop->iteration) }}</span>
+                                    <h4>{{ Str::upper($gName) }}</h4>
+                                    <span class="vinfast-autohaiphong_product_spec-group-count">{{ $gSpecs->count() }} mục</span>
+                                </div>
+                                <div class="vinfast-autohaiphong_product_table-wrap">
+                                    <table class="vinfast-autohaiphong_product_spec-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" style="width: 55%;">HẠNG MỤC / NỘI DUNG</th>
+                                                <th scope="col" style="width: 45%; text-align: right;">THÔNG SỐ TIÊU CHUẨN</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($gSpecs as $sp)
+                                                <tr>
+                                                    <td class="vinfast-autohaiphong_product_cell-label">{{ $sp->label }}</td>
+                                                    <td class="vinfast-autohaiphong_product_cell-value">{{ trim($sp->value . ' ' . ($sp->unit ?? '')) }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+
+                {{-- VIEW 3: CHẾ ĐỘ KẾT QUẢ TÌM KIẾM (LIVE SEARCH RESULTS) --}}
+                <div data-spec-view-search class="vinfast-autohaiphong_product_spec-search-view" style="display: none;">
+                    <div class="vinfast-autohaiphong_product_table-wrap">
+                        <table class="vinfast-autohaiphong_product_spec-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 28%;">PHÂN NHÓM</th>
+                                    <th scope="col" style="width: 42%;">HẠNG MỤC / NỘI DUNG</th>
+                                    <th scope="col" style="width: 30%; text-align: right;">THÔNG SỐ TIÊU CHUẨN</th>
+                                </tr>
+                            </thead>
+                            <tbody data-spec-search-results>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {{-- GHI CHÚ PHÁP LÝ & CTA KỸ THUẬT --}}
                 <div class="vinfast-autohaiphong_product_technical-note">
                     <p>
-                        (*) Thông số và chính sách bán hàng có thể thay đổi theo thông báo chính thức của VinFast Việt Nam tại từng thời điểm. Quý khách vui lòng liên hệ trực tiếp Showroom VinFast Minh Đạo Hải Phòng để nhận thông tin cập nhật mới nhất.
+                        (*) Các thông số kỹ thuật trên được căn cứ theo tài liệu công bố chính thức của VinFast Việt Nam. Các trang bị, tính năng có thể được nâng cấp hoặc thay đổi mà không cần thông báo trước tùy theo phiên bản phần mềm (FOTA/SOTA) hoặc lô sản xuất. Quý khách vui lòng liên hệ VinFast Minh Đạo Hải Phòng để nhận bảng cấu hình chính xác nhất tại thời điểm giao dịch.
                     </p>
-                    <div>
-                        <a href="#vf3-so-sanh" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-primary">
-                            So sánh chi phí xe
+                    <div class="vinfast-autohaiphong_product_technical-cta">
+                        <a href="#vf3-so-sanh" class="vinfast-autohaiphong_product_btn-sharp">
+                            Bảng so sánh chi phí vận hành
                         </a>
-                        <button type="button" class="vinfast-autohaiphong_product_btn vinfast-autohaiphong_product_btn-outline" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
-                            Yêu cầu tư vấn kỹ thuật
+                        <button type="button" class="vinfast-autohaiphong_product_btn-sharp vinfast-autohaiphong_product_btn-sharp-primary" onclick="openQuoteModal({{ $car->id }}, '{{ $car->name }}')">
+                            Yêu cầu tư vấn kỹ thuật chi tiết
                         </button>
                     </div>
                 </div>

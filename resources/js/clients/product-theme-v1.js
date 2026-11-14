@@ -280,7 +280,11 @@ export function initProductThemeV1() {
   };
 
   // 3. Technical Specifications
+  let currentSpecTab = '';
+  let currentSpecMode = 'tabs';
+
   const renderSpecs = (key) => {
+    currentSpecTab = key;
     const specGroups = cfg.specGroups || {};
     const block = specGroups[key];
 
@@ -299,22 +303,161 @@ export function initProductThemeV1() {
       if (host && Array.isArray(block.rows)) {
         host.replaceChildren();
         block.rows.forEach(([name, value]) => {
-          const row = document.createElement('div');
-          row.className = P + 'spec-row';
-          const left = document.createElement('span');
-          const right = document.createElement('span');
-          left.className = P + 'spec-label';
-          right.className = P + 'spec-val';
-          left.textContent = name;
-          right.textContent = value;
-          row.append(left, right);
-          host.appendChild(row);
+          const tr = document.createElement('tr');
+          const tdLabel = document.createElement('td');
+          const tdValue = document.createElement('td');
+          tdLabel.className = P + 'cell-label';
+          tdValue.className = P + 'cell-value';
+          tdLabel.textContent = name;
+          tdValue.textContent = value;
+          tr.append(tdLabel, tdValue);
+          host.appendChild(tr);
         });
       }
     } else {
-      // Server-side rendered spec panels
+      // Server-side rendered spec panels fallback
       $$('[data-spec-panel]').forEach(panel => {
         panel.hidden = panel.dataset.specPanel !== key;
+      });
+    }
+  };
+
+  const initSpecFeatures = () => {
+    const searchInput = $('[data-spec-search]');
+    const searchClear = $('[data-spec-search-clear]');
+    const searchStatus = $('[data-spec-search-status]');
+    const searchResultsHost = $('[data-spec-search-results]');
+    const viewTabs = $('[data-spec-view-tabs]');
+    const viewAll = $('[data-spec-view-all]');
+    const viewSearch = $('[data-spec-view-search]');
+
+    const setSpecViewMode = (mode) => {
+      currentSpecMode = mode;
+      $$('[data-spec-mode]').forEach(b => {
+        b.classList.toggle(P + 'is-active', b.dataset.specMode === mode);
+      });
+
+      if (viewSearch) viewSearch.style.display = 'none';
+      if (searchStatus) searchStatus.style.display = 'none';
+      if (searchClear) searchClear.style.display = 'none';
+      if (searchInput) searchInput.value = '';
+
+      if (mode === 'all') {
+        if (viewTabs) viewTabs.style.display = 'none';
+        if (viewAll) viewAll.style.display = 'grid';
+      } else {
+        if (viewTabs) viewTabs.style.display = 'grid';
+        if (viewAll) viewAll.style.display = 'none';
+      }
+    };
+
+    // Mode buttons
+    $$('[data-spec-mode]').forEach(btn => {
+      btn.addEventListener('click', () => setSpecViewMode(btn.dataset.specMode));
+    });
+
+    // Live search
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        if (!query) {
+          setSpecViewMode(currentSpecMode);
+          return;
+        }
+
+        if (searchClear) searchClear.style.display = 'inline-flex';
+        if (viewTabs) viewTabs.style.display = 'none';
+        if (viewAll) viewAll.style.display = 'none';
+        if (viewSearch) viewSearch.style.display = 'block';
+
+        const specGroups = cfg.specGroups || {};
+        const matched = [];
+
+        Object.entries(specGroups).forEach(([slug, group]) => {
+          (group.rows || []).forEach(([name, val]) => {
+            if (
+              name.toLowerCase().includes(query) ||
+              val.toLowerCase().includes(query) ||
+              group.title.toLowerCase().includes(query)
+            ) {
+              matched.push({ group: group.title, name, val });
+            }
+          });
+        });
+
+        if (searchStatus) {
+          searchStatus.style.display = 'block';
+          searchStatus.textContent = matched.length > 0
+            ? `Tìm thấy ${matched.length} thông số kỹ thuật phù hợp với từ khóa "${query}"`
+            : `Không tìm thấy thông số kỹ thuật nào phù hợp với từ khóa "${query}"`;
+        }
+
+        if (searchResultsHost) {
+          searchResultsHost.replaceChildren();
+          matched.forEach(item => {
+            const tr = document.createElement('tr');
+            const tdGroup = document.createElement('td');
+            const tdName = document.createElement('td');
+            const tdVal = document.createElement('td');
+
+            tdGroup.className = P + 'cell-group';
+            tdName.className = P + 'cell-label';
+            tdVal.className = P + 'cell-value';
+
+            tdGroup.textContent = item.group;
+            tdName.textContent = item.name;
+            tdVal.textContent = item.val;
+
+            tr.append(tdGroup, tdName, tdVal);
+            searchResultsHost.appendChild(tr);
+          });
+        }
+      });
+    }
+
+    if (searchClear) {
+      searchClear.addEventListener('click', () => {
+        setSpecViewMode(currentSpecMode);
+        searchInput?.focus();
+      });
+    }
+
+    // Copy Specs action
+    const copyBtn = $('[data-spec-action="copy"]');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        const specGroups = cfg.specGroups || {};
+        const lines = [`BẢNG THÔNG SỐ KỸ THUẬT XE ${cfg.model || 'VINFAST'}`];
+        lines.push('----------------------------------------');
+
+        if (currentSpecMode === 'tabs' && currentSpecTab && specGroups[currentSpecTab]) {
+          const grp = specGroups[currentSpecTab];
+          lines.push(`[${grp.title}]`);
+          (grp.rows || []).forEach(([k, v]) => lines.push(`- ${k}: ${v}`));
+        } else {
+          Object.values(specGroups).forEach(grp => {
+            lines.push(`\n[${grp.title}]`);
+            (grp.rows || []).forEach(([k, v]) => lines.push(`- ${k}: ${v}`));
+          });
+        }
+
+        lines.push('\nNguồn: VinFast Minh Đạo Hải Phòng (vinfast-autohaiphong.com.vn)');
+        navigator.clipboard.writeText(lines.join('\n')).then(() => {
+          const copyText = $('[data-spec-copy-text]');
+          if (copyText) {
+            const old = copyText.textContent;
+            copyText.textContent = '✓ Đã sao chép';
+            setTimeout(() => { copyText.textContent = old; }, 2000);
+          }
+        }).catch(() => {});
+      });
+    }
+
+    // Print Specs action
+    const printBtn = $('[data-spec-action="print"]');
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        window.print();
       });
     }
   };
@@ -666,6 +809,7 @@ export function initProductThemeV1() {
   if (firstSpecTab) {
     renderSpecs(firstSpecTab.dataset.specTab);
   }
+  initSpecFeatures();
   renderDesign(0);
   renderCompare();
   setHero(0);

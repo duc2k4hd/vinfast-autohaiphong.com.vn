@@ -179,4 +179,3 @@ class Vf3SpecificationsSeeder extends Seeder
         });
     }
 }
-
