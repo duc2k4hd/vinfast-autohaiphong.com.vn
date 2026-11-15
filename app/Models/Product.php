@@ -29,6 +29,7 @@ class Product extends Model
         'status',
         'featured',
         'sort_order',
+        'show_in_menu',
         'thumbnail_media_id',
         'video_media_id',
         'video_path',
@@ -43,6 +44,7 @@ class Product extends Model
         'sale_price' => 'integer',
         'price_on_request' => 'boolean',
         'featured' => 'boolean',
+        'show_in_menu' => 'boolean',
         'published_at' => 'datetime',
     ];
 

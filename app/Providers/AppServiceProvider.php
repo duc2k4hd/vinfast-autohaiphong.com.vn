@@ -28,17 +28,23 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         View::composer('clients.layouts.header', function ($view) {
-            $cars = DB::table('products')
+            $query = DB::table('products')
                 ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
                 ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
                 ->whereIn('products.status', ['published', 'active', 'coming_soon'])
-                ->whereNull('products.deleted_at')
-                ->where(function ($query) {
-                    $query->whereNull('products.published_at')->orWhere('products.published_at', '<=', now());
-                })
+                ->whereNull('products.deleted_at');
+
+            if (Schema::hasColumn('products', 'show_in_menu')) {
+                $query->where('products.show_in_menu', true);
+            }
+
+            $cars = $query->where(function ($q) {
+                $q->whereNull('products.published_at')->orWhere('products.published_at', '<=', now());
+            })
                 ->orderBy('products.sort_order')->orderBy('products.id')
                 ->select('products.name', 'products.slug', 'media.path as thumbnail_path', 'product_categories.name as category_name')
                 ->get();
+
             $view->with('menuCars', $cars);
         });
 

@@ -151,6 +151,12 @@
                         Thư Viện Media
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.menus.index') }}" class="vinfast-autohaiphong_admin_sidebar_link {{ request()->routeIs('admin.menus*') ? 'active' : '' }}">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        Quản Lý Menu
+                    </a>
+                </li>
 
                 <li class="vinfast-autohaiphong_admin_sidebar_heading">HỆ THỐNG</li>
                 <li>

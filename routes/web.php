@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\LeadController as AdminLeadController;
 use App\Http\Controllers\Admin\MediaController as AdminMediaController;
+use App\Http\Controllers\Admin\MenuController as AdminMenuController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
@@ -144,6 +145,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/media/api/list', [AdminMediaController::class, 'apiList'])->name('media.api.list');
         Route::post('/media', [AdminMediaController::class, 'store'])->name('media.store');
         Route::delete('/media/{id}', [AdminMediaController::class, 'destroy'])->name('media.destroy');
+
+        // Quản lý Menu & Ảnh hiển thị
+        Route::get('/menus', [AdminMenuController::class, 'index'])->name('menus.index');
+        Route::post('/menus/vehicles', [AdminMenuController::class, 'updateVehicleMenu'])->name('menus.vehicles.update');
+        Route::patch('/menus/vehicles/{id}', [AdminMenuController::class, 'updateVehicleSingle'])->name('menus.vehicles.update_single');
+        Route::post('/menus/items', [AdminMenuController::class, 'storeMenuItem'])->name('menus.items.store');
+        Route::put('/menus/items/{id}', [AdminMenuController::class, 'updateMenuItem'])->name('menus.items.update');
+        Route::delete('/menus/items/{id}', [AdminMenuController::class, 'destroyMenuItem'])->name('menus.items.destroy');
 
         // Quản lý Cài đặt
         Route::get('/settings', [AdminSettingController::class, 'index'])->name('settings.index');

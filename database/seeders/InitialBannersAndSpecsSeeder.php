@@ -249,7 +249,7 @@ class InitialBannersAndSpecsSeeder extends Seeder
         (new Vf3OfficialSpecificationsSeeder)->run();
 
         // Đồng bộ thông số kỹ thuật chính thức theo nhóm cho VF 2 & VF 3
-        (new Vf2OfficialSpecificationsSeeder())->run();
-        (new Vf3OfficialSpecificationsSeeder())->run();
+        (new Vf2OfficialSpecificationsSeeder)->run();
+        (new Vf3OfficialSpecificationsSeeder)->run();
     }
 }
