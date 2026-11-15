@@ -9,6 +9,9 @@
     {{-- SEO Metadata --}}
     <title>@yield('title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng - Đại Lý Xe Điện VinFast Chính Hãng')</title>
     <meta name="description" content="@yield('meta_description', $siteSettings['seo_description'] ?? 'VinFast Hải Phòng chuyên phân phối ô tô điện VinFast chính hãng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9. Báo giá lăn bánh ưu đãi, bảo hành pin 10 năm.')">
+    @hasSection('meta_keywords')
+    <meta name="keywords" content="@yield('meta_keywords')">
+    @endif
     <link rel="canonical" href="@yield('canonical', request()->url())">
 
     {{-- Robots Meta - Kiểm soát thu thập dữ liệu & ngăn crawl trùng lặp --}}

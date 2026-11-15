@@ -1,8 +1,13 @@
 @extends('clients.layouts.app')
 
-@section('title', $car->name . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng')
-@section('meta_description', 'Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')
-@section('canonical', url('/xe/' . $car->slug))
+@section('title', $car->meta_title ?: ($car->name . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng'))
+@section('meta_description', $car->meta_description ?: ($car->short_description ?: ('Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')))
+@section('canonical', $car->canonical_url ?: url('/xe/' . $car->slug))
+@if(!empty($car->meta_keywords))
+@section('meta_keywords', $car->meta_keywords)
+@endif
+@section('og_title', $car->meta_title ?: ($car->name . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng'))
+@section('og_description', $car->meta_description ?: ($car->short_description ?: ('Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')))
 @section('og_type', 'product')
 @section('og_image', $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'))
 

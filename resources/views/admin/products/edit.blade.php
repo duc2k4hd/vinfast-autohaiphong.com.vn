@@ -512,9 +512,101 @@
                 </div>
             </div>
 
-            <div class="vf-admin-input-group" style="margin-bottom: 0;">
-                <label class="vf-admin-label">Mô Tả Ngắn Gọn (Hiển thị thẻ SEO & Meta)</label>
-                <textarea name="short_description" rows="2" class="vf-admin-textarea" placeholder="Mô tả tóm tắt tính năng, ưu điểm nổi bật của dòng xe...">{{ old('short_description', $product->short_description) }}</textarea>
+            <div class="vf-admin-input-group">
+                <label class="vf-admin-label">Mô Tả Ngắn Gọn (Giới thiệu nhanh dòng xe)</label>
+                <textarea name="short_description" id="product-short-description" rows="2" class="vf-admin-textarea" placeholder="Mô tả tóm tắt tính năng, ưu điểm nổi bật của dòng xe...">{{ old('short_description', $product->short_description) }}</textarea>
+            </div>
+
+            {{-- ========================================================= --}}
+            {{-- CẤU HÌNH META SEO CHUẨN GOOGLE (SERP & SOCIAL ON-PAGE)    --}}
+            {{-- ========================================================= --}}
+            <div style="margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--admin-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <span style="font-size: 0.88rem; font-weight: 700; color: var(--admin-heading); text-transform: uppercase; letter-spacing: 0.02em;">Tối Ưu Hóa Meta SEO (Google On-Page)</span>
+                    </div>
+                    <span style="font-size: 0.72rem; font-weight: 600; color: #166534; background: #dcfce7; padding: 2px 8px; border-radius: 12px; border: 1px solid #bbf7d0;">Chuẩn SEO 2026</span>
+                </div>
+                <p class="vf-admin-helper-text" style="margin-bottom: 12px; font-size: 0.78rem;">
+                    Tùy biến tiêu đề, mô tả và từ khóa tìm kiếm khi khách hàng Google dòng xe này. Nếu để trống, hệ thống sẽ tự động tối ưu hóa theo tên và mô tả xe.
+                </p>
+
+                {{-- Meta Title --}}
+                <div class="vf-admin-input-group" style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <label class="vf-admin-label" style="margin-bottom: 0;">Tiêu Đề SEO (Meta Title)</label>
+                        <span id="product-meta-title-counter" style="font-size: 0.75rem; color: var(--admin-muted); font-family: Consolas, monospace;">0 / 60 ký tự</span>
+                    </div>
+                    <input type="text" name="meta_title" id="product-meta-title" value="{{ old('meta_title', $product->meta_title ?? '') }}" 
+                           class="vf-admin-input" placeholder="VD: VinFast VF 3 - Giá Lăn Bánh, Khuyến Mãi Mới Nhất Tại Hải Phòng">
+                    <div class="vf-admin-helper-text" style="margin-top: 3px; font-size: 0.74rem;">
+                        Hiển thị làm dòng tiêu đề xanh trên Google Search (khuyến nghị từ 40 - 65 ký tự).
+                    </div>
+                </div>
+
+                {{-- Meta Description --}}
+                <div class="vf-admin-input-group" style="margin-bottom: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <label class="vf-admin-label" style="margin-bottom: 0;">Mô Tả SEO (Meta Description)</label>
+                        <span id="product-meta-desc-counter" style="font-size: 0.75rem; color: var(--admin-muted); font-family: Consolas, monospace;">0 / 160 ký tự</span>
+                    </div>
+                    <textarea name="meta_description" id="product-meta-description" rows="3" class="vf-admin-textarea" 
+                              placeholder="VD: Khám phá xe điện VinFast VF 3 tại Hải Phòng. Thiết kế nhỏ gọn, quãng đường 215km, sạc siêu nhanh, giá lăn bánh ưu đãi kèm bảo hành chính hãng 10 năm...">{{ old('meta_description', $product->meta_description ?? '') }}</textarea>
+                    <div class="vf-admin-helper-text" style="margin-top: 3px; font-size: 0.74rem;">
+                        Đoạn trích dẫn mô tả hiển thị bên dưới tiêu đề trên Google (khuyến nghị từ 120 - 160 ký tự).
+                    </div>
+                </div>
+
+                {{-- Meta Keywords & Canonical URL (2 cột) --}}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="vf-admin-input-group">
+                    <div>
+                        <label class="vf-admin-label">Từ Khóa SEO (Focus Keywords)</label>
+                        <input type="text" name="meta_keywords" id="product-meta-keywords" value="{{ old('meta_keywords', $product->meta_keywords ?? '') }}" 
+                               class="vf-admin-input" placeholder="VD: vinfast vf 3, gia xe vf 3 hai phong, xe dien vinfast">
+                        <div class="vf-admin-helper-text" style="margin-top: 3px; font-size: 0.73rem;">Các từ khóa phân cách bằng dấu phẩy.</div>
+                    </div>
+                    <div>
+                        <label class="vf-admin-label">Đường Dẫn Canonical (Tùy chọn)</label>
+                        <input type="text" name="canonical_url" id="product-canonical-url" value="{{ old('canonical_url', $product->canonical_url ?? '') }}" 
+                               class="vf-admin-input" placeholder="Mặc định: Tự động trỏ về URL của xe">
+                        <div class="vf-admin-helper-text" style="margin-top: 3px; font-size: 0.73rem;">Chỉ nhập khi cần trỏ canonical về URL khác.</div>
+                    </div>
+                </div>
+
+                {{-- Google SERP Snippet Live Preview --}}
+                <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-top: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">
+                        <span style="font-size: 0.76rem; font-weight: 700; color: #475569; text-transform: uppercase; display: flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ea4335" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>
+                            Mô Phỏng Hiển Thị Trên Google Tìm Kiếm (SERP Preview)
+                        </span>
+                        <span style="font-size: 0.7rem; color: #94a3b8;">Google Desktop & Mobile</span>
+                    </div>
+
+                    {{-- Google URL breadcrumb --}}
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                        <div style="width: 22px; height: 22px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <img src="{{ asset('storage/clients/assets/images/business/vinfast-haiphong.png') }}" alt="VinFast Hải Phòng" style="width: 14px; height: 14px; object-fit: contain;">
+                        </div>
+                        <div style="display: flex; flex-direction: column; line-height: 1.2;">
+                            <span style="font-size: 0.76rem; font-weight: 600; color: #202124;">VinFast Hải Phòng</span>
+                            <span id="serp-preview-url" style="font-size: 0.72rem; color: #4d5156; word-break: break-all;">
+                                {{ url('/xe/' . ($product->slug ?: 'ten-xe-vinfast')) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    {{-- Google Title --}}
+                    <div id="serp-preview-title" style="font-size: 1.05rem; line-height: 1.35; color: #1a0dab; font-weight: 500; cursor: pointer; margin-top: 4px; margin-bottom: 6px; word-break: break-word;">
+                        {{ $product->meta_title ?: (($product->name ?: 'VinFast VF') . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng') }}
+                    </div>
+
+                    {{-- Google Snippet Description --}}
+                    <div id="serp-preview-desc" style="font-size: 0.82rem; line-height: 1.5; color: #4d5156; word-break: break-word;">
+                        {{ $product->meta_description ?: ($product->short_description ?: 'Xem thông số kỹ thuật xe ' . ($product->name ?: 'VinFast') . ': Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.') }}
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1268,6 +1360,68 @@ function calculateDiscount() {
     }
 }
 calculateDiscount();
+
+// Quản lý Meta SEO & Live SERP Preview thời gian thực
+(function() {
+    const metaTitleInput = document.getElementById('product-meta-title');
+    const metaDescInput = document.getElementById('product-meta-description');
+    const nameInput = document.getElementById('product-name');
+    const slugInput = document.getElementById('product-slug');
+    const shortDescInput = document.getElementById('product-short-description');
+
+    const metaTitleCounter = document.getElementById('product-meta-title-counter');
+    const metaDescCounter = document.getElementById('product-meta-desc-counter');
+    const serpUrl = document.getElementById('serp-preview-url');
+    const serpTitle = document.getElementById('serp-preview-title');
+    const serpDesc = document.getElementById('serp-preview-desc');
+
+    const baseUrl = '{{ url('/xe') }}';
+
+    function updateSeoCountersAndPreview() {
+        const carName = nameInput ? nameInput.value.trim() : '';
+        const carSlug = slugInput ? slugInput.value.trim() : '';
+        const metaTitleVal = metaTitleInput ? metaTitleInput.value.trim() : '';
+        const metaDescVal = metaDescInput ? metaDescInput.value.trim() : '';
+        const shortDescVal = shortDescInput ? shortDescInput.value.trim() : '';
+
+        // Đếm ký tự Title (40 - 65 là xanh)
+        if (metaTitleInput && metaTitleCounter) {
+            const tLen = metaTitleInput.value.length;
+            metaTitleCounter.textContent = `${tLen} / 60 ký tự`;
+            metaTitleCounter.style.color = (tLen >= 40 && tLen <= 65) ? '#16a34a' : (tLen > 65 ? '#ef4444' : 'var(--admin-muted)');
+        }
+
+        // Đếm ký tự Description (120 - 160 là xanh)
+        if (metaDescInput && metaDescCounter) {
+            const dLen = metaDescInput.value.length;
+            metaDescCounter.textContent = `${dLen} / 160 ký tự`;
+            metaDescCounter.style.color = (dLen >= 120 && dLen <= 160) ? '#16a34a' : (dLen > 160 ? '#ef4444' : 'var(--admin-muted)');
+        }
+
+        // Cập nhật SERP URL
+        if (serpUrl) {
+            serpUrl.textContent = `${baseUrl}/${carSlug || 'ten-xe-vinfast'}`;
+        }
+
+        // Cập nhật SERP Title
+        if (serpTitle) {
+            serpTitle.textContent = metaTitleVal || `${carName || 'VinFast VF'} - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng`;
+        }
+
+        // Cập nhật SERP Description
+        if (serpDesc) {
+            serpDesc.textContent = metaDescVal || (shortDescVal || `Xem thông số kỹ thuật xe ${carName || 'VinFast'}: Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.`);
+        }
+    }
+
+    if (metaTitleInput) metaTitleInput.addEventListener('input', updateSeoCountersAndPreview);
+    if (metaDescInput) metaDescInput.addEventListener('input', updateSeoCountersAndPreview);
+    if (nameInput) nameInput.addEventListener('input', updateSeoCountersAndPreview);
+    if (slugInput) slugInput.addEventListener('input', updateSeoCountersAndPreview);
+    if (shortDescInput) shortDescInput.addEventListener('input', updateSeoCountersAndPreview);
+
+    updateSeoCountersAndPreview();
+})();
 
 // Thêm biến thể mới
 function addNewVariantRow(data = {}) {
