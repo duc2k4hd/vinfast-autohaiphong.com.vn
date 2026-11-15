@@ -78,6 +78,7 @@ Route::name('client.')->group(function () {
     Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.store');
 
     // 9. Các trang chính sách & hạ tầng
+    Route::get('/chinh-sach', [PageController::class, 'policyHub'])->name('pages.policies');
     Route::get('/pin-va-tram-sac', [PageController::class, 'chargingStations'])->name('pages.charging_stations');
     Route::get('/trai-nghiem-khach-hang', [PageController::class, 'customerExperience'])->name('pages.customer_experience');
     Route::get('/chinh-sach-thanh-toan', [PageController::class, 'paymentPolicy'])->name('pages.payment_policy');

@@ -1,10 +1,28 @@
 @extends('clients.layouts.app')
 
-@section('title', 'VinFast Hải Phòng | Khám phá xe điện VinFast')
-@section('meta_description', 'Khám phá các dòng xe điện VinFast, tham khảo giá và liên hệ tư vấn tại Hải Phòng.')
+@section('title', 'VinFast Hải Phòng | Đại Lý Ủy Quyền Xe Điện VinFast Chính Hãng')
+@section('meta_description', 'Đại lý VinFast Hải Phòng chính thức phân phối các dòng ô tô điện: VF 3, VF 5 Plus, VF 6, VF 7, VF 8, VF 9. Báo giá lăn bánh, hỗ trợ thủ tục mua xe và bảo hành 10 năm.')
 @section('canonical', route('client.home'))
-@section('og_title', 'VinFast Hải Phòng | Khám phá xe điện VinFast')
-@section('og_description', 'Khám phá các dòng xe điện VinFast, tham khảo giá và liên hệ tư vấn tại Hải Phòng.')
+@section('og_title', 'VinFast Hải Phòng | Đại Lý Ủy Quyền Xe Điện VinFast Chính Hãng')
+@section('og_description', 'Đại lý VinFast Hải Phòng chính thức phân phối các dòng ô tô điện: VF 3, VF 5 Plus, VF 6, VF 7, VF 8, VF 9. Báo giá lăn bánh, hỗ trợ thủ tục mua xe và bảo hành 10 năm.')
+
+@push('schema')
+{{-- WebSite Schema với SearchAction cho Google Search Box --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'WebSite',
+    'name' => 'VinFast Hải Phòng',
+    'alternateName' => ['VinFast Auto Hải Phòng', 'Đại lý VinFast Hải Phòng'],
+    'url' => route('client.home'),
+    'potentialAction' => [
+        '@type' => 'SearchAction',
+        'target' => url('/o-to-vinfast') . '?search={search_term_string}',
+        'query-input' => 'required name=search_term_string',
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+@endpush
 
 @push('styles')
 <style>

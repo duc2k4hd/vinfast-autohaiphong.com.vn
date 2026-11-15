@@ -19,17 +19,40 @@
         'telephone' => '0988 302 882',
         'address' => [
             '@type' => 'PostalAddress',
-            'streetAddress' => 'Thửa 05, Lô 26A, Đường Lê Hồng Phong',
-            'addressLocality' => 'Phường Gia Viên',
+            'streetAddress' => 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng',
+            'addressLocality' => 'Hải Phòng',
             'addressRegion' => 'Hải Phòng',
-            'addressCountry' => 'VN'
+            'postalCode' => '180000',
+            'addressCountry' => 'VN',
         ],
         'openingHours' => [
             'Mo-Sa 07:30-18:00',
-            'Su 07:00-18:00'
-        ]
-    ]
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+            'Su 07:00-18:00',
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+
+{{-- BreadcrumbList Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Trang chủ',
+            'item' => route('client.home'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Liên Hệ',
+            'item' => url('/lien-he'),
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 @endpush
 

@@ -31,10 +31,12 @@ class SitemapController extends Controller
             ['url' => url('/trai-nghiem-khach-hang'), 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['url' => url('/blogs'), 'priority' => '0.8', 'changefreq' => 'daily'],
             ['url' => url('/lien-he'), 'priority' => '0.7', 'changefreq' => 'monthly'],
+            ['url' => url('/chinh-sach'), 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['url' => url('/chinh-sach-thanh-toan'), 'priority' => '0.6', 'changefreq' => 'monthly'],
             ['url' => url('/chinh-sach-bao-mat'), 'priority' => '0.5', 'changefreq' => 'yearly'],
             ['url' => url('/chinh-sach-bao-hanh'), 'priority' => '0.6', 'changefreq' => 'monthly'],
             ['url' => url('/dieu-khoan-su-dung'), 'priority' => '0.5', 'changefreq' => 'yearly'],
+            ['url' => url('/so-do-trang-web'), 'priority' => '0.4', 'changefreq' => 'monthly'],
         ];
 
         $content = view('clients.pages.seo.sitemap', [
@@ -72,6 +74,7 @@ class SitemapController extends Controller
             ['title' => 'Trải nghiệm khách hàng', 'url' => route('client.pages.customer_experience')],
             ['title' => 'Tin tức & Khuyến mại', 'url' => route('client.posts.index')],
             ['title' => 'Liên hệ & Đặt lịch hẹn Showroom', 'url' => route('client.contact.index')],
+            ['title' => 'Trung tâm chính sách', 'url' => route('client.pages.policies')],
             ['title' => 'Chính sách thanh toán tiền mặt', 'url' => route('client.pages.payment_policy')],
             ['title' => 'Chính sách bảo hành chính hãng', 'url' => route('client.pages.warranty_policy')],
             ['title' => 'Chính sách bảo mật thông tin', 'url' => route('client.pages.privacy_policy')],

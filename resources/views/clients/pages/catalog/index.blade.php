@@ -47,7 +47,7 @@
 
 @push('styles')
 <style>
-.catalog-intro{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;aspect-ratio:19 / 6;background:#101f37;color:#fff;padding:40px 0}.catalog-intro::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(9,22,41,.96) 0%,rgba(9,22,41,.82) 48%,rgba(9,22,41,.35) 100%)}.catalog-intro__background{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;object-position:center}.catalog-intro span{color:#9dbdec;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase}.catalog-intro h1{color:white;font-size:clamp(2rem,4vw,3.5rem);line-height:1.15;margin:12px 0 16px;max-width:760px}.catalog-intro p{color:#d4deec;max-width:650px;line-height:1.7;margin:0}.vinfast-autohaiphong_catalog_section{background:#f5f7fa}.vinfast-autohaiphong_catalog_header h1{color:#14243b}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_card{background:white;border:1px solid #e1e7ee;border-radius:14px;overflow:hidden}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_thumb{background:#edf1f5}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_body{padding:24px}.vinfast-autohaiphong_catalog_header>div:last-child>div{flex-wrap:wrap}.catalog-help{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:50px;padding:30px;background:#e8eff8;border-radius:14px}.catalog-help h2{font-size:1.3rem;margin:0 0 8px;color:#14243b}.catalog-help p{margin:0;color:#52657d}@media(max-width:600px){.catalog-intro{min-height:280px;padding:50px 0}.catalog-intro::before{background:linear-gradient(90deg,rgba(9,22,41,.94),rgba(9,22,41,.67))}.catalog-help{padding:24px}}
+.catalog-intro{background:#0f1f38;color:#fff;padding:44px 0 52px 0}.catalog-intro span{display:inline-block;color:#9dbdec;font-weight:700;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}.catalog-intro h1{color:white;font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;line-height:1.25;margin:0 0 12px;max-width:760px}.catalog-intro p{color:#d4deec;max-width:650px;line-height:1.65;margin:0;font-size:.95rem}.catalog-intro__banner-wrap{margin-top:26px;width:100%;border-radius:14px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.28)}.catalog-intro__banner{display:block;width:100%;aspect-ratio:19 / 6;object-fit:cover;object-position:center}.vinfast-autohaiphong_catalog_section{background:#f5f7fa}.vinfast-autohaiphong_catalog_header h1{color:#14243b}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_card{background:white;border:1px solid #e1e7ee;border-radius:14px;overflow:hidden}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_thumb{background:#edf1f5}.vinfast-autohaiphong_catalog_section .vinfast-autohaiphong_home_car_body{padding:24px}.vinfast-autohaiphong_catalog_header>div:last-child>div{flex-wrap:wrap}.catalog-help{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:50px;padding:30px;background:#e8eff8;border-radius:14px}.catalog-help h2{font-size:1.3rem;margin:0 0 8px;color:#14243b}.catalog-help p{margin:0;color:#52657d}@media(max-width:600px){.catalog-intro{padding:32px 0 36px}.catalog-intro__banner-wrap{margin-top:18px;border-radius:10px}.catalog-help{padding:24px}}
 .catalog-pagination{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;margin-top:40px}.catalog-pagination__item{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:44px;height:44px;padding:0 14px;border:1px solid #d6e0eb;border-radius:9px;background:#fff;color:#263d59;font-size:.9rem;font-weight:600;text-decoration:none;transition:background .2s,border-color .2s,color .2s}.catalog-pagination a:hover{border-color:#1768cf;color:#1768cf}.catalog-pagination a:focus-visible{outline:3px solid #83b7ff;outline-offset:2px}.catalog-pagination__item[aria-current="page"]{background:#1768cf;border-color:#1768cf;color:#fff}.catalog-pagination__item[aria-disabled="true"]{color:#a5b2c1;background:#f5f7fa}.catalog-pagination__dots{padding:0 3px;color:#718096}@media(max-width:480px){.catalog-pagination{gap:6px}.catalog-pagination__item{min-width:40px;height:40px;padding:0 11px}}
 </style>
 @endpush
@@ -63,7 +63,21 @@
     </div>
 </div>
 
-<section class="catalog-intro">@if($catalogIntroImage)<img class="catalog-intro__background" src="{{ asset('storage/'.ltrim($catalogIntroImage, '/')) }}" alt="" aria-hidden="true">@endif<div class="vinfast-autohaiphong_layout_container"><span>VinFast Hải Phòng</span><h1>Chọn chiếc VinFast phù hợp với bạn</h1><p>Khám phá các dòng ô tô VinFast, tìm hiểu giá xe và nhận tư vấn phù hợp với nhu cầu của bạn tại Hải Phòng.</p></div></section>
+<section class="catalog-intro">
+    <div class="vinfast-autohaiphong_layout_container">
+        <span>VinFast Hải Phòng</span>
+        <h1>Chọn chiếc VinFast phù hợp với bạn</h1>
+        <p>Khám phá các dòng ô tô VinFast, tìm hiểu giá xe và nhận tư vấn phù hợp với nhu cầu của bạn tại Hải Phòng.</p>
+        @if($catalogIntroImage)
+            <div class="catalog-intro__banner-wrap">
+                <img class="catalog-intro__banner catalog-intro__image catalog-intro__background" 
+                     src="{{ asset('storage/'.ltrim($catalogIntroImage, '/')) }}" 
+                     alt="VinFast Hải Phòng - Chọn chiếc xe phù hợp với bạn" 
+                     loading="lazy">
+            </div>
+        @endif
+    </div>
+</section>
 <div class="vinfast-autohaiphong_catalog_section" style="padding: 40px 0 60px 0;">
     <div class="vinfast-autohaiphong_layout_container">
         {{-- Tiêu đề trang & Thanh công cụ lọc --}}

@@ -2,6 +2,8 @@
 
 @section('title', 'Giỏ Hàng / Danh Sách Đặt Cọc Xe | VinFast Hải Phòng')
 @section('meta_description', 'Xem lại danh sách các mẫu xe VinFast bạn đang quan tâm hoặc đăng ký đặt cọc tiền mặt tại VinFast Hải Phòng.')
+@section('robots', 'noindex, nofollow')
+@section('canonical', url('/gio-hang'))
 
 @section('content')
 <div class="vinfast-autohaiphong_cart_section" style="padding: 40px 0 60px 0;">

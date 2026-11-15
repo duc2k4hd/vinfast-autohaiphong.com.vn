@@ -18,7 +18,7 @@ class CatalogIntroImageTest extends TestCase
 
         $this->get(route('client.catalog.index'))
             ->assertOk()
-            ->assertSee('class="catalog-intro__background"', false)
+            ->assertSee('class="catalog-intro__banner', false)
             ->assertSee('storage/clients/assets/images/catalog.jpg');
     }
 
@@ -26,7 +26,7 @@ class CatalogIntroImageTest extends TestCase
     {
         $this->get(route('client.catalog.index'))
             ->assertOk()
-            ->assertDontSee('class="catalog-intro__background"', false);
+            ->assertDontSee('class="catalog-intro__banner', false);
     }
 
     public function test_admin_can_save_and_clear_the_intro_image(): void

@@ -2,7 +2,53 @@
 
 @section('title', ($currentCategory ? $currentCategory->name . ' | ' : '') . 'Tin Tức & Blog Xe Điện | VinFast Hải Phòng')
 @section('meta_description', $currentCategory ? ($currentCategory->description ?: 'Chuyên mục ' . $currentCategory->name . ' - Cập nhật thông tin chính xác tại VinFast Hải Phòng.') : 'Cập nhật tin tức mới nhất về các dòng ô tô điện VinFast, chính sách khuyến mãi, trạm sạc và kinh nghiệm sử dụng xe tại Hải Phòng.')
-@section('canonical', url('/blogs' . ($selectedCategory ? '?category=' . $selectedCategory : '')))
+@section('canonical', $posts->currentPage() > 1 ? url('/blogs/page/' . $posts->currentPage()) : url('/blogs'))
+
+@push('schema')
+{{-- BreadcrumbList Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => array_filter([
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Trang chủ',
+            'item' => route('client.home'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Tin Tức & Blog',
+            'item' => url('/blogs'),
+        ],
+        $currentCategory ? [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => $currentCategory->name,
+            'item' => url('/blogs?category=' . $currentCategory->slug),
+        ] : null,
+    ]),
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+
+{{-- Blog / CollectionPage Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'Blog',
+    'name' => ($currentCategory ? $currentCategory->name . ' - ' : '') . 'Tin Tức & Blog VinFast Hải Phòng',
+    'description' => 'Cập nhật tin tức, cẩm nang xe điện và ưu đãi giá lăn bánh tại VinFast Hải Phòng.',
+    'url' => url('/blogs'),
+    'publisher' => [
+        '@type' => 'AutoDealer',
+        'name' => 'VinFast Hải Phòng',
+        'url' => url('/'),
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+@endpush
 
 @section('content')
 <div class="vinfast-autohaiphong_posts_header" style="background: #ffffff; border-bottom: 1px solid var(--client-color-border); padding: 36px 0;">

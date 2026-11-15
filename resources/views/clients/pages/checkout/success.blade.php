@@ -2,6 +2,7 @@
 
 @section('title', 'Đặt Hàng Thành Công — Mã: ' . $order->order_number . ' | VinFast Hải Phòng')
 @section('meta_description', 'Đăng ký đặt cọc xe VinFast thành công. Vui lòng xem hướng dẫn hoàn tất thanh toán tiền mặt tại Showroom VinFast Hải Phòng.')
+@section('robots', 'noindex, nofollow')
 
 @section('content')
 <div class="vinfast-autohaiphong_checkout_success_section" style="padding: 50px 0 70px 0; background: #f8fafc;">

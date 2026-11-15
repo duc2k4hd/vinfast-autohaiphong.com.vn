@@ -1,10 +1,13 @@
 @extends('clients.layouts.app')
 
 @section('title', $car->name . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng')
-@section('meta_description', 'Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết key-value, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')
+@section('meta_description', 'Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')
 @section('canonical', url('/xe/' . $car->slug))
+@section('og_type', 'product')
+@section('og_image', $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'))
 
 @push('schema')
+{{-- Schema Xe Ô Tô (Car/Product) cho Google Rich Snippets --}}
 <script type="application/ld+json">
 {!! json_encode([
     '@context' => 'https://schema.org/',
@@ -23,8 +26,41 @@
         'price' => (float) ($car->sale_price ?: $car->regular_price ?: 0),
         'availability' => 'https://schema.org/InStock',
         'priceValidUntil' => '2026-12-31',
+        'seller' => [
+            '@type' => 'AutoDealer',
+            'name' => 'VinFast Hải Phòng',
+            'telephone' => '0988 302 882',
+        ],
     ],
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+
+{{-- BreadcrumbList Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Trang chủ',
+            'item' => route('client.home'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Ô Tô VinFast',
+            'item' => route('client.catalog.index'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => $car->name,
+            'item' => url('/xe/' . $car->slug),
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 @php
     $schemaVideos = (!empty($videos) && $videos->isNotEmpty()) ? $videos : collect();

@@ -1,8 +1,32 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Trải Nghiệm Khách Hàng | VinFast Hải Phòng')
+@section('title', 'Trải Nghiệm Khách Hàng Thực Tế | VinFast Hải Phòng')
 @section('meta_description', 'Lắng nghe những chia sẻ, đánh giá thực tế từ khách hàng đã tin tưởng sở hữu và vận hành xe ô tô điện VinFast tại Hải Phòng.')
 @section('canonical', url('/trai-nghiem-khach-hang'))
+
+@push('schema')
+{{-- BreadcrumbList Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Trang chủ',
+            'item' => route('client.home'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Trải Nghiệm Khách Hàng',
+            'item' => url('/trai-nghiem-khach-hang'),
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+@endpush
 
 @section('content')
 <div class="vinfast-autohaiphong_custom_header" style="background: #ffffff; border-bottom: 1px solid var(--client-color-border); padding: 36px 0;">

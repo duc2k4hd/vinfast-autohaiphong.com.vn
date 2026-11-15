@@ -4,6 +4,30 @@
 @section('meta_description', 'Sơ đồ liên kết toàn bộ website VinFast Hải Phòng: Danh mục các dòng xe điện VinFast, tin tức khuyến mại, chính sách thanh toán tiền mặt và thông tin liên hệ.')
 @section('canonical', url('/so-do-trang-web'))
 
+@push('schema')
+{{-- BreadcrumbList Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Trang chủ',
+            'item' => route('client.home'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Sơ đồ trang web',
+            'item' => url('/so-do-trang-web'),
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+@endpush
+
 @section('content')
 <div class="vinfast-autohaiphong_breadcrumb_wrapper" style="background-color: var(--client-color-surface); border-bottom: 1px solid var(--client-color-border); padding: 12px 0;">
     <div class="vinfast-autohaiphong_layout_container">

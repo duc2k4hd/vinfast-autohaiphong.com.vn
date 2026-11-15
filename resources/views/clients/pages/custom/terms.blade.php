@@ -4,6 +4,47 @@
 @section('meta_description', 'Các điều khoản sử dụng và quy định truy cập website VinFast Hải Phòng.')
 @section('canonical', url('/dieu-khoan-su-dung'))
 
+@push('schema')
+{{-- BreadcrumbList Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Trang chủ',
+            'item' => route('client.home'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Chính Sách',
+            'item' => url('/chinh-sach'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => 'Điều Khoản Sử Dụng Website',
+            'item' => url('/dieu-khoan-su-dung'),
+        ],
+    ],
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+
+{{-- WebPage Schema --}}
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'WebPage',
+    'name' => 'Điều Khoản Sử Dụng Website | VinFast Hải Phòng',
+    'description' => 'Các điều khoản sử dụng và quy định truy cập website VinFast Hải Phòng.',
+    'url' => url('/dieu-khoan-su-dung'),
+], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+</script>
+@endpush
+
 @section('content')
 <div class="vinfast-autohaiphong_policy_header" style="background: #ffffff; border-bottom: 1px solid var(--client-color-border); padding: 36px 0;">
     <div class="vinfast-autohaiphong_layout_container">

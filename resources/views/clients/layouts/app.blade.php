@@ -7,24 +7,33 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- SEO Metadata --}}
-    <title>@yield('title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng - Đại lý ủy quyền của VinFast Việt Nam')</title>
-    <meta name="description" content="@yield('meta_description', $siteSettings['seo_description'] ?? 'VinFast Hải Phòng chuyên phân phối ô tô điện VinFast chính hãng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9... Giá tốt nhất, hỗ trợ trả góp 80%.')">
-    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <title>@yield('title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng - Đại Lý Xe Điện VinFast Chính Hãng')</title>
+    <meta name="description" content="@yield('meta_description', $siteSettings['seo_description'] ?? 'VinFast Hải Phòng chuyên phân phối ô tô điện VinFast chính hãng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9. Báo giá lăn bánh ưu đãi, bảo hành pin 10 năm.')">
+    <link rel="canonical" href="@yield('canonical', request()->url())">
+
+    {{-- Robots Meta - Kiểm soát thu thập dữ liệu & ngăn crawl trùng lặp --}}
+    @hasSection('robots')
+        <meta name="robots" content="@yield('robots')">
+    @elseif(request()->getQueryString() || count(request()->query()) > 0)
+        <meta name="robots" content="noindex, follow">
+    @else
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    @endif
 
     {{-- Open Graph --}}
     <meta property="og:locale" content="vi_VN">
     <meta property="og:type" content="@yield('og_type', 'website')">
-    <meta property="og:title" content="@yield('og_title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng')">
-    <meta property="og:description" content="@yield('og_description', $siteSettings['seo_description'] ?? '')">
-    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:title" content="@yield('og_title', View::yieldContent('title'))">
+    <meta property="og:description" content="@yield('og_description', View::yieldContent('meta_description'))">
+    <meta property="og:url" content="{{ request()->url() }}">
     <meta property="og:site_name" content="{{ $siteSettings['site_name'] ?? 'VinFast Hải Phòng' }}">
-    <meta property="og:image" content="@yield('og_image', asset('storage/clients/assets/images/banners/vinfast-banner-54gf5.png'))">
+    <meta property="og:image" content="@yield('og_image', asset('storage/clients/assets/images/business/vinfast-haiphong.png'))">
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('og_title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng')">
-    <meta name="twitter:description" content="@yield('og_description', $siteSettings['seo_description'] ?? '')">
-    <meta name="twitter:image" content="@yield('og_image', asset('storage/clients/assets/images/banners/vinfast-banner-54gf5.png'))">
+    <meta name="twitter:title" content="@yield('og_title', View::yieldContent('title'))">
+    <meta name="twitter:description" content="@yield('og_description', View::yieldContent('meta_description'))">
+    <meta name="twitter:image" content="@yield('og_image', asset('storage/clients/assets/images/business/vinfast-haiphong.png'))">
 
     {{-- Open Sans Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,15 +48,39 @@
     {!! json_encode([
         '@context' => 'https://schema.org',
         '@type' => 'AutoDealer',
+        '@id' => url('/#autodealer'),
         'name' => $siteSettings['site_name'] ?? 'VinFast Hải Phòng',
         'image' => asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
+        'logo' => asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
         'telephone' => $siteSettings['site_phone'] ?? '0988 302 882',
+        'url' => url('/'),
         'address' => [
             '@type' => 'PostalAddress',
             'streetAddress' => $siteSettings['site_address'] ?? 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng',
+            'addressLocality' => 'Hải Phòng',
+            'addressRegion' => 'Hải Phòng',
+            'postalCode' => '180000',
+            'addressCountry' => 'VN',
         ],
-        'url' => url('/'),
-        'openingHours' => 'Mo-Sa 07:30-18:00, Su 07:00-18:00',
+        'geo' => [
+            '@type' => 'GeoCoordinates',
+            'latitude' => 20.8548,
+            'longitude' => 106.6974,
+        ],
+        'openingHoursSpecification' => [
+            [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                'opens' => '07:30',
+                'closes' => '18:00',
+            ],
+            [
+                '@type' => 'OpeningHoursSpecification',
+                'dayOfWeek' => ['Sunday'],
+                'opens' => '07:00',
+                'closes' => '18:00',
+            ],
+        ],
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
     </script>
 
