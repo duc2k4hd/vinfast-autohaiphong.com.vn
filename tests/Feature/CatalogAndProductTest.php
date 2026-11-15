@@ -217,4 +217,43 @@ class CatalogAndProductTest extends TestCase
         $response->assertSee('vf3-part2.mp4');
         $response->assertSee('vinfast-autohaiphong_product_video_stack', false);
     }
+
+    /**
+     * Kiểm tra nội dung chi tiết bài viết và hình ảnh nội bộ cho dòng xe VinFast VF 2.
+     */
+    public function test_vf2_detail_page_renders_rich_content_and_local_images(): void
+    {
+        $response = $this->get('/xe/vinfast-vf-2');
+
+        $response->assertStatus(200);
+
+        // 1. Kiểm tra các section nội dung chính của VF 2
+        $response->assertSee('id="vf2-gioi-thieu"', false);
+        $response->assertSee('VinFast VF 2 tại Hải Phòng: ô tô điện nhỏ gọn, vừa nhu cầu đi phố');
+        $response->assertSee('id="vf2-gia-ban"', false);
+        $response->assertSee('Giá VinFast VF 2: 188 triệu đồng đã bao gồm pin');
+        $response->assertSee('id="vf2-thiet-ke"', false);
+        $response->assertSee('id="vf2-noi-that"', false);
+        $response->assertSee('id="vf2-pin-sac"', false);
+        $response->assertSee('id="vf2-van-hanh"', false);
+        $response->assertSee('id="vf2-an-toan"', false);
+        $response->assertSee('id="vf2-mau-sac"', false);
+        $response->assertSee('id="vf2-thong-so"', false);
+        $response->assertSee('id="vf2-phu-hop"', false);
+        $response->assertSee('id="vf2-faq"', false);
+        $response->assertSee('id="vf2-tu-van"', false);
+
+        // 2. Kiểm tra đường dẫn ảnh đã map chuẩn nội bộ dự án, không còn link ảnh ngoài
+        $response->assertSee('/storage/clients/assets/images/products/vf2/hinh-anh-vinfast-vf2-hero-banner-new-desktop.webp', false);
+        $response->assertSee('/storage/clients/assets/images/products/vf2/vinfast-vf2-ngoai-that-mau-vang-be-goc-truoc-3-4-desktop.webp', false);
+        $response->assertDontSee('static-cms-prod.vinfastauto.com', false);
+
+        // 3. Kiểm tra link ngoài đã được loại bỏ, chỉ giữ tên thương hiệu
+        $response->assertDontSee('https://vinfastauto.com', false);
+        $response->assertSee('Nguồn đối chiếu: Trang thông tin chính thức và thông báo bán hàng của VinFast');
+
+        // 4. Kiểm tra hotline và showroom VinFast Hải Phòng
+        $response->assertSee('0988 302 882');
+        $response->assertSee('Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng');
+    }
 }
