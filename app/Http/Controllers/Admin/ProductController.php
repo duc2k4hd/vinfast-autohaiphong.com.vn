@@ -477,7 +477,7 @@ class ProductController extends Controller
             $this->saveSpecifications($request, $id, $now);
 
             // Cập nhật danh sách biến thể / phiên bản xe
-            if ($request->has('variant_names')) {
+            if ($request->has('variants_present') || $request->has('variant_names')) {
                 DB::table('product_variants')->where('product_id', $id)->delete();
 
                 $names = $request->input('variant_names', []);
@@ -509,7 +509,7 @@ class ProductController extends Controller
             }
 
             // Cập nhật danh sách màu sắc xe ngoại thất (Color Studio)
-            if ($request->has('color_names')) {
+            if ($request->has('colors_present') || $request->has('color_names')) {
                 DB::table('product_colors')->where('product_id', $id)->delete();
 
                 $colNames = $request->input('color_names', []);
@@ -534,7 +534,7 @@ class ProductController extends Controller
             }
 
             // Cập nhật danh sách video giới thiệu xe 16:9 full viền (Multi-video)
-            if ($request->has('video_titles') || $request->has('video_paths') || $request->has('video_media_ids')) {
+            if ($request->has('videos_present') || $request->has('video_titles') || $request->has('video_paths') || $request->has('video_media_ids')) {
                 DB::table('product_videos')->where('product_id', $id)->delete();
 
                 $vTitles = $request->input('video_titles', []);
@@ -594,7 +594,7 @@ class ProductController extends Controller
             }
 
             // Cập nhật danh sách ảnh banner hero riêng của sản phẩm (Tỷ lệ 16:9)
-            if ($request->has('banner_titles') || $request->has('banner_image_media_ids') || $request->has('banner_image_paths')) {
+            if ($request->has('banners_present') || $request->has('banner_titles') || $request->has('banner_image_media_ids') || $request->has('banner_image_paths')) {
                 DB::table('product_banners')->where('product_id', $id)->delete();
 
                 $bTitles = $request->input('banner_titles', []);
@@ -624,7 +624,7 @@ class ProductController extends Controller
             }
 
             // Cập nhật danh sách ảnh nội thất xe (Bento / Mosaic Gallery)
-            if ($request->has('interior_captions') || $request->has('interior_image_media_ids') || $request->has('interior_image_paths')) {
+            if ($request->has('interiors_present') || $request->has('interior_captions') || $request->has('interior_image_media_ids') || $request->has('interior_image_paths')) {
                 DB::table('product_interiors')->where('product_id', $id)->delete();
 
                 $iCaptions = $request->input('interior_captions', []);
@@ -652,7 +652,7 @@ class ProductController extends Controller
             }
 
             // Cập nhật danh sách thông số nổi bật đầu trang (Spec Highlights)
-            if ($request->has('highlight_values') || $request->has('highlight_labels')) {
+            if ($request->has('highlights_present') || $request->has('highlight_values') || $request->has('highlight_labels')) {
                 DB::table('product_spec_highlights')->where('product_id', $id)->delete();
 
                 $hValues = $request->input('highlight_values', []);

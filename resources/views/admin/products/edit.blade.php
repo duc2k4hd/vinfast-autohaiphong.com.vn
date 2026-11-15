@@ -612,6 +612,7 @@
 
         {{-- BOX 2: PHIÊN BẢN & BIẾN THỂ XE (VARIANTS) --}}
         <div class="vinfast-autohaiphong_admin_card" id="phien-ban-xe" style="margin-bottom: 0;">
+            <input type="hidden" name="variants_present" value="1">
             <div class="vf-admin-card-header">
                 <div class="vf-admin-card-title-text">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
@@ -755,6 +756,7 @@
     {{-- HÀNG: [VIDEO GIỚI THIỆU XE (TỶ LỆ 16:9)] (Full Width)                    --}}
     {{-- ========================================================================= --}}
     <div class="vinfast-autohaiphong_admin_card" id="video-gioi-thieu-xe" style="margin-bottom: 24px;">
+        <input type="hidden" name="videos_present" value="1">
         <div class="vf-admin-card-header">
             <div class="vf-admin-card-title-text">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/><path d="M19 12H5"/></svg>
@@ -872,6 +874,7 @@
     <div class="vf-admin-section-grid vf-admin-grid-middle">
         {{-- BOX 4: BỘ SƯU TẬP MÀU SẮC XE (COLOR STUDIO) --}}
         <div class="vinfast-autohaiphong_admin_card" id="bo-suu-tap-mau-sac" style="margin-bottom: 0;">
+            <input type="hidden" name="colors_present" value="1">
             <div class="vf-admin-card-header">
                 <div class="vf-admin-card-title-text">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 0 14c2.5 0 4-1.5 4-3a2 2 0 0 0-2-2h-2"/></svg>
@@ -946,6 +949,7 @@
 
         {{-- BOX 5: BANNER HERO SẢN PHẨM (TỶ LỆ 19:6) --}}
         <div class="vinfast-autohaiphong_admin_card" id="banner-hero-san-pham" style="margin-bottom: 0;">
+            <input type="hidden" name="banners_present" value="1">
             <div class="vf-admin-card-header">
                 <div class="vf-admin-card-title-text">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -1016,6 +1020,7 @@
     {{-- HÀNG 4: [BỘ SƯU TẬP ẢNH NỘI THẤT XE (BENTO / MOSAIC GALLERY)] (Full Width)  --}}
     {{-- ========================================================================= --}}
     <div class="vinfast-autohaiphong_admin_card" id="anh-noi-that-bento">
+        <input type="hidden" name="interiors_present" value="1">
         <div class="vf-admin-card-header">
             <div class="vf-admin-card-title-text">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
@@ -1087,6 +1092,7 @@
     {{-- HÀNG 5: [THÔNG SỐ NỔI BẬT ĐẦU TRANG (SPEC HIGHLIGHTS)] (Full Width)        --}}
     {{-- ========================================================================= --}}
     <div class="vinfast-autohaiphong_admin_card" id="thong-so-noi-bat">
+        <input type="hidden" name="highlights_present" value="1">
         <div class="vf-admin-card-header">
             <div class="vf-admin-card-title-text">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -1915,13 +1921,29 @@ function closeArticleLivePreview() {
 
 // Cập nhật số đếm trên các badge và pill nav
 function updateCounters() {
-    const vCount = document.querySelectorAll('#variants-container .variant-row').length;
+    const vRows = document.querySelectorAll('#variants-container .variant-row');
+    const vCount = vRows.length;
     const cCount = document.querySelectorAll('#colors-container .color-row').length;
     const bCount = document.querySelectorAll('#banners-container .banner-row').length;
     const vdCount = document.querySelectorAll('#videos-container .video-row').length;
     const iCount = document.querySelectorAll('#interiors-container .interior-row').length;
     const hCount = document.querySelectorAll('#highlights-container .highlight-row').length;
     const sCount = document.querySelectorAll('#specs-container .spec-row').length;
+
+    // Cập nhật lại số thứ tự phiên bản #1, #2...
+    vRows.forEach((row, idx) => {
+        const badge = row.querySelector('span[style*="background: #eff6ff"]');
+        if (badge) {
+            badge.textContent = `Phiên bản #${idx + 1}`;
+        }
+    });
+
+    if (vCount === 0 && !document.getElementById('no-variants-placeholder')) {
+        const vc = document.getElementById('variants-container');
+        if (vc) {
+            vc.innerHTML = '<div id="no-variants-placeholder" style="text-align: center; padding: 24px; background: var(--admin-bg); border-radius: 6px; border: 1px dashed var(--admin-border); color: var(--admin-muted); font-size: 0.85rem;">Chưa có phiên bản riêng nào. Bấm <strong>+ Thêm Phiên Bản</strong> ở trên để tạo phiên bản xe.</div>';
+        }
+    }
 
     const elV = document.getElementById('badge-count-variants'); if (elV) elV.textContent = `${vCount} phiên bản`;
     const elC = document.getElementById('badge-count-colors'); if (elC) elC.textContent = `${cCount} màu`;
@@ -1938,6 +1960,10 @@ function updateCounters() {
     const pI = document.getElementById('pill-count-interiors'); if (pI) pI.textContent = iCount;
     const pH = document.getElementById('pill-count-highlights'); if (pH) pH.textContent = hCount;
     const pS = document.getElementById('pill-count-specs'); if (pS) pS.textContent = sCount;
+
+    if (typeof markFormDirty === 'function') {
+        markFormDirty();
+    }
 }
 
 // Quản lý trạng thái Dirty của Form & Phím tắt Ctrl + S

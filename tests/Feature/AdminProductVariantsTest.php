@@ -111,6 +111,55 @@ class AdminProductVariantsTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_delete_variants_when_updating_product(): void
+    {
+        $product = Product::where('slug', 'vinfast-vf-3')->firstOrFail();
+
+        // 1. Tạo 2 biến thể ban đầu
+        DB::table('product_variants')->insert([
+            [
+                'product_id' => $product->id,
+                'name' => 'Bản A',
+                'sku' => 'VF3-A',
+                'sort_order' => 1,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'product_id' => $product->id,
+                'name' => 'Bản B',
+                'sku' => 'VF3-B',
+                'sort_order' => 2,
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        $this->assertEquals(2, DB::table('product_variants')->where('product_id', $product->id)->count());
+
+        // 2. Xóa bớt Bản B, chỉ còn Bản A
+        $this->actingAs($this->admin)->put(route('admin.products.update', $product->id), [
+            'name' => $product->name,
+            'variants_present' => 1,
+            'variant_names' => ['Bản A'],
+            'variant_skus' => ['VF3-A'],
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEquals(1, DB::table('product_variants')->where('product_id', $product->id)->count());
+        $this->assertDatabaseHas('product_variants', ['product_id' => $product->id, 'name' => 'Bản A']);
+        $this->assertDatabaseMissing('product_variants', ['product_id' => $product->id, 'name' => 'Bản B']);
+
+        // 3. Xóa toàn bộ biến thể (UI xóa hết các dòng và submit)
+        $this->actingAs($this->admin)->put(route('admin.products.update', $product->id), [
+            'name' => $product->name,
+            'variants_present' => 1,
+        ])->assertSessionHasNoErrors();
+
+        $this->assertEquals(0, DB::table('product_variants')->where('product_id', $product->id)->count());
+    }
+
     public function test_specification_groups_and_units_are_preserved_and_can_be_changed(): void
     {
         $product = Product::where('slug', 'vinfast-vf-3')->firstOrFail();
