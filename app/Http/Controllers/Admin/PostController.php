@@ -8,6 +8,7 @@ use App\Services\Shared\SeoService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -113,6 +114,8 @@ class PostController extends Controller
             ]);
         }
 
+        Cache::forget('post_detail_v2_'.md5($slug));
+
         return redirect()->route('admin.posts.index')
             ->with('success', 'Đã tạo bài viết tin tức mới thành công!');
     }
@@ -202,6 +205,11 @@ class PostController extends Controller
             ]);
         }
 
+        $existingPost = DB::table('posts')->where('id', $id)->first();
+        if ($existingPost) {
+            Cache::forget('post_detail_v2_'.md5($existingPost->slug));
+        }
+
         return redirect()->route('admin.posts.index')
             ->with('success', 'Đã lưu cập nhật bài viết thành công!');
     }
@@ -211,6 +219,11 @@ class PostController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
+        $existingPost = DB::table('posts')->where('id', $id)->first();
+        if ($existingPost) {
+            Cache::forget('post_detail_v2_'.md5($existingPost->slug));
+        }
+
         DB::table('posts')->where('id', $id)->update([
             'deleted_at' => now(),
             'status' => 'draft',

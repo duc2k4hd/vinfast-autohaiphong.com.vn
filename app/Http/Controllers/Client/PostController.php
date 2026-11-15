@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
@@ -77,67 +78,104 @@ class PostController extends Controller
     }
 
     /**
-     * Chi tiết một bài viết.
+     * Chi tiết một bài viết (áp dụng caching cao tầng để tối ưu tốc độ và chịu tải lớn).
      */
     public function show(string $slug): View
     {
-        $post = DB::table('posts')
-            ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
-            ->where('posts.slug', $slug)
-            ->where('posts.status', 'published')
-            ->whereNull('posts.deleted_at')
-            ->select([
-                'posts.*',
-                'media.path as thumbnail_path',
-            ])
-            ->first();
+        $cacheKey = 'post_detail_v2_'.md5($slug);
 
-        if (! $post) {
+        $data = Cache::remember($cacheKey, 1800, function () use ($slug) {
+            $post = DB::table('posts')
+                ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
+                ->where('posts.slug', $slug)
+                ->where('posts.status', 'published')
+                ->whereNull('posts.deleted_at')
+                ->select([
+                    'posts.*',
+                    'media.path as thumbnail_path',
+                ])
+                ->first();
+
+            if (! $post) {
+                return null;
+            }
+
+            // Danh mục chính của bài viết
+            $category = DB::table('post_categories')
+                ->join('post_category_relations', 'post_categories.id', '=', 'post_category_relations.post_category_id')
+                ->where('post_category_relations.post_id', $post->id)
+                ->select('post_categories.*')
+                ->orderBy('post_category_relations.is_primary', 'desc')
+                ->first();
+
+            // Danh sách bài viết liên quan (3 bài cùng danh mục hoặc mới nhất)
+            $relatedQuery = DB::table('posts')
+                ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
+                ->where('posts.id', '!=', $post->id)
+                ->where('posts.status', 'published')
+                ->whereNull('posts.deleted_at')
+                ->select([
+                    'posts.id',
+                    'posts.title',
+                    'posts.slug',
+                    'posts.excerpt',
+                    'posts.published_at',
+                    'media.path as thumbnail_path',
+                ]);
+
+            if ($category) {
+                $relatedPosts = (clone $relatedQuery)
+                    ->join('post_category_relations', 'posts.id', '=', 'post_category_relations.post_id')
+                    ->where('post_category_relations.post_category_id', $category->id)
+                    ->orderBy('posts.published_at', 'desc')
+                    ->limit(3)
+                    ->get();
+
+                if ($relatedPosts->isEmpty()) {
+                    $relatedPosts = $relatedQuery->orderBy('posts.published_at', 'desc')->limit(3)->get();
+                }
+            } else {
+                $relatedPosts = $relatedQuery->orderBy('posts.published_at', 'desc')->limit(3)->get();
+            }
+
+            // Danh sách 5 bài viết mới nhất cho Sidebar
+            $latestPosts = DB::table('posts')
+                ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
+                ->where('posts.id', '!=', $post->id)
+                ->where('posts.status', 'published')
+                ->whereNull('posts.deleted_at')
+                ->orderBy('posts.published_at', 'desc')
+                ->select([
+                    'posts.id',
+                    'posts.title',
+                    'posts.slug',
+                    'posts.published_at',
+                    'media.path as thumbnail_path',
+                ])
+                ->limit(5)
+                ->get();
+
+            // Danh sách 4 dòng xe VinFast hot cho Sidebar
+            $featuredCars = DB::table('products')
+                ->whereIn('status', ['published', 'active'])
+                ->select(['id', 'name', 'slug', 'sale_price', 'regular_price', 'thumbnail_path'])
+                ->orderBy('id', 'asc')
+                ->limit(4)
+                ->get();
+
+            return [
+                'post' => $post,
+                'category' => $category,
+                'relatedPosts' => $relatedPosts,
+                'latestPosts' => $latestPosts,
+                'featuredCars' => $featuredCars,
+            ];
+        });
+
+        if (! $data) {
             abort(404, 'Bài viết bạn đang tìm không tồn tại hoặc đã được gỡ bỏ.');
         }
 
-        // Danh mục chính của bài viết
-        $category = DB::table('post_categories')
-            ->join('post_category_relations', 'post_categories.id', '=', 'post_category_relations.post_category_id')
-            ->where('post_category_relations.post_id', $post->id)
-            ->select('post_categories.*')
-            ->orderBy('post_category_relations.is_primary', 'desc')
-            ->first();
-
-        // Danh sách bài viết liên quan (ưu tiên cùng danh mục nếu có)
-        $relatedQuery = DB::table('posts')
-            ->leftJoin('media', 'posts.featured_media_id', '=', 'media.id')
-            ->where('posts.id', '!=', $post->id)
-            ->where('posts.status', 'published')
-            ->whereNull('posts.deleted_at')
-            ->select([
-                'posts.id',
-                'posts.title',
-                'posts.slug',
-                'posts.excerpt',
-                'posts.published_at',
-                'media.path as thumbnail_path',
-            ]);
-
-        if ($category) {
-            $relatedPosts = (clone $relatedQuery)
-                ->join('post_category_relations', 'posts.id', '=', 'post_category_relations.post_id')
-                ->where('post_category_relations.post_category_id', $category->id)
-                ->orderBy('posts.published_at', 'desc')
-                ->limit(3)
-                ->get();
-
-            if ($relatedPosts->isEmpty()) {
-                $relatedPosts = $relatedQuery->orderBy('posts.published_at', 'desc')->limit(3)->get();
-            }
-        } else {
-            $relatedPosts = $relatedQuery->orderBy('posts.published_at', 'desc')->limit(3)->get();
-        }
-
-        return view('clients.pages.posts.show', [
-            'post' => $post,
-            'category' => $category,
-            'relatedPosts' => $relatedPosts,
-        ]);
+        return view('clients.pages.posts.show', $data);
     }
 }
