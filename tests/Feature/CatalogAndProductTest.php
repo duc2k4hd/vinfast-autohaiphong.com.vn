@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Database\Seeders\InitialCarsSeeder;
 use Database\Seeders\InitialSettingsSeeder;
+use Database\Seeders\Vf2OfficialSpecificationsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -19,6 +20,7 @@ class CatalogAndProductTest extends TestCase
 
         $this->seed(InitialSettingsSeeder::class);
         $this->seed(InitialCarsSeeder::class);
+        $this->seed(Vf2OfficialSpecificationsSeeder::class);
     }
 
     /**
@@ -255,5 +257,20 @@ class CatalogAndProductTest extends TestCase
         // 4. Kiểm tra hotline và showroom VinFast Hải Phòng
         $response->assertSee('0988 302 882');
         $response->assertSee('Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng');
+
+        // 5. Kiểm tra thông số kỹ thuật phân nhóm chính xác
+        $response->assertSee('Kích thước');
+        $response->assertSee('3090 x 1496 x 1663.2 (mm)');
+        $response->assertSee('2065 (mm)');
+        $response->assertSee('65 Nm');
+        $response->assertSee('Pin &amp; Sạc', false);
+        $response->assertSee('210km/1 lần sạc');
+        $response->assertSee('18.3 kWh');
+        $response->assertSee('34 phút');
+        $response->assertSee('~24 kW');
+        $response->assertSee('Công nghệ trang bị');
+        $response->assertSee('Hệ thống chống bó cứng phanh ABS');
+        $response->assertSee('1 túi khí');
+        $response->assertSee('7 inch');
     }
 }
