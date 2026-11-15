@@ -157,9 +157,18 @@ class PostController extends Controller
 
             // Danh sách 4 dòng xe VinFast hot cho Sidebar
             $featuredCars = DB::table('products')
-                ->whereIn('status', ['published', 'active'])
-                ->select(['id', 'name', 'slug', 'sale_price', 'regular_price', 'thumbnail_path'])
-                ->orderBy('id', 'asc')
+                ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
+                ->whereIn('products.status', ['published', 'active'])
+                ->whereNull('products.deleted_at')
+                ->select([
+                    'products.id',
+                    'products.name',
+                    'products.slug',
+                    'products.sale_price',
+                    'products.regular_price',
+                    'media.path as thumbnail_path',
+                ])
+                ->orderBy('products.id', 'asc')
                 ->limit(4)
                 ->get();
 
