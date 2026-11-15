@@ -70,7 +70,7 @@
                 <ul style="list-style: none; padding: 0; margin: 0; line-height: 2;">
                     @foreach($posts as $post)
                         <li style="border-bottom: 1px dashed var(--client-color-border); padding: 8px 0;">
-                            <a href="{{ url('/tin-tuc/' . $post->slug) }}" style="font-weight: 600; color: var(--client-color-text); text-decoration: none;">
+                            <a href="{{ url('/blog/' . $post->slug) }}" style="font-weight: 600; color: var(--client-color-text); text-decoration: none;">
                                 &bull; {{ $post->title }}
                             </a>
                         </li>

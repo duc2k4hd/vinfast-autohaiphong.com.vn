@@ -57,9 +57,94 @@ class InitialPostsSeeder extends Seeder
             ],
         ];
 
+        $categories = [
+            [
+                'name' => 'Ưu Đãi & Khuyến Mại',
+                'slug' => 'khuyen-mai',
+                'description' => 'Các chương trình khuyến mãi, ưu đãi giá xe và chính sách bán hàng mới nhất từ VinFast Hải Phòng.',
+                'sort_order' => 1,
+                'status' => 'active',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Đánh Giá Xe',
+                'slug' => 'danh-gia-xe',
+                'description' => 'Đánh giá chi tiết, trải nghiệm thực tế các dòng xe ô tô điện VinFast VF 3, VF 5, VF 6, VF 7, VF 8, VF 9.',
+                'sort_order' => 2,
+                'status' => 'active',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Pin & Trạm Sạc',
+                'slug' => 'pin-va-tram-sac',
+                'description' => 'Hệ thống hạ tầng trạm sạc V-GREEN, chính sách thuê/mua pin và cẩm nang sạc xe điện an toàn tại Hải Phòng.',
+                'sort_order' => 3,
+                'status' => 'active',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Kinh Nghiệm & Cẩm Nang',
+                'slug' => 'kinh-nghiem',
+                'description' => 'Mẹo sử dụng xe điện, hướng dẫn bảo dưỡng định kỳ và kinh nghiệm lái xe an toàn trên mọi cung đường.',
+                'sort_order' => 4,
+                'status' => 'active',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'name' => 'Tin Tức & Sự Kiện',
+                'slug' => 'tin-tuc-su-kien',
+                'description' => 'Tin tức hoạt động đại lý VinFast Hải Phòng và thị trường xe điện Việt Nam.',
+                'sort_order' => 5,
+                'status' => 'active',
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+        ];
+
         Schema::disableForeignKeyConstraints();
+        DB::table('post_category_relations')->truncate();
+        DB::table('post_categories')->truncate();
         DB::table('posts')->truncate();
         Schema::enableForeignKeyConstraints();
+
+        DB::table('post_categories')->insert($categories);
+        $categoryMap = DB::table('post_categories')->pluck('id', 'slug');
+
         DB::table('posts')->insert($posts);
+        $postMap = DB::table('posts')->pluck('id', 'slug');
+
+        $relations = [
+            [
+                'post_id' => $postMap['chinh-sach-mien-phi-sac-pin-xe-dien-vinfast-toan-quoc'] ?? 1,
+                'post_category_id' => $categoryMap['khuyen-mai'] ?? 1,
+                'is_primary' => true,
+            ],
+            [
+                'post_id' => $postMap['chinh-sach-mien-phi-sac-pin-xe-dien-vinfast-toan-quoc'] ?? 1,
+                'post_category_id' => $categoryMap['pin-va-tram-sac'] ?? 3,
+                'is_primary' => false,
+            ],
+            [
+                'post_id' => $postMap['vinfast-vf-3-xe-dien-do-thi-hai-phong'] ?? 2,
+                'post_category_id' => $categoryMap['danh-gia-xe'] ?? 2,
+                'is_primary' => true,
+            ],
+            [
+                'post_id' => $postMap['huong-dan-su-dung-tram-sac-vinfast-hai-phong'] ?? 3,
+                'post_category_id' => $categoryMap['pin-va-tram-sac'] ?? 3,
+                'is_primary' => true,
+            ],
+            [
+                'post_id' => $postMap['huong-dan-su-dung-tram-sac-vinfast-hai-phong'] ?? 3,
+                'post_category_id' => $categoryMap['kinh-nghiem'] ?? 4,
+                'is_primary' => false,
+            ],
+        ];
+
+        DB::table('post_category_relations')->insert($relations);
     }
 }

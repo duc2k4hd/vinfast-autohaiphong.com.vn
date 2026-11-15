@@ -59,6 +59,18 @@
                     </select>
                 </div>
 
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 6px;">Chuyên Mục / Danh Mục</label>
+                    <select name="category_id" style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px;">
+                        <option value="">-- Chọn danh mục bài viết --</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ (old('category_id', $selectedCategoryId) == $category->id) ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div style="margin-bottom: 20px;">
                     <label style="display: block; font-weight: 600; margin-bottom: 6px;">Ảnh Đại Diện Bài Viết</label>
                     <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">

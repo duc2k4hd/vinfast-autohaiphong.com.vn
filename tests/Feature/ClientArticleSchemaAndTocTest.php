@@ -24,7 +24,7 @@ class ClientArticleSchemaAndTocTest extends TestCase
         $post = DB::table('posts')->where('status', 'published')->first();
         $this->assertNotNull($post);
 
-        $response = $this->get(url('/chuyen-muc/tin-tuc/'.$post->slug));
+        $response = $this->get(url('/blog/'.$post->slug));
 
         $response->assertStatus(200);
         $response->assertSee('NewsArticle');

@@ -55,10 +55,23 @@ Route::name('client.')->group(function () {
     Route::post('/thanh-toan', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/dat-hang-thanh-cong/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
 
-    // 7. Tin tức & Hoạt động
-    Route::get('/chuyen-muc/tin-tuc', [PostController::class, 'index'])->name('posts.index');
-    Route::get('/chuyen-muc/tin-tuc/page/{page}', [PostController::class, 'index'])->whereNumber('page')->name('posts.page');
-    Route::get('/chuyen-muc/tin-tuc/{slug}', [PostController::class, 'show'])->name('posts.show');
+    // 7. Tin tức & Blog
+    Route::get('/blogs', [PostController::class, 'index'])->name('posts.index');
+    Route::get('/blogs/page/{page}', [PostController::class, 'index'])->whereNumber('page')->name('posts.page');
+    Route::get('/blog/{slug}', [PostController::class, 'show'])->name('posts.show');
+
+    // 301 Redirects tương thích ngược từ URL cũ
+    Route::get('/chuyen-muc/tin-tuc', function () {
+        $query = request()->getQueryString();
+
+        return redirect()->to(url('/blogs').($query ? '?'.$query : ''), 301);
+    });
+    Route::get('/chuyen-muc/tin-tuc/page/{page}', function ($page) {
+        return redirect()->to(url('/blogs').'?page='.$page, 301);
+    });
+    Route::get('/chuyen-muc/tin-tuc/{slug}', function ($slug) {
+        return redirect()->to(url('/blog/'.$slug), 301);
+    });
 
     // 8. Liên hệ
     Route::get('/lien-he', [ContactController::class, 'index'])->name('contact.index');

@@ -29,7 +29,7 @@ class SitemapController extends Controller
             ['url' => url('/o-to-vinfast'), 'priority' => '0.9', 'changefreq' => 'daily'],
             ['url' => url('/pin-va-tram-sac'), 'priority' => '0.8', 'changefreq' => 'weekly'],
             ['url' => url('/trai-nghiem-khach-hang'), 'priority' => '0.8', 'changefreq' => 'weekly'],
-            ['url' => url('/chuyen-muc/tin-tuc'), 'priority' => '0.8', 'changefreq' => 'daily'],
+            ['url' => url('/blogs'), 'priority' => '0.8', 'changefreq' => 'daily'],
             ['url' => url('/lien-he'), 'priority' => '0.7', 'changefreq' => 'monthly'],
             ['url' => url('/chinh-sach-thanh-toan'), 'priority' => '0.6', 'changefreq' => 'monthly'],
             ['url' => url('/chinh-sach-bao-mat'), 'priority' => '0.5', 'changefreq' => 'yearly'],

@@ -2,7 +2,7 @@
 
 @section('title', ($post->meta_title ?: $post->title) . ' | VinFast Hải Phòng')
 @section('meta_description', $post->meta_description ?: Str::limit(strip_tags($post->content_html), 150))
-@section('canonical', url('/chuyen-muc/tin-tuc/' . $post->slug))
+@section('canonical', url('/blog/' . $post->slug))
 @section('og_type', 'article')
 @section('og_title', $post->meta_title ?: $post->title)
 @section('og_description', $post->meta_description ?: Str::limit(strip_tags($post->content_html), 150))
@@ -35,17 +35,14 @@
     ],
     'mainEntityOfPage' => [
         '@type' => 'WebPage',
-        '@id' => url('/chuyen-muc/tin-tuc/' . $post->slug)
+        '@id' => url('/blog/' . $post->slug)
     ]
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 
 {{-- BreadcrumbList Schema --}}
-<script type="application/ld+json">
-{!! json_encode([
-    '@context' => 'https://schema.org',
-    '@type' => 'BreadcrumbList',
-    'itemListElement' => [
+@php
+    $breadcrumbItems = [
         [
             '@type' => 'ListItem',
             'position' => 1,
@@ -55,16 +52,38 @@
         [
             '@type' => 'ListItem',
             'position' => 2,
-            'name' => 'Tin Tức',
-            'item' => url('/chuyen-muc/tin-tuc')
+            'name' => 'Tin Tức & Blog',
+            'item' => url('/blogs')
         ],
-        [
+    ];
+
+    if (!empty($category)) {
+        $breadcrumbItems[] = [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => $category->name,
+            'item' => url('/blogs?category=' . $category->slug)
+        ];
+        $breadcrumbItems[] = [
+            '@type' => 'ListItem',
+            'position' => 4,
+            'name' => $post->title,
+            'item' => url('/blog/' . $post->slug)
+        ];
+    } else {
+        $breadcrumbItems[] = [
             '@type' => 'ListItem',
             'position' => 3,
             'name' => $post->title,
-            'item' => url('/chuyen-muc/tin-tuc/' . $post->slug)
-        ]
-    ]
+            'item' => url('/blog/' . $post->slug)
+        ];
+    }
+@endphp
+<script type="application/ld+json">
+{!! json_encode([
+    '@context' => 'https://schema.org',
+    '@type' => 'BreadcrumbList',
+    'itemListElement' => $breadcrumbItems
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
 </script>
 @endpush
@@ -75,7 +94,11 @@
         <nav style="font-size: 0.85rem; color: var(--client-color-muted);">
             <a href="{{ route('client.home') }}" style="color: var(--client-color-text);">Trang chủ</a>
             <span style="margin: 0 6px;">/</span>
-            <a href="{{ url('/chuyen-muc/tin-tuc') }}" style="color: var(--client-color-text);">Tin Tức</a>
+            <a href="{{ url('/blogs') }}" style="color: var(--client-color-text);">Tin Tức & Blog</a>
+            @if(!empty($category))
+                <span style="margin: 0 6px;">/</span>
+                <a href="{{ url('/blogs?category=' . $category->slug) }}" style="color: var(--client-color-text);">{{ $category->name }}</a>
+            @endif
             <span style="margin: 0 6px;">/</span>
             <span style="color: var(--client-color-primary); font-weight: 600;">{{ Str::limit($post->title, 40) }}</span>
         </nav>
@@ -85,7 +108,13 @@
 <div class="vinfast-autohaiphong_post_section" style="padding: 40px 0 60px 0;">
     <div class="vinfast-autohaiphong_layout_container" style="max-width: 900px;">
         <article style="background: #ffffff; border: 1px solid var(--client-color-border); border-radius: 8px; padding: 36px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-            <div style="font-size: 0.85rem; color: var(--client-color-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+            <div style="font-size: 0.85rem; color: var(--client-color-muted); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                @if(!empty($category))
+                    <a href="{{ url('/blogs?category=' . $category->slug) }}" style="background: #eff6ff; color: var(--client-color-primary); padding: 3px 10px; border-radius: 4px; font-weight: 600; text-decoration: none;">
+                        {{ $category->name }}
+                    </a>
+                    <span>•</span>
+                @endif
                 <span>📅 Đăng ngày {{ date('d/m/Y', strtotime($post->published_at)) }}</span>
                 <span>•</span>
                 <span>VinFast Hải Phòng</span>
@@ -122,7 +151,7 @@
                 <span style="font-size: 0.875rem; color: var(--client-color-muted);">
                     Showroom VinFast Hải Phòng — Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng
                 </span>
-                <a href="{{ url('/chuyen-muc/tin-tuc') }}" style="color: var(--client-color-primary); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
+                <a href="{{ url('/blogs') }}" style="color: var(--client-color-primary); font-weight: 600; text-decoration: none; font-size: 0.9rem;">
                     &larr; Quay lại danh sách tin tức
                 </a>
             </div>
@@ -141,7 +170,7 @@
                                 {{ date('d/m/Y', strtotime($rel->published_at)) }}
                             </div>
                             <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 8px;">
-                                <a href="{{ url('/chuyen-muc/tin-tuc/' . $rel->slug) }}" style="color: var(--client-color-heading); text-decoration: none;">
+                                <a href="{{ url('/blog/' . $rel->slug) }}" style="color: var(--client-color-heading); text-decoration: none;">
                                     {{ $rel->title }}
                                 </a>
                             </h4>

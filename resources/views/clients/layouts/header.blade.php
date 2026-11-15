@@ -120,9 +120,9 @@
                     </a>
                 </li>
 
-                {{-- 4. Tin Tức --}}
+                {{-- 4. Tin Tức & Blog --}}
                 <li class="vinfast-autohaiphong_header_nav_item">
-                    <a href="{{ url('/chuyen-muc/tin-tuc') }}" class="vinfast-autohaiphong_header_nav_link {{ request()->is('chuyen-muc/tin-tuc*') ? 'active' : '' }}">
+                    <a href="{{ url('/blogs') }}" class="vinfast-autohaiphong_header_nav_link {{ (request()->is('blogs*') || request()->is('blog/*')) ? 'active' : '' }}">
                         Tin Tức
                     </a>
                 </li>

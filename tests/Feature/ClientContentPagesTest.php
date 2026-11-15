@@ -68,14 +68,30 @@ class ClientContentPagesTest extends TestCase
 
     public function test_can_view_posts_and_single_post(): void
     {
-        $response = $this->get('/chuyen-muc/tin-tuc');
+        // 1. Trang danh sách tin tức /blogs
+        $response = $this->get('/blogs');
         $response->assertStatus(200);
-        $response->assertSee('TIN TỨC');
-        $response->assertSee('SỰ KIỆN VINFAST');
+        $response->assertSee('TIN TỨC & BÀI VIẾT VINFAST');
+        $response->assertSee('Tất cả bài viết');
 
-        $singleResponse = $this->get('/chuyen-muc/tin-tuc/vinfast-vf-3-xe-dien-do-thi-hai-phong');
+        // 2. Trang chi tiết bài viết /blog/{slug}
+        $singleResponse = $this->get('/blog/vinfast-vf-3-xe-dien-do-thi-hai-phong');
         $singleResponse->assertStatus(200);
         $singleResponse->assertSee('VinFast VF 3 — Mẫu Xe Điện Đô Thị Gây Sốt');
+
+        // 3. Lọc bài viết theo danh mục qua query param /blogs?category=
+        $catResponse = $this->get('/blogs?category=danh-gia-xe');
+        $catResponse->assertStatus(200);
+        $catResponse->assertSee('VinFast VF 3 — Mẫu Xe Điện Đô Thị Gây Sốt');
+
+        // 4. Redirect 301 từ đường dẫn cũ sang slug mới
+        $legacyIndex = $this->get('/chuyen-muc/tin-tuc');
+        $legacyIndex->assertStatus(301);
+        $legacyIndex->assertRedirect('/blogs');
+
+        $legacyShow = $this->get('/chuyen-muc/tin-tuc/vinfast-vf-3-xe-dien-do-thi-hai-phong');
+        $legacyShow->assertStatus(301);
+        $legacyShow->assertRedirect('/blog/vinfast-vf-3-xe-dien-do-thi-hai-phong');
     }
 
     public function test_can_view_contact_and_submit_message(): void

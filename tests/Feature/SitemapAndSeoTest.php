@@ -28,7 +28,8 @@ class SitemapAndSeoTest extends TestCase
         $response->assertHeader('Content-Type', 'application/xml');
         $response->assertSee('<loc>', false);
         $response->assertSee('/xe/vinfast-vf-3', false);
-        $response->assertSee('/chuyen-muc/tin-tuc', false);
+        $response->assertSee('/blogs', false);
+        $response->assertSee('/blog/', false);
     }
 
     public function test_home_page_contains_autodealer_json_ld_schema(): void

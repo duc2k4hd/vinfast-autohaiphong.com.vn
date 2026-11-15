@@ -55,9 +55,15 @@ class PostController extends Controller
     public function create(): View
     {
         $mediaList = DB::table('media')->orderBy('created_at', 'desc')->limit(30)->get();
+        $categories = DB::table('post_categories')
+            ->where('status', 'active')
+            ->whereNull('deleted_at')
+            ->orderBy('sort_order', 'asc')
+            ->get();
 
         return view('admin.posts.create', [
             'mediaList' => $mediaList,
+            'categories' => $categories,
         ]);
     }
 
@@ -68,6 +74,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'category_id' => ['nullable', 'integer', 'exists:post_categories,id'],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'content_html' => ['required', 'string'],
             'featured_media_id' => ['nullable', 'integer', 'exists:media,id'],
@@ -83,7 +90,7 @@ class PostController extends Controller
             ? $validated['excerpt']
             : SeoService::generateExcerpt($cleanContent, 160);
 
-        DB::table('posts')->insert([
+        $postId = DB::table('posts')->insertGetId([
             'title' => $validated['title'],
             'slug' => $slug,
             'excerpt' => $excerpt,
@@ -97,6 +104,14 @@ class PostController extends Controller
             'created_at' => $now,
             'updated_at' => $now,
         ]);
+
+        if (! empty($validated['category_id'])) {
+            DB::table('post_category_relations')->insert([
+                'post_id' => $postId,
+                'post_category_id' => (int) $validated['category_id'],
+                'is_primary' => true,
+            ]);
+        }
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Đã tạo bài viết tin tức mới thành công!');
@@ -117,10 +132,20 @@ class PostController extends Controller
         }
 
         $mediaList = DB::table('media')->orderBy('created_at', 'desc')->limit(30)->get();
+        $categories = DB::table('post_categories')
+            ->where('status', 'active')
+            ->whereNull('deleted_at')
+            ->orderBy('sort_order', 'asc')
+            ->get();
+        $selectedCategoryId = DB::table('post_category_relations')
+            ->where('post_id', $id)
+            ->value('post_category_id');
 
         return view('admin.posts.edit', [
             'post' => $post,
             'mediaList' => $mediaList,
+            'categories' => $categories,
+            'selectedCategoryId' => $selectedCategoryId,
         ]);
     }
 
@@ -131,6 +156,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'category_id' => ['nullable', 'integer', 'exists:post_categories,id'],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'content_html' => ['required', 'string'],
             'featured_media_id' => ['nullable', 'integer', 'exists:media,id'],
@@ -166,6 +192,15 @@ class PostController extends Controller
             'meta_description' => $validated['meta_description'] ?? $excerpt,
             'updated_at' => $now,
         ]);
+
+        DB::table('post_category_relations')->where('post_id', $id)->delete();
+        if (! empty($validated['category_id'])) {
+            DB::table('post_category_relations')->insert([
+                'post_id' => $id,
+                'post_category_id' => (int) $validated['category_id'],
+                'is_primary' => true,
+            ]);
+        }
 
         return redirect()->route('admin.posts.index')
             ->with('success', 'Đã lưu cập nhật bài viết thành công!');

@@ -22,7 +22,7 @@
     {{-- Danh sách bài viết tin tức --}}
     @foreach($posts as $post)
         <url>
-            <loc>{{ url('/chuyen-muc/tin-tuc/' . $post->slug) }}</loc>
+            <loc>{{ url('/blog/' . $post->slug) }}</loc>
             <lastmod>{{ !empty($post->updated_at) ? date('Y-m-d', strtotime($post->updated_at)) : date('Y-m-d') }}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.7</priority>
