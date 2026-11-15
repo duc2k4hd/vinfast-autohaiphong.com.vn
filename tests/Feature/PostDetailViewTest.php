@@ -85,4 +85,19 @@ class PostDetailViewTest extends TestCase
 
         $this->get('/blog/'.$slug)->assertOk();
     }
+
+    public function test_post_detail_works_with_database_cache_store(): void
+    {
+        config(['cache.default' => 'database']);
+        $slug = 'huong-dan-su-dung-tram-sac-vinfast-hai-phong';
+
+        // Lần 1: Lưu vào database cache
+        $response1 = $this->get('/blog/'.$slug);
+        $response1->assertOk();
+
+        // Lần 2: Đọc trực tiếp từ database cache và render view thành công
+        $response2 = $this->get('/blog/'.$slug);
+        $response2->assertOk();
+        $response2->assertSee('Cẩm Nang Hướng Dẫn Sử Dụng Trạm Sạc Xe Điện VinFast Tại Hải Phòng');
+    }
 }
