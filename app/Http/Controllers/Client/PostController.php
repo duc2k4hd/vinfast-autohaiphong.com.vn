@@ -15,10 +15,6 @@ class PostController extends Controller
      */
     public function index(Request $request): View
     {
-        if ($request->route('page')) {
-            $request->merge(['page' => (int) $request->route('page')]);
-        }
-
         $categorySlug = $request->query('category');
 
         $query = DB::table('posts')
@@ -61,7 +57,15 @@ class PostController extends Controller
             }
         }
 
-        $posts = $query->orderBy('posts.published_at', 'desc')->paginate(9)->withQueryString();
+        $posts = $query
+            ->orderBy('posts.published_at', 'desc')
+            ->orderBy('posts.id', 'desc')
+            ->paginate(9, ['*'], 'page', $request->route('page') ?: null)
+            ->withPath(route('client.posts.index'));
+
+        if ($posts->currentPage() > $posts->lastPage()) {
+            abort(404);
+        }
 
         $categories = DB::table('post_categories')
             ->where('status', 'active')
@@ -90,6 +94,9 @@ class PostController extends Controller
                 ->where('posts.slug', $slug)
                 ->where('posts.status', 'published')
                 ->whereNull('posts.deleted_at')
+                ->where(function ($query) {
+                    $query->whereNull('posts.published_at')->orWhere('posts.published_at', '<=', now());
+                })
                 ->select([
                     'posts.*',
                     'media.path as thumbnail_path',
@@ -114,6 +121,9 @@ class PostController extends Controller
                 ->where('posts.id', '!=', $post->id)
                 ->where('posts.status', 'published')
                 ->whereNull('posts.deleted_at')
+                ->where(function ($query) {
+                    $query->whereNull('posts.published_at')->orWhere('posts.published_at', '<=', now());
+                })
                 ->select([
                     'posts.id',
                     'posts.title',
@@ -144,6 +154,9 @@ class PostController extends Controller
                 ->where('posts.id', '!=', $post->id)
                 ->where('posts.status', 'published')
                 ->whereNull('posts.deleted_at')
+                ->where(function ($query) {
+                    $query->whereNull('posts.published_at')->orWhere('posts.published_at', '<=', now());
+                })
                 ->orderBy('posts.published_at', 'desc')
                 ->select([
                     'posts.id',
@@ -160,6 +173,9 @@ class PostController extends Controller
                 ->leftJoin('media', 'products.thumbnail_media_id', '=', 'media.id')
                 ->whereIn('products.status', ['published', 'active'])
                 ->whereNull('products.deleted_at')
+                ->where(function ($query) {
+                    $query->whereNull('products.published_at')->orWhere('products.published_at', '<=', now());
+                })
                 ->select([
                     'products.id',
                     'products.name',

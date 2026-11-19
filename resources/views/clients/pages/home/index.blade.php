@@ -1,25 +1,20 @@
 @extends('clients.layouts.app')
 
-@section('title', 'VinFast Hải Phòng | Đại Lý Ủy Quyền Xe Điện VinFast Chính Hãng')
-@section('meta_description', 'Đại lý VinFast Hải Phòng chính thức phân phối các dòng ô tô điện: VF 3, VF 5 Plus, VF 6, VF 7, VF 8, VF 9. Báo giá lăn bánh, hỗ trợ thủ tục mua xe và bảo hành 10 năm.')
+@section('title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng | Khám phá xe, nhận tư vấn')
+@section('meta_description', $siteSettings['seo_description'] ?? 'Tìm hiểu các dòng xe điện VinFast, thông số, giá tham khảo và dịch vụ tại VinFast Hải Phòng.')
 @section('canonical', route('client.home'))
-@section('og_title', 'VinFast Hải Phòng | Đại Lý Ủy Quyền Xe Điện VinFast Chính Hãng')
-@section('og_description', 'Đại lý VinFast Hải Phòng chính thức phân phối các dòng ô tô điện: VF 3, VF 5 Plus, VF 6, VF 7, VF 8, VF 9. Báo giá lăn bánh, hỗ trợ thủ tục mua xe và bảo hành 10 năm.')
+@section('og_title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng | Khám phá xe, nhận tư vấn')
+@section('og_description', $siteSettings['seo_description'] ?? 'Tìm hiểu các dòng xe điện VinFast, thông số, giá tham khảo và dịch vụ tại VinFast Hải Phòng.')
 
 @push('schema')
-{{-- WebSite Schema với SearchAction cho Google Search Box --}}
+{{-- WebSite schema dùng cho nhận diện site name; site hiện chưa có tìm kiếm nội bộ. --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'WebSite',
     'name' => 'VinFast Hải Phòng',
     'alternateName' => ['VinFast Auto Hải Phòng', 'Đại lý VinFast Hải Phòng'],
-    'url' => route('client.home'),
-    'potentialAction' => [
-        '@type' => 'SearchAction',
-        'target' => url('/o-to-vinfast') . '?search={search_term_string}',
-        'query-input' => 'required name=search_term_string',
-    ],
+            'url' => request()->getSchemeAndHttpHost().'/',
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 @endpush
@@ -250,6 +245,3 @@
     })();
 </script>
 @endpush
-
-
-

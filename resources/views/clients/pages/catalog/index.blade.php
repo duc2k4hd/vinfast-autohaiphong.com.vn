@@ -1,7 +1,9 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Bảng Giá Các Dòng Xe Ô Tô VinFast Hải Phòng Mới Nhất')
-@section('meta_description', 'Khám phá các dòng ô tô VinFast tại Hải Phòng, xem thông tin giá xe và liên hệ tư vấn lựa chọn xe phù hợp.')
+@section('title', $cars->currentPage() > 1 ? 'Các dòng xe VinFast tại Hải Phòng | Trang '.$cars->currentPage() : 'Các dòng xe VinFast tại Hải Phòng | Giá tham khảo')
+@section('meta_description', $cars->currentPage() > 1
+    ? 'Xem tiếp các dòng xe VinFast tại Hải Phòng ở trang '.$cars->currentPage().'. So sánh thông tin, giá tham khảo và xem chi tiết từng mẫu xe.'
+    : 'Khám phá các dòng ô tô VinFast tại Hải Phòng, xem thông tin giá xe và liên hệ tư vấn lựa chọn xe phù hợp.')
 @section('canonical', $cars->currentPage() > 1 ? route('client.catalog.page', ['page' => $cars->currentPage()]) : route('client.catalog.index'))
 
 @push('schema')
@@ -10,10 +12,10 @@
 {!! json_encode([
     '@' . 'context' => 'https://schema.org',
     '@type' => 'ItemList',
-    'itemListElement' => $cars->map(function ($car, $index) {
+    'itemListElement' => $cars->map(function ($car, $index) use ($cars) {
         return [
             '@type' => 'ListItem',
-            'position' => $index + 1,
+            'position' => (($cars->currentPage() - 1) * $cars->perPage()) + $index + 1,
             'name' => $car->name,
             'url' => url('/xe/' . $car->slug),
             'image' => $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
@@ -194,4 +196,3 @@
     </div>
 </div>
 @endsection
-

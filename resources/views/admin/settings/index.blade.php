@@ -79,7 +79,7 @@
 
             <div style="margin-bottom: 16px;">
                 <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.88rem;">Tiêu Đề SEO Trang Chủ (Meta Title)</label>
-                <input type="text" name="seo_title" value="{{ $settings['seo_title'] ?? 'VinFast Hải Phòng - Đại lý ủy quyền của VinFast Việt Nam' }}" required 
+                <input type="text" name="seo_title" value="{{ $settings['seo_title'] ?? 'VinFast Hải Phòng | Khám phá xe, nhận tư vấn' }}" required
                        style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.9rem;">
                 <span style="font-size: 0.75rem; color: var(--admin-muted);">Khuyến nghị: 50 – 65 ký tự.</span>
             </div>
@@ -87,7 +87,7 @@
             <div style="margin-bottom: 16px;">
                 <label style="display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.88rem;">Mô Tả SEO Trang Chủ (Meta Description)</label>
                 <textarea name="seo_description" rows="3" required 
-                          style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.9rem; line-height: 1.5;">{{ $settings['seo_description'] ?? 'VinFast Hải Phòng chuyên phân phối ô tô điện VinFast chính hãng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9... Giá tốt nhất, hỗ trợ trả góp 80%.' }}</textarea>
+                          style="width: 100%; padding: 8px 12px; border: 1px solid var(--admin-border); border-radius: 6px; font-size: 0.9rem; line-height: 1.5;">{{ $settings['seo_description'] ?? 'Tìm hiểu các dòng xe điện VinFast, thông số, giá tham khảo và dịch vụ bán hàng, hậu mãi tại VinFast Hải Phòng.' }}</textarea>
                 <span style="font-size: 0.75rem; color: var(--admin-muted);">Khuyến nghị: 120 – 160 ký tự.</span>
             </div>
 
@@ -264,4 +264,3 @@ window.addEventListener('beforeunload', (e) => {
 });
 </script>
 @endsection
-

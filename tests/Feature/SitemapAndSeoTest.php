@@ -80,13 +80,14 @@ class SitemapAndSeoTest extends TestCase
         $response->assertSee('"priceCurrency": "VND"', false);
     }
 
-    public function test_robots_txt_contains_security_and_sitemap_rules(): void
+    public function test_robots_txt_allows_crawlers_to_read_private_page_noindex_directives(): void
     {
         $response = $this->get('/robots.txt');
 
         $response->assertStatus(200);
-        $response->assertSee('Disallow: /admin/');
-        $response->assertSee('Disallow: /dat-hang-thanh-cong/');
-        $response->assertSee('Sitemap:');
+        $response->assertDontSee('Disallow: /admin/');
+        $response->assertDontSee('Disallow: /dat-hang-thanh-cong/');
+        $response->assertSee('Disallow: /api/');
+        $response->assertSee('Sitemap: https://vinfast-autohaiphong.com.vn/sitemap.xml');
     }
 }

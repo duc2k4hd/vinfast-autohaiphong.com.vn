@@ -3,7 +3,6 @@
 @section('title', 'Thanh Toán Đặt Cọc Tiền Mặt | VinFast Hải Phòng')
 @section('meta_description', 'Xác nhận thông tin đặt cọc xe ô tô VinFast. Phương thức thanh toán: Tiền mặt trực tiếp tại Showroom VinFast Hải Phòng.')
 @section('robots', 'noindex, nofollow')
-@section('canonical', url('/thanh-toan'))
 
 @section('content')
 <div class="vinfast-autohaiphong_checkout_section" style="padding: 40px 0 60px 0;">
@@ -158,4 +157,3 @@
     </div>
 </div>
 @endsection
-

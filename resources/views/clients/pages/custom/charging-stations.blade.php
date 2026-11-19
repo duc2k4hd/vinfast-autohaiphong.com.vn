@@ -1,7 +1,7 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Hạ Tầng Pin & Trạm Sạc VinFast Tại Hải Phòng | Bản Đồ & Bảng Giá Mới Nhất')
-@section('meta_description', 'Khám phá mạng lưới trạm sạc xe điện VinFast V-GREEN tại Hải Phòng: Bản đồ các điểm sạc, hình ảnh thực tế, công suất trụ sạc, công cụ ước tính chi phí và chính sách bảo hành pin 8-10 năm.')
+@section('title', 'Pin & Trạm Sạc VinFast Hải Phòng | Hướng dẫn')
+@section('meta_description', 'Tìm hiểu cách sạc xe điện VinFast, các loại trụ sạc và công cụ ước tính chi phí tại Hải Phòng. Tham khảo nguồn tra cứu trạm sạc chính thức.')
 @section('canonical', route('client.pages.charging_stations'))
 
 @push('schema')

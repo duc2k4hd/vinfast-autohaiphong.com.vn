@@ -1,26 +1,33 @@
 @extends('clients.layouts.app')
 
-@section('title', ($post->meta_title ?: $post->title) . ' | VinFast Hải Phòng')
-@section('meta_description', $post->meta_description ?: Str::limit(strip_tags($post->content_html), 150))
+@php
+    $postPageTitle = trim((string) ($post->meta_title ?: ($post->title.' | VinFast Hải Phòng')));
+    $postPageDescription = trim((string) ($post->meta_description ?: ($post->excerpt ?: Str::limit(Str::squish(strip_tags($post->content_html)), 160))));
+@endphp
+@section('title', $postPageTitle)
+@section('meta_description', $postPageDescription)
 @section('canonical', url('/blog/' . $post->slug))
 @section('og_type', 'article')
-@section('og_title', $post->meta_title ?: $post->title)
-@section('og_description', $post->meta_description ?: Str::limit(strip_tags($post->content_html), 150))
+@section('og_title', $postPageTitle)
+@section('og_description', $postPageDescription)
 @section('og_image', $post->thumbnail_path ? asset('storage/' . $post->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'))
+@section('og_image_alt', $post->thumbnail_path ? $post->title : 'VinFast Hải Phòng')
+@section('og_published_time', date('c', strtotime($post->published_at ?: $post->created_at)))
+@section('og_modified_time', date('c', strtotime($post->updated_at ?: $post->published_at ?: $post->created_at)))
 
 @push('schema')
 {{-- Article Schema JSON-LD cho Google News & Search --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'NewsArticle',
     'headline' => $post->title,
-    'description' => $post->meta_description ?: Str::limit(strip_tags($post->content_html), 150),
+    'description' => $postPageDescription,
     'image' => [
         $post->thumbnail_path ? asset('storage/' . $post->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
     ],
     'datePublished' => date('c', strtotime($post->published_at ?: $post->created_at)),
-    'dateModified' => date('c', strtotime($post->updated_at ?: $post->published_at)),
+    'dateModified' => date('c', strtotime($post->updated_at ?: $post->published_at ?: $post->created_at)),
     'author' => [
         '@type' => 'Organization',
         'name' => 'Ban Biên Tập VinFast Hải Phòng',
@@ -34,10 +41,7 @@
             'url' => asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
         ],
     ],
-    'mainEntityOfPage' => [
-        '@type' => 'WebPage',
-        '@id' => url('/blog/' . $post->slug),
-    ],
+    'mainEntityOfPage' => url('/blog/'.$post->slug),
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 
@@ -82,7 +86,7 @@
 @endphp
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => $breadcrumbItems,
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}

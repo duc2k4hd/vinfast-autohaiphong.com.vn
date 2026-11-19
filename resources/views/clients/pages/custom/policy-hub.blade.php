@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Trung Tâm Chính Sách & Quyền Lợi Khách Hàng | VinFast Hải Phòng')
-@section('meta_description', 'Tổng hợp đầy đủ chính sách bảo hành chính hãng 7-10 năm, quy trình thanh toán tiền mặt trực tiếp tại showroom, cam kết bảo mật và quyền lợi khách hàng tại VinFast Hải Phòng.')
+@section('title', 'Chính sách và quyền lợi khách hàng | VinFast Hải Phòng')
+@section('meta_description', 'Tra cứu thông tin bảo hành, thanh toán, pin và trạm sạc, cùng các chính sách khách hàng tại VinFast Hải Phòng. Xem điều kiện cụ thể theo từng xe.')
 @section('canonical', url('/chinh-sach'))
 
 @push('schema')
 {{-- FAQPage Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'FAQPage',
     'mainEntity' => [
         [
@@ -49,7 +49,7 @@
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [

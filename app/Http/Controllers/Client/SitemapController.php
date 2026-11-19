@@ -16,33 +16,65 @@ class SitemapController extends Controller
     {
         $cars = DB::table('products')
             ->whereIn('status', ['published', 'active', 'coming_soon'])
+            ->whereNull('deleted_at')
+            ->where(function ($query) {
+                $query->whereNull('published_at')->orWhere('published_at', '<=', now());
+            })
             ->select(['slug', 'updated_at'])
+            ->orderBy('id')
             ->get();
 
         $posts = DB::table('posts')
             ->where('status', 'published')
+            ->whereNull('deleted_at')
+            ->where(function ($query) {
+                $query->whereNull('published_at')->orWhere('published_at', '<=', now());
+            })
             ->select(['slug', 'updated_at'])
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
             ->get();
 
         $staticPages = [
-            ['url' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily'],
-            ['url' => url('/o-to-vinfast'), 'priority' => '0.9', 'changefreq' => 'daily'],
-            ['url' => url('/pin-va-tram-sac'), 'priority' => '0.8', 'changefreq' => 'weekly'],
-            ['url' => url('/trai-nghiem-khach-hang'), 'priority' => '0.8', 'changefreq' => 'weekly'],
-            ['url' => url('/blogs'), 'priority' => '0.8', 'changefreq' => 'daily'],
-            ['url' => url('/lien-he'), 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['url' => url('/chinh-sach'), 'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['url' => url('/chinh-sach-thanh-toan'), 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['url' => url('/chinh-sach-bao-mat'), 'priority' => '0.5', 'changefreq' => 'yearly'],
-            ['url' => url('/chinh-sach-bao-hanh'), 'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['url' => url('/dieu-khoan-su-dung'), 'priority' => '0.5', 'changefreq' => 'yearly'],
-            ['url' => url('/so-do-trang-web'), 'priority' => '0.4', 'changefreq' => 'monthly'],
+            ['url' => route('client.home')],
+            ['url' => route('client.catalog.index')],
+            ['url' => route('client.pages.charging_stations')],
+            ['url' => route('client.pages.customer_experience')],
+            ['url' => route('client.posts.index')],
+            ['url' => route('client.contact.index')],
+            ['url' => route('client.pages.policies')],
+            ['url' => route('client.pages.payment_policy')],
+            ['url' => route('client.pages.privacy_policy')],
+            ['url' => route('client.pages.warranty_policy')],
+            ['url' => route('client.pages.terms')],
+            ['url' => route('client.sitemap.html')],
+        ];
+
+        $productCount = DB::table('products')
+            ->whereIn('status', ['published', 'active', 'coming_soon'])
+            ->whereNull('deleted_at')
+            ->where(function ($query) {
+                $query->whereNull('published_at')->orWhere('published_at', '<=', now());
+            })
+            ->count();
+        $postCount = DB::table('posts')
+            ->where('status', 'published')
+            ->whereNull('deleted_at')
+            ->where(function ($query) {
+                $query->whereNull('published_at')->orWhere('published_at', '<=', now());
+            })
+            ->count();
+
+        $paginationPages = [
+            'catalog' => max(1, (int) ceil($productCount / 9)),
+            'posts' => max(1, (int) ceil($postCount / 9)),
         ];
 
         $content = view('clients.pages.seo.sitemap', [
             'staticPages' => $staticPages,
             'cars' => $cars,
             'posts' => $posts,
+            'paginationPages' => $paginationPages,
         ])->render();
 
         return response($content, 200)
@@ -56,12 +88,20 @@ class SitemapController extends Controller
     {
         $cars = DB::table('products')
             ->whereIn('status', ['published', 'active', 'coming_soon'])
+            ->whereNull('deleted_at')
+            ->where(function ($query) {
+                $query->whereNull('published_at')->orWhere('published_at', '<=', now());
+            })
             ->select(['id', 'name', 'slug', 'sale_price', 'regular_price'])
             ->orderBy('id', 'asc')
             ->get();
 
         $posts = DB::table('posts')
             ->where('status', 'published')
+            ->whereNull('deleted_at')
+            ->where(function ($query) {
+                $query->whereNull('published_at')->orWhere('published_at', '<=', now());
+            })
             ->select(['id', 'title', 'slug', 'published_at'])
             ->orderBy('published_at', 'desc')
             ->limit(30)

@@ -119,12 +119,12 @@ class AdminProductSeoMetaTest extends TestCase
             'canonical_url' => 'https://vinfast-autohaiphong.com.vn/xe/vinfast-vf-3',
         ]);
 
-        $response = $this->get('/xe/vinfast-vf-3');
+        $response = $this->get('https://vinfast-autohaiphong.com.vn/xe/vinfast-vf-3');
 
         $response->assertStatus(200);
         $response->assertSee('<title>VinFast VF 3 Hải Phòng - Giá Lăn Bánh Mới Nhất 2026</title>', false);
         $response->assertSee('content="Mua xe VinFast VF 3 tại Hải Phòng: Bảng giá ưu đãi, trả góp hoặc tiền mặt, sạc pin miễn phí tại showroom."', false);
-        $response->assertSee('name="keywords" content="vinfast vf 3 hai phong, mua xe vf 3"', false);
+        $response->assertDontSee('name="keywords"', false);
         $response->assertSee('rel="canonical" href="https://vinfast-autohaiphong.com.vn/xe/vinfast-vf-3"', false);
         $response->assertSee('property="og:title" content="VinFast VF 3 Hải Phòng - Giá Lăn Bánh Mới Nhất 2026"', false);
         $response->assertSee('property="og:description" content="Mua xe VinFast VF 3 tại Hải Phòng: Bảng giá ưu đãi, trả góp hoặc tiền mặt, sạc pin miễn phí tại showroom."', false);

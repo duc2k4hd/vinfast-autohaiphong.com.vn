@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Liên Hệ Đại Lý VinFast Hải Phòng | Hotline & Địa Chỉ')
-@section('meta_description', 'Liên hệ Showroom VinFast Hải Phòng: Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng. Hotline Bán hàng: 0988 302 882, Dịch vụ: 0915 286 506.')
+@section('title', 'Liên hệ showroom VinFast Hải Phòng | Địa chỉ & hotline')
+@section('meta_description', 'Thông tin địa chỉ, giờ làm việc và hotline bán hàng, dịch vụ của showroom VinFast Hải Phòng tại đường Lê Hồng Phong. Gửi lời nhắn trực tuyến.')
 @section('canonical', url('/lien-he'))
 
 @push('schema')
 {{-- ContactPage & LocalBusiness Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'ContactPage',
     'name' => 'Liên Hệ VinFast Hải Phòng',
     'description' => 'Trang thông tin liên hệ, hotline bán hàng, hotline dịch vụ và địa chỉ showroom chính thức VinFast tại Hải Phòng.',
@@ -16,10 +16,10 @@
     'mainEntity' => [
         '@type' => 'AutoDealer',
         'name' => 'VinFast Hải Phòng',
-        'telephone' => '0988 302 882',
+        'telephone' => $siteSettings['site_phone'] ?? '0988 302 882',
         'address' => [
             '@type' => 'PostalAddress',
-            'streetAddress' => 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng',
+            'streetAddress' => $siteSettings['site_address'] ?? 'Thửa 05, Lô 26A, Đường Lê Hồng Phong, phường Gia Viên, Thành phố Hải Phòng',
             'addressLocality' => 'Hải Phòng',
             'addressRegion' => 'Hải Phòng',
             'postalCode' => '180000',
@@ -36,7 +36,7 @@
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -238,4 +238,3 @@
     </div>
 </div>
 @endsection
-

@@ -68,7 +68,7 @@ Route::name('client.')->group(function () {
         return redirect()->to(url('/blogs').($query ? '?'.$query : ''), 301);
     });
     Route::get('/chuyen-muc/tin-tuc/page/{page}', function ($page) {
-        return redirect()->to(url('/blogs').'?page='.$page, 301);
+        return redirect()->route('client.posts.page', ['page' => $page], 301);
     });
     Route::get('/chuyen-muc/tin-tuc/{slug}', function ($slug) {
         return redirect()->to(url('/blog/'.$slug), 301);

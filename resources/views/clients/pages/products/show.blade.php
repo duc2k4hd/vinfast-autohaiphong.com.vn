@@ -1,49 +1,62 @@
 @extends('clients.layouts.app')
 
-@section('title', $car->meta_title ?: ($car->name . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng'))
-@section('meta_description', $car->meta_description ?: ($car->short_description ?: ('Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')))
-@section('canonical', $car->canonical_url ?: url('/xe/' . $car->slug))
-@if(!empty($car->meta_keywords))
-@section('meta_keywords', $car->meta_keywords)
-@endif
-@section('og_title', $car->meta_title ?: ($car->name . ' - Bảng Giá Lăn Bánh & Thông Số Kỹ Thuật | VinFast Hải Phòng'))
-@section('og_description', $car->meta_description ?: ($car->short_description ?: ('Xem thông số kỹ thuật xe ' . $car->name . ': Bảng giá niêm yết, thông số chi tiết, pin, quãng đường và hỗ trợ mua xe thanh toán tiền mặt tại VinFast Hải Phòng.')))
+@php
+    $productPageTitle = trim((string) ($car->meta_title ?: ($car->name.' | Giá & thông số xe tại Hải Phòng')));
+    $productPageDescription = trim((string) ($car->meta_description ?: (($car->short_description ?: 'Tìm hiểu thông tin mẫu xe '.$car->name). ' Xem giá tham khảo, thông số và liên hệ tư vấn tại VinFast Hải Phòng.')));
+    $configuredCanonical = trim((string) ($car->canonical_url ?? ''));
+    $configuredCanonicalHost = $configuredCanonical !== '' ? parse_url($configuredCanonical, PHP_URL_HOST) : null;
+    $configuredCanonicalPath = $configuredCanonical !== '' ? parse_url($configuredCanonical, PHP_URL_PATH) : null;
+    $productCanonical = is_string($configuredCanonicalPath)
+        && $configuredCanonicalPath !== ''
+        && (! $configuredCanonicalHost || strcasecmp($configuredCanonicalHost, request()->getHost()) === 0)
+        ? url('/'.ltrim($configuredCanonicalPath, '/'))
+        : route('client.products.show', $car->slug);
+    $productPrice = (int) ($car->sale_price ?: $car->regular_price ?: 0);
+    $productSchema = [
+        '@'.'context' => 'https://schema.org',
+        '@type' => 'Car',
+        'name' => $car->name,
+        'image' => $car->thumbnail_path ? asset('storage/'.$car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
+        'description' => $car->short_description,
+        'brand' => ['@type' => 'Brand', 'name' => 'VinFast'],
+        'url' => $productCanonical,
+    ];
+
+    if (! $car->price_on_request && $productPrice > 0) {
+        $productSchema['offers'] = [
+            '@type' => 'Offer',
+            'url' => $productCanonical,
+            'priceCurrency' => 'VND',
+            'price' => $productPrice,
+            'availability' => $car->status === 'coming_soon' ? 'https://schema.org/PreOrder' : 'https://schema.org/InStock',
+            'seller' => [
+                '@type' => 'AutoDealer',
+                'name' => 'VinFast Hải Phòng',
+                'telephone' => '0988 302 882',
+            ],
+        ];
+    }
+@endphp
+
+@section('title', $productPageTitle)
+@section('meta_description', $productPageDescription)
+@section('canonical', $productCanonical)
+@section('og_title', $productPageTitle)
+@section('og_description', $productPageDescription)
+@section('og_image_alt', $car->thumbnail_alt ?: $car->name.' tại VinFast Hải Phòng')
 @section('og_type', 'product')
 @section('og_image', $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'))
 
 @push('schema')
 {{-- Schema Xe Ô Tô (Car/Product) cho Google Rich Snippets --}}
 <script type="application/ld+json">
-{!! json_encode([
-    '@context' => 'https://schema.org/',
-    '@type' => 'Car',
-    'name' => $car->name,
-    'image' => $car->thumbnail_path ? asset('storage/' . $car->thumbnail_path) : asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
-    'description' => $car->short_description,
-    'brand' => [
-        '@type' => 'Brand',
-        'name' => 'VinFast',
-    ],
-    'offers' => [
-        '@type' => 'Offer',
-        'url' => url('/xe/' . $car->slug),
-        'priceCurrency' => 'VND',
-        'price' => (float) ($car->sale_price ?: $car->regular_price ?: 0),
-        'availability' => 'https://schema.org/InStock',
-        'priceValidUntil' => '2026-12-31',
-        'seller' => [
-            '@type' => 'AutoDealer',
-            'name' => 'VinFast Hải Phòng',
-            'telephone' => '0988 302 882',
-        ],
-    ],
-], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
+{!! json_encode($productSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
 </script>
 
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -62,7 +75,7 @@
             '@type' => 'ListItem',
             'position' => 3,
             'name' => $car->name,
-            'item' => url('/xe/' . $car->slug),
+            'item' => $productCanonical,
         ],
     ],
 ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!}
@@ -82,7 +95,7 @@
 @foreach($schemaVideos as $sv)
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org/',
+    '@'.'context' => 'https://schema.org/',
     '@type' => 'VideoObject',
     'name' => $sv->title ?: ('Video mô phỏng xe ' . $car->name),
     'description' => 'Xem video mô phỏng chi tiết xe điện ' . $car->name . ' chính hãng tại VinFast Hải Phòng.',
@@ -278,7 +291,7 @@ window.VINFAST_PRODUCT_DATA = {
 
                     {{-- Cột Phải: Trims, Specs Highlights, Price & Deposit Chuẩn Ảnh Mẫu --}}
                     <div class="vinfast-autohaiphong_product_intro-info" data-reveal>
-                        <h1 class="sr-only">{{ $car->name }}</h1>
+                        <h1 class="vinfast-autohaiphong_product_title" style="font-size: clamp(1.7rem, 3vw, 2.4rem); color: #0f172a; margin: 0 0 18px; line-height: 1.2;">{{ $car->name }}</h1>
 
                         {{-- 1. Trim Picker (Chỉ hiển thị khi sản phẩm có các phiên bản / biến thể) --}}
                         @if($variants->isNotEmpty())

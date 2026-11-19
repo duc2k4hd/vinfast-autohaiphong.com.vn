@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Trải Nghiệm Khách Hàng Thực Tế | VinFast Hải Phòng')
-@section('meta_description', 'Lắng nghe những chia sẻ, đánh giá thực tế từ khách hàng đã tin tưởng sở hữu và vận hành xe ô tô điện VinFast tại Hải Phòng.')
+@section('title', 'Trải nghiệm xe VinFast tại Hải Phòng | Tư vấn')
+@section('meta_description', 'Tìm hiểu dịch vụ tư vấn và đăng ký lái thử xe VinFast tại Hải Phòng. Liên hệ showroom để được cập nhật thông tin và hỗ trợ trực tiếp.')
 @section('canonical', url('/trai-nghiem-khach-hang'))
 
 @push('schema')
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -94,4 +94,3 @@
     </div>
 </div>
 @endsection
-

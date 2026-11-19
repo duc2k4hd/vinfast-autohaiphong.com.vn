@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Chính Sách Bảo Hành Ô Tô Điện VinFast Chính Hãng | VinFast Hải Phòng')
-@section('meta_description', 'Chính sách bảo hành xe ô tô điện VinFast chính hãng từ 7 đến 10 năm hoặc 200.000 km. Bảo hành pin cao áp không giới hạn km, cứu hộ 24/7 miễn phí tại Hải Phòng.')
+@section('title', 'Chính sách bảo hành xe VinFast | Hải Phòng')
+@section('meta_description', 'Tra cứu thời hạn và điều kiện bảo hành xe điện VinFast theo dòng xe. Liên hệ xưởng dịch vụ tại Hải Phòng để xác nhận chính sách hiện hành.')
 @section('canonical', url('/chinh-sach-bao-hanh'))
 
 @push('schema')
 {{-- FAQPage Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'FAQPage',
     'mainEntity' => [
         [
@@ -41,7 +41,7 @@
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [

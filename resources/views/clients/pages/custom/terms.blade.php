@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Điều Khoản Sử Dụng | VinFast Hải Phòng')
-@section('meta_description', 'Các điều khoản sử dụng và quy định truy cập website VinFast Hải Phòng.')
+@section('title', 'Điều khoản sử dụng website | VinFast Hải Phòng')
+@section('meta_description', 'Đọc các điều khoản áp dụng khi truy cập website VinFast Hải Phòng, tham khảo thông tin xe và gửi yêu cầu tư vấn.')
 @section('canonical', url('/dieu-khoan-su-dung'))
 
 @push('schema')
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -36,7 +36,7 @@
 {{-- WebPage Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'WebPage',
     'name' => 'Điều Khoản Sử Dụng Website | VinFast Hải Phòng',
     'description' => 'Các điều khoản sử dụng và quy định truy cập website VinFast Hải Phòng.',
@@ -84,4 +84,3 @@
     </div>
 </div>
 @endsection
-

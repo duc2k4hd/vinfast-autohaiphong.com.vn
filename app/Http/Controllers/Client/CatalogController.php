@@ -20,10 +20,6 @@ class CatalogController extends Controller
      */
     public function index(Request $request): View
     {
-        if ($request->route('page')) {
-            $request->merge(['page' => (int) $request->route('page')]);
-        }
-
         $filters = [
             'category' => is_string($request->query('category')) ? $request->query('category') : null,
             'sort' => in_array($request->query('sort'), ['default', 'price_asc', 'price_desc', 'latest'], true) ? $request->query('sort') : 'default',
@@ -32,6 +28,9 @@ class CatalogController extends Controller
         ];
 
         $cars = $this->catalogService->getPaginatedProducts($filters);
+        if ($cars->currentPage() > $cars->lastPage()) {
+            abort(404);
+        }
         $categories = $this->catalogService->getCategories();
 
         return view('clients.pages.catalog.index', [

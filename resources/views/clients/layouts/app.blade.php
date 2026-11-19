@@ -2,41 +2,69 @@
 <html lang="vi" class="vinfast-autohaiphong_html">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- SEO Metadata --}}
-    <title>@yield('title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng - Đại Lý Xe Điện VinFast Chính Hãng')</title>
-    <meta name="description" content="@yield('meta_description', $siteSettings['seo_description'] ?? 'VinFast Hải Phòng chuyên phân phối ô tô điện VinFast chính hãng: VF 3, VF 5, VF 6, VF 7, VF 8, VF 9. Báo giá lăn bánh ưu đãi, bảo hành pin 10 năm.')">
-    @hasSection('meta_keywords')
-    <meta name="keywords" content="@yield('meta_keywords')">
-    @endif
-    <link rel="canonical" href="@yield('canonical', request()->url())">
+    @php
+        $pageTitle = trim((string) View::yieldContent('title', $siteSettings['seo_title'] ?? 'VinFast Hải Phòng | Đại lý xe điện VinFast'));
+        $pageDescription = trim((string) View::yieldContent('meta_description', $siteSettings['seo_description'] ?? 'Tìm hiểu các dòng xe điện VinFast, thông số, giá tham khảo và dịch vụ tại VinFast Hải Phòng.'));
+        $hasQueryParameters = request()->attributes->get('seo_has_query_parameters', request()->query->count() > 0);
+        $explicitRobots = trim((string) View::yieldContent('robots'));
+        $middlewareRobots = request()->attributes->get('seo_robots');
+        $isPrivateUtilityPage = is_string($middlewareRobots) && str_contains($middlewareRobots, 'nofollow');
+        $robotsContent = $middlewareRobots
+            ?: ($isPrivateUtilityPage
+            ? 'noindex, nofollow'
+            : ($hasQueryParameters
+                ? 'noindex, follow'
+                : ($explicitRobots !== ''
+                    ? $explicitRobots
+                    : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')));
 
-    {{-- Robots Meta - Kiểm soát thu thập dữ liệu & ngăn crawl trùng lặp --}}
-    @hasSection('robots')
-        <meta name="robots" content="@yield('robots')">
-    @elseif(request()->getQueryString() || count(request()->query()) > 0)
-        <meta name="robots" content="noindex, follow">
-    @else
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    @endif
+        $canonicalCandidate = trim((string) View::yieldContent('canonical'));
+        $canonicalCandidate = $canonicalCandidate !== '' ? $canonicalCandidate : request()->url();
+        $canonicalPath = parse_url($canonicalCandidate, PHP_URL_PATH);
+        $canonicalPath = is_string($canonicalPath) && $canonicalPath !== '' ? $canonicalPath : '/';
+        $canonicalUrl = request()->getSchemeAndHttpHost().($canonicalPath === '/' ? '/' : '/'.ltrim($canonicalPath, '/'));
+        $ogTitle = trim((string) View::yieldContent('og_title')) ?: $pageTitle;
+        $ogDescription = trim((string) View::yieldContent('og_description')) ?: $pageDescription;
+        $ogImage = trim((string) View::yieldContent('og_image')) ?: asset('storage/clients/assets/images/banners/vinfast-banner-54gf5.png');
+        $ogImageAlt = trim((string) View::yieldContent('og_image_alt')) ?: $pageTitle;
+    @endphp
+
+    {{-- Metadata quan trọng được render trực tiếp trong HTML đầu tiên. --}}
+    <title>{{ $pageTitle }}</title>
+    <meta name="description" content="{{ $pageDescription }}">
+    <meta name="robots" content="{{ $robotsContent }}">
+    @unless($isPrivateUtilityPage)
+        <link rel="canonical" href="{{ $canonicalUrl }}">
+    @endunless
 
     {{-- Open Graph --}}
     <meta property="og:locale" content="vi_VN">
     <meta property="og:type" content="@yield('og_type', 'website')">
-    <meta property="og:title" content="@yield('og_title', View::yieldContent('title'))">
-    <meta property="og:description" content="@yield('og_description', View::yieldContent('meta_description'))">
-    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:title" content="{{ $ogTitle }}">
+    <meta property="og:description" content="{{ $ogDescription }}">
+    <meta property="og:url" content="{{ $canonicalUrl }}">
     <meta property="og:site_name" content="{{ $siteSettings['site_name'] ?? 'VinFast Hải Phòng' }}">
-    <meta property="og:image" content="@yield('og_image', asset('storage/clients/assets/images/business/vinfast-haiphong.png'))">
+    <meta property="og:image" content="{{ $ogImage }}">
+    <meta property="og:image:alt" content="{{ $ogImageAlt }}">
+    @if(str_starts_with($ogImage, 'https://'))
+        <meta property="og:image:secure_url" content="{{ $ogImage }}">
+    @endif
+    @hasSection('og_published_time')
+        <meta property="article:published_time" content="@yield('og_published_time')">
+    @endif
+    @hasSection('og_modified_time')
+        <meta property="article:modified_time" content="@yield('og_modified_time')">
+    @endif
 
     {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('og_title', View::yieldContent('title'))">
-    <meta name="twitter:description" content="@yield('og_description', View::yieldContent('meta_description'))">
-    <meta name="twitter:image" content="@yield('og_image', asset('storage/clients/assets/images/business/vinfast-haiphong.png'))">
+    <meta name="twitter:title" content="{{ $ogTitle }}">
+    <meta name="twitter:description" content="{{ $ogDescription }}">
+    <meta name="twitter:image" content="{{ $ogImage }}">
+    <meta name="twitter:image:alt" content="{{ $ogImageAlt }}">
 
     {{-- Open Sans Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -49,10 +77,11 @@
     {{-- Structured Data JSON-LD (AutoDealer Schema) --}}
     <script type="application/ld+json">
     {!! json_encode([
-        '@context' => 'https://schema.org',
+        '@'.'context' => 'https://schema.org',
         '@type' => 'AutoDealer',
         '@id' => url('/#autodealer'),
         'name' => $siteSettings['site_name'] ?? 'VinFast Hải Phòng',
+        'url' => url('/'),
         'image' => asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
         'logo' => asset('storage/clients/assets/images/business/vinfast-haiphong.png'),
         'telephone' => $siteSettings['site_phone'] ?? '0988 302 882',
@@ -125,4 +154,3 @@
     @stack('scripts')
 </body>
 </html>
-

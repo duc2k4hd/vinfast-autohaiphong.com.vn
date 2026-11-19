@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Chính Sách Bảo Mật Thông Tin | VinFast Hải Phòng')
-@section('meta_description', 'Cam kết bảo mật thông tin cá nhân khách hàng theo tiêu chuẩn pháp luật Việt Nam tại Đại lý VinFast Hải Phòng.')
+@section('title', 'Chính sách bảo mật thông tin | VinFast Hải Phòng')
+@section('meta_description', 'Tìm hiểu cách VinFast Hải Phòng thu thập, sử dụng và bảo vệ thông tin khách hàng khi gửi yêu cầu tư vấn hoặc liên hệ showroom.')
 @section('canonical', url('/chinh-sach-bao-mat'))
 
 @push('schema')
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -36,7 +36,7 @@
 {{-- WebPage Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'WebPage',
     'name' => 'Chính Sách Bảo Mật Thông Tin | VinFast Hải Phòng',
     'description' => 'Cam kết bảo mật thông tin cá nhân khách hàng theo tiêu chuẩn pháp luật Việt Nam tại Đại lý VinFast Hải Phòng.',
@@ -89,4 +89,3 @@
     </div>
 </div>
 @endsection
-

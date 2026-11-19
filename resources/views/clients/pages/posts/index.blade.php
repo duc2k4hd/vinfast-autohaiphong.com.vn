@@ -1,14 +1,18 @@
 @extends('clients.layouts.app')
 
-@section('title', ($currentCategory ? $currentCategory->name . ' | ' : '') . 'Tin Tức & Blog Xe Điện | VinFast Hải Phòng')
-@section('meta_description', $currentCategory ? ($currentCategory->description ?: 'Chuyên mục ' . $currentCategory->name . ' - Cập nhật thông tin chính xác tại VinFast Hải Phòng.') : 'Cập nhật tin tức mới nhất về các dòng ô tô điện VinFast, chính sách khuyến mãi, trạm sạc và kinh nghiệm sử dụng xe tại Hải Phòng.')
-@section('canonical', $posts->currentPage() > 1 ? url('/blogs/page/' . $posts->currentPage()) : url('/blogs'))
+@section('title', ($currentCategory ? $currentCategory->name.' | ' : 'Tin tức xe VinFast | ').($posts->currentPage() > 1 ? 'Trang '.$posts->currentPage().' | ' : '').'VinFast Hải Phòng')
+@section('meta_description', $currentCategory
+    ? ($currentCategory->description ?: 'Bài viết trong chuyên mục '.$currentCategory->name.' của VinFast Hải Phòng.')
+    : ($posts->currentPage() > 1
+        ? 'Xem tiếp tin tức xe điện VinFast, hướng dẫn về giá xe, pin và trạm sạc tại Hải Phòng - trang '.$posts->currentPage().'.'
+        : 'Tin tức và hướng dẫn về xe điện VinFast, giá xe, pin và trạm sạc tại Hải Phòng.'))
+@section('canonical', $posts->currentPage() > 1 ? route('client.posts.page', ['page' => $posts->currentPage()]) : route('client.posts.index'))
 
 @push('schema')
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => array_filter([
         [
@@ -36,7 +40,7 @@
 {{-- Blog / CollectionPage Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'Blog',
     'name' => ($currentCategory ? $currentCategory->name . ' - ' : '') . 'Tin Tức & Blog VinFast Hải Phòng',
     'description' => 'Cập nhật tin tức, cẩm nang xe điện và ưu đãi giá lăn bánh tại VinFast Hải Phòng.',
@@ -158,10 +162,9 @@
             </div>
 
             <div style="display: flex; justify-content: center;">
-                {{ $posts->links() }}
+                {{ $posts->links('clients.pages.posts.pagination', ['selectedCategory' => $selectedCategory]) }}
             </div>
         @endif
     </div>
 </div>
 @endsection
-

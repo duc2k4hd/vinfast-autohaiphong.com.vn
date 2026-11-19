@@ -28,6 +28,8 @@ class HomeTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+        $response->assertSee('<title>VinFast Hải Phòng | Khám phá xe, nhận tư vấn</title>', false);
+        $response->assertSee('<meta property="og:title" content="VinFast Hải Phòng | Khám phá xe, nhận tư vấn">', false);
         $response->assertSee('VinFast Hải Phòng');
         $response->assertSee('VinFast VF 3');
         $response->assertSee('VinFast VF 5 Plus');

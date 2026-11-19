@@ -38,6 +38,7 @@ class ProductService
                 'products.regular_price',
                 'products.sale_price',
                 'products.price_on_request',
+                'products.status',
                 'products.video_media_id',
                 'products.video_path',
                 'products.video_poster_media_id',

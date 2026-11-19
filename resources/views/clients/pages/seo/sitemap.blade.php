@@ -4,18 +4,22 @@
     @foreach($staticPages as $page)
         <url>
             <loc>{{ $page['url'] }}</loc>
-            <changefreq>{{ $page['changefreq'] }}</changefreq>
-            <priority>{{ $page['priority'] }}</priority>
         </url>
     @endforeach
+
+    @for($page = 2; $page <= $paginationPages['catalog']; $page++)
+        <url><loc>{{ route('client.catalog.page', ['page' => $page]) }}</loc></url>
+    @endfor
+
+    @for($page = 2; $page <= $paginationPages['posts']; $page++)
+        <url><loc>{{ route('client.posts.page', ['page' => $page]) }}</loc></url>
+    @endfor
 
     {{-- Danh sách 15 dòng xe VinFast --}}
     @foreach($cars as $car)
         <url>
             <loc>{{ url('/xe/' . $car->slug) }}</loc>
             <lastmod>{{ !empty($car->updated_at) ? date('Y-m-d', strtotime($car->updated_at)) : date('Y-m-d') }}</lastmod>
-            <changefreq>weekly</changefreq>
-            <priority>0.9</priority>
         </url>
     @endforeach
 
@@ -24,9 +28,6 @@
         <url>
             <loc>{{ url('/blog/' . $post->slug) }}</loc>
             <lastmod>{{ !empty($post->updated_at) ? date('Y-m-d', strtotime($post->updated_at)) : date('Y-m-d') }}</lastmod>
-            <changefreq>weekly</changefreq>
-            <priority>0.7</priority>
         </url>
     @endforeach
 </urlset>
-

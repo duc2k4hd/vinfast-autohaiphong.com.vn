@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Chính Sách Thanh Toán Tiền Mặt & Quy Trình Mua Xe | VinFast Hải Phòng')
-@section('meta_description', 'Quy định chi tiết về phương thức thanh toán tiền mặt trực tiếp tại showroom, quy trình 4 bước đặt cọc và nhận xe minh bạch tại VinFast Hải Phòng.')
+@section('title', 'Chính sách thanh toán tại VinFast Hải Phòng')
+@section('meta_description', 'Tìm hiểu quy trình đăng ký xe và thanh toán trực tiếp tại showroom VinFast Hải Phòng, địa chỉ Lê Hồng Phong. Liên hệ để xác nhận điều kiện áp dụng.')
 @section('canonical', url('/chinh-sach-thanh-toan'))
 
 @push('schema')
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -36,7 +36,7 @@
 {{-- WebPage Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'WebPage',
     'name' => 'Chính Sách Thanh Toán Tiền Mặt & Quy Trình Mua Xe | VinFast Hải Phòng',
     'description' => 'Quy định chi tiết về phương thức thanh toán tiền mặt trực tiếp tại showroom, quy trình 4 bước đặt cọc và nhận xe minh bạch tại VinFast Hải Phòng.',

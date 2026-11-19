@@ -1,14 +1,14 @@
 @extends('clients.layouts.app')
 
-@section('title', 'Sơ Đồ Trang Web (HTML Sitemap) | VinFast Hải Phòng')
-@section('meta_description', 'Sơ đồ liên kết toàn bộ website VinFast Hải Phòng: Danh mục các dòng xe điện VinFast, tin tức khuyến mại, chính sách thanh toán tiền mặt và thông tin liên hệ.')
+@section('title', 'Sơ đồ website VinFast Hải Phòng | Các trang và dòng xe')
+@section('meta_description', 'Tìm nhanh các dòng xe VinFast, tin tức, chính sách, thông tin liên hệ và dịch vụ trên website VinFast Hải Phòng.')
 @section('canonical', url('/so-do-trang-web'))
 
 @push('schema')
 {{-- BreadcrumbList Schema --}}
 <script type="application/ld+json">
 {!! json_encode([
-    '@context' => 'https://schema.org',
+    '@'.'context' => 'https://schema.org',
     '@type' => 'BreadcrumbList',
     'itemListElement' => [
         [
@@ -105,4 +105,3 @@
     </div>
 </div>
 @endsection
-
